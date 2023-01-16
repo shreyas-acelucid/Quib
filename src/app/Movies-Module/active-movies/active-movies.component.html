@@ -1,0 +1,150 @@
+<app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
+<div class="body bcard" [ngClass]="sidebarSpacing">
+	<div class="card col-sm-12" style="border:none;">
+		<p-table id="customerTable" #dt [columns]="cols" responsiveLayout="scroll" [paginator]="true" [rows]="10"
+			[showCurrentPageReport]="true" [value]="moviesList" [resizableColumns]="true"
+			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
+			[globalFilterFields]="['title', 'length', 'isActive']" styleClass="p-datatable-striped">
+			<ng-template pTemplate="caption">
+				<div class="row">
+					<span class="p-input-icon-right ml-5">
+						<i class="pi pi-search"></i>
+						<input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search by Title and Length" />
+					</span>
+				</div>
+			</ng-template>
+
+			<ng-template pTemplate="header" let-columns>
+				<tr>
+					<th>S.no</th>
+					<th *ngFor="let col of columns">{{col.headers}}</th>
+					<th>Options</th>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="body" let-i="rowIndex" let-activeMoviesList>
+				<tr>
+					<td>{{i+1}}</td>
+					<td>{{activeMoviesList?.title}}</td>
+					<td>{{activeMoviesList?.director}}</td>
+					<td>{{activeMoviesList?.releaseyear}}</td>
+					<td>{{activeMoviesList?.length}}</td>
+					<td>
+						<button pTooltip="mark as InActive" pButton type="button" class="p-button-success"
+							style="height: 30px;">{{activeMoviesList?.isActive}}</button>
+					</td>
+					<td>
+						<div class="btn-grp">
+							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
+							(click)="deleteMovies(activeMoviesList?.id)"	pTooltip="Delete movie" tooltipPosition="bottom" style="margin-right:5px"></button>
+						</div>
+					</td>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="emptymessage">
+				<tr>
+					<td class="text-center text-danger font-weight-700" colspan="12">
+						No Records Found.
+					</td>
+				</tr>
+			</ng-template>
+		</p-table>
+		<ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
+	</div>
+
+	<!--pop model edit movies  start from here ------>
+	<p-dialog [(visible)]="display" [modal]="true" header="Add Movies" [style]="{width: '60vw',height:'100vh'}"
+		position="top" [baseZIndex]="10000">
+		<form [formGroup]="ActiveMoviesForm">
+			<div class="card col-sm-12">
+				<div class="row gutters">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+						<div class="h-100 mt-5">
+							<div class="card-body">
+								<div class="row gutters">
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="name">Title</label>
+											<input type="text" class="form-control" formControlName="Title">
+										</div>
+									</div>
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="image">Director </label>
+											<input type="text" class="form-control" formControlName="Director">
+										</div>
+									</div>
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="Name">Release Year</label>
+											<input type="date" class="form-control" formControlName="ReleaseYear">
+										</div>
+									</div>
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<div class="row gutters">
+											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+												<label for="type" id="label">Rating</label>
+												<div class="form-group">
+													<select class="form-control" formControlName="Rating"
+														placeholder="Select Rating">
+
+														<option [value]="1">1</option>
+														<option [value]="2">2</option>
+														<option [value]="3">3</option>
+														<option [value]="5">5</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+												<section class="example-section">
+													<mat-checkbox class="example-margin">Enabled</mat-checkbox>
+												</section>
+												<section class="example-section">
+													<mat-checkbox class="example-margin">Featured</mat-checkbox>
+												</section>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<div class="row gutters">
+											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+												<div class="form-group">
+													<label for="Name">Movies Poster</label>
+													<input type="file" class="form-control" (change)="OnChange($event)">
+												</div>
+											</div>
+
+											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+												*ngIf=" imageUrl !=undefined">
+												<div class="form-group">
+													<img [src]="imageUrl" class="form-control"
+														style="width: 80%; height: 10vh;">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row gutters mt-4">
+									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+										<div class="text-right">
+											<button pButton type="button" id="submit" name="submit"
+												class="p-button-danger mr-4" (click)="display = false">Cancel</button>
+											<button pButton type="button" id="submit" name="submit"
+												class="p-button-success">Submit</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+	</p-dialog>
+	<!--pop model edit movies  end  from here ------>
+	<p-confirmDialog header="Confirmation" [style]="{width: '40vw'}" position="top" [baseZIndex]="10000"
+		icon="pi pi-exclamation-triangle"></p-confirmDialog>
+</div>

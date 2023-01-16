@@ -1,0 +1,15 @@
+.btn-grp{
+  display: flex;
+}
+th {
+  background-color: #353d44 !important;
+  color: #fff !important;
+}
+:host {
+  ::ng-deep {
+    .p-dialog .p-dialog-header {
+      background-color: #c6c7cd94;
+    }
+   
+  }
+}
