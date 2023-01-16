@@ -56,7 +56,7 @@ export class AllMoviesComponent implements OnInit {
       { field: 'director', show: true, headers: 'Director' },
       { field: 'releaseyear', show: true, headers: 'Release Year' },
       { field: 'length', show: true, headers: 'Length' },
-      { field: 'isActive', show: true, headers: 'Status' },
+      { field: 'status', show: true, headers: 'Status' },
     ]
     this.getMovieList()
   }

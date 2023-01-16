@@ -54,7 +54,7 @@ export class ActiveMoviesComponent implements OnInit {
       { field: 'director', show: true, headers: 'Director' },
       { field: 'releaseyear', show: true, headers: 'Release Year' },
       { field: 'length', show: true, headers: 'Length' },
-      { field: 'isActive', show: true, headers: 'Is Active' },
+      { field: 'status', show: true, headers: 'Status' },
     ]
     this.getMovieList()
   }
@@ -69,8 +69,8 @@ export class ActiveMoviesComponent implements OnInit {
 
   getMovieList() {
     this.MoviesService.getMovieList().subscribe((res) => {
-      console.log(res.filter(item => item.isActive === true))
-      this.moviesList = res.filter(item => item.isActive === true)
+      console.log(res.filter(item => item.status === "Active"))
+      this.moviesList = res.filter(item => item.status === "Active")
       console.log(this.moviesList)
       this.ngxLoader.stop();
     })

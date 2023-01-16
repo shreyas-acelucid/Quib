@@ -43,7 +43,7 @@ export class QuibService {
     if (Status === true) {
       QuibData[index].isBumped = "Saved"
     } else {
-      QuibData[index].isBumped = "Decline"
+      QuibData[index].isBumped = "unSaved"
     }
     return of(QuibData[index])
   }

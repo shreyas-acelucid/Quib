@@ -30,13 +30,13 @@
 					<td>{{activeMoviesList?.releaseyear}}</td>
 					<td>{{activeMoviesList?.length}}</td>
 					<td>
-						<button pTooltip="mark as InActive" pButton type="button" class="p-button-success"
-							style="height: 30px;">{{activeMoviesList?.isActive}}</button>
+						<button pButton type="button" class="p-button-success"
+							style="height: 30px;">{{activeMoviesList?.status}}</button>
 					</td>
 					<td>
 						<div class="btn-grp">
 							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
-							(click)="deleteMovies(activeMoviesList?.id)"	pTooltip="Delete movie" tooltipPosition="bottom" style="margin-right:5px"></button>
+							(click)="deleteMovies(activeMoviesList?.id)"	pTooltip="Delete Movie" tooltipPosition="bottom" style="margin-right:5px"></button>
 						</div>
 					</td>
 				</tr>

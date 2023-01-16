@@ -28,7 +28,12 @@ export class MoviesService {
         const endpointUrl = `${environment.JSON_SERVER}/product`;
         // return this.http.post<any>(endpointUrl, categoryData, { 'headers': httpOptions });
         let index = MovieData.findIndex(item => item.id === id);
-        MovieData[index].isActive = Status
+        if (Status) {
+            MovieData[index].status = "Active"
+        } else {
+            MovieData[index].status = "InActive"
+        }
+
         return of(MovieData)
     }
     deleteMovies(moviesId) {

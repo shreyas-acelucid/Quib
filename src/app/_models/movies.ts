@@ -4,7 +4,7 @@ export interface Movies {
   director:string,
   releaseyear:string |any,
   length:string| any,
-  isActive:boolean,
+  status:string,
   
 }
 
