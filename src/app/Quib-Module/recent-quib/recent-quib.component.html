@@ -32,22 +32,22 @@
 					<td>{{recentQuib.postedDate}}</td>
 					<td>
 						<div class="btn-grp">
-							<button (click)="IsEnabled(recentQuib?.id,false)" pTooltip="Mark As Decline" pButton
+							<button (click)="IsEnabled(recentQuib?.id,false)" pTooltip="mark as Decline" pButton
 								type="button" class="p-button-success" *ngIf="recentQuib.isEnabled =='Approved'"
 								style="height: 30px;">{{recentQuib.isEnabled}}</button>
 							<button (click)="IsEnabled(recentQuib?.id,true)" pButton type="button"
-								class="p-button-danger" pTooltip="Mark As Approved"
+								class="p-button-danger" pTooltip="mark as Approved"
 								*ngIf="recentQuib.isEnabled !='Approved'"
 								style="height: 30px">{{recentQuib.isEnabled}}</button>
 						</div>
 					</td>
 					<td>
 						<div class="btn-grp">
-							<button (click)="IsBumped(recentQuib?.id,false)" pTooltip="Mark As unSaved" pButton
+							<button (click)="IsBumped(recentQuib?.id,false)" pTooltip="mark as Decline" pButton
 								type="button" class="p-button-success" *ngIf="recentQuib.isBumped =='Saved'"
 								style="height: 30px;">{{recentQuib.isBumped}}</button>
 							<button (click)="IsBumped(recentQuib?.id,true)" pButton type="button"
-								class="p-button-danger" pTooltip="Mark As Saved"
+								class="p-button-danger" pTooltip="mark as Saved"
 								*ngIf="recentQuib.isBumped !='Saved'"
 								style="height: 30px">{{recentQuib.isBumped}}</button>
 						</div>
@@ -56,7 +56,7 @@
 					<td>
 						<div class="btn-grp">
 							<button class="p-button-warning" pButton type="button" icon="pi pi-user-edit"
-								(click)="EditRecentQuib(recentQuib?.id)" pTooltip="Edit Recent Quib"
+								(click)="EditRecentQuib(recentQuib?.id)" pTooltip="edit recent quib"
 								tooltipPosition="bottom" style="margin-right:5px"></button>
 							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
 								(click)="deleteQuib(recentQuib?.id)" pTooltip="Delete Quib"
@@ -133,8 +133,8 @@
 										<label for="name">Is Enabled</label>
 										<div class="form-group">
 											<select class="form-control" formControlName="isEnabled">
-												<option value="Approved">Approved</option>
-												<option value="Decline">Decline</option>
+												<option [value]="true">true</option>
+												<option [value]="false">false</option>
 											</select>
 										</div>
 									</div>
@@ -142,8 +142,8 @@
 										<label for="image">Is Bumped </label>
 										<div class="form-group">
 											<select class="form-control" formControlName="isBumped">
-												<option value="Saved">Saved</option>
-												<option value="unSaved">unSaved</option>
+												<option [value]="true">true</option>
+												<option [value]="false">false</option>
 											</select>
 										</div>
 									</div>

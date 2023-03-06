@@ -31,24 +31,24 @@
 					<td>{{i+1}}</td>
 					<td>{{moviesList?.title}}</td>
 					<td>{{moviesList?.director}}</td>
-					<td>{{moviesList?.releaseyear}}</td>
+					<td>{{moviesList?.releaseYear}}</td>
 					<td>{{moviesList?.length}}</td>
 					<td>
 						<div class="btn-grp">
-							<button pTooltip="Mark As InActive" pButton type="button" class="p-button-success"
-								(click)="markAsActive(moviesList?.id,false)" *ngIf="moviesList.status=='Active'"
-								style="height: 30px;">{{moviesList?.status}}</button>
-							<button pButton type="button" class="p-button-danger" pTooltip="Mark As Active"
-								(click)="markAsActive(moviesList?.id,true)" *ngIf="moviesList.status !='Active'"
-								style="height: 30px">{{moviesList?.status}}</button>
+							<button pTooltip="mark as InActive" pButton type="button" class="p-button-success"
+								(click)="markAsActive(moviesList?.id,false)" *ngIf="moviesList.isActive ==true"
+								style="height: 30px;">{{moviesList?.isActive}}</button>
+							<button pButton type="button" class="p-button-danger" pTooltip="mark as Active"
+								(click)="markAsActive(moviesList?.id,true)" *ngIf="moviesList.isActive ==false"
+								style="height: 30px">{{moviesList?.isActive}}</button>
 						</div>
 					<td>
 						<div class="btn-grp">
 							<button class="p-button-warning" pButton type="button" icon="pi pi-user-edit"
-								pTooltip="Edit Movie" tooltipPosition="bottom" style="margin-right:5px"
+								pTooltip="Edit movie" tooltipPosition="bottom" style="margin-right:5px"
 								(click)="EditMovies(moviesList?.id)"></button>
 							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
-								pTooltip="Delete Movie" tooltipPosition="bottom" style="margin-right:5px"
+								pTooltip="Delete movie" tooltipPosition="bottom" style="margin-right:5px"
 								(click)="deleteMovies(moviesList?.id)"></button>
 						</div>
 					</td>
@@ -92,8 +92,8 @@
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="Name">Release Year</label>
-											<input type="date" class="form-control" placeholder="Release Year"
-												formControlName="ReleaseYear">
+											<input type="text" class="form-control" placeholder="Release Year"
+												formControlName="releaseYear">
 										</div>
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">

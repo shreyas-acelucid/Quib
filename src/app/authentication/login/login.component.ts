@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
           }
           else{
             localStorage.setItem('token', res.token);
-            this.router.navigateByUrl("/customer/quib-user");
+            this.router.navigateByUrl("/dashboard");
             localStorage.setItem('UserData', JSON.stringify(res['body']['data']));
             let email = localStorage.getItem('email');
             this.toastr.showSuccess("Login Success", "Login");

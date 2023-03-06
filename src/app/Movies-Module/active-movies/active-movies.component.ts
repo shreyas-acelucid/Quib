@@ -34,7 +34,7 @@ export class ActiveMoviesComponent implements OnInit {
       Director: ["", [Validators.required]],
       File: ['', [Validators.required]],
       IsActive: ['', [Validators.required]],
-      ReleaseYear: ['', [Validators.required]],
+      releaseYear: ['', [Validators.required]],
       Length: ['', [Validators.required]],
       PosterContent: ['', [Validators.required]],
       PosterContentThumb: ['', [Validators.required]],
@@ -54,7 +54,7 @@ export class ActiveMoviesComponent implements OnInit {
       { field: 'director', show: true, headers: 'Director' },
       { field: 'releaseyear', show: true, headers: 'Release Year' },
       { field: 'length', show: true, headers: 'Length' },
-      { field: 'status', show: true, headers: 'Status' },
+      { field: 'isActive', show: true, headers: 'Is Active' },
     ]
     this.getMovieList()
   }
@@ -69,8 +69,8 @@ export class ActiveMoviesComponent implements OnInit {
 
   getMovieList() {
     this.MoviesService.getMovieList().subscribe((res) => {
-      console.log(res.filter(item => item.status === "Active"))
-      this.moviesList = res.filter(item => item.status === "Active")
+      console.log(res.filter(item => item.isActive === true))
+      this.moviesList = res.filter(item => item.isActive === true)
       console.log(this.moviesList)
       this.ngxLoader.stop();
     })
@@ -85,8 +85,7 @@ export class ActiveMoviesComponent implements OnInit {
     console.log(moviesData)
     this.ActiveMoviesForm.patchValue({
       Director: moviesData[0].director,
-      ReleaseYear: moviesData[0].releaseyear,
-      Title: moviesData[0].title,
+     Title: moviesData[0].title,
     })
     this.display = true
   }

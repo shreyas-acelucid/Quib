@@ -32,21 +32,21 @@
 					<td>{{mostActiveQuib.postedDate}}</td>
 					<td>
 						<div class="btn-grp">
-							<button (click)="IsEnabled(mostActiveQuib?.id,false)" pTooltip="Mark As Decline" pButton type="button"
+							<button (click)="IsEnabled(mostActiveQuib?.id,false)" pTooltip="mark as Decline" pButton type="button"
 								class="p-button-success" *ngIf="mostActiveQuib.isEnabled ==='Approved'"
 								style="height: 30px;">{{mostActiveQuib.isEnabled}}</button>
 							<button (click)="IsEnabled(mostActiveQuib?.id,true)" pButton type="button" class="p-button-danger"
-								pTooltip="Mark As Approved" *ngIf="mostActiveQuib.isEnabled !='Approved'"
+								pTooltip="mark as Approved" *ngIf="mostActiveQuib.isEnabled !='Approved'"
 								style="height: 30px">{{mostActiveQuib.isEnabled}}</button>
 						</div>
 					</td>
 					<td>
 						<div class="btn-grp">
-							<button (click)="IsBumped(mostActiveQuib?.id,false)" pTooltip="Mark As unSaved" pButton type="button"
+							<button (click)="IsBumped(mostActiveQuib?.id,false)" pTooltip="mark as Decline" pButton type="button"
 								class="p-button-success" *ngIf="mostActiveQuib.isBumped =='Saved'"
 								style="height: 30px;">{{mostActiveQuib.isBumped}}</button>
 							<button (click)="IsBumped(mostActiveQuib?.id,true)" pButton type="button" class="p-button-danger"
-								pTooltip="Mark As Saved" *ngIf="mostActiveQuib.isBumped !='Saved'"
+								pTooltip="mark as Saved" *ngIf="mostActiveQuib.isBumped !='Saved'"
 								style="height: 30px">{{mostActiveQuib.isBumped}}</button>
 						</div>
 					</td>
@@ -54,7 +54,7 @@
 					<td>
 						<div class="btn-grp">
 							<button class="p-button-warning" pButton type="button" icon="pi pi-user-edit"
-								 pTooltip="Edit Most Active Quib"
+								 pTooltip="edit most active quib"
 								(click)="EditMostActiveQuib(mostActiveQuib?.id)"
 								tooltipPosition="bottom" style="margin-right:5px"></button>
 							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
@@ -130,8 +130,8 @@
 										<label for="name">Is Enabled</label>
 										<div class="form-group">
 											<select class="form-control" formControlName="isEnabled" >
-												<option value="Approved">Approved</option>
-												<option value="Decline">Decline</option>
+												<option [value]="true">true</option>
+												<option [value]="false">false</option>
 											</select>
 										</div>
 									</div>
@@ -139,8 +139,8 @@
 										<label for="image">Is Bumped </label>
 										<div class="form-group">
 											<select class="form-control" formControlName="isBumped">
-												<option value="Saved">Saved</option>
-												<option value="unSaved">unSaved</option>
+												<option [value]="true">true</option>
+												<option [value]="false">false</option>
 											</select>
 										</div>
 									</div>

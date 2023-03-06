@@ -6,7 +6,7 @@ export const SideNaveMenueRoute = [
     },
     {
         label: 'Movies',
-       // routerLink: ['/Movies/active-movies'],
+        routerLink: ['/Movies/active-movies'],
         items: [
             {
                 label: 'All Movies',
@@ -20,7 +20,7 @@ export const SideNaveMenueRoute = [
     },
     {
         label: 'Quibs',
-        //routerLink: ['/Quib/recent-quib'],
+        routerLink: ['/Quib/recent-quib'],
         items: [
             {
                 label: 'Recent Quib',
