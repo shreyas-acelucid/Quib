@@ -8,8 +8,7 @@ import {Movies } from "../_models/movies"
     providedIn: 'root'
 })
 export class MoviesService {
-    Quib_Admin =  environment.QUIB_ADMIN
-    constructor(private http: HttpClient) { }
+   constructor(private http: HttpClient) { }
     getMovieList():Observable<Movies[]> {
         const token = localStorage.getItem('token') || '';
         let httpOptions = new HttpHeaders().set('x-access-token', token)

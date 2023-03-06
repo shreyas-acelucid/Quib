@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Quib_User } from 'src/app/_models/order';
+import { Quib_User,QUIB_USER } from 'src/app/_models/Quib_user';
 import { QuibService } from 'src/app/_services/Quib.service';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 import { TABLE_HEADING } from '../../_models/table_heading'
@@ -22,7 +22,9 @@ export class QuibUserComponent implements OnInit {
   fgsType: any;
   display: boolean = false;
   message: string;
+  ImageBase64:string |any
   quibUserForm: FormGroup
+  payload:QUIB_USER
   constructor(
     private QuibService: QuibService,
     private ngxLoader: NgxUiLoaderService,
@@ -31,15 +33,15 @@ export class QuibUserComponent implements OnInit {
     private confirmationService: ConfirmationService,
   ) {
     this.quibUserForm = this.fb.group({
-      displayName: ["", [Validators.required]],
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      joinDate: ['', [Validators.required]],
-      BMP: ['', [Validators.required]],
-      FNG: ['', [Validators.required]],
-      FRS: ['', [Validators.required]],
-      UNP: ['', [Validators.required]],
+      Email : ['', [Validators.required]],
+      FirstName: ['', [Validators.required]],
+      LastName: ['', [Validators.required]],
+      Password : ['', [Validators.required]],
+      ConfirmPassword: ['', [Validators.required]],
+      AvatarBase256ImagePath: ['', [Validators.required]],
+      Username : ['', [Validators.required]],
+      About: ['', [Validators.required]],
+      IsEnabled: ['', [Validators.required]],
       status: ['', [Validators.required]],
     })
   }
@@ -118,5 +120,33 @@ export class QuibUserComponent implements OnInit {
         })
       },
     });
+  }
+
+  OnChange(event) {
+    var reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = (data) => {
+     this.ImageBase64 = data.target.result
+    }
+  }
+  createNewUser() {
+    this.ngxLoader.start();
+    this.payload = {
+      Email: this.quibUserForm.controls['Email'].value,
+      FirstName: this.quibUserForm.controls['FirstName'].value,
+      LastName: this.quibUserForm.controls['LastName'].value,
+      Password: this.quibUserForm.controls['Password'].value,
+      ConfirmPassword: this.quibUserForm.controls['ConfirmPassword'].value,
+      AvatarBase256ImagePath: this.ImageBase64,
+      Username: this.quibUserForm.controls['Username'].value,
+      About: this.quibUserForm.controls['About'].value,
+      IsEnabled: false,
+    }
+    this.QuibService.createNewUser(this.payload).subscribe(res => {
+      if (res) {
+        this.toastr.showSuccess(" user created successfully", "new user")
+        this.getUserList()
+      }
+      })
   }
 }

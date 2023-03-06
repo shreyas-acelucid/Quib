@@ -4,7 +4,7 @@ import { QuibService } from 'src/app/_services/Quib.service';
 import { TABLE_HEADING } from 'src/app/_models/table_heading';
 import { Table } from 'primeng/table';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
-import { Quib } from 'src/app/_models/order';
+import { Quib } from 'src/app/_models/Quib_user';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 @Component({

@@ -24,3 +24,16 @@ export interface Quib {
   isBumped: string,
   quibType: string | number,
 }
+
+export interface QUIB_USER {
+  Email: string,
+  FirstName: string,
+  LastName: string,
+  Password: string,
+  ConfirmPassword: string,
+  AvatarBase256ImagePath: string,
+  Username: string,
+  About: string,
+  IsEnabled: boolean |any,
+  // status: boolean,
+}

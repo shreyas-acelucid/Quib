@@ -171,23 +171,20 @@
 								<button pButton type="button" class="p-button-warning"
 									(click)="addISchreenShotControl()">Add</button>
 								<div class="row gutters" formArrayName="screenShot">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-									 *ngFor="let item of allmovies.controls; let i = index;">
-									<div class="row gutters">
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
-												<label for="Name">Screen Shot upload</label>
-												<input type="file" formControlName="i" class="form-control" (change)="OnChange($event,true,i)">
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" *ngFor="let item of allmovies.controls; let i = index;">
+										<div class="row gutters">
+											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+												<div class="form-group">
+													<label for="Name">Screen Shot upload</label>
+													<input type="file" formControlName="i" class="form-control" (change)="OnChange($event,true,i)">
+												</div>
+											</div>
+											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" *ngIf=" imageBase64.length!=0">
+												<div class="form-group">
+													<img [src]="imageBase64[i]" class="form-control" style="width: 80%; height: 10vh;">
+												</div>
 											</div>
 										</div>
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-											*ngIf=" imageBase64.length!=0">
-											<div class="form-group">
-												<img [src]="imageBase64[i]" class="form-control"
-													style="width: 80%; height: 10vh;">
-											</div>
-										</div>
-									</div>
 									</div>
 
 								</div>

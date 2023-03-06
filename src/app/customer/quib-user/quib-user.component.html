@@ -14,7 +14,7 @@
 					</div>
 					<div class="p-input-icon-right ml-5">
 						<button pButton type="button" label="Add New User" class="p-button-success"
-						(click)="display =true"></button>
+							(click)="display =true"></button>
 					</div>
 				</div>
 			</ng-template>
@@ -79,59 +79,72 @@
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="name">Display Name</label>
-											<input type="text" class="form-control" formControlName="displayName">
+											<input type="text" class="form-control" formControlName="Username">
 										</div>
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
-											<label for="image">First Name </label>
-											<input type="text" class="form-control" formControlName="firstName">
-										</div>
-									</div>
-								</div>
-								<div class="row gutters">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="name">Last Name</label>
-											<input type="text" class="form-control" formControlName="lastName">
-										</div>
-									</div>
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="image">Email </label>
-											<input type="text" class="form-control" formControlName="email">
+											<label for="FirstName">First Name </label>
+											<input type="text" class="form-control" formControlName="FirstName">
 										</div>
 									</div>
 								</div>
 								<div class="row gutters">
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
-											<label for="name">Join Date</label>
-											<input type="date" class="form-control" formControlName="joinDate">
+											<label for="LastName">Last Name</label>
+											<input type="text" class="form-control" formControlName="LastName">
 										</div>
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
-											<label for="image">BMP</label>
-											<input type="date" class="form-control" formControlName="BMP">
+											<label for="Email">Email </label>
+											<input type="text" class="form-control" formControlName="Email">
+										</div>
+									</div>
+								</div>
+								<div class="row gutters">
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="Password">Password</label>
+											<input type="password" class="form-control" formControlName="Password">
+										</div>
+									</div>
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="ConfirmPassword">Confirm Password</label>
+											<input type="password" class="form-control"
+												formControlName="ConfirmPassword">
 										</div>
 									</div>
 								</div>
 
 								<div class="row gutters">
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="name">FRS</label>
-											<input type="text" class="form-control" formControlName="FRS">
+										<div class="row gutters">
+											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+												<div class="form-group">
+													<label for="uploadProfileImage">upload Profile Image</label>
+													<input type="file" formControlName="AvatarBase256ImagePath"
+														class="form-control" (change)="OnChange($event)">
+												</div>
+											</div>
+											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+												*ngIf=" ImageBase64">
+												<div class="form-group">
+													<img [src]="ImageBase64" class="form-control"
+														style="width: 80%; height: 10vh;">
+												</div>
+											</div>
 										</div>
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
-											<label for="name">UNP</label>
-											<input type="text" class="form-control" formControlName="UNP">
+											<label for="About">About</label>
+											<textarea type="text" class="form-control"
+												formControlName="About"> </textarea>
 										</div>
 									</div>
-
 								</div>
 								<div class="row gutters mt-4">
 									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
@@ -139,7 +152,7 @@
 											<button pButton type="button" id="submit" name="submit"
 												class="p-button-danger mr-4" (click)="display = false">Cancel</button>
 											<button pButton type="button" id="submit" name="submit"
-												class="p-button-success">Submit</button>
+												class="p-button-success" (click)="createNewUser()">Submit</button>
 										</div>
 									</div>
 								</div>
@@ -152,5 +165,6 @@
 
 	</p-dialog>
 	<!--pop model edit user  end from here ------>
-	<p-confirmDialog header="Confirmation" [style]="{width: '40vw'}" position="top" [baseZIndex]="10000" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+	<p-confirmDialog header="Confirmation" [style]="{width: '40vw'}" position="top" [baseZIndex]="10000"
+		icon="pi pi-exclamation-triangle"></p-confirmDialog>
 </div>
