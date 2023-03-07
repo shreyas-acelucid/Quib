@@ -4,12 +4,12 @@ export interface Quib_User {
   firstName: string,
   lastName: string,
   email: string,
-  status: string,
-  joinDate: string,
-  bmp: string | number,
-  fng: string | number,
-  frs: string | number,
-  unp: string | number
+  isEnabled: boolean,
+  createdDate: string,
+  bumpCount: string | number,
+  followeeCount: string | number,
+  followerCount: string | number,
+  unPostedQuibsCount: string | number
 }
 
 export interface Quib {

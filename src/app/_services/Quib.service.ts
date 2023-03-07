@@ -1,7 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { formatMessage } from 'devextreme/localization';
-import { FORMERR } from 'dns';
 import { Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Userdata, MovieData, QuibData } from '../DummyData/userData';
@@ -15,12 +13,11 @@ export class QuibService {
   Quib_Admin = environment.QUIB_ADMIN
   constructor(private http: HttpClient) { }
 
-  getUserList() {
+  getUserList():Observable<Quib_User[]> {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
-    const endpointUrl = `${environment.QUIB_ADMIN}/user`;
-    //return this.http.get:<Quib_User[]>(endpointUrl);
-    return of(Userdata)
+    const endpointUrl = `${environment.QUIB_ADMIN}/api/User/GetUserList`;
+    return this.http.get<Quib_User[]>(endpointUrl)
   }
 
   createNewUser(payload: QUIB_USER) {
@@ -37,14 +34,14 @@ export class QuibService {
     formData.append("AvatarBase256ImagePath", payload.AvatarBase256ImagePath)
     return this.http.post(endpointUrl, formData)
   }
-  deleteUser(Id: number) {
+  
+  deleteUser(Id:string) {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
-    const endpointUrl = `${environment.JSON_SERVER}/orders`;
-    let indexOrder = Userdata.findIndex(item => item.id === Id)
-    Userdata.splice(Userdata.findIndex((index) => index.id == Id), 1);
-    return of(Userdata[indexOrder])
-  }
+    const endpointUrl = `${environment.QUIB_ADMIN}/api/User/DeleteUser?Id=${Id}`;
+    return this.http.delete(endpointUrl)
+   }
+
   IsEnabled(Id: number, Status) {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
@@ -71,18 +68,11 @@ export class QuibService {
     return of(QuibData[index])
   }
 
-  markAsActive(Id: number, Status) {
+  changeUserStatus(Id: string, Status: boolean) {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
-    const endpointUrl = `${environment.JSON_SERVER}/orders`;
-    //return this.http.get(endpointUrl, { 'headers': httpOptions }).pipe(map(res => res));
-    let index = Userdata.findIndex(item => item.id === Id)
-    if (Status === true) {
-      Userdata[index].status = "Approved"
-    } else {
-      Userdata[index].status = "Decline"
-    }
-    return of(Userdata[index])
+    const endpointUrl = `${environment.QUIB_ADMIN}/api/User/ChangeStatus?Id=${Id}&IsPending=${Status}`;
+    return this.http.put(endpointUrl, Id)
   }
 
 

@@ -4,7 +4,7 @@
 		<p-table id="customerTable" #dt [value]="Quib_User" [columns]="cols" responsiveLayout="scroll"
 			[paginator]="true" [rows]="10" [showCurrentPageReport]="true" [resizableColumns]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
-			[globalFilterFields]="['firstName', 'lastName']" styleClass="p-datatable-striped,width:max-content">
+			[globalFilterFields]="['firstName','lastName','email','displayName']" styleClass="p-datatable-striped,width:max-content">
 			<ng-template pTemplate="caption">
 				<div class="row">
 					<div class="p-input-icon-right ml-5">
@@ -12,10 +12,10 @@
 						<input pInputText type="text" id="search-box" placeholder="Search by FirstName or LastName "
 							(input)="applyFilterGlobal($event, 'contains')" />
 					</div>
-					<div class="p-input-icon-right ml-5">
+					<!-- <div class="p-input-icon-right ml-5">
 						<button pButton type="button" label="Add New User" class="p-button-success"
 							(click)="display =true"></button>
-					</div>
+					</div> -->
 				</div>
 			</ng-template>
 			<ng-template pTemplate="header" let-columns>
@@ -32,19 +32,19 @@
 					<td>{{user.firstName}}</td>
 					<td>{{user.lastName}}</td>
 					<td>{{user.email}}</td>
-					<td>{{user.joinDate}}</td>
-					<td>{{user.bmp}}</td>
-					<td>{{user.fng}}</td>
-					<td>{{user.frs}}</td>
-					<td>{{user.unp}}</td>
+					<td>{{user.createdDate | date:'dd/MM/yyyy'}}</td>
+					<td>{{user.bumpCount}}</td>
+					<td>{{user.followeeCount}}</td>
+					<td>{{user.followerCount}}</td>
+					<td>{{user.unPostedQuibsCount}}</td>
 					<td>
 						<div class="btn-grp">
-							<button (click)="markAsActive(user?.id,false)" pTooltip="mark as Pending" pButton
-								type="button" class="p-button-success" *ngIf="user.status =='Approved'"
-								style="height: 30px;">{{user.status}}</button>
-							<button (click)="markAsActive(user?.id,true)" pButton type="button" class="p-button-danger"
-								pTooltip="mark as Approved" *ngIf="user.status !='Approved'"
-								style="height: 30px">{{user.status}}</button>
+							<button (click)="changeUserStatus(user?.id,false)" pTooltip="Mark As Pending" pButton
+								type="button" class="p-button-success" *ngIf="user.isEnabled ==true"
+								style="height: 30px;">Approved</button>
+							<button (click)="changeUserStatus(user?.id,true)" pButton type="button" class="p-button-danger"
+								pTooltip="Mark As Approved" *ngIf="user.isEnabled==false||user.isEnabled==null "
+								style="height: 30px">Pending</button>
 						</div>
 					</td>
 					<td>

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, from, Observable, observable } from 'rxjs';
+import { of,Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { MovieData } from '../DummyData/userData';
 import {Movies } from "../_models/movies"

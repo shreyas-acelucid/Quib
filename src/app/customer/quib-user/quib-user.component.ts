@@ -57,11 +57,11 @@ export class QuibUserComponent implements OnInit {
       { field: 'firstName', show: true, headers: 'First Name' },
       { field: 'lastName', show: true, headers: 'Last Name' },
       { field: 'email', show: true, headers: 'Email' },
-      { field: 'joinDate', show: true, headers: 'Join' },
-      { field: 'BMP', show: true, headers: 'BMP' },
-      { field: 'FNG', show: true, headers: 'FNG' },
-      { field: 'FRS', show: true, headers: 'FRS' },
-      { field: 'UNP', show: true, headers: 'UNP' },
+      { field: 'createdDate', show: true, headers: 'Join' },
+      { field: 'bumpCount', show: true, headers: 'BMP' },
+      { field: 'followeeCount', show: true, headers: 'FNG' },
+      { field: 'followerCount', show: true, headers: 'FRS' },
+      { field: 'unPostedQuibsCount', show: true, headers: 'UNP' },
       { field: 'status', show: true, headers: 'Status' },
 
     ]
@@ -77,14 +77,14 @@ export class QuibUserComponent implements OnInit {
   applyFilterGlobal($event, stringVal) {
     this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
-  deleteUser(order: number) {
+  deleteUser(userId: string) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to delete user?',
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.ngxLoader.start();
-        this.QuibService.deleteUser(order).subscribe(res => {
+        this.QuibService.deleteUser(userId).subscribe(res => {
           if (res) {
             this.toastr.showSuccess("user deleted successfully", "user delete")
             this.getUserList()
@@ -100,7 +100,7 @@ export class QuibUserComponent implements OnInit {
       this.ngxLoader.stop();
     });
   }
-  markAsActive(id: number, Status: boolean) {
+  changeUserStatus(Id:string, Status: boolean) {
     if (Status) {
       this.message = 'Are you sure that you want to Approved user?'
     } else {
@@ -112,7 +112,7 @@ export class QuibUserComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.ngxLoader.start();
-        this.QuibService.markAsActive(id, Status).subscribe(res => {
+        this.QuibService.changeUserStatus(Id,Status).subscribe(res => {
           if (res) {
             this.toastr.showSuccess(" Status change successfully", "Status change")
             this.getUserList()
