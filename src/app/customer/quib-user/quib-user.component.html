@@ -40,10 +40,10 @@
 					<td>
 						<div class="btn-grp">
 							<button (click)="changeUserStatus(user?.id,false)" pTooltip="Mark As Pending" pButton
-								type="button" class="p-button-success" *ngIf="user.isEnabled ==true"
+								type="button" class="p-button-success" *ngIf="user.isPending ==true"
 								style="height: 30px;">Approved</button>
 							<button (click)="changeUserStatus(user?.id,true)" pButton type="button" class="p-button-danger"
-								pTooltip="Mark As Approved" *ngIf="user.isEnabled==false||user.isEnabled==null "
+								pTooltip="Mark As Approved" *ngIf="user.isPending==false||user.isPending==null "
 								style="height: 30px">Pending</button>
 						</div>
 					</td>
