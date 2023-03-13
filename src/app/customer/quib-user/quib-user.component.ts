@@ -7,6 +7,8 @@ import { Table } from 'primeng/table';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
 import { ConfirmationService } from 'primeng/api';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Movies } from 'src/app/_models/movies';
+import { MoviesService } from 'src/app/_services/movies.service';
 
 @Component({
   selector: 'app-quib-user',
@@ -19,6 +21,9 @@ export class QuibUserComponent implements OnInit {
   sidebarSpacing: any;
   cols!: TABLE_HEADING[];
   Quib_User: Quib_User[] = [];
+  Approved_UserList:Quib_User[]=[];
+  selectedMovies: Movies[];
+  moviesList: Movies[]
   fgsType: any;
   display: boolean = false;
   message: string;
@@ -30,6 +35,7 @@ export class QuibUserComponent implements OnInit {
     private ngxLoader: NgxUiLoaderService,
     private toastr: ToastrMsgService,
     private fb: FormBuilder,
+    private MoviesService:MoviesService,
     private confirmationService: ConfirmationService,
   ) {
     this.quibUserForm = this.fb.group({
@@ -52,6 +58,7 @@ export class QuibUserComponent implements OnInit {
     this.ngxLoader.start();
     this.sidebarSpacing = 'contracted';
     this.getUserList()
+    this.getMovieList()
     this.cols = [
       { field: 'displayName', show: true, headers: 'Display Name' },
       { field: 'firstName', show: true, headers: 'First Name' },
@@ -63,6 +70,7 @@ export class QuibUserComponent implements OnInit {
       { field: 'followerCount', show: true, headers: 'FRS' },
       { field: 'unPostedQuibsCount', show: true, headers: 'UNP' },
       { field: 'status', show: true, headers: 'Status' },
+      {field:'IsModerator',show:true,headers:'IsModerator'}
 
     ]
   }
@@ -97,6 +105,8 @@ export class QuibUserComponent implements OnInit {
   getUserList() {
     this.QuibService.getUserList().subscribe((data) => {
       this.Quib_User = data
+      this.Approved_UserList =  data.filter(item=>item.isPending ===true)
+      console.log(this.Approved_UserList)
       this.ngxLoader.stop();
     });
   }
@@ -131,22 +141,30 @@ export class QuibUserComponent implements OnInit {
   }
   createNewUser() {
     this.ngxLoader.start();
-    this.payload = {
-      Email: this.quibUserForm.controls['Email'].value,
-      FirstName: this.quibUserForm.controls['FirstName'].value,
-      LastName: this.quibUserForm.controls['LastName'].value,
-      Password: this.quibUserForm.controls['Password'].value,
-      ConfirmPassword: this.quibUserForm.controls['ConfirmPassword'].value,
-      AvatarBase256ImagePath: this.ImageBase64,
-      Username: this.quibUserForm.controls['Username'].value,
-      About: this.quibUserForm.controls['About'].value,
-      IsEnabled: false,
-    }
-    this.QuibService.createNewUser(this.payload).subscribe(res => {
-      if (res) {
-        this.toastr.showSuccess(" user created successfully", "new user")
-        this.getUserList()
-      }
-      })
+    // this.payload = {
+    //   Email: this.quibUserForm.controls['Email'].value,
+    //   FirstName: this.quibUserForm.controls['FirstName'].value,
+    //   LastName: this.quibUserForm.controls['LastName'].value,
+    //   Password: this.quibUserForm.controls['Password'].value,
+    //   ConfirmPassword: this.quibUserForm.controls['ConfirmPassword'].value,
+    //   AvatarBase256ImagePath: this.ImageBase64,
+    //   Username: this.quibUserForm.controls['Username'].value,
+    //   About: this.quibUserForm.controls['About'].value,
+    //   IsEnabled: false,
+    // }
+    this.toastr.showSuccess(" Moderator  user is added successfully", "Moderator user")
+    this.getUserList()
+    this.display=false
+    // this.QuibService.createNewUser(this.payload).subscribe(res => {
+    //   if (res) {
+    //     this.toastr.showSuccess(" user created successfully", "new user")
+    //     this.getUserList()
+    //   }
+    //   })
+  }
+  getMovieList() {
+    this.MoviesService.getMovieList().subscribe((res) => {
+      this.moviesList = res
+    })
   }
 }

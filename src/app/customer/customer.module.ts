@@ -7,12 +7,13 @@ import { SharedModule as SharedImportsModule } from '../_modules/shared.module';
 import { AngularMaterialModule } from '../_modules/angular-material.module';
 import { QuibUserComponent } from './quib-user/quib-user.component';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
-
+import {MultiSelectModule} from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
     UpdateCustomerComponent,
     QuibUserComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -21,7 +22,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
     SharedImportsModule,
     ConfirmDialogModule,
     AngularMaterialModule,
-    
+    MultiSelectModule
   ]
 })
 

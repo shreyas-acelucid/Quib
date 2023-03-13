@@ -37,3 +37,17 @@ th {
       
     }
   }
+
+
+  :host ::ng-deep .p-multiselect {
+    min-width: 20rem;
+    width: 90%;
+}
+
+:host ::ng-deep .multiselect-custom {
+    .p-multiselect-label {
+        padding-top: .5rem;
+        padding-bottom: .5rem;
+    }
+}
+

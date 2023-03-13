@@ -12,10 +12,10 @@
 						<input pInputText type="text" id="search-box" placeholder="Search by FirstName or LastName "
 							(input)="applyFilterGlobal($event, 'contains')" />
 					</div>
-					<!-- <div class="p-input-icon-right ml-5">
-						<button pButton type="button" label="Add New User" class="p-button-success"
+					<div class="p-input-icon-right ml-5">
+						<button pButton type="button" label="Add User As Moderator" class="p-button-success"
 							(click)="display =true"></button>
-					</div> -->
+					</div>
 				</div>
 			</ng-template>
 			<ng-template pTemplate="header" let-columns>
@@ -49,6 +49,12 @@
 					</td>
 					<td>
 						<div class="btn-grp">
+							<button class="p-button-primary" pButton type="button" icon="pi pi-eye"
+							pTooltip="View Details" tooltipPosition="bottom" [disabled]="true"></button>
+						</div>
+					</td>
+					<td>
+						<div class="btn-grp">
 							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
 								pTooltip="Delete user" tooltipPosition="bottom" (click)="deleteUser(user?.id)"></button>
 						</div>
@@ -67,7 +73,7 @@
 	</div>
 
 	<!--pop model edit user  start from here ------>
-	<p-dialog [(visible)]="display" [modal]="true" header="Add New User" [style]="{width: '60vw',height:'100vh'}"
+	<p-dialog [(visible)]="display" [modal]="true" header="Add New  Moderator" [style]="{width: '60vw',height:'80vh'}"
 		position="top" [baseZIndex]="10000">
 		<form [formGroup]="quibUserForm">
 			<div class="card col-sm-12">
@@ -77,74 +83,34 @@
 							<div class="card-body">
 								<div class="row gutters">
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<label for="type" id="label">Curator Score</label>
 										<div class="form-group">
-											<label for="name">Display Name</label>
-											<input type="text" class="form-control" formControlName="Username">
+											<select class="form-control" formControlName="curator"
+												placeholder="Select Rating">
+												<option [value]="1">1</option>
+												<option [value]="2">2</option>
+												<option [value]="3">3</option>
+												<option [value]="4">4</option>
+												<option [value]="5">5</option>
+											</select>
 										</div>
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
-											<label for="FirstName">First Name </label>
-											<input type="text" class="form-control" formControlName="FirstName">
+											<label for="FirstName"> Approved User List </label>
+											<select class="form-control" formControlName="curator" placeholder="Select Rating">
+												<option *ngFor="let  item of Approved_UserList" [value]="item.email">{{item.email}}</option>
+											</select>
 										</div>
 									</div>
 								</div>
+								
 								<div class="row gutters">
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="LastName">Last Name</label>
-											<input type="text" class="form-control" formControlName="LastName">
-										</div>
+									<p-multiSelect [options]="moviesList" optionLabel="title"
+									 display="chip" defaultLabel="Select Movies"></p-multiSelect>
 									</div>
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="Email">Email </label>
-											<input type="text" class="form-control" formControlName="Email">
-										</div>
-									</div>
-								</div>
-								<div class="row gutters">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="Password">Password</label>
-											<input type="password" class="form-control" formControlName="Password">
-										</div>
-									</div>
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="ConfirmPassword">Confirm Password</label>
-											<input type="password" class="form-control"
-												formControlName="ConfirmPassword">
-										</div>
-									</div>
-								</div>
-
-								<div class="row gutters">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="row gutters">
-											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-												<div class="form-group">
-													<label for="uploadProfileImage">upload Profile Image</label>
-													<input type="file" formControlName="AvatarBase256ImagePath"
-														class="form-control" (change)="OnChange($event)">
-												</div>
-											</div>
-											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-												*ngIf=" ImageBase64">
-												<div class="form-group">
-													<img [src]="ImageBase64" class="form-control"
-														style="width: 80%; height: 10vh;">
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="About">About</label>
-											<textarea type="text" class="form-control"
-												formControlName="About"> </textarea>
-										</div>
-									</div>
+									
 								</div>
 								<div class="row gutters mt-4">
 									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
