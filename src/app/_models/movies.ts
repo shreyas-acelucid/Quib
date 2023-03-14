@@ -1,12 +1,15 @@
 export interface Movies {
-  id:number |any
-  title:string |any ,
-  length:string |any,
-  posterContentThumb:string |any,
-  releaseYear:string |number,
-  director:string |any,
+  id:number | string
+  title:string ,
+  director:string ,
+  releaseYear:string|number,
+  length:string 
+  createdDate:Date
+  modifiedDate:Date,
+  posterContent:string
+  posterContentThumb:string,
   isActive:boolean,
-  count:string |number,
 }
+
 
 

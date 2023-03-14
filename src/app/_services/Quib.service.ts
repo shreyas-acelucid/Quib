@@ -103,5 +103,11 @@ export class QuibService {
     return of(QuibData[index])
   }
 
+  AssignMovieToModeratorUser(payload) {
+    const token = localStorage.getItem('token') || '';
+    let httpOptions = new HttpHeaders().set('x-access-token', token)
+    const endpointUrl = `${environment.QUIB_ADMIN}/AssignMovies`;
+    return this.http.post(endpointUrl, payload)
+  }
 
 }

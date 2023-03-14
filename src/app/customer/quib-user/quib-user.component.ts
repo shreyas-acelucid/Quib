@@ -22,14 +22,13 @@ export class QuibUserComponent implements OnInit {
   cols!: TABLE_HEADING[];
   Quib_User: Quib_User[] = [];
   Approved_UserList:Quib_User[]=[];
-  selectedMovies: Movies[];
+  selectedMovies: Movies[] =[];
   moviesList: Movies[]
+  movieId:any[] = [];
   fgsType: any;
   display: boolean = false;
   message: string;
-  ImageBase64:string |any
   quibUserForm: FormGroup
-  payload:QUIB_USER
   constructor(
     private QuibService: QuibService,
     private ngxLoader: NgxUiLoaderService,
@@ -39,17 +38,9 @@ export class QuibUserComponent implements OnInit {
     private confirmationService: ConfirmationService,
   ) {
     this.quibUserForm = this.fb.group({
-      Email : ['', [Validators.required]],
-      FirstName: ['', [Validators.required]],
-      LastName: ['', [Validators.required]],
-      Password : ['', [Validators.required]],
-      ConfirmPassword: ['', [Validators.required]],
-      AvatarBase256ImagePath: ['', [Validators.required]],
-      Username : ['', [Validators.required]],
-      About: ['', [Validators.required]],
-      IsEnabled: ['', [Validators.required]],
-      status: ['', [Validators.required]],
-    })
+      curator : ['', [Validators.required]],
+      user: ['', [Validators.required]],
+     })
   }
 
   ngOnInit(): void {
@@ -106,7 +97,6 @@ export class QuibUserComponent implements OnInit {
     this.QuibService.getUserList().subscribe((data) => {
       this.Quib_User = data
       this.Approved_UserList =  data.filter(item=>item.isPending ===true)
-      console.log(this.Approved_UserList)
       this.ngxLoader.stop();
     });
   }
@@ -132,35 +122,24 @@ export class QuibUserComponent implements OnInit {
     });
   }
 
-  OnChange(event) {
-    var reader = new FileReader();
-    reader.readAsDataURL(event.target.files[0]);
-    reader.onload = (data) => {
-     this.ImageBase64 = data.target.result
-    }
-  }
-  createNewUser() {
+  
+  AssignMovieToModeratorUser() {
     this.ngxLoader.start();
-    // this.payload = {
-    //   Email: this.quibUserForm.controls['Email'].value,
-    //   FirstName: this.quibUserForm.controls['FirstName'].value,
-    //   LastName: this.quibUserForm.controls['LastName'].value,
-    //   Password: this.quibUserForm.controls['Password'].value,
-    //   ConfirmPassword: this.quibUserForm.controls['ConfirmPassword'].value,
-    //   AvatarBase256ImagePath: this.ImageBase64,
-    //   Username: this.quibUserForm.controls['Username'].value,
-    //   About: this.quibUserForm.controls['About'].value,
-    //   IsEnabled: false,
-    // }
-    this.toastr.showSuccess(" Moderator  user is added successfully", "Moderator user")
-    this.getUserList()
     this.display=false
-    // this.QuibService.createNewUser(this.payload).subscribe(res => {
-    //   if (res) {
-    //     this.toastr.showSuccess(" user created successfully", "new user")
-    //     this.getUserList()
-    //   }
-    //   })
+    this.selectedMovies.map(item=>{
+      return this.movieId.push(item.id);
+    })
+    const payload  =  {
+      UserId: this.quibUserForm.controls['user'].value,
+      movieIds: this.movieId
+    }
+    this.QuibService.AssignMovieToModeratorUser(payload).subscribe(res => {
+      if (res) {
+        this.toastr.showSuccess(" Moderator  user is added successfully", "Moderator user")
+        this.display = false
+        this.getUserList()
+      }
+    })
   }
   getMovieList() {
     this.MoviesService.getMovieList().subscribe((res) => {

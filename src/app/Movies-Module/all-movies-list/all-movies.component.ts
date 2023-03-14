@@ -22,8 +22,8 @@ export class AllMoviesComponent implements OnInit {
   display: boolean = false;
   image: File;
   imageUrl;
-  imageBase64 = [];
-  moviesPoster = [];
+  posterContent:any =undefined;
+  posterContentThumb:any = undefined;
   message: string;
   AllMoviesForm: FormGroup
   constructor(private ngxLoader: NgxUiLoaderService,
@@ -32,22 +32,20 @@ export class AllMoviesComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private toastr: ToastrMsgService,) {
     this.AllMoviesForm = this.fb.group({
-      Director: ["", [Validators.required]],
-      isActive: ['', [Validators.required]],
+      id:[''],
+      title: ["", [Validators.required]],
+      director: ['', [Validators.required]],
       releaseYear: ['', [Validators.required]],
-      Length: ['', [Validators.required]],
-      PosterContent: ['', [Validators.required]],
-      PosterContentThumb: ['', [Validators.required]],
-      Title: ['', [Validators.required]],
+      length: ['', [Validators.required]],
+      posterContent: ['', [Validators.required]],
+      posterContentThumb:[''],
       hours: ['', [Validators.required]],
       minutes: ['', [Validators.required]],
       seconds: ['', [Validators.required]],
-      Rating: ['', [Validators.required]],
-      moviesPoster: ['', [Validators.required]],
-      screenShot: this.fb.array([]),
+      isActive:['']
     })
   }
-
+  
   ngOnInit(): void {
     this.fgsType = SPINNER.squareLoader
     this.sidebarSpacing = 'contracted';
@@ -81,45 +79,35 @@ export class AllMoviesComponent implements OnInit {
     let moviesData = this.moviesList.filter(item => item.id === id)
     console.log(moviesData)
     this.AllMoviesForm.patchValue({
-      Director: moviesData[0].director,
+      title:moviesData[0].title,
+      director: moviesData[0].director,
       releaseYear:moviesData[0].releaseYear,
-      Title: moviesData[0].title,
-      isActive:moviesData[0].isActive,
-    })
-    this.moviesPoster.pop();
-    this.imageBase64.pop();
-    this.display = true
-
-  }
+      hours:this.consverIntoHHMMSS(moviesData[0].length).HH,
+      seconds:this.consverIntoHHMMSS(moviesData[0].length).SS,
+      minutes:this.consverIntoHHMMSS(moviesData[0].length).MM
+      })
+    this.posterContentThumb = moviesData[0].posterContentThumb;
+    this.posterContent = moviesData[0].posterContent
+   this.display = true
+}
   AddMovies() {
     this.AllMoviesForm.reset()
     this.display = true
-    this.moviesPoster.pop();
-    this.imageBase64.pop();
   }
-  OnChange(event, Status, index) {
-    this.image = event.target.files;
+  OnChangePosterContent(event) {
     var reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (data) => {
-      if (!Status) {
-        this.moviesPoster[0] = data.target.result
-      } else {
-        this.imageBase64[index] = data.target.result;
-      }
+      this.posterContent =data.target.result 
     }
   }
-  addISchreenShotControl() {
-    this.allmovies.push(this.AddFormGroup())
-  }
-  AddFormGroup(): FormGroup {
-    return this.fb.group({
-      skill: '',
-      exp: '',
-    })
-  }
-  get allmovies(): FormArray {
-    return this.AllMoviesForm.get('screenShot') as FormArray
+  
+  OnChangePosterContentthumb(event){
+    var reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = (data) => {
+      this.posterContentThumb = data.target.result 
+    }
   }
   deleteMovies(moviesId) {
     this.confirmationService.confirm({
@@ -154,6 +142,18 @@ export class AllMoviesComponent implements OnInit {
         })
       },
     });
+  }
 
+  consverIntoHHMMSS(value) {
+    const HH = (value / 3600).toString().split(".")[0];
+    const Rem = (value % 3600);
+    const MM = (Rem / 60).toString().split(".")[0];
+    const SS = (Rem % 60);
+
+    return {
+      MM: MM,
+      HH: HH,
+      SS: SS
+    }
   }
 }

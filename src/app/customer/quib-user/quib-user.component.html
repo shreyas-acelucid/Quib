@@ -4,7 +4,8 @@
 		<p-table id="customerTable" #dt [value]="Quib_User" [columns]="cols" responsiveLayout="scroll"
 			[paginator]="true" [rows]="10" [showCurrentPageReport]="true" [resizableColumns]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
-			[globalFilterFields]="['firstName','lastName','email','displayName']" styleClass="p-datatable-striped,width:max-content">
+			[globalFilterFields]="['firstName','lastName','email','displayName']"
+			styleClass="p-datatable-striped,width:max-content">
 			<ng-template pTemplate="caption">
 				<div class="row">
 					<div class="p-input-icon-right ml-5">
@@ -42,15 +43,17 @@
 							<button (click)="changeUserStatus(user?.id,false)" pTooltip="Mark As Pending" pButton
 								type="button" class="p-button-success" *ngIf="user.isPending ==true"
 								style="height: 30px;">Approved</button>
-							<button (click)="changeUserStatus(user?.id,true)" pButton type="button" class="p-button-danger"
-								pTooltip="Mark As Approved" *ngIf="user.isPending==false||user.isPending==null "
+							<button (click)="changeUserStatus(user?.id,true)" pButton type="button"
+								class="p-button-danger" pTooltip="Mark As Approved"
+								*ngIf="user.isPending==false||user.isPending==null "
 								style="height: 30px">Pending</button>
 						</div>
 					</td>
 					<td>
 						<div class="btn-grp">
 							<button class="p-button-primary" pButton type="button" icon="pi pi-eye"
-							pTooltip="View Details" tooltipPosition="bottom" [disabled]="true"></button>
+								pTooltip="View Details" tooltipPosition="bottom"
+								[disabled]="(user.isModerator === false)"></button>
 						</div>
 					</td>
 					<td>
@@ -83,34 +86,20 @@
 							<div class="card-body">
 								<div class="row gutters">
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<label for="type" id="label">Curator Score</label>
-										<div class="form-group">
-											<select class="form-control" formControlName="curator"
-												placeholder="Select Rating">
-												<option [value]="1">1</option>
-												<option [value]="2">2</option>
-												<option [value]="3">3</option>
-												<option [value]="4">4</option>
-												<option [value]="5">5</option>
-											</select>
-										</div>
+										<p-multiSelect [options]="moviesList" optionLabel="title"
+											[(ngModel)]="selectedMovies" display="chip" defaultLabel="Select Movies"
+											[ngModelOptions]="{standalone: true}"></p-multiSelect>
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="FirstName"> Approved User List </label>
-											<select class="form-control" formControlName="curator" placeholder="Select Rating">
-												<option *ngFor="let  item of Approved_UserList" [value]="item.email">{{item.email}}</option>
+											<select class="form-control" formControlName="user"
+												placeholder="Select User">
+												<option *ngFor="let  item of Approved_UserList" [value]="item.id">
+													{{item.email}}</option>
 											</select>
 										</div>
 									</div>
-								</div>
-								
-								<div class="row gutters">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-									<p-multiSelect [options]="moviesList" optionLabel="title"
-									 display="chip" defaultLabel="Select Movies"></p-multiSelect>
-									</div>
-									
 								</div>
 								<div class="row gutters mt-4">
 									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
@@ -118,7 +107,8 @@
 											<button pButton type="button" id="submit" name="submit"
 												class="p-button-danger mr-4" (click)="display = false">Cancel</button>
 											<button pButton type="button" id="submit" name="submit"
-												class="p-button-success" (click)="createNewUser()">Submit</button>
+												class="p-button-success"
+												(click)="AssignMovieToModeratorUser()">Submit</button>
 										</div>
 									</div>
 								</div>

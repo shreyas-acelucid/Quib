@@ -4,13 +4,13 @@
 		<p-table id="customerTable" #dt [columns]="cols" responsiveLayout="scroll" [paginator]="true" [rows]="10"
 			[showCurrentPageReport]="true" [value]="moviesList" [resizableColumns]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
-			[globalFilterFields]="['title', 'length', 'isActive']" styleClass="p-datatable-striped">
+			[globalFilterFields]="['title', 'length', 'isActive','releaseYear','director','length']" styleClass="p-datatable-striped">
 			<ng-template pTemplate="caption">
 				<div class="row">
 					<span class="p-input-icon-right ml-5">
 						<i class="pi pi-search"></i>
 						<input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search by Title and Length" />
+						placeholder="Search by Title and Length" />
 					</span>
 					<span class="p-input-icon-right ml-5">
 						<button pButton type="button" label="Add Movie" class="p-button-success"
@@ -24,6 +24,41 @@
 					<th>S.no</th>
 					<th *ngFor="let col of columns">{{col.headers}}</th>
 					<th>Options</th>
+				</tr>
+				<tr>
+					<th>
+						<input pInputText type="text" disabled
+						(input)="applyFilterGlobal($event, 'contains')"
+						 placeholder=" No Search" class="w-full">
+					</th>
+					<th>
+						<input pInputText type="text"
+						(input)="applyFilterGlobal($event, 'contains')"
+						placeholder="Search by Title" class="w-full">
+					</th>
+					<th>
+						<input pInputText type="text" 
+						(input)="applyFilterGlobal($event, 'contains')"
+						placeholder="Search by Director" class="w-full">
+					</th>
+					<th>
+						<input pInputText type="text" 
+						(input)="applyFilterGlobal($event, 'contains')"
+						placeholder="Search by Release Year" class="w-full">
+					</th>
+					<th>
+						<input pInputText type="text" 
+						(input)="applyFilterGlobal($event, 'contains')"
+						placeholder="Search by Length" class="w-full">
+					</th>
+					<th>
+						<input pInputText type="text" 
+						(input)="applyFilterGlobal($event, 'contains')" disabled
+						placeholder="Search by Status" class="w-full">
+					</th>
+					<th>
+						<input pInputText type="text"  disabled placeholder="Action" class="w-full">
+					</th>
 				</tr>
 			</ng-template>
 			<ng-template pTemplate="body" let-i="rowIndex" let-moviesList>
@@ -79,14 +114,14 @@
 										<div class="form-group">
 											<label for="name">Title</label>
 											<input type="text" class="form-control" placeholder="Title"
-												formControlName="Title">
+												formControlName="title">
 										</div>
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="image">Director </label>
-											<input type="text" class="form-control" placeholder="Director"
-												formControlName="Director">
+											<input type="text" class="form-control" placeholder="director"
+												formControlName="director">
 										</div>
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -99,42 +134,36 @@
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="row gutters">
 											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-												<label for="type" id="label">Rating</label>
 												<div class="form-group">
-													<select class="form-control" formControlName="Rating"
-														placeholder="Select Rating">
-														<option [value]="1">1</option>
-														<option [value]="2">2</option>
-														<option [value]="3">3</option>
-														<option [value]="4">4</option>
-														<option [value]="5">5</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-												<section class="example-section">
-													<mat-checkbox class="example-margin">Enabled</mat-checkbox>
-												</section>
-												<section class="example-section">
-													<mat-checkbox class="example-margin">Featured</mat-checkbox>
-												</section>
-											</div>
-										</div>
-									</div>
-
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="row gutters">
-											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-												<div class="form-group">
-													<label for="Name">Movies Poster</label>
-													<input type="file" formControlName="moviesPoster" class="form-control" (change)="OnChange($event,false,1)">
+													<label for="Name">poster Content Thumb</label>
+													<input type="file" formControlName="posterContentThumb"
+														class="form-control" (change)="OnChangePosterContentthumb($event)">
 												</div>
 											</div>
 
 											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-												*ngIf=" moviesPoster.length!=0">
+												*ngIf="posterContentThumb != undefined">
 												<div class="form-group">
-													<img [src]="moviesPoster[0]" class="form-control"
+													<img [src]="posterContentThumb" class="form-control"
+														style="width: 80%; height: 10vh;">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<div class="row gutters">
+											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+												<div class="form-group">
+													<label for="Name">Poster Content</label>
+													<input type="file" formControlName="posterContent"
+														class="form-control" (change)="OnChangePosterContent($event)">
+												</div>
+											</div>
+
+											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+											*ngIf="posterContent != undefined">
+												<div class="form-group">
+													<img [src]="posterContent" class="form-control"
 														style="width: 80%; height: 10vh;">
 												</div>
 											</div>
@@ -159,7 +188,7 @@
 											<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 												<div class="form-group">
 													<label for="Name">SS</label>
-													<input type="number" class="form-control" placeholder="second"
+													<input type="number" class="form-control" placeholder="seconds"
 														formControlName="seconds">
 												</div>
 											</div>
@@ -168,26 +197,7 @@
 									</div>
 
 								</div>
-								<button pButton type="button" class="p-button-warning"
-									(click)="addISchreenShotControl()">Add</button>
-								<div class="row gutters" formArrayName="screenShot">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" *ngFor="let item of allmovies.controls; let i = index;">
-										<div class="row gutters">
-											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-												<div class="form-group">
-													<label for="Name">Screen Shot upload</label>
-													<input type="file" formControlName="i" class="form-control" (change)="OnChange($event,true,i)">
-												</div>
-											</div>
-											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" *ngIf=" imageBase64.length!=0">
-												<div class="form-group">
-													<img [src]="imageBase64[i]" class="form-control" style="width: 80%; height: 10vh;">
-												</div>
-											</div>
-										</div>
-									</div>
 
-								</div>
 								<div class="row gutters mt-4">
 									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
 										<div class="text-right">
