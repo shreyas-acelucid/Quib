@@ -2,6 +2,7 @@
 <div class="body bcard" [ngClass]="sidebarSpacing">
 	<div class="card col-sm-12" style="border:none;">
 		<p-table id="customerTable" #dt [columns]="cols" responsiveLayout="scroll" [paginator]="true" [rows]="10"
+		[rowsPerPageOptions]="[10,25,50]"
 			[showCurrentPageReport]="true" [value]="moviesList" [resizableColumns]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
 			[globalFilterFields]="['title', 'length', 'isActive','releaseYear','director','length']" styleClass="p-datatable-striped">
