@@ -109,5 +109,15 @@ export class QuibService {
     const endpointUrl = `${environment.QUIB_ADMIN}/AssignMovies`;
     return this.http.post(endpointUrl, payload)
   }
+  markUserAsModerator(userId: string, Status: boolean) {
+    const payload = {
+      userId: userId,
+      Status: Status
+    }
+    const token = localStorage.getItem('token') || '';
+    let httpOptions = new HttpHeaders().set('x-access-token', token)
+    const endpointUrl = `${environment.QUIB_ADMIN}/UpdateModeratorStatus?UserId=${userId}&Status=${Status}`;
+    return this.http.put(endpointUrl, payload)
+  }
 
 }

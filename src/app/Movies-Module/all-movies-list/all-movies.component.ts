@@ -22,8 +22,8 @@ export class AllMoviesComponent implements OnInit {
   display: boolean = false;
   image: File;
   imageUrl;
-  posterContent:any =undefined;
-  posterContentThumb:any = undefined;
+  posterContent: any = undefined;
+  posterContentThumb: any = undefined;
   message: string;
   AllMoviesForm: FormGroup
   constructor(private ngxLoader: NgxUiLoaderService,
@@ -32,20 +32,20 @@ export class AllMoviesComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private toastr: ToastrMsgService,) {
     this.AllMoviesForm = this.fb.group({
-      id:[''],
+      id: [''],
       title: ["", [Validators.required]],
       director: ['', [Validators.required]],
       releaseYear: ['', [Validators.required]],
       length: ['', [Validators.required]],
       posterContent: ['', [Validators.required]],
-      posterContentThumb:[''],
+      posterContentThumb: [''],
       hours: ['', [Validators.required]],
       minutes: ['', [Validators.required]],
       seconds: ['', [Validators.required]],
-      isActive:['']
+      isActive: ['']
     })
   }
-  
+
   ngOnInit(): void {
     this.fgsType = SPINNER.squareLoader
     this.sidebarSpacing = 'contracted';
@@ -79,17 +79,26 @@ export class AllMoviesComponent implements OnInit {
     let moviesData = this.moviesList.filter(item => item.id === id)
     console.log(moviesData)
     this.AllMoviesForm.patchValue({
-      title:moviesData[0].title,
+      title: moviesData[0].title,
       director: moviesData[0].director,
-      releaseYear:moviesData[0].releaseYear,
-      hours:this.consverIntoHHMMSS(moviesData[0].length).HH,
-      seconds:this.consverIntoHHMMSS(moviesData[0].length).SS,
-      minutes:this.consverIntoHHMMSS(moviesData[0].length).MM
-      })
-    this.posterContentThumb = moviesData[0].posterContentThumb;
-    this.posterContent = moviesData[0].posterContent
-   this.display = true
-}
+      releaseYear: moviesData[0].releaseYear,
+      hours: this.consverIntoHHMMSS(moviesData[0].length).HH,
+      seconds: this.consverIntoHHMMSS(moviesData[0].length).SS,
+      minutes: this.consverIntoHHMMSS(moviesData[0].length).MM
+    })
+    if (moviesData[0].posterContentThumb.search("Images") > 1) {
+      this.posterContentThumb = `http://3.88.43.237${moviesData[0].posterContentThumb}`
+    } else {
+      this.posterContentThumb = `data:image/png;base64,${moviesData[0].posterContentThumb}`
+    }
+
+    if (moviesData[0].posterContentThumb.search("Images") > 1) {
+      this.posterContent = `http://3.88.43.237${moviesData[0].posterContentThumb}`
+    } else {
+      this.posterContent = `data:image/png;base64,${moviesData[0].posterContent}`
+    }
+    this.display = true
+  }
   AddMovies() {
     this.AllMoviesForm.reset()
     this.display = true
@@ -98,15 +107,16 @@ export class AllMoviesComponent implements OnInit {
     var reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (data) => {
-      this.posterContent =data.target.result 
+      this.posterContent = data.target.result
     }
   }
-  
-  OnChangePosterContentthumb(event){
+
+  OnChangePosterContentthumb(event) {
     var reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (data) => {
-      this.posterContentThumb = data.target.result 
+      this.posterContentThumb = data.target.result
+      console.log(this.posterContentThumb)
     }
   }
   deleteMovies(moviesId) {

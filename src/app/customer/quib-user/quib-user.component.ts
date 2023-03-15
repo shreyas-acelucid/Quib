@@ -61,7 +61,9 @@ export class QuibUserComponent implements OnInit {
       { field: 'followerCount', show: true, headers: 'FRS' },
       { field: 'unPostedQuibsCount', show: true, headers: 'UNP' },
       { field: 'status', show: true, headers: 'Status' },
+      {field:'IsModerator',show:true,headers:'Moderator Details'},
       {field:'IsModerator',show:true,headers:'IsModerator'}
+
 
     ]
   }
@@ -135,7 +137,7 @@ export class QuibUserComponent implements OnInit {
     }
     this.QuibService.AssignMovieToModeratorUser(payload).subscribe(res => {
       if (res) {
-        this.toastr.showSuccess(" Moderator  user is added successfully", "Moderator user")
+        this.toastr.showSuccess("Movies is Assign to  Moderator user  successfully", "Moderator user")
         this.display = false
         this.getUserList()
       }
@@ -144,6 +146,16 @@ export class QuibUserComponent implements OnInit {
   getMovieList() {
     this.MoviesService.getMovieList().subscribe((res) => {
       this.moviesList = res
+    })
+  }
+  markUserAsModerator(userId:string,status:boolean){
+    this.ngxLoader.start();
+    this.QuibService.markUserAsModerator(userId,status).subscribe(res=>{
+      if(res){
+        this.toastr.showSuccess(" Moderator  user is added successfully", "Moderator user")
+        this.display = false
+        this.getUserList()
+      }
     })
   }
 }
