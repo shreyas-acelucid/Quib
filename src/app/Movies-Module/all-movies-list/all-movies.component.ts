@@ -19,13 +19,16 @@ export class AllMoviesComponent implements OnInit {
   cols!: TABLE_HEADING[];
   moviesList: Movies[]
   fgsType: any;
+  Status:boolean=true;
   display: boolean = false;
   image: File;
   imageUrl;
+  baseUrl:string="http://3.88.43.237"
   posterContent: any = undefined;
   posterContentThumb: any = undefined;
   message: string;
   AllMoviesForm: FormGroup
+  PosterForm:FormGroup
   constructor(private ngxLoader: NgxUiLoaderService,
     private fb: FormBuilder,
     private MoviesService: MoviesService,
@@ -44,6 +47,10 @@ export class AllMoviesComponent implements OnInit {
       seconds: ['', [Validators.required]],
       isActive: ['']
     })
+    this.PosterForm  = this.fb.group({
+      id:[''],
+      title:[''],
+    })
   }
 
   ngOnInit(): void {
@@ -55,6 +62,7 @@ export class AllMoviesComponent implements OnInit {
       { field: 'releaseYear', show: true, headers: 'Release Year' },
       { field: 'length', show: true, headers: 'Length' },
       { field: 'isActive', show: true, headers: 'Status' },
+      { field: 'posterContentThumb', show: true, headers: 'Movie Poster' },
     ]
     this.getMovieList()
   }
@@ -69,6 +77,12 @@ export class AllMoviesComponent implements OnInit {
   getMovieList() {
     this.MoviesService.getMovieList().subscribe((res) => {
       this.moviesList = res
+      this.moviesList.map(item=>{
+        item.posterContentThumb  = this.baseUrl.concat(item.posterContentThumb)
+        item['HH'] = this.consverIntoHHMMSS(item.length).HH,
+        item['MM'] = this.consverIntoHHMMSS(item.length).MM,
+        item['SS']  = this.consverIntoHHMMSS(item.length).SS
+      })
       this.ngxLoader.stop();
     })
   }
@@ -76,8 +90,8 @@ export class AllMoviesComponent implements OnInit {
     this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
   EditMovies(id) {
+    this.Status=true;
     let moviesData = this.moviesList.filter(item => item.id === id)
-    console.log(moviesData)
     this.AllMoviesForm.patchValue({
       title: moviesData[0].title,
       director: moviesData[0].director,
@@ -86,37 +100,22 @@ export class AllMoviesComponent implements OnInit {
       seconds: this.consverIntoHHMMSS(moviesData[0].length).SS,
       minutes: this.consverIntoHHMMSS(moviesData[0].length).MM
     })
-    if (moviesData[0].posterContentThumb.search("Images") > 1) {
-      this.posterContentThumb = `http://3.88.43.237${moviesData[0].posterContentThumb}`
-    } else {
-      this.posterContentThumb = `data:image/png;base64,${moviesData[0].posterContentThumb}`
-    }
-
-    if (moviesData[0].posterContentThumb.search("Images") > 1) {
-      this.posterContent = `http://3.88.43.237${moviesData[0].posterContentThumb}`
-    } else {
-      this.posterContent = `data:image/png;base64,${moviesData[0].posterContent}`
-    }
-    this.display = true
+    this.posterContentThumb=moviesData[0].posterContentThumb
+   this.display = true
   }
   AddMovies() {
+    this.Status = true;
     this.AllMoviesForm.reset()
     this.display = true
+    this.posterContentThumb = null
   }
-  OnChangePosterContent(event) {
-    var reader = new FileReader();
-    reader.readAsDataURL(event.target.files[0]);
-    reader.onload = (data) => {
-      this.posterContent = data.target.result
-    }
-  }
-
+ 
   OnChangePosterContentthumb(event) {
     var reader = new FileReader();
+    this.image  = event.target.files[0]
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (data) => {
       this.posterContentThumb = data.target.result
-      console.log(this.posterContentThumb)
     }
   }
   deleteMovies(moviesId) {
@@ -159,11 +158,64 @@ export class AllMoviesComponent implements OnInit {
     const Rem = (value % 3600);
     const MM = (Rem / 60).toString().split(".")[0];
     const SS = (Rem % 60);
-
     return {
       MM: MM,
       HH: HH,
       SS: SS
     }
   }
+  Submit() {
+    const payload = {
+      Title: this.AllMoviesForm.controls['title'].value,
+      Director: this.AllMoviesForm.controls['director'].value,
+      ReleaseYear: this.AllMoviesForm.controls['releaseYear'].value,
+      Hour: this.AllMoviesForm.controls['hours'].value,
+      Minute: this.AllMoviesForm.controls['minutes'].value,
+      Seconds: this.AllMoviesForm.controls['seconds'].value,
+      IsActive: true,
+      PosterImage: this.image
+    }
+    this.ngxLoader.start();
+    if (!this.Status) {
+      this.submitMoviePosterData()
+    } else {
+      this.MoviesService.Submit(payload).subscribe(res => {
+        if (res) {
+          this.toastr.showSuccess(" Status change successfully", "Status change")
+          this.getMovieList()
+        }else{
+          this.toastr.showSuccess("somthing going wrong", "please check")
+          this.getMovieList()
+        }
+      })
+    }
+  } 
+  updateMoviePoster(id){
+    this.Status = false
+    let moviesData = this.moviesList.filter(item => item.id === id)
+    this.PosterForm.patchValue({
+      title: moviesData[0].title,
+      id:id
+    })
+    this.posterContentThumb=moviesData[0].posterContentThumb
+   this.display = true
+  }
+  submitMoviePosterData(){
+    this.display = false
+    this.Status= true;
+    const payload  =  {
+      id:this.PosterForm.controls['id'].value,
+      PosterImage :this.image
+    }
+    this.MoviesService.submitMoviePosterData(payload).subscribe(res=>{
+      if (res) {
+        this.toastr.showSuccess(" Movie poster is updated successfully", "movie poster")
+        this.getMovieList()
+      }else{
+        this.toastr.showSuccess("somthing going wrong", "please check")
+        this.getMovieList()
+      }
+    })
+  }
 }
+

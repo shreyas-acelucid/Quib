@@ -39,13 +39,27 @@ export class MoviesService {
         MovieData.splice(MovieData.findIndex((index) => index.id == moviesId), 1);
         return of(MovieData[index])
     }
-    addMovies(payload) {
+    Submit(payload) {
+        const formData = new FormData()
+        formData.append("Title",payload.Title)
+        formData.append("Director",payload.Director)
+        formData.append("ReleaseYear",payload.ReleaseYear)
+        formData.append("Time.Hour",payload.Hour)
+        formData.append("Time.Minute",payload.Minute)
+        formData.append("Time.Seconds",payload.Seconds)
+        formData.append("IsActive",payload.IsActive)
+        formData.append("PosterImage",payload.PosterImage)
         const token = localStorage.getItem('token') || '';
         let httpOptions = new HttpHeaders().set('x-access-token', token)
-        const endpointUrl = `${environment.JSON_SERVER}/category/`;
-        //return this.http.delete<CATEGORY>(endpointUrl, { 'headers': httpOptions });
-        MovieData.push(payload);
-        return of(payload)
+        const endpointUrl = `${environment.QUIB_ADMIN}/AddMovie`
+        return this.http.post(endpointUrl,formData  );
+    }
+    submitMoviePosterData(payload){
+        const formData = new FormData()
+        formData.append("PosterImage",payload.PosterImage)
+        formData.append("Id",payload.id) 
+        const endpointUrl = `${environment.QUIB_ADMIN}/UpdateMoviePoster`
+       return this.http.put(endpointUrl,formData)
     }
     editMovies(payload, moviesId) {
         const token = localStorage.getItem('token') || '';

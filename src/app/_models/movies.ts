@@ -9,6 +9,9 @@ export interface Movies {
   posterContent:string
   posterContentThumb:string,
   isActive:boolean,
+  MM:string | any,
+  HH:string |any,
+  SS:string |any
 }
 
 
