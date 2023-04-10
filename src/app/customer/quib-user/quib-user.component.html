@@ -2,10 +2,9 @@
 <div class="body bcard" [ngClass]="sidebarSpacing">
 	<div class="card col-sm-12" style="border:none;">
 		<p-table id="customerTable" #dt [value]="Quib_User" [columns]="cols" responsiveLayout="scroll"
-			[paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]"[showCurrentPageReport]="true"
+			[paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [showCurrentPageReport]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
-			[globalFilterFields]="['firstName','lastName','email','displayName']"
-			styleClass="p-datatable-striped">
+			[globalFilterFields]="['firstName','lastName','email','displayName']" [customSort]="true" styleClass="p-datatable-striped">
 			<ng-template pTemplate="caption">
 				<div class="row">
 					<div class="p-input-icon-right ml-5">
@@ -22,49 +21,62 @@
 			<ng-template pTemplate="header" let-columns>
 				<tr>
 					<th>S.no</th>
-					<th *ngFor="let col of columns">{{col.headers}}</th>
+					<th *ngFor="let col of columns" pSortableColumn="{{col.headers}}">{{col.headers}}<p-sortIcon
+							class="p-shortIcon light" field="{{col.headers}}"></p-sortIcon></th>
 					<th>Action</th>
 				</tr>
 				<tr>
 					<th></th>
 					<th>
-						<input pInputText type="text" 
-						(input)="applyFilterGlobal($event, 'contains')"
-						 placeholder="Search By displayName" class="w-full intputSearch">
+						<input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search By displayName" class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text"  
-						(input)="applyFilterGlobal($event, 'contains')"
-						 placeholder="Search By firstName" class="w-full intputSearch">
+						<input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search By firstName" class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text"  
-						(input)="applyFilterGlobal($event, 'contains')"
-						 placeholder="Search By lastName" class="w-full intputSearch">
+						<input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search By lastName" class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text"  
-						(input)="applyFilterGlobal($event, 'contains')"
-						 placeholder="Search By email" class="w-full intputSearch">
+						<input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search By email" class="w-full intputSearch">
 					</th>
-					<th><input pInputText type="text" disabled  
-						placeholder="No Search" class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled  
-						placeholder="No Search" class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text"  disabled 
-						placeholder="No Search" class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text"  disabled 
-						placeholder="No Search" class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled  
-						placeholder="No Search" class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text"  disabled 
-						placeholder="No Search" class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text"  disabled 
-						placeholder="No Search" class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled  
-						placeholder="No Search" class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled  
-						placeholder="No Search" class="w-full disableInputSearch"></th>
+					<th><input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
 				</tr>
 
 			</ng-template>
@@ -100,8 +112,8 @@
 					</td>
 					<td>
 						<div class="btn-grp">
-							<button (click)="markUserAsModerator(user?.id,false)" pTooltip="Mark As Normal User " pButton
-								type="button" class="p-button-success" *ngIf="user.isModerator ==true"
+							<button (click)="markUserAsModerator(user?.id,false)" pTooltip="Mark As Normal User "
+								pButton type="button" class="p-button-success" *ngIf="user.isModerator ==true"
 								style="height: 30px;">Approved</button>
 							<button (click)="markUserAsModerator(user?.id,true)" pButton type="button"
 								class="p-button-danger" pTooltip="Mark As Moderator"
@@ -109,13 +121,21 @@
 								style="height: 30px">Pending</button>
 						</div>
 					</td>
+					<td>null</td>
+					<td>null</td>
+					<td>null</td>
+					<td>null</td>
+					<td>null</td>
+					<td>null</td>
+					<td>null</td>
+					<td>null</td>
 					<td>
 						<div class="btn-grp">
 							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
 								pTooltip="Delete user" tooltipPosition="bottom" (click)="deleteUser(user?.id)"></button>
 						</div>
 					</td>
-					
+
 				</tr>
 			</ng-template>
 			<ng-template pTemplate="emptymessage">
@@ -130,8 +150,8 @@
 	</div>
 
 	<!--pop model edit user  start from here ------>
-	<p-dialog [(visible)]="display" [modal]="true" header="Assign Movies to  Moderator User" [style]="{width: '60vw',height:'80vh'}"
-		position="top" [baseZIndex]="10000">
+	<p-dialog [(visible)]="display" [modal]="true" header="Assign Movies to  Moderator User"
+		[style]="{width: '60vw',height:'80vh'}" position="top" [baseZIndex]="10000">
 		<form [formGroup]="quibUserForm">
 			<div class="card col-sm-12">
 				<div class="row gutters">

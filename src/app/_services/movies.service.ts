@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of,Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { MovieData } from '../DummyData/userData';
 import {Movies } from "../_models/movies"
 @Injectable({
     providedIn: 'root'
@@ -26,18 +25,14 @@ export class MoviesService {
         let httpOptions = new HttpHeaders().set('x-access-token', token)
         const endpointUrl = `${environment.JSON_SERVER}/product`;
         // return this.http.post<any>(endpointUrl, categoryData, { 'headers': httpOptions });
-        let index = MovieData.findIndex(item => item.id === id);
-        MovieData[index].isActive = Status
-        return of(MovieData)
+        return of("nvbbjs")
     }
     deleteMovies(moviesId) {
         const token = localStorage.getItem('token') || '';
         let httpOptions = new HttpHeaders().set('x-access-token', token)
         const endpointUrl = `${environment.JSON_SERVER}/category/`;
         //return this.http.delete<CATEGORY>(endpointUrl, { 'headers': httpOptions });
-        let index = MovieData.findIndex((item) => item.id == moviesId)
-        MovieData.splice(MovieData.findIndex((index) => index.id == moviesId), 1);
-        return of(MovieData[index])
+        return of("bvsbh")
     }
     Submit(payload) {
         const formData = new FormData()
@@ -66,8 +61,6 @@ export class MoviesService {
         let httpOptions = new HttpHeaders().set('x-access-token', token)
         const endpointUrl = `${environment.JSON_SERVER}/category/`;
         //return this.http.delete<CATEGORY>(endpointUrl, { 'headers': httpOptions });
-        let index = MovieData.findIndex(item => item.id === moviesId)
-        MovieData[index] = payload;
-        return of(payload)
+       return of(payload)
     }
 }

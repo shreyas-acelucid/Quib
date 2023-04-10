@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Userdata, MovieData, QuibData } from '../DummyData/userData';
 import { QUIB_USER, Quib_User } from "../_models/Quib_user"
 
 @Injectable({
@@ -46,26 +45,14 @@ export class QuibService {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
     const endpointUrl = `${environment.JSON_SERVER}/orders`;
-    let index = QuibData.findIndex(item => item.id === Id)
-    if (Status === true) {
-      QuibData[index].isEnabled = "Approved"
-    } else {
-      QuibData[index].isEnabled = "Decline"
-    }
-    return of(QuibData[index])
+  return of("")
   }
 
   IsBumped(Id: number, Status) {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
     const endpointUrl = `${environment.JSON_SERVER}/orders`;
-    let index = QuibData.findIndex(item => item.id === Id)
-    if (Status === true) {
-      QuibData[index].isBumped = "Saved"
-    } else {
-      QuibData[index].isBumped = "Decline"
-    }
-    return of(QuibData[index])
+   return of("")
   }
 
   changeUserStatus(Id: string, Status: boolean) {
@@ -80,27 +67,25 @@ export class QuibService {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
     const endpointUrl = `${environment.JSON_SERVER}/orders`;
-    return of(QuibData)
+    return of("")
   }
   getRecentActiveQuibList() {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
     const endpointUrl = `${environment.JSON_SERVER}/orders`;
-    return of(QuibData)
+    return of("")
   }
   getAlphBeticQuibList() {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
     const endpointUrl = `${environment.JSON_SERVER}/orders`;
-    return of(QuibData)
+    return of("")
   }
   deleteQuib(QuibId) {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
     const endpointUrl = `${environment.JSON_SERVER}/orders`;
-    let index = QuibData.findIndex(item => item.id === QuibId)
-    QuibData.splice(QuibData.findIndex((index) => index?.id == QuibId), 1);
-    return of(QuibData[index])
+    return of("")
   }
 
   AssignMovieToModeratorUser(payload) {

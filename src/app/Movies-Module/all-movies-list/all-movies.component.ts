@@ -6,7 +6,7 @@ import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
 import { Movies } from 'src/app/_models/movies';
 import { Table } from 'primeng/table';
 import { FormBuilder, FormGroup, Validators, FormArray, } from '@angular/forms';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, SortEvent } from 'primeng/api';
 @Component({
   selector: 'app-all-movies',
   templateUrl: './all-movies.component.html',
@@ -217,5 +217,19 @@ export class AllMoviesComponent implements OnInit {
       }
     })
   }
+
+  customSort(event: SortEvent) {
+    event.data.sort((data1, data2) => {
+        let value1 = data1[event.field];
+        let value2 = data2[event.field];
+        let result = null;
+        if (value1 == null && value2 != null) result = -1;
+        else if (value1 != null && value2 == null) result = 1;
+        else if (value1 == null && value2 == null) result = 0;
+        else if (typeof value1 === 'string' && typeof value2 === 'string') result = value1.localeCompare(value2);
+        else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+        return event.order * result;
+    });
+}
 }
 

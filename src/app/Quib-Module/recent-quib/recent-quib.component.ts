@@ -72,7 +72,6 @@ export class RecentQuibComponent implements OnInit {
   }
   getRecentActiveQuibList() {
     this.QuibService.getRecentActiveQuibList().subscribe((data) => {
-      this.recentQuib = data
       this.ngxLoader.stop();
     });
   }

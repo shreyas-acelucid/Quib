@@ -76,7 +76,6 @@ export class MostActiveComponent implements OnInit {
  
   getMostActiveQuibList() {
     this.QuibService.getMostActiveQuibList().subscribe((data) => {
-      this.Quib_User =  data
       this.ngxLoader.stop();
     });
   }

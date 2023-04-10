@@ -70,7 +70,6 @@ export class AlphaBeticQuibComponent implements OnInit {
 
   getAlphBeticQuibList() {
     this.QuibService.getAlphBeticQuibList().subscribe((data) => {
-      this.alphaBeticQuib = data;
       this.ngxLoader.stop();
     });
   }

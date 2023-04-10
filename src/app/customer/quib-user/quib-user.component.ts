@@ -62,9 +62,15 @@ export class QuibUserComponent implements OnInit {
       { field: 'unPostedQuibsCount', show: true, headers: 'UNP' },
       { field: 'status', show: true, headers: 'Status' },
       {field:'IsModerator',show:true,headers:'Moderator Details'},
-      {field:'IsModerator',show:true,headers:'IsModerator'}
-
-
+      {field:'IsModerator',show:true,headers:'IsModerator'},
+      {field:'CS',show:true,headers:'CS'},
+      {field:'CCP',show:true,headers:'CCP'},
+      {field:'CFP',show:true,headers:'CFP'},
+      {field:'TMQ',show:true,headers:'TMQ'},
+      {field:'TQW',show:true,headers:'TQW'},
+      {field:'AOR',show:true,headers:'AOR'},
+      {field:'TBG',show:true,headers:'TBG'},
+      {field:'TFR',show:true,headers:'TFR'}
     ]
   }
 
