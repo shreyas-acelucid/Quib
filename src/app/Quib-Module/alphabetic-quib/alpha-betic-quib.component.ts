@@ -84,8 +84,7 @@ export class AlphaBeticQuibComponent implements OnInit {
       postedDate: alphaBeticQuib[0].postedDate,
       isEnabled: alphaBeticQuib[0].isEnabled,
       isBumped: alphaBeticQuib[0].isBumped,
-      quibType: alphaBeticQuib[0].quibType,
-    })
+      })
     this.display = true
   }
   AddAlphaBeticQuib() {

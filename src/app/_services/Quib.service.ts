@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { QUIB_USER, Quib_User } from "../_models/Quib_user"
+import { QUIB_USER, Quib_User,Quib } from "../_models/Quib_user"
 
 @Injectable({
   providedIn: 'root'
@@ -69,17 +69,17 @@ export class QuibService {
     const endpointUrl = `${environment.JSON_SERVER}/orders`;
     return of("")
   }
-  getRecentActiveQuibList() {
+  getQuibList():Observable<Quib[]> {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
-    const endpointUrl = `${environment.JSON_SERVER}/orders`;
-    return of("")
+    const endpointUrl = `${environment.QUIB_ADMIN}/GetAllQuibs?pageNo=${1}`;
+    return this.http.get<Quib[]>(endpointUrl);
   }
   getAlphBeticQuibList() {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
     const endpointUrl = `${environment.JSON_SERVER}/orders`;
-    return of("")
+    return this.http.get(endpointUrl)
   }
   deleteQuib(QuibId) {
     const token = localStorage.getItem('token') || '';

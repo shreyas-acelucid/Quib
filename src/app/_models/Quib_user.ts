@@ -23,7 +23,10 @@ export interface Quib {
   postedDate: string,
   isEnabled: string,
   isBumped: string,
-  quibType: string | number,
+  avr:string |any,
+  rating:string |string,
+  BumpIn:string |any,
+  flage:string|any
 }
 
 export interface QUIB_USER {

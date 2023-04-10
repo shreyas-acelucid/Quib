@@ -20,7 +20,7 @@ export class RecentQuibComponent implements OnInit {
   cols: TABLE_HEADING[];
   display: boolean = false;
   recentQuibForm: FormGroup
-  recentQuib: Quib[] = [];
+  quibLIst: Quib[]=[];
 
 
   constructor(private ngxLoader: NgxUiLoaderService,
@@ -46,18 +46,20 @@ export class RecentQuibComponent implements OnInit {
     this.fgsType = SPINNER.squareLoader
     this.ngxLoader.start();
     this.sidebarSpacing = 'contracted';
-    this.getRecentActiveQuibList()
+    this.getQuibList()
     this.cols = [
-      { field: 'user', show: true, headers: 'User' },
-      { field: 'movies', show: true, headers: 'Movies'},
-      { field: 'quib', show: true, headers: 'Quib' },
+      { field: 'displayName', show: true, headers: 'User' },
+      { field: 'title', show: true, headers: 'Movies'},
+      { field: 'body', show: true, headers: 'Quib' },
       { field: 'time', show: true, headers: 'Time' },
       { field: 'createdDate', show: true, headers: 'Created Date' },
       { field: 'postedDate', show: true, headers: 'Posted Date' },
-      { field: 'isEnabled', show: true, headers: 'Is Enabled' },
-      { field: 'isBumped', show: true, headers: 'Is Bumped' },
-      { field: 'quibType', show: true, headers: 'Quib Type' },
-      
+      { field: 'isEnabled', show: true, headers: 'IsEnabled' },
+      { field: 'isBumped', show: true, headers: 'IsBumped' },
+      { field: 'avr', show: true, headers: 'AVR' },
+      { field: 'rating', show: true, headers: 'Rating'},
+      { field: 'BumpIn', show: true, headers: 'B-IN'},
+      { field: 'flage', show: true, headers: 'FLAG'},
     ]
   }
   onToggleSidebar(sidebarState: any) {
@@ -70,31 +72,14 @@ export class RecentQuibComponent implements OnInit {
   applyFilterGlobal($event, stringVal) {
     this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
-  getRecentActiveQuibList() {
-    this.QuibService.getRecentActiveQuibList().subscribe((data) => {
+  getQuibList() {
+    this.QuibService.getQuibList().subscribe((data:any) => {
+      this.quibLIst =  data.savedQuibs;
       this.ngxLoader.stop();
     });
   }
   
-  EditRecentQuib(id) {
-    let alphaBeticQuib = this.recentQuib.filter(item => item.id === id)
-    this.recentQuibForm.patchValue({
-      user: alphaBeticQuib[0].user,
-      movies: alphaBeticQuib[0].movies,
-      quib: alphaBeticQuib[0].quib,
-      time: alphaBeticQuib[0].time,
-      createdDate: alphaBeticQuib[0].createdDate,
-      postedDate: alphaBeticQuib[0].postedDate,
-      isEnabled: alphaBeticQuib[0].isEnabled,
-      isBumped: alphaBeticQuib[0].isBumped,
-      quibType: alphaBeticQuib[0].quibType,
-    })
-    this.display = true
-  }
-  AddRecentQuib() {
-    this.recentQuibForm.reset()
-    this.display = true
-  }
+ 
   deleteQuib(QuibId) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to delete Quib ?',
@@ -104,7 +89,7 @@ export class RecentQuibComponent implements OnInit {
         this.ngxLoader.start();
         this.QuibService.deleteQuib(QuibId).subscribe(res => {
           this.toastr.showSuccess(" Quib deleted successfully", "Quib delete")
-          this.getRecentActiveQuibList()
+          this.getQuibList()
         })
       },
     });
@@ -116,7 +101,7 @@ export class RecentQuibComponent implements OnInit {
     this.QuibService.IsEnabled(id,Status).subscribe(res => {
       if (res) {
         this.toastr.showSuccess(" Status change successfully", "Status change")
-        this.getRecentActiveQuibList()
+        this.getQuibList()
       }
     })
   }
@@ -126,7 +111,7 @@ export class RecentQuibComponent implements OnInit {
     this.QuibService.IsBumped(id,Status).subscribe(res => {
       if (res) {
         this.toastr.showSuccess(" Status change successfully", "Status change")
-        this.getRecentActiveQuibList()
+        this.getQuibList()
       }
     })
   }

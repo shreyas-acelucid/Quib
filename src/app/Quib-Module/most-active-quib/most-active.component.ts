@@ -98,25 +98,7 @@ export class MostActiveComponent implements OnInit {
       }
     })
   }
-  EditMostActiveQuib(id) {
-    let alphaBeticQuib = this.Quib_User.filter(item => item.id === id)
-    this.mostActiveQuibForm.patchValue({
-      user: alphaBeticQuib[0].user,
-      movies: alphaBeticQuib[0].movies,
-      quib: alphaBeticQuib[0].quib,
-      time: alphaBeticQuib[0].time,
-      createdDate: alphaBeticQuib[0].createdDate,
-      postedDate: alphaBeticQuib[0].postedDate,
-      isEnabled: alphaBeticQuib[0].isEnabled,
-      isBumped: alphaBeticQuib[0].isBumped,
-      quibType: alphaBeticQuib[0].quibType,
-    })
-    this.display = true
-  }
-  AddMostActiveQuib() {
-    this.mostActiveQuibForm.reset()
-    this.display = true
-  }
+ 
   deleteQuib(QuibId) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to delete Quib ?',

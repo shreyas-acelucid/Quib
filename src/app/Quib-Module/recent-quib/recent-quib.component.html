@@ -1,7 +1,7 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
 	<div class="card col-sm-12" style="border:none;">
-		<p-table id="customerTable" #dt [value]="recentQuib" [columns]="cols" responsiveLayout="scroll"
+		<p-table id="customerTable" #dt [value]="quibLIst" [columns]="cols" responsiveLayout="scroll"
 			[paginator]="true" [rows]="10" [showCurrentPageReport]="true" [resizableColumns]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
 			[globalFilterFields]="['user', 'movies']" styleClass="p-datatable-striped,width:max-content">
@@ -21,45 +21,48 @@
 					<th>Action</th>
 				</tr>
 			</ng-template>
-			<ng-template pTemplate="body" let-i="rowIndex" let-recentQuib>
+			<ng-template pTemplate="body" let-i="rowIndex" let-Quib>
 				<tr>
 					<td>{{i+1}}</td>
-					<td>{{recentQuib.user}}</td>
-					<td>{{recentQuib.movies}}</td>
-					<td>{{recentQuib.quib}}</td>
-					<td>{{recentQuib.time}}</td>
-					<td>{{recentQuib.createdDate}}</td>
-					<td>{{recentQuib.postedDate}}</td>
+					<td>{{Quib.displayName}}</td>
+					<td>{{Quib.title}}</td>
+					<td>{{Quib.body}}</td>
+					<td>{{Quib.time}}</td>
+					<td>{{Quib.createdDate}}</td>
+					<td>{{Quib.postedDate}}</td>
 					<td>
 						<div class="btn-grp">
-							<button (click)="IsEnabled(recentQuib?.id,false)" pTooltip="mark as Decline" pButton
-								type="button" class="p-button-success" *ngIf="recentQuib.isEnabled =='Approved'"
-								style="height: 30px;">{{recentQuib.isEnabled}}</button>
-							<button (click)="IsEnabled(recentQuib?.id,true)" pButton type="button"
+							<button (click)="IsEnabled(Quib?.id,false)" pTooltip="mark as Decline" pButton
+								type="button" class="p-button-success" *ngIf="Quib.isEnabled ==true"
+								style="height: 30px;">{{Quib.isEnabled}}</button>
+							<button (click)="IsEnabled(Quib?.id,true)" pButton type="button"
 								class="p-button-danger" pTooltip="mark as Approved"
-								*ngIf="recentQuib.isEnabled !='Approved'"
-								style="height: 30px">{{recentQuib.isEnabled}}</button>
+								*ngIf="Quib.isEnabled == false"
+								style="height: 30px">{{Quib.isEnabled}}</button>
 						</div>
 					</td>
 					<td>
 						<div class="btn-grp">
-							<button (click)="IsBumped(recentQuib?.id,false)" pTooltip="mark as Decline" pButton
-								type="button" class="p-button-success" *ngIf="recentQuib.isBumped =='Saved'"
-								style="height: 30px;">{{recentQuib.isBumped}}</button>
-							<button (click)="IsBumped(recentQuib?.id,true)" pButton type="button"
+							<button (click)="IsBumped(Quib?.id,false)" pTooltip="mark as Decline" pButton
+								type="button" class="p-button-success" *ngIf="Quib.isBumped ==true"
+								style="height: 30px;">{{Quib.isBumped}}</button>
+							<button (click)="IsBumped(Quib?.id,true)" pButton type="button"
 								class="p-button-danger" pTooltip="mark as Saved"
-								*ngIf="recentQuib.isBumped !='Saved'"
-								style="height: 30px">{{recentQuib.isBumped}}</button>
+								*ngIf="Quib.isBumped ==false"
+								style="height: 30px">{{Quib.isBumped}}</button>
 						</div>
 					</td>
-					<td>{{recentQuib.quibType}}</td>
+					<td>{{Quib.avr}}</td>
+					<td>{{Quib.rating}}</td>
+					<td>{{Quib.BumpIn}}</td>
+					<td>{{Quib.flage}}</td>
 					<td>
 						<div class="btn-grp">
-							<button class="p-button-warning" pButton type="button" icon="pi pi-user-edit"
-								(click)="EditRecentQuib(recentQuib?.id)" pTooltip="edit recent quib"
-								tooltipPosition="bottom" style="margin-right:5px"></button>
+							<!-- <button class="p-button-warning" pButton type="button" icon="pi pi-user-edit"
+								(click)="EditRecentQuib(Quib?.id)" pTooltip="edit recent quib"
+								tooltipPosition="bottom" style="margin-right:5px"></button> -->
 							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
-								(click)="deleteQuib(recentQuib?.id)" pTooltip="Delete Quib"
+								(click)="deleteQuib(Quib?.id)" pTooltip="Delete Quib"
 								tooltipPosition="bottom"></button>
 						</div>
 					</td>
@@ -78,7 +81,7 @@
 
 
 	<!--pop model edit movies  start from here ------>
-	<p-dialog [(visible)]="display" [modal]="true" header="Recent Quib" [style]="{width: '60vw',height:'100vh'}"
+	<!-- <p-dialog [(visible)]="display" [modal]="true" header="Recent Quib" [style]="{width: '60vw',height:'100vh'}"
 		position="top" [baseZIndex]="10000">
 		<form [formGroup]="recentQuibForm">
 			<div class="card col-sm-12">
@@ -174,7 +177,7 @@
 			</div>
 		</form>
 
-	</p-dialog>
+	</p-dialog> -->
 	<!--pop model edit movies  end  from here ------>
 	<p-confirmDialog header="Confirmation" [style]="{width: '40vw'}" position="top" [baseZIndex]="10000"
 		icon="pi pi-exclamation-triangle"></p-confirmDialog>
