@@ -4,7 +4,7 @@
 		<p-table id="customerTable" #dt [value]="Quib_User" [columns]="cols" responsiveLayout="scroll"
 			[paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]" [showCurrentPageReport]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
-			[globalFilterFields]="['firstName','lastName','email','displayName']" [customSort]="true" styleClass="p-datatable-striped">
+			[globalFilterFields]="['firstName','lastName','email','displayName']"  styleClass="p-datatable-striped">
 			<ng-template pTemplate="caption">
 				<div class="row">
 					<div class="p-input-icon-right ml-5">
@@ -21,8 +21,9 @@
 			<ng-template pTemplate="header" let-columns>
 				<tr>
 					<th>S.no</th>
-					<th *ngFor="let col of columns" pSortableColumn="{{col.headers}}">{{col.headers}}<p-sortIcon
-							class="p-shortIcon light" field="{{col.headers}}"></p-sortIcon></th>
+					<th *ngFor="let col of columns" [pSortableColumn]="col.field">{{col.headers}}
+						<p-sortIcon [field]="col.field"></p-sortIcon>
+					</th>
 					<th>Action</th>
 				</tr>
 				<tr>
