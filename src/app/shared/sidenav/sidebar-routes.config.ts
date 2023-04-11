@@ -26,17 +26,6 @@ export const SideNaveMenueRoute = [
                 label: 'Quib List',
                 routerLink: ['/Quib/recent-quib']
             },
-            // {
-            //     label: 'Most Active',
-            //     routerLink: ['/Quib/most-active']
-            // },
-            // {
-            //     label: 'Alpha Betic',
-            //     routerLink: ['/Quib/alphabetic-quib']
-            // }
-
         ]
     },
-
-
 ]
