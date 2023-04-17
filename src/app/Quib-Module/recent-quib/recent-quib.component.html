@@ -1,8 +1,8 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
 	<div class="card col-sm-12" style="border:none;">
-		<p-table id="customerTable" #dt [value]="quibLIst" [columns]="cols" responsiveLayout="scroll"
-			[paginator]="true" [rows]="10" [showCurrentPageReport]="true" [resizableColumns]="true"
+		<p-table id="customerTable" #dt [value]="quibLIst" [columns]="cols" responsiveLayout="scroll" [paginator]="true"
+			[rows]="10" [showCurrentPageReport]="true" [resizableColumns]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
 			[globalFilterFields]="['user', 'movies']" styleClass="p-datatable-striped,width:max-content">
 			<ng-template pTemplate="caption">
@@ -32,38 +32,32 @@
 					<td>{{Quib.postedDate}}</td>
 					<td>
 						<div class="btn-grp">
-							<button (click)="IsEnabled(Quib?.id,false)" pTooltip="mark as Decline" pButton
-								type="button" class="p-button-success" *ngIf="Quib.isEnabled ==true"
+							<button (click)="IsEnabled(Quib?.id,false)" pTooltip="mark as Decline" pButton type="button"
+								class="p-button-success" *ngIf="Quib.isEnabled ==true"
 								style="height: 30px;">{{Quib.isEnabled}}</button>
-							<button (click)="IsEnabled(Quib?.id,true)" pButton type="button"
-								class="p-button-danger" pTooltip="mark as Approved"
-								*ngIf="Quib.isEnabled == false"
+							<button (click)="IsEnabled(Quib?.id,true)" pButton type="button" class="p-button-danger"
+								pTooltip="mark as Approved" *ngIf="Quib.isEnabled == false"
 								style="height: 30px">{{Quib.isEnabled}}</button>
 						</div>
 					</td>
 					<td>
 						<div class="btn-grp">
-							<button (click)="IsBumped(Quib?.id,false)" pTooltip="mark as Decline" pButton
-								type="button" class="p-button-success" *ngIf="Quib.isBumped ==true"
+							<button (click)="IsBumped(Quib?.id,false)" pTooltip="mark as Decline" pButton type="button"
+								class="p-button-success" *ngIf="Quib.isBumped ==true"
 								style="height: 30px;">{{Quib.isBumped}}</button>
-							<button (click)="IsBumped(Quib?.id,true)" pButton type="button"
-								class="p-button-danger" pTooltip="mark as Saved"
-								*ngIf="Quib.isBumped ==false"
+							<button (click)="IsBumped(Quib?.id,true)" pButton type="button" class="p-button-danger"
+								pTooltip="mark as Saved" *ngIf="Quib.isBumped ==false"
 								style="height: 30px">{{Quib.isBumped}}</button>
 						</div>
 					</td>
 					<td>{{Quib.avr}}</td>
 					<td>{{Quib.rating}}</td>
-					<td>{{Quib.BumpIn}}</td>
-					<td>{{Quib.flage}}</td>
+					<td (click)="[display = true,BIN=true,]"><a style="color: blue; cursor: pointer;">B-IN</a></td>
+					<td (click)="[display = true,BIN =false]"><a style="color: blue; cursor: pointer;">Flage</a></td>
 					<td>
 						<div class="btn-grp">
-							<!-- <button class="p-button-warning" pButton type="button" icon="pi pi-user-edit"
-								(click)="EditRecentQuib(Quib?.id)" pTooltip="edit recent quib"
-								tooltipPosition="bottom" style="margin-right:5px"></button> -->
 							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
-								(click)="deleteQuib(Quib?.id)" pTooltip="Delete Quib"
-								tooltipPosition="bottom"></button>
+							(click)="deleteQuib(Quib?.id)" pTooltip="Delete Quib" tooltipPosition="bottom"></button>
 						</div>
 					</td>
 				</tr>
@@ -78,13 +72,11 @@
 		</p-table>
 		<ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
 	</div>
-
-
-	<!--pop model edit movies  start from here ------>
-	<!-- <p-dialog [(visible)]="display" [modal]="true" header="Recent Quib" [style]="{width: '60vw',height:'100vh'}"
+	
+	<p-dialog [(visible)]="display" [modal]="true" header="Recent Quib" [style]="{width: '70vw',height:'90vh'}"
 		position="top" [baseZIndex]="10000">
-		<form [formGroup]="recentQuibForm">
-			<div class="card col-sm-12">
+		<div *ngIf="BIN; else flage">
+			<div class="card col-sm-12" style="height: 70vh;">
 				<div class="row gutters">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 						<div class="h-100 mt-5">
@@ -92,73 +84,32 @@
 								<div class="row gutters">
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
-											<label for="name">User</label>
-											<input type="text" class="form-control" formControlName="user">
+											<label for="name">User List</label>
+											<input type="text" class="form-control" value="sohan" readonly>
 										</div>
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
-											<label for="image">Movie </label>
-											<input type="text" class="form-control" formControlName="movies">
+											<label for="image">Current Curator Point </label>
+											<div class="row gutters">
+												<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+													<button (click)="Decrement()" class="p-button-secondary" pButton
+														type="button">
+														<i class="pi pi-minus-circle" style="font-size: 1rem"></i>
+													</button>
+												</div>
+												<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
+													<input type="text" class="form-control" [value]="CCP" readonly>
+												</div>
+												<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+													<button (click)="Increament()" class="p-button-success" pButton
+														type="button">
+														<i class="pi pi-plus-circle" style="font-size: 1rem"></i>
+													</button>
+												</div>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="row gutters">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="name">Quib</label>
-											<input type="text" class="form-control" formControlName="quib">
-										</div>
-									</div>
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="image">Time </label>
-											<input type="text" class="form-control" formControlName="time">
-										</div>
-									</div>
-								</div>
-								<div class="row gutters">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="name">Created Date</label>
-											<input type="date" class="form-control" formControlName="createdDate">
-										</div>
-									</div>
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="image">Posted Date </label>
-											<input type="date" class="form-control" formControlName="postedDate">
-										</div>
-									</div>
-								</div>
-								<div class="row gutters">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<label for="name">Is Enabled</label>
-										<div class="form-group">
-											<select class="form-control" formControlName="isEnabled">
-												<option [value]="true">true</option>
-												<option [value]="false">false</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<label for="image">Is Bumped </label>
-										<div class="form-group">
-											<select class="form-control" formControlName="isBumped">
-												<option [value]="true">true</option>
-												<option [value]="false">false</option>
-											</select>
-										</div>
-									</div>
-								</div>
-								<div class="row gutters">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="name">Quib Type</label>
-											<input type="text" class="form-control" formControlName="quibType">
-										</div>
-									</div>
-
 								</div>
 								<div class="row gutters mt-4">
 									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
@@ -175,10 +126,61 @@
 					</div>
 				</div>
 			</div>
-		</form>
-
-	</p-dialog> -->
-	<!--pop model edit movies  end  from here ------>
+		</div>
+		<ng-template #flage>
+			<div class="card col-sm-12" style="height: 70vh;">
+				<div class="row gutters">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+						<div class="h-100 mt-5">
+							<div class="card-body">
+								<div class="row gutters">
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="name">User List</label>
+											<input type="text" class="form-control" value="sohan" readonly>
+										</div>
+									</div>
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="image"> Current Flagger Point </label>
+											<div class="row gutters">
+												<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+													<button (click)="Decrement()" class="p-button-secondary" pButton
+														type="button">
+														<i class="pi pi-minus-circle" style="font-size: 1rem"></i>
+													</button>
+												</div>
+												<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
+													<input type="text" class="form-control" [value]="CCP" readonly>
+												</div>
+												<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+													<button (click)="Increament()" class="p-button-success" pButton
+														type="button">
+														<i class="pi pi-plus-circle" style="font-size: 1rem"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row gutters mt-4">
+									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+										<div class="text-right">
+											<button pButton type="button" id="submit" name="submit"
+												class="p-button-danger mr-4" (click)="display = false">Cancel</button>
+											<button pButton type="button" id="submit" name="submit"
+												class="p-button-success">Submit</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</ng-template>
+	</p-dialog>
+	
 	<p-confirmDialog header="Confirmation" [style]="{width: '40vw'}" position="top" [baseZIndex]="10000"
 		icon="pi pi-exclamation-triangle"></p-confirmDialog>
 </div>
