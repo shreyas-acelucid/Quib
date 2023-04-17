@@ -63,6 +63,7 @@ export class AllMoviesComponent implements OnInit {
       { field: 'length', show: true, headers: 'Length' },
       { field: 'isActive', show: true, headers: 'Status' },
       { field: 'posterContentThumb', show: true, headers: 'Movie Poster' },
+      { field: 'screenshot', show: true, headers: 'ScreenShot' },
     ]
     this.getMovieList()
   }
