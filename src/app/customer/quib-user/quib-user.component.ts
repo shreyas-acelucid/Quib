@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Quib_User,QUIB_USER } from 'src/app/_models/Quib_user';
+import { Quib_User} from 'src/app/_models/Quib_user';
 import { QuibService } from 'src/app/_services/Quib.service';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 import { TABLE_HEADING } from '../../_models/table_heading'
@@ -63,14 +63,18 @@ export class QuibUserComponent implements OnInit {
       { field: 'status', show: true, headers: 'Status' },
       {field:'IsModerator',show:true,headers:'Moderator Details'},
       {field:'IsModerator',show:true,headers:'IsModerator'},
-      {field:'CS',show:true,headers:'CS'},
-      {field:'CCP',show:true,headers:'CCP'},
-      {field:'CFP',show:true,headers:'CFP'},
-      {field:'TMQ',show:true,headers:'TMQ'},
-      {field:'TQW',show:true,headers:'TQW'},
-      {field:'AOR',show:true,headers:'AOR'},
-      {field:'TBG',show:true,headers:'TBG'},
-      {field:'TFR',show:true,headers:'TFR'}
+      {field:'curatorScore',show:true,headers:'CUR'},
+      {field:'ccp',show:true,headers:'CCP'},
+      {field:'cfp',show:true,headers:'CFP'},
+      {field:'mov',show:true,headers:'MOV'},
+      {field:'totalQuibsWritten',show:true,headers:'QUIBS'},
+      {field:'averageOverallRating',show:true,headers:'AVR'},
+      {field:'totalBumpReceived',show:true,headers:'B-IN'},
+      {field:'bumpCount',show:true,headers:'B-OUT'},
+      {field:'totalFlagReceived',show:true,headers:'FLAGE'},
+      {field:'about',show:true,headers:'PERS'}
+      
+      
     ]
   }
 

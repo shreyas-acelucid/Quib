@@ -108,13 +108,13 @@ export class QuibService {
   getBumpUserListByQuibId(){
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
-    const endpointUrl = `${environment.JSON_SERVER}/orders`;
-    return of("") 
+    const endpointUrl = `${environment.QUIB_ADMIN}/api/User/GetUserList`
+    return this.http.get(endpointUrl) 
   }
   getFlageUserListByQuibId(){
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
-    const endpointUrl = `${environment.JSON_SERVER}/orders`;
-    return of("") 
+    const endpointUrl = `${environment.QUIB_ADMIN}/api/User/GetUserList`
+    return this.http.get(endpointUrl) 
   }
 }

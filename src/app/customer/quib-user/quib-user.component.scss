@@ -3,7 +3,7 @@ th {
     color: #fff !important;
   }
   td {
-    text-align: center !important;
+    text-align: left !important;
     font-size: 200 !important;
   }
   .p-datatable {
@@ -49,10 +49,12 @@ th {
         padding-top: .5rem;
         padding-bottom: .5rem;
     }
+    
 }
 
 .intputSearch {
   width:170px
+ 
 }
 .disableInputSearch{
   width: 90px;

@@ -15,6 +15,10 @@ th {
   background-color: #353d44 !important;
   color: #fff !important;
 }
+td {
+  text-align: left !important;
+  font-size: 200 !important;
+}
 :host {
   ::ng-deep {
     .p-dialog .p-dialog-header {

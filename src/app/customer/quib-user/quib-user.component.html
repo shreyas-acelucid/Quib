@@ -2,6 +2,7 @@
 <div class="body bcard" [ngClass]="sidebarSpacing">
 	<div class="card col-sm-12" style="border:none;">
 		<p-table id="customerTable" #dt [value]="Quib_User" [columns]="cols" responsiveLayout="scroll"
+			dataKey="id" stateStorage="session" stateKey="statedemo-session"
 			[paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,50,100]" [showCurrentPageReport]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
 			[globalFilterFields]="['firstName','lastName','email','displayName']"  styleClass="p-datatable-striped">
@@ -76,9 +77,10 @@
 							class="w-full disableInputSearch"></th>
 					<th> <input pInputText type="text" disabled placeholder="No Search"
 							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-				</tr>
+					<th> <input pInputText type="text" disabled placeholder="No Search" class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search" class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search" class="w-full disableInputSearch"></th>
+					</tr>
 
 			</ng-template>
 			<ng-template pTemplate="body" let-i="rowIndex" let-user>
@@ -122,14 +124,18 @@
 								style="height: 30px">Pending</button>
 						</div>
 					</td>
+					<td>{{user.curatorScore}}</td>
 					<td>null</td>
 					<td>null</td>
-					<td>null</td>
-					<td>null</td>
-					<td>null</td>
-					<td>null</td>
-					<td>null</td>
-					<td>null</td>
+					<td >
+					<a style="color: blue; cursor: pointer;">MOV</a>
+					</td>
+					<td>{{user.totalQuibsWritten}}</td>
+					<td>{{user.averageOverallRating}}</td>
+					<td>{{user.totalBumpReceived}}</td>
+					<td>{{user.bumpCount}}</td>
+					<td>{{user.totalFlagReceived}}</td>
+					<td>{{user.about}}</td>
 					<td>
 						<div class="btn-grp">
 							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"

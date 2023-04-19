@@ -22,6 +22,8 @@ export class RecentQuibComponent implements OnInit {
   quibLIst: Quib[] = [];
   BIN: boolean = false;
   CCP: number = 0;
+  BumpUserList:any =[];
+  FlageUserList:any =[];
 
   constructor(private ngxLoader: NgxUiLoaderService,
     private QuibService: QuibService,
@@ -107,18 +109,23 @@ export class RecentQuibComponent implements OnInit {
   Increament() {
     this.CCP++;
   }
-  Decrement() {
+  Decrement(index) {
+    console.log(this.BumpUserList[index])
     this.CCP--;
   }
 
   getBumpUserListByQuibId() {
+    this.ngxLoader.start();
     this.QuibService.getBumpUserListByQuibId().subscribe(res => {
-      console.log(res)
+      this.BumpUserList =  res;
+      this.display = true;
+      this.BIN = true;
+      this.ngxLoader.stop();
     })
   }
   getFlageUserListByQuibId(){
     this.QuibService.getFlageUserListByQuibId().subscribe(res=>{
-      console.log(res)
+      this.FlageUserList = res;
     })
   }
 }
