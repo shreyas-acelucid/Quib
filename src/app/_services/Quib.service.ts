@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of,BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { QUIB_USER, Quib_User,Quib } from "../_models/Quib_user"
 
@@ -11,7 +11,12 @@ import { QUIB_USER, Quib_User,Quib } from "../_models/Quib_user"
 export class QuibService {
   Quib_Admin = environment.QUIB_ADMIN
   constructor(private http: HttpClient) { }
-
+  SearchKeyWord = new BehaviorSubject({
+    displayName: '',
+    firstName: '',
+    lastName: '',
+    email: ''
+  });
   getUserList():Observable<Quib_User[]> {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)

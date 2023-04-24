@@ -14,5 +14,13 @@ export interface Movies {
   SS:string |any
 }
 
+export interface MOvieSearchKeyWord {
+  id:number | string
+  title:string ,
+  director:string ,
+  releaseYear:string|number,
+  length:string 
+ }
+
 
 

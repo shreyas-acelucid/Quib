@@ -41,3 +41,10 @@ export interface QUIB_USER {
   IsEnabled: boolean |any,
   // status: boolean,
 }
+
+export interface userSearchKeyWord {
+  displayName: string |any,
+  firstName: string |any,
+  lastName: string |any,
+  email: string | any
+}

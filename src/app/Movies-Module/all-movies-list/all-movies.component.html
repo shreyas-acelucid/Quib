@@ -290,14 +290,14 @@
 														<label for="Name">Screenshot</label>
 														<input type="file" formControlName="posterContentThumb"
 															class="form-control"
-															(change)="OnChangePosterContentthumb($event)">
+															(change)="OnchangeScreenShot($event)">
 													</div>
 												</div>
 
 												<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-													*ngIf="posterContentThumb != undefined">
+													*ngIf="screenShotImage != undefined">
 													<div class="form-group">
-														<img [src]="posterContentThumb" class="form-control"
+														<img [src]="screenShotImage" class="form-control"
 															style="width: 80%; height: 10vh;">
 													</div>
 												</div>

@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Quib_User} from 'src/app/_models/Quib_user';
+import { Component, OnInit, ViewChild,OnDestroy  } from '@angular/core';
+import { Quib_User, userSearchKeyWord} from 'src/app/_models/Quib_user';
 import { QuibService } from 'src/app/_services/Quib.service';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 import { TABLE_HEADING } from '../../_models/table_heading'
@@ -26,6 +26,7 @@ export class QuibUserComponent implements OnInit {
   moviesList: Movies[]
   movieId:any[] = [];
   fgsType: any;
+  SearchKeyWord:userSearchKeyWord
   display: boolean = false;
   message: string;
   quibUserForm: FormGroup
@@ -73,9 +74,10 @@ export class QuibUserComponent implements OnInit {
       {field:'bumpCount',show:true,headers:'B-OUT'},
       {field:'totalFlagReceived',show:true,headers:'FLAGE'},
       {field:'about',show:true,headers:'PERS'}
-      
-      
     ]
+    this.QuibService.SearchKeyWord.subscribe(res=>{
+     this.SearchKeyWord=res
+    })
   }
 
   onToggleSidebar(sidebarState: any) {
@@ -86,7 +88,22 @@ export class QuibUserComponent implements OnInit {
     }
   }
   applyFilterGlobal($event, stringVal) {
-    this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
+    switch (($event.target as HTMLInputElement).id) {
+      case 'displayName':
+        this.SearchKeyWord.displayName = ($event.target as HTMLInputElement).value;
+        break;
+      case 'firstName':
+        this.SearchKeyWord.firstName = ($event.target as HTMLInputElement).value;
+        break;
+      case 'lastName':
+        this.SearchKeyWord.lastName = ($event.target as HTMLInputElement).value;
+        break;
+      case 'email':
+        this.SearchKeyWord.email = ($event.target as HTMLInputElement).value;
+        break;
+      default:
+    }
+  this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
   deleteUser(userId: string) {
     this.confirmationService.confirm({
@@ -168,4 +185,8 @@ export class QuibUserComponent implements OnInit {
       }
     })
   }
+  ngOnDestroy(): void {
+   this.QuibService.SearchKeyWord.next(this.SearchKeyWord)
+  }
+
 }

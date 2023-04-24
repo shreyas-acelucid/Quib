@@ -7,6 +7,8 @@ import { Movies } from 'src/app/_models/movies';
 import { Table } from 'primeng/table';
 import { FormBuilder, FormGroup, Validators, FormArray, } from '@angular/forms';
 import { ConfirmationService, SortEvent } from 'primeng/api';
+import { promises, resolve } from 'dns';
+import { rejects } from 'assert';
 @Component({
   selector: 'app-all-movies',
   templateUrl: './all-movies.component.html',
@@ -25,9 +27,10 @@ export class AllMoviesComponent implements OnInit {
   display: boolean = false;
   image: File;
   imageUrl;
-  baseUrl: string = "http://3.88.43.237"
+  baseUrl: string = "http://44.211.90.48"
   posterContent: any = undefined;
   posterContentThumb: any = undefined;
+  screenShotImage:any = undefined
   message: string;
   AllMoviesForm: FormGroup
   PosterForm: FormGroup
@@ -121,6 +124,14 @@ export class AllMoviesComponent implements OnInit {
       this.posterContentThumb = data.target.result
     }
   }
+  OnchangeScreenShot(event){
+    var reader = new FileReader();
+    this.image = event.target.files[0]
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = (data) => {
+      this.screenShotImage = data.target.result
+    }
+  }
   deleteMovies(moviesId) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to delete this Movies ?',
@@ -201,7 +212,7 @@ export class AllMoviesComponent implements OnInit {
     this.posterContentThumb = moviesData[0].posterContentThumb
     this.display = true
   }
-  submitMoviePosterData() {
+  submitMoviePosterDatas() {
     this.display = false
     const payload = {
       id: this.PosterForm.controls['id'].value,
@@ -217,5 +228,23 @@ export class AllMoviesComponent implements OnInit {
       }
     })
   }
+  submitMoviePosterData() {
+    this.display = false
+    const payload = {
+      id: this.PosterForm.controls['id'].value,
+      PosterImage: this.image
+    }
+    return new Promise((resolve, reject) => {
+      this.MoviesService.submitMoviePosterData(payload).toPromise().then(res => {
+        this.toastr.showSuccess(" Movie poster is updated successfully", "movie poster")
+        this.getMovieList()
+        }).catch(err => {
+        this.toastr.showSuccess("Movie poster is updated successfully", "movie poster")
+        this.getMovieList()
+        console.log(err)
+      })
+    });
+  }
+
 }
 

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of,Observable } from 'rxjs';
+import { of,Observable,BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {Movies } from "../_models/movies"
 @Injectable({
@@ -8,6 +8,13 @@ import {Movies } from "../_models/movies"
 })
 export class MoviesService {
    constructor(private http: HttpClient) { }
+    MOvieSearchKeyWord = new BehaviorSubject({
+        id: "",
+        title: "",
+        director: "",
+        releaseYear: "",
+        length: ""
+    })
     getMovieList():Observable<Movies[]> {
         const token = localStorage.getItem('token') || '';
         let httpOptions = new HttpHeaders().set('x-access-token', token)
