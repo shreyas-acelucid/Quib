@@ -9,6 +9,7 @@ import { ConfirmationService } from 'primeng/api';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Movies } from 'src/app/_models/movies';
 import { MoviesService } from 'src/app/_services/movies.service';
+import { CommonService } from 'src/app/_services/common'
 
 @Component({
   selector: 'app-quib-user',
@@ -35,6 +36,7 @@ export class QuibUserComponent implements OnInit {
     private ngxLoader: NgxUiLoaderService,
     private toastr: ToastrMsgService,
     private fb: FormBuilder,
+    private CommonService: CommonService,
     private MoviesService: MoviesService,
     private confirmationService: ConfirmationService,
   ) {
@@ -49,6 +51,12 @@ export class QuibUserComponent implements OnInit {
     this.fgsType = SPINNER.squareLoader
     this.ngxLoader.start();
     this.sidebarSpacing = 'contracted';
+    if (this.CommonService.getUserSearchkeyWord() != null) {
+      this.QuibService.SearchKeyWord.next(this.CommonService.getUserSearchkeyWord());
+    }
+    this.QuibService.SearchKeyWord.subscribe(res => {
+      this.SearchKeyWord = res
+    });
     this.getUserList()
     this.getMovieList()
     this.cols = [
@@ -75,9 +83,7 @@ export class QuibUserComponent implements OnInit {
       { field: 'totalFlagReceived', show: true, headers: 'FLAGE' },
       { field: 'about', show: true, headers: 'PERS' }
     ]
-    this.QuibService.SearchKeyWord.subscribe(res => {
-      this.SearchKeyWord = res
-    })
+
   }
 
   onToggleSidebar(sidebarState: any) {
@@ -129,6 +135,7 @@ export class QuibUserComponent implements OnInit {
     this.QuibService.getUserList().subscribe((data) => {
       this.Quib_User = data
       this.Approved_UserList = data.filter(item => item.isPending === true)
+      this.QuibUserSearch();
       this.ngxLoader.stop();
     });
   }
@@ -189,7 +196,21 @@ export class QuibUserComponent implements OnInit {
     })
   }
   ngOnDestroy(): void {
-    this.QuibService.SearchKeyWord.next(this.SearchKeyWord)
+    this.QuibService.SearchKeyWord.next(this.SearchKeyWord);
+    this.CommonService.setUserSearchKeyWord(this.SearchKeyWord);
   }
-
+  QuibUserSearch() {
+    if (this.SearchKeyWord.displayName != undefined && this.SearchKeyWord.displayName != null) {
+      this.dt.filter(this.SearchKeyWord.displayName, "displayName", "contains");
+    }
+    if (this.SearchKeyWord.firstName != undefined && this.SearchKeyWord.firstName != null) {
+      this.dt.filter(this.SearchKeyWord.firstName, "firstName", "contains");
+    }
+    if (this.SearchKeyWord.lastName != undefined && this.SearchKeyWord.lastName != null) {
+      this.dt.filter(this.SearchKeyWord.lastName, "lastName", "contains");
+    }
+    if (this.SearchKeyWord.email != undefined && this.SearchKeyWord.email != null) {
+      this.dt.filter(this.SearchKeyWord.email, "email", "contains");
+    }
+  }
 }
