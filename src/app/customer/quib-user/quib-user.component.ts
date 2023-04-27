@@ -200,16 +200,16 @@ export class QuibUserComponent implements OnInit {
     this.CommonService.setUserSearchKeyWord(this.SearchKeyWord);
   }
   QuibUserSearch() {
-    if (this.SearchKeyWord.displayName != undefined && this.SearchKeyWord.displayName != null) {
+    if (this.SearchKeyWord.displayName != null && this.SearchKeyWord.displayName.trim().length > 0) {
       this.dt.filter(this.SearchKeyWord.displayName, "displayName", "contains");
     }
-    if (this.SearchKeyWord.firstName != undefined && this.SearchKeyWord.firstName != null) {
+    if (this.SearchKeyWord.firstName != null && this.SearchKeyWord.firstName.trim().length > 0) {
       this.dt.filter(this.SearchKeyWord.firstName, "firstName", "contains");
     }
-    if (this.SearchKeyWord.lastName != undefined && this.SearchKeyWord.lastName != null) {
+    if (this.SearchKeyWord.lastName != null && this.SearchKeyWord.lastName.trim().length > 0) {
       this.dt.filter(this.SearchKeyWord.lastName, "lastName", "contains");
     }
-    if (this.SearchKeyWord.email != undefined && this.SearchKeyWord.email != null) {
+    if (this.SearchKeyWord.email != null && this.SearchKeyWord.email.trim().length > 0) {
       this.dt.filter(this.SearchKeyWord.email, "email", "contains");
     }
   }

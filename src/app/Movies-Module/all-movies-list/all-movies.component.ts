@@ -7,7 +7,7 @@ import { MovieSearchKeyWord, Movies } from 'src/app/_models/movies';
 import { Table } from 'primeng/table';
 import { FormBuilder, FormGroup, Validators, FormArray, } from '@angular/forms';
 import { ConfirmationService, SortEvent } from 'primeng/api';
-import {CommonService} from 'src/app/_services/common'
+import { CommonService } from 'src/app/_services/common'
 @Component({
   selector: 'app-all-movies',
   templateUrl: './all-movies.component.html',
@@ -29,9 +29,9 @@ export class AllMoviesComponent implements OnInit {
   baseUrl: string = "http://44.211.90.48"
   posterContent: any = undefined;
   posterContentThumb: any = undefined;
-  screenShotImage:any = undefined
+  screenShotImage: any = undefined
   message: string;
-  MovieSearchKeyWord:MovieSearchKeyWord
+  MovieSearchKeyWord: MovieSearchKeyWord
   AllMoviesForm: FormGroup
   PosterForm: FormGroup
   constructor(private ngxLoader: NgxUiLoaderService,
@@ -101,7 +101,7 @@ export class AllMoviesComponent implements OnInit {
     })
   }
   applyFilterGlobal($event, stringVal) {
-   switch (($event.target as HTMLInputElement).id) {
+    switch (($event.target as HTMLInputElement).id) {
       case "title":
         this.MovieSearchKeyWord.title = ($event.target as HTMLInputElement).value;
         this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
@@ -150,7 +150,7 @@ export class AllMoviesComponent implements OnInit {
       this.posterContentThumb = data.target.result
     }
   }
-  OnchangeScreenShot(event){
+  OnchangeScreenShot(event) {
     var reader = new FileReader();
     this.image = event.target.files[0]
     reader.readAsDataURL(event.target.files[0]);
@@ -229,7 +229,7 @@ export class AllMoviesComponent implements OnInit {
   updateMoviePoster(id) {
     this.addEditMovie = false;
     this.moviePoster = true;
-    this.screenshot= false;
+    this.screenshot = false;
     let moviesData = this.moviesList.filter(item => item.id === id)
     this.PosterForm.patchValue({
       title: moviesData[0].title,
@@ -264,29 +264,29 @@ export class AllMoviesComponent implements OnInit {
       this.MoviesService.submitMoviePosterData(payload).toPromise().then(res => {
         this.toastr.showSuccess(" Movie poster is updated successfully", "movie poster")
         this.getMovieList()
-        }).catch(err => {
+      }).catch(err => {
         this.toastr.showSuccess("Movie poster is updated successfully", "movie poster")
         this.getMovieList()
       })
     });
   }
 
-  ngOnDestroy():void {
+  ngOnDestroy(): void {
     this.MoviesService.MovieSearchKeyWord.next(this.MovieSearchKeyWord);
     this.CommonService.setMovieSerachWord(this.MovieSearchKeyWord);
   }
 
-   movieSearch() {
-    if (this.MovieSearchKeyWord.title != undefined && this.MovieSearchKeyWord.title != null) {
+  movieSearch() {
+    if (this.MovieSearchKeyWord.title != null && this.MovieSearchKeyWord.title.trim().length > 0) {
       this.dt.filter(this.MovieSearchKeyWord.title, "title", "contains");
     }
-    if (this.MovieSearchKeyWord.director != undefined && this.MovieSearchKeyWord.director != null) {
+    if (this.MovieSearchKeyWord.director != null && this.MovieSearchKeyWord.director.trim().length > 0) {
       this.dt.filter(this.MovieSearchKeyWord.director, "director", "contains");
     }
-    if (this.MovieSearchKeyWord.releaseYear != undefined && this.MovieSearchKeyWord.releaseYear != null) {
+    if (this.MovieSearchKeyWord.releaseYear != null && this.MovieSearchKeyWord.releaseYear.trim().length > 0) {
       this.dt.filter(this.MovieSearchKeyWord.releaseYear, "releaseYear", "contains");
     }
-    if (this.MovieSearchKeyWord.length != undefined && this.MovieSearchKeyWord.length != null) {
+    if (this.MovieSearchKeyWord.length != null && this.MovieSearchKeyWord.length.trim().length > 0) {
       this.dt.filter(this.MovieSearchKeyWord.length, "length", "contains");
     }
   }

@@ -146,17 +146,18 @@ export class ActiveMoviesComponent implements OnInit {
     this.CommonService.setMovieSerachWord(this.MovieSearchKeyWord);
   }
   movieSearch() {
-    if (this.MovieSearchKeyWord.title != undefined && this.MovieSearchKeyWord.title != null) {
+    if (this.MovieSearchKeyWord.title != null && this.MovieSearchKeyWord.title.trim().length > 0) {
       this.dt.filter(this.MovieSearchKeyWord.title, "title", "contains");
     }
-    if (this.MovieSearchKeyWord.director != undefined && this.MovieSearchKeyWord.director != null) {
+    if (this.MovieSearchKeyWord.director != null && this.MovieSearchKeyWord.director.trim().length > 0) {
       this.dt.filter(this.MovieSearchKeyWord.director, "director", "contains");
     }
-    if (this.MovieSearchKeyWord.releaseYear != undefined && this.MovieSearchKeyWord.releaseYear != null) {
+    if (this.MovieSearchKeyWord.releaseYear != null && this.MovieSearchKeyWord.releaseYear.trim().length > 0) {
       this.dt.filter(this.MovieSearchKeyWord.releaseYear, "releaseYear", "contains");
     }
-    if (this.MovieSearchKeyWord.length != undefined && this.MovieSearchKeyWord.length != null) {
+    if (this.MovieSearchKeyWord.length != null && this.MovieSearchKeyWord.length.trim().length > 0) {
       this.dt.filter(this.MovieSearchKeyWord.length, "length", "contains");
     }
   }
 }
+ 
