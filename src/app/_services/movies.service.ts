@@ -8,12 +8,12 @@ import {Movies } from "../_models/movies"
 })
 export class MoviesService {
    constructor(private http: HttpClient) { }
-    MOvieSearchKeyWord = new BehaviorSubject({
-        id: "",
-        title: "",
-        director: "",
-        releaseYear: "",
-        length: ""
+    MovieSearchKeyWord = new BehaviorSubject({
+        id: null,
+        title: null,
+        director: null,
+        releaseYear: null,
+        length: null
     })
     getMovieList():Observable<Movies[]> {
         const token = localStorage.getItem('token') || '';

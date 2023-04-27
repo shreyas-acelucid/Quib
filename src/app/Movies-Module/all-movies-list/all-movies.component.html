@@ -3,6 +3,7 @@
 	<div class="card col-sm-12" style="border:none;">
 		<p-table id="customerTable" #dt [columns]="cols" responsiveLayout="scroll" [paginator]="true" [rows]="10"
 			[rowsPerPageOptions]="[10,50,100]" [showCurrentPageReport]="true" [value]="moviesList"
+			dataKey="id" stateStorage="session" stateKey="statedemo-session"
 			[resizableColumns]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
 			[responsive]="true" [globalFilterFields]="['title', 'length', 'isActive','releaseYear','director','length']"
 			styleClass="p-datatable-striped">
@@ -34,19 +35,19 @@
 							placeholder=" No Search" class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text" id="title" (input)="applyFilterGlobal($event, 'contains')"
+						<input pInputText type="text" id="title"  [value]="MovieSearchKeyWord.title" (input)="applyFilterGlobal($event, 'contains')"
 							placeholder="Search by Title" class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text" id="director" (input)="applyFilterGlobal($event, 'contains')"
+						<input pInputText type="text" id="director" [value]="MovieSearchKeyWord.director" (input)="applyFilterGlobal($event, 'contains')"
 							placeholder="Search by Director" class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text" id="releaseYear" (input)="applyFilterGlobal($event, 'contains')"
+						<input pInputText type="text" id="releaseYear" [value]="MovieSearchKeyWord.releaseYear" (input)="applyFilterGlobal($event, 'contains')"
 							placeholder="Search by Year" class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text" id="length" disabled (input)="applyFilterGlobal($event, 'contains')"
+						<input pInputText type="text" id="length" [value]="MovieSearchKeyWord.length" disabled (input)="applyFilterGlobal($event, 'contains')"
 							placeholder="Search by Length" class="w-full intputSearch">
 					</th>
 					<th>

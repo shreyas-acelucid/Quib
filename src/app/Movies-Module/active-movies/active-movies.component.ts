@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild ,OnDestroy } from '@angular/core';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
-import { Movies } from 'src/app/_models/movies';
+import { MovieSearchKeyWord, Movies } from 'src/app/_models/movies';
 import { TABLE_HEADING } from 'src/app/_models/table_heading';
 import { MoviesService } from 'src/app/_services/movies.service';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
 import { Table } from 'primeng/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CommonService } from 'src/app/_services/common'
 import { ConfirmationService } from 'primeng/api';
 @Component({
   selector: 'app-active-movies',
@@ -22,11 +23,13 @@ export class ActiveMoviesComponent implements OnInit {
   display: boolean = false;
   ActiveMoviesForm: FormGroup
   image: File;
+  MovieSearchKeyWord: MovieSearchKeyWord;
   imageUrl;
   constructor(
     private ngxLoader: NgxUiLoaderService,
     private MoviesService: MoviesService,
     private toastr: ToastrMsgService,
+    private CommonService: CommonService,
     private confirmationService: ConfirmationService,
     private fb: FormBuilder,
   ) {
@@ -56,6 +59,12 @@ export class ActiveMoviesComponent implements OnInit {
       { field: 'length', show: true, headers: 'Length' },
       { field: 'isActive', show: true, headers: 'Is Active' },
     ]
+    if (this.CommonService.getMovieSearchWord() != null) {
+      this.MoviesService.MovieSearchKeyWord.next(this.CommonService.getMovieSearchWord());
+    }
+    this.MoviesService.MovieSearchKeyWord.subscribe(res => {
+      this.MovieSearchKeyWord = res;
+    })
     this.getMovieList()
   }
 
@@ -71,6 +80,7 @@ export class ActiveMoviesComponent implements OnInit {
     this.MoviesService.getMovieList().subscribe((res) => {
       console.log(res.filter(item => item.isActive === true))
       this.moviesList = res.filter(item => item.isActive === true)
+      this.movieSearch();
       this.ngxLoader.stop();
     })
   }
@@ -79,15 +89,19 @@ export class ActiveMoviesComponent implements OnInit {
   applyFilterGlobal($event, stringVal) {
     switch (($event.target as HTMLInputElement).id) {
       case "title":
+        this.MovieSearchKeyWord.title = ($event.target as HTMLInputElement).value;
         this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       case "director":
+        this.MovieSearchKeyWord.director = ($event.target as HTMLInputElement).value;
         this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       case "releaseYear":
+        this.MovieSearchKeyWord.releaseYear = ($event.target as HTMLInputElement).value;
         this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       case "length":
+        this.MovieSearchKeyWord.length = ($event.target as HTMLInputElement).value;
         this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       default:
@@ -97,7 +111,7 @@ export class ActiveMoviesComponent implements OnInit {
     let moviesData = this.moviesList.filter(item => item.id === id)
     this.ActiveMoviesForm.patchValue({
       Director: moviesData[0].director,
-     Title: moviesData[0].title,
+      Title: moviesData[0].title,
     })
     this.display = true
   }
@@ -126,5 +140,23 @@ export class ActiveMoviesComponent implements OnInit {
       },
     });
 
+  }
+  ngOnDestroy():void {
+    this.MoviesService.MovieSearchKeyWord.next(this.MovieSearchKeyWord);
+    this.CommonService.setMovieSerachWord(this.MovieSearchKeyWord);
+  }
+  movieSearch() {
+    if (this.MovieSearchKeyWord.title != undefined && this.MovieSearchKeyWord.title != null) {
+      this.dt.filter(this.MovieSearchKeyWord.title, "title", "contains");
+    }
+    if (this.MovieSearchKeyWord.director != undefined && this.MovieSearchKeyWord.director != null) {
+      this.dt.filter(this.MovieSearchKeyWord.director, "director", "contains");
+    }
+    if (this.MovieSearchKeyWord.releaseYear != undefined && this.MovieSearchKeyWord.releaseYear != null) {
+      this.dt.filter(this.MovieSearchKeyWord.releaseYear, "releaseYear", "contains");
+    }
+    if (this.MovieSearchKeyWord.length != undefined && this.MovieSearchKeyWord.length != null) {
+      this.dt.filter(this.MovieSearchKeyWord.length, "length", "contains");
+    }
   }
 }

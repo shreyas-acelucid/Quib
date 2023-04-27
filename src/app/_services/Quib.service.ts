@@ -12,10 +12,10 @@ export class QuibService {
   Quib_Admin = environment.QUIB_ADMIN
   constructor(private http: HttpClient) { }
   SearchKeyWord = new BehaviorSubject({
-    displayName: '',
-    firstName: '',
-    lastName: '',
-    email: ''
+    displayName:null,
+    firstName: null,
+    lastName: null,
+    email: null
   });
   getUserList():Observable<Quib_User[]> {
     const token = localStorage.getItem('token') || '';
