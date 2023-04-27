@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild,OnDestroy  } from '@angular/core';
-import { Quib_User, userSearchKeyWord} from 'src/app/_models/Quib_user';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Quib_User, userSearchKeyWord } from 'src/app/_models/Quib_user';
 import { QuibService } from 'src/app/_services/Quib.service';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 import { TABLE_HEADING } from '../../_models/table_heading'
@@ -21,12 +21,12 @@ export class QuibUserComponent implements OnInit {
   sidebarSpacing: any;
   cols!: TABLE_HEADING[];
   Quib_User: Quib_User[] = [];
-  Approved_UserList:Quib_User[]=[];
-  selectedMovies: Movies[] =[];
+  Approved_UserList: Quib_User[] = [];
+  selectedMovies: Movies[] = [];
   moviesList: Movies[]
-  movieId:any[] = [];
+  movieId: any[] = [];
   fgsType: any;
-  SearchKeyWord:userSearchKeyWord
+  SearchKeyWord: userSearchKeyWord
   display: boolean = false;
   message: string;
   quibUserForm: FormGroup
@@ -35,13 +35,13 @@ export class QuibUserComponent implements OnInit {
     private ngxLoader: NgxUiLoaderService,
     private toastr: ToastrMsgService,
     private fb: FormBuilder,
-    private MoviesService:MoviesService,
+    private MoviesService: MoviesService,
     private confirmationService: ConfirmationService,
   ) {
     this.quibUserForm = this.fb.group({
-      curator : ['', [Validators.required]],
+      curator: ['', [Validators.required]],
       user: ['', [Validators.required]],
-     })
+    })
   }
 
   ngOnInit(): void {
@@ -62,21 +62,21 @@ export class QuibUserComponent implements OnInit {
       { field: 'followerCount', show: true, headers: 'FRS' },
       { field: 'unPostedQuibsCount', show: true, headers: 'UNP' },
       { field: 'status', show: true, headers: 'Status' },
-      {field:'IsModerator',show:true,headers:'Moderator Details'},
-      {field:'IsModerator',show:true,headers:'IsModerator'},
-      {field:'curatorScore',show:true,headers:'CUR'},
-      {field:'ccp',show:true,headers:'CCP'},
-      {field:'cfp',show:true,headers:'CFP'},
-      {field:'mov',show:true,headers:'MOV'},
-      {field:'totalQuibsWritten',show:true,headers:'QUIBS'},
-      {field:'averageOverallRating',show:true,headers:'AVR'},
-      {field:'totalBumpReceived',show:true,headers:'B-IN'},
-      {field:'bumpCount',show:true,headers:'B-OUT'},
-      {field:'totalFlagReceived',show:true,headers:'FLAGE'},
-      {field:'about',show:true,headers:'PERS'}
+      { field: 'IsModerator', show: true, headers: 'Moderator Details' },
+      { field: 'IsModerator', show: true, headers: 'IsModerator' },
+      { field: 'curatorScore', show: true, headers: 'CUR' },
+      { field: 'ccp', show: true, headers: 'CCP' },
+      { field: 'cfp', show: true, headers: 'CFP' },
+      { field: 'mov', show: true, headers: 'MOV' },
+      { field: 'totalQuibsWritten', show: true, headers: 'QUIBS' },
+      { field: 'averageOverallRating', show: true, headers: 'AVR' },
+      { field: 'totalBumpReceived', show: true, headers: 'B-IN' },
+      { field: 'bumpCount', show: true, headers: 'B-OUT' },
+      { field: 'totalFlagReceived', show: true, headers: 'FLAGE' },
+      { field: 'about', show: true, headers: 'PERS' }
     ]
-    this.QuibService.SearchKeyWord.subscribe(res=>{
-     this.SearchKeyWord=res
+    this.QuibService.SearchKeyWord.subscribe(res => {
+      this.SearchKeyWord = res
     })
   }
 
@@ -91,19 +91,22 @@ export class QuibUserComponent implements OnInit {
     switch (($event.target as HTMLInputElement).id) {
       case 'displayName':
         this.SearchKeyWord.displayName = ($event.target as HTMLInputElement).value;
+        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       case 'firstName':
         this.SearchKeyWord.firstName = ($event.target as HTMLInputElement).value;
+        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       case 'lastName':
         this.SearchKeyWord.lastName = ($event.target as HTMLInputElement).value;
+        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       case 'email':
         this.SearchKeyWord.email = ($event.target as HTMLInputElement).value;
+        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       default:
     }
-  this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
   deleteUser(userId: string) {
     this.confirmationService.confirm({
@@ -125,11 +128,11 @@ export class QuibUserComponent implements OnInit {
   getUserList() {
     this.QuibService.getUserList().subscribe((data) => {
       this.Quib_User = data
-      this.Approved_UserList =  data.filter(item=>item.isPending ===true)
+      this.Approved_UserList = data.filter(item => item.isPending === true)
       this.ngxLoader.stop();
     });
   }
-  changeUserStatus(Id:string, Status: boolean) {
+  changeUserStatus(Id: string, Status: boolean) {
     if (Status) {
       this.message = 'Are you sure that you want to Approved user?'
     } else {
@@ -141,7 +144,7 @@ export class QuibUserComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.ngxLoader.start();
-        this.QuibService.changeUserStatus(Id,Status).subscribe(res => {
+        this.QuibService.changeUserStatus(Id, Status).subscribe(res => {
           if (res) {
             this.toastr.showSuccess(" Status change successfully", "Status change")
             this.getUserList()
@@ -151,14 +154,14 @@ export class QuibUserComponent implements OnInit {
     });
   }
 
-  
+
   AssignMovieToModeratorUser() {
     this.ngxLoader.start();
-    this.display=false
-    this.selectedMovies.map(item=>{
+    this.display = false
+    this.selectedMovies.map(item => {
       return this.movieId.push(item.id);
     })
-    const payload  =  {
+    const payload = {
       UserId: this.quibUserForm.controls['user'].value,
       movieIds: this.movieId
     }
@@ -175,10 +178,10 @@ export class QuibUserComponent implements OnInit {
       this.moviesList = res
     })
   }
-  markUserAsModerator(userId:string,status:boolean){
+  markUserAsModerator(userId: string, status: boolean) {
     this.ngxLoader.start();
-    this.QuibService.markUserAsModerator(userId,status).subscribe(res=>{
-      if(res){
+    this.QuibService.markUserAsModerator(userId, status).subscribe(res => {
+      if (res) {
         this.toastr.showSuccess(" Moderator  user is added successfully", "Moderator user")
         this.display = false
         this.getUserList()
@@ -186,7 +189,7 @@ export class QuibUserComponent implements OnInit {
     })
   }
   ngOnDestroy(): void {
-   this.QuibService.SearchKeyWord.next(this.SearchKeyWord)
+    this.QuibService.SearchKeyWord.next(this.SearchKeyWord)
   }
 
 }

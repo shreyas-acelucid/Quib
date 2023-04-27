@@ -34,19 +34,19 @@
 							placeholder=" No Search" class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+						<input pInputText type="text" id="title" (input)="applyFilterGlobal($event, 'contains')"
 							placeholder="Search by Title" class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+						<input pInputText type="text" id="director" (input)="applyFilterGlobal($event, 'contains')"
 							placeholder="Search by Director" class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+						<input pInputText type="text" id="releaseYear" (input)="applyFilterGlobal($event, 'contains')"
 							placeholder="Search by Year" class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text" disabled (input)="applyFilterGlobal($event, 'contains')"
+						<input pInputText type="text" id="length" disabled (input)="applyFilterGlobal($event, 'contains')"
 							placeholder="Search by Length" class="w-full intputSearch">
 					</th>
 					<th>

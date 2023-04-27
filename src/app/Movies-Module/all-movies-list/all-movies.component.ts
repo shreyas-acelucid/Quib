@@ -93,7 +93,21 @@ export class AllMoviesComponent implements OnInit {
     })
   }
   applyFilterGlobal($event, stringVal) {
-    this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
+    switch(($event.target as HTMLInputElement).id){
+      case "title":
+        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        break;
+        case "director":
+        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        break;
+        case "releaseYear":
+        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        break;
+        case "length":
+        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        break;
+        default:
+    }
   }
   EditMovies(id) {
     this.addEditMovie = true;

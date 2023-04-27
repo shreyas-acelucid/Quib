@@ -71,18 +71,30 @@ export class ActiveMoviesComponent implements OnInit {
     this.MoviesService.getMovieList().subscribe((res) => {
       console.log(res.filter(item => item.isActive === true))
       this.moviesList = res.filter(item => item.isActive === true)
-      console.log(this.moviesList)
       this.ngxLoader.stop();
     })
   }
 
 
   applyFilterGlobal($event, stringVal) {
-    this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
+    switch (($event.target as HTMLInputElement).id) {
+      case "title":
+        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        break;
+      case "director":
+        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        break;
+      case "releaseYear":
+        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        break;
+      case "length":
+        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        break;
+      default:
+    }
   }
   EditMovies(id) {
     let moviesData = this.moviesList.filter(item => item.id === id)
-    console.log(moviesData)
     this.ActiveMoviesForm.patchValue({
       Director: moviesData[0].director,
      Title: moviesData[0].title,

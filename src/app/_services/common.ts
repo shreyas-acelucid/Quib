@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
+import { userSearchKeyWord } from '../_models/Quib_user';
 
 @Injectable({ providedIn: 'root' })
 export class CommonService {
@@ -50,5 +51,21 @@ export class CommonService {
 
     getCountries(){
         return this.http.get('https://trial.mobiscroll.com/content/countries.json')
+    }
+    // ***********Search Session For User Moduel *****************/
+    getUserSearchkeyWord() {
+        let UserModuleSearchKeyWord: userSearchKeyWord;
+        UserModuleSearchKeyWord = JSON.parse(localStorage.getItem("userSearch"));
+        return UserModuleSearchKeyWord
+    }
+
+    setUserSearchKeyWord(keyWord: userSearchKeyWord) {
+        let payload = {
+            displayName: keyWord.displayName,
+            firstName: keyWord.firstName,
+            lastName: keyWord.lastName,
+            email: keyWord.email
+        }
+        localStorage.setItem("userSearch", JSON.stringify(payload))
     }
 }
