@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('token', res.token);
             this.MoviesService.MovieSearchKeyWord.next(this.CommonService.getMovieSearchWord());
             this.QuibService.SearchKeyWord.next(this.CommonService.getUserSearchkeyWord());
+            this.QuibService.QuibSearchWord.next(this.CommonService.getQuibSearchWord());
             this.router.navigateByUrl("/dashboard");
             localStorage.setItem('UserData', JSON.stringify(res['body']['data']));
             let email = localStorage.getItem('email');

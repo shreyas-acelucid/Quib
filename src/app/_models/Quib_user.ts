@@ -48,3 +48,15 @@ export interface userSearchKeyWord {
   lastName: string |any,
   email: string | any
 }
+
+export interface QUIB_SEARCH_WORD {
+  displayName: string | any,
+  title: string | any,
+  body: string | any,
+  time: string | any,
+  createdDate: string | any,
+  postedDate: string | any,
+  avr: string | any,
+  rating: string | any,
+  Gseacrh:string|any
+}

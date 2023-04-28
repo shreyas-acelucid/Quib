@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
-import { userSearchKeyWord } from '../_models/Quib_user';
+import { QUIB_SEARCH_WORD, userSearchKeyWord } from '../_models/Quib_user';
 import { MovieSearchKeyWord } from '../_models/movies';
 
 @Injectable({ providedIn: 'root' })
@@ -84,5 +84,24 @@ export class CommonService {
         let UserModuleSearchKeyWord: MovieSearchKeyWord;
         UserModuleSearchKeyWord = JSON.parse(localStorage.getItem("movieSearch"));
         return UserModuleSearchKeyWord
+    }
+    setQuibSearchWord(keyWord: QUIB_SEARCH_WORD) {
+        let payload = {
+            displayName: keyWord.displayName,
+            title: keyWord.title,
+            body: keyWord.body,
+            time: keyWord.time,
+            createdDate: keyWord.createdDate,
+            postedDate: keyWord.postedDate,
+            avr: keyWord.avr,
+            rating: keyWord.rating
+        }
+        localStorage.setItem("QuibSearch", JSON.stringify(payload))
+    }
+
+    getQuibSearchWord() {
+        let QuibSearchKeyWord: QUIB_SEARCH_WORD;
+        QuibSearchKeyWord = JSON.parse(localStorage.getItem("QuibSearch"));
+        return QuibSearchKeyWord
     }
 }

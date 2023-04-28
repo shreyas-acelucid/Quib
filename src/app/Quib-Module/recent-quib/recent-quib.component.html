@@ -1,16 +1,17 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
 	<div class="card col-sm-12" style="border:none;">
-		<p-table id="customerTable" #dt [value]="quibLIst" [columns]="cols" responsiveLayout="scroll" [paginator]="true"
+		<p-table id="customerTable" #QuibTable [value]="quibLIst" [columns]="cols" responsiveLayout="scroll" [paginator]="true"
 			[rows]="10" [showCurrentPageReport]="true" [resizableColumns]="true" [rowsPerPageOptions]="[10,50,100]"
+			stateStorage="session" stateKey="Quib-session"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
 			[globalFilterFields]="['user', 'movies']" styleClass="p-datatable-striped,width:max-content">
 			<ng-template pTemplate="caption">
 				<div class="row">
 					<div class="p-input-icon-right ml-5">
 						<i class="pi pi-search"></i>
-						<input pInputText type="text" id="search-box" placeholder="Search by User or Movies"
-							(input)="applyFilterGlobal($event, 'contains')" />
+						<input pInputText type="text" id="search-box" placeholder="Search by each column"
+							(input)="FilterGlobal($event, 'contains')" />
 					</div>
 				</div>
 			</ng-template>
@@ -21,6 +22,64 @@
 						<p-sortIcon [field]="col.field"></p-sortIcon>
 					</th>
 					<th>Action</th>
+				</tr>
+				<tr>
+					<th>
+						<input pInputText type="text" disabled
+							placeholder="No search" class="w-full intputSearch">
+					</th>
+					<th>
+						<input pInputText type="text"  id ="displayName" [value]="QuibSearchWord.displayName"  (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search By displayName" class="w-full intputSearch">
+					</th>
+					<th>
+						<input pInputText type="text"  id ="title" [value]="QuibSearchWord.title"  (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search By title" class="w-full intputSearch">
+					</th>
+					<th>
+						<input pInputText type="text"  id ="body"  [value]="QuibSearchWord.body"  (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search By Quib" class="w-full intputSearch">
+					</th>
+					<th>
+						<input pInputText type="text"  id ="time"  [value]="QuibSearchWord.time"  (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search By Time" class="w-full intputSearch">
+					</th>
+					<th>
+						<input pInputText type="text"  id ="createdDate" [value]="QuibSearchWord.createdDate"  (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search By createdDate" class="w-full intputSearch">
+					</th>
+					<th>
+						<input pInputText type="text"  id ="postedDate"  [value]="QuibSearchWord.postedDate" (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search By postedDate" class="w-full intputSearch">
+					</th>
+					<th>
+						<input pInputText type="text"  disabled id ="displayName"  (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search By displayName" class="w-full intputSearch">
+					</th>
+					<th>
+						<input pInputText type="text"  disabled id ="displayName"  (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search By displayName" class="w-full intputSearch">
+					</th>
+					<th>
+						<input pInputText type="text"  id ="avr" [value]="QuibSearchWord.avr"   (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search By AVR" class="w-full intputSearch">
+					</th>
+					<th>
+						<input pInputText type="text"  id ="rating"  [value]="QuibSearchWord.rating"  (input)="applyFilterGlobal($event, 'contains')"
+							placeholder="Search By rating" class="w-full intputSearch">
+					</th>
+					<th>
+						<input pInputText type="text"  disabled
+							placeholder="No search" class="w-full intputSearch">
+					</th>
+					<th>
+						<input pInputText type="text" disabled 
+							placeholder="No search" class="w-full intputSearch">
+					</th>
+					<th>
+						<input pInputText type="text" disabled
+							placeholder="No search" class="w-full intputSearch">
+					</th>
 				</tr>
 			</ng-template>
 			<ng-template pTemplate="body" let-i="rowIndex" let-Quib>
@@ -75,7 +134,7 @@
 		<ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
 	</div>
 
-	<p-dialog [(visible)]="display" [modal]="true" header="Recent Quib" [style]="{width: '70vw',height:'90vh'}"
+	<p-dialog [(visible)]="display" [modal]="true" header="Recent Quib" [style]="{width: '55vw',height:'90vh'}"
 		position="top" [baseZIndex]="10000">
 		<div *ngIf="BIN; else flage">
 			<div class="card col-sm-12" style="height: 70vh;">

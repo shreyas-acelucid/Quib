@@ -17,6 +17,18 @@ export class QuibService {
     lastName: null,
     email: null
   });
+
+  QuibSearchWord = new BehaviorSubject({
+    displayName:null,
+    title: null,
+    body: null,
+    time: null,
+    createdDate:null,
+    postedDate:null,
+    avr:null,
+    rating:null,
+    Gseacrh:null
+  })
   getUserList():Observable<Quib_User[]> {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
