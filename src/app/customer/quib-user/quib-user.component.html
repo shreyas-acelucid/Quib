@@ -15,7 +15,7 @@
 					</div>
 					<div class="p-input-icon-right ml-5">
 						<button pButton type="button" label="Assign Movie to Moderator" class="p-button-success"
-							(click)="display =true"></button>
+							(click)="[display =true, MoVList = false, AssignToModerator =true, message='Assign Movie to Moderator']"></button>
 					</div>
 				</div>
 			</ng-template>
@@ -127,8 +127,8 @@
 					<td>{{user.curatorScore}}</td>
 					<td>null</td>
 					<td>null</td>
-					<td >
-					<a style="color: blue; cursor: pointer;">MOV</a>
+					<td>
+						<a style="color: blue; cursor: pointer;" (click)="[display =true, MoVList = true, AssignToModerator =false,message='Movie List']">MOV</a>
 					</td>
 					<td>{{user.totalQuibsWritten}}</td>
 					<td>{{user.averageOverallRating}}</td>
@@ -157,40 +157,42 @@
 	</div>
 
 	<!--pop model edit user  start from here ------>
-	<p-dialog [(visible)]="display" [modal]="true" header="Assign Movies to  Moderator User"
-		[style]="{width: '60vw',height:'80vh'}" position="top" [baseZIndex]="10000">
-		<form [formGroup]="quibUserForm">
-			<div class="card col-sm-12">
-				<div class="row gutters">
-					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-						<div class="h-100 mt-5">
-							<div class="card-body">
-								<div class="row gutters">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<label for="FirstName"> Movies List </label>
-										<p-multiSelect [options]="moviesList" optionLabel="title"
-											[(ngModel)]="selectedMovies" display="chip" defaultLabel="Select Movies"
-											[ngModelOptions]="{standalone: true}"></p-multiSelect>
-									</div>
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="FirstName"> Moderator User List </label>
-											<select class="form-control" formControlName="user"
-												placeholder="Select User">
-												<option *ngFor="let  item of Approved_UserList" [value]="item.id">
-													{{item.email}}</option>
-											</select>
+	<p-dialog [(visible)]="display" [modal]="true" [header]="message"
+		[style]="{width: '55vw',height:'80vh'}" position="top" [baseZIndex]="10000">
+		<ng-container *ngIf="AssignToModerator">
+			<form [formGroup]="quibUserForm">
+				<div class="card col-sm-12">
+					<div class="row gutters">
+						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+							<div class="h-100 mt-5">
+								<div class="card-body">
+									<div class="row gutters">
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+											<label for="FirstName"> Movies List </label>
+											<p-multiSelect [options]="moviesList" optionLabel="title"
+												[(ngModel)]="selectedMovies" display="chip" defaultLabel="Select Movies"
+												[ngModelOptions]="{standalone: true}"></p-multiSelect>
+										</div>
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+											<div class="form-group">
+												<label for="FirstName"> Moderator User List </label>
+												<select class="form-control" formControlName="user"
+													placeholder="Select User">
+													<option *ngFor="let  item of Approved_UserList" [value]="item.id">
+														{{item.email}}</option>
+												</select>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="row gutters mt-4">
-									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
-										<div class="text-right">
-											<button pButton type="button" id="submit" name="submit"
-												class="p-button-danger mr-4" (click)="display = false">Cancel</button>
-											<button pButton type="button" id="submit" name="submit"
-												class="p-button-success"
-												(click)="AssignMovieToModeratorUser()">Submit</button>
+									<div class="row gutters mt-4">
+										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+											<div class="text-right">
+												<button pButton type="button" id="submit" name="submit"
+													class="p-button-danger mr-4" (click)="display = false">Cancel</button>
+												<button pButton type="button" id="submit" name="submit"
+													class="p-button-success"
+													(click)="AssignMovieToModeratorUser()">Submit</button>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -198,11 +200,57 @@
 						</div>
 					</div>
 				</div>
-			</div>
-		</form>
+			</form>
+		</ng-container>
+		<ng-container  *ngIf="MoVList">
+			<p-card class="m-5">
+				<div class="row gutters">
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+						<strong class="heading-section">Movie Name</strong> =><span class="content-data">chinaTown</span> <br>
+						<strong class="heading-section">Total No of Quib</strong> =><span class="content-data">153</span> <br>
+					</div>
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+						<strong class="heading-section">Total No of Rated Quib</strong> =><span class="content-data">13</span> <br>
+						<strong class="heading-section">AVR Rating</strong> =><span class="content-data">2.5</span> <br>
+					</div>
+
+				</div>
+			</p-card>
+			<p-card class="m-5">
+				<div class="row gutters">
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+						<strong class="heading-section">Movie Name</strong> =><span class="content-data">pulp Fiction</span><br>
+						<strong class="heading-section">Total No of Quib</strong> =><span class="content-data">153</span> <br>
+					</div>
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+						<strong class="heading-section">Total No of Rated Quib</strong>=><span class="content-data">13</span> <br>
+						<strong class="heading-section">AVR Rating</strong> =><span class="content-data">2.5</span> <br>
+					</div>
+
+				</div>
+			</p-card>
+			<p-card class="m-5">
+				<div class="row gutters">
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+						<strong class="heading-section">Movie Name</strong>=><span class="content-data">BirdMan</span> <br>
+						<strong class="heading-section">Total No of Quib</strong> =><span class="content-data">153</span> <br>
+					</div>
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+						<strong class="heading-section">Total No of Rated Quib</strong> =><span class="content-data">13</span> <br>
+						<strong class="heading-section">AVR Rating</strong> =><span class="content-data">2.5</span> <br>
+					</div>
+
+				</div>
+			</p-card>
+			
+		</ng-container>
 
 	</p-dialog>
 	<!--pop model edit user  end from here ------>
+
+
+
+
 	<p-confirmDialog header="Confirmation" [style]="{width: '40vw'}" position="top" [baseZIndex]="10000"
 		icon="pi pi-exclamation-triangle"></p-confirmDialog>
 </div>

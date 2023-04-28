@@ -29,6 +29,8 @@ export class QuibUserComponent implements OnInit {
   fgsType: any;
   SearchKeyWord: userSearchKeyWord
   display: boolean = false;
+  MoVList:boolean = false;
+  AssignToModerator:boolean = false;
   message: string;
   quibUserForm: FormGroup
   constructor(
