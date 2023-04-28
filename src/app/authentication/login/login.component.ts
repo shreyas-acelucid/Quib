@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { Router } from '@angular/router';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
+import {CommonService} from 'src/app/_services/common';
+import { MoviesService } from 'src/app/_services/movies.service';
+import {QuibService } from 'src/app/_services/Quib.service'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -21,7 +24,10 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authenticationService : AuthenticationService,
     private router: Router,
-    private toastr: ToastrMsgService
+    private toastr: ToastrMsgService,
+    private CommonService: CommonService,
+    private MoviesService: MoviesService,
+    private QuibService: QuibService,
   ) {
     this.form = this.fb.group({
 			email: ['', [Validators.required]],
@@ -40,8 +46,10 @@ export class LoginComponent implements OnInit {
             this.router.navigateByUrl("/login");
             this.toastr.showError("Login failed", "Login");
           }
-          else{
+          else {
             localStorage.setItem('token', res.token);
+            this.MoviesService.MovieSearchKeyWord.next(this.CommonService.getMovieSearchWord());
+            this.QuibService.SearchKeyWord.next(this.CommonService.getUserSearchkeyWord());
             this.router.navigateByUrl("/dashboard");
             localStorage.setItem('UserData', JSON.stringify(res['body']['data']));
             let email = localStorage.getItem('email');

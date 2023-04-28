@@ -15,7 +15,7 @@ import { CommonService } from 'src/app/_services/common'
   providers: [ConfirmationService]
 })
 export class AllMoviesComponent implements OnInit {
-  @ViewChild('dt') dt: Table | undefined;
+  @ViewChild('AllMovieTable') AllMovieTable: Table | undefined;
   sidebarSpacing: any;
   cols!: TABLE_HEADING[];
   moviesList: Movies[]
@@ -71,13 +71,11 @@ export class AllMoviesComponent implements OnInit {
       { field: 'posterContentThumb', show: true, headers: 'Movie Poster' },
       { field: 'screenshot', show: true, headers: 'ScreenShot' },
     ]
-    if (this.CommonService.getMovieSearchWord() != null) {
-      this.MoviesService.MovieSearchKeyWord.next(this.CommonService.getMovieSearchWord());
-    }
     this.MoviesService.MovieSearchKeyWord.subscribe(res => {
       this.MovieSearchKeyWord = res;
     })
     this.getMovieList()
+    
   }
 
   onToggleSidebar(sidebarState: any) {
@@ -104,19 +102,19 @@ export class AllMoviesComponent implements OnInit {
     switch (($event.target as HTMLInputElement).id) {
       case "title":
         this.MovieSearchKeyWord.title = ($event.target as HTMLInputElement).value;
-        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        this.AllMovieTable.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       case "director":
         this.MovieSearchKeyWord.director = ($event.target as HTMLInputElement).value;
-        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        this.AllMovieTable.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       case "releaseYear":
         this.MovieSearchKeyWord.releaseYear = ($event.target as HTMLInputElement).value;
-        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        this.AllMovieTable.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       case "length":
         this.MovieSearchKeyWord.length = ($event.target as HTMLInputElement).value;
-        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        this.AllMovieTable.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       default:
     }
@@ -278,17 +276,20 @@ export class AllMoviesComponent implements OnInit {
 
   movieSearch() {
     if (this.MovieSearchKeyWord.title != null && this.MovieSearchKeyWord.title.trim().length > 0) {
-      this.dt.filter(this.MovieSearchKeyWord.title, "title", "contains");
+      this.AllMovieTable.filter(this.MovieSearchKeyWord.title, "title", "contains");
     }
     if (this.MovieSearchKeyWord.director != null && this.MovieSearchKeyWord.director.trim().length > 0) {
-      this.dt.filter(this.MovieSearchKeyWord.director, "director", "contains");
+      this.AllMovieTable.filter(this.MovieSearchKeyWord.director, "director", "contains");
     }
     if (this.MovieSearchKeyWord.releaseYear != null && this.MovieSearchKeyWord.releaseYear.trim().length > 0) {
-      this.dt.filter(this.MovieSearchKeyWord.releaseYear, "releaseYear", "contains");
+      this.AllMovieTable.filter(this.MovieSearchKeyWord.releaseYear, "releaseYear", "contains");
     }
     if (this.MovieSearchKeyWord.length != null && this.MovieSearchKeyWord.length.trim().length > 0) {
-      this.dt.filter(this.MovieSearchKeyWord.length, "length", "contains");
+      this.AllMovieTable.filter(this.MovieSearchKeyWord.length, "length", "contains");
     }
+  }
+  FilterGlobal($event, stringVal) {
+    this.AllMovieTable.filterGlobal(($event.target as HTMLInputElement).value, stringVal)
   }
 }
 

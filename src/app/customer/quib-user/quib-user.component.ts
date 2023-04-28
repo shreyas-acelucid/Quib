@@ -18,7 +18,7 @@ import { CommonService } from 'src/app/_services/common'
   providers: [ConfirmationService]
 })
 export class QuibUserComponent implements OnInit {
-  @ViewChild('dt') dt: Table | undefined;
+  @ViewChild('QuibUserTable') QuibUserTable: Table | undefined;
   sidebarSpacing: any;
   cols!: TABLE_HEADING[];
   Quib_User: Quib_User[] = [];
@@ -51,9 +51,7 @@ export class QuibUserComponent implements OnInit {
     this.fgsType = SPINNER.squareLoader
     this.ngxLoader.start();
     this.sidebarSpacing = 'contracted';
-    if (this.CommonService.getUserSearchkeyWord() != null) {
-      this.QuibService.SearchKeyWord.next(this.CommonService.getUserSearchkeyWord());
-    }
+   
     this.QuibService.SearchKeyWord.subscribe(res => {
       this.SearchKeyWord = res
     });
@@ -97,19 +95,19 @@ export class QuibUserComponent implements OnInit {
     switch (($event.target as HTMLInputElement).id) {
       case 'displayName':
         this.SearchKeyWord.displayName = ($event.target as HTMLInputElement).value;
-        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        this.QuibUserTable.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       case 'firstName':
         this.SearchKeyWord.firstName = ($event.target as HTMLInputElement).value;
-        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        this.QuibUserTable.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       case 'lastName':
         this.SearchKeyWord.lastName = ($event.target as HTMLInputElement).value;
-        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        this.QuibUserTable.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       case 'email':
         this.SearchKeyWord.email = ($event.target as HTMLInputElement).value;
-        this.dt.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
+        this.QuibUserTable.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       default:
     }
@@ -201,16 +199,19 @@ export class QuibUserComponent implements OnInit {
   }
   QuibUserSearch() {
     if (this.SearchKeyWord.displayName != null && this.SearchKeyWord.displayName.trim().length > 0) {
-      this.dt.filter(this.SearchKeyWord.displayName, "displayName", "contains");
+      this.QuibUserTable.filter(this.SearchKeyWord.displayName, "displayName", "contains");
     }
     if (this.SearchKeyWord.firstName != null && this.SearchKeyWord.firstName.trim().length > 0) {
-      this.dt.filter(this.SearchKeyWord.firstName, "firstName", "contains");
+      this.QuibUserTable.filter(this.SearchKeyWord.firstName, "firstName", "contains");
     }
     if (this.SearchKeyWord.lastName != null && this.SearchKeyWord.lastName.trim().length > 0) {
-      this.dt.filter(this.SearchKeyWord.lastName, "lastName", "contains");
+      this.QuibUserTable.filter(this.SearchKeyWord.lastName, "lastName", "contains");
     }
     if (this.SearchKeyWord.email != null && this.SearchKeyWord.email.trim().length > 0) {
-      this.dt.filter(this.SearchKeyWord.email, "email", "contains");
+      this.QuibUserTable.filter(this.SearchKeyWord.email, "email", "contains");
     }
+  }
+  FilterGlobal($event, stringVal) {
+    this.QuibUserTable.filterGlobal(($event.target as HTMLInputElement).value, stringVal)
   }
 }

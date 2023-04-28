@@ -1,8 +1,8 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
 	<div class="card col-sm-12" style="border:none;">
-		<p-table id="customerTable" #dt [value]="Quib_User" [columns]="cols" responsiveLayout="scroll"
-			dataKey="id" stateStorage="session" stateKey="statedemo-session"
+		<p-table id="customerTable" #QuibUserTable [value]="Quib_User" [columns]="cols" responsiveLayout="scroll"
+			dataKey="id" stateStorage="session" stateKey="QuibUser-session"
 			[paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,50,100]" [showCurrentPageReport]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
 			[globalFilterFields]="['firstName','lastName','email','displayName']"  styleClass="p-datatable-striped">
@@ -11,7 +11,7 @@
 					<div class="p-input-icon-right ml-5">
 						<i class="pi pi-search"></i>
 						<input pInputText type="text" id="Gsearch" placeholder="Search by FirstName or LastName "
-							(input)="applyFilterGlobal($event, 'contains')" />
+							(input)="FilterGlobal($event, 'contains')" />
 					</div>
 					<div class="p-input-icon-right ml-5">
 						<button pButton type="button" label="Assign Movie to Moderator" class="p-button-success"
