@@ -21,25 +21,34 @@ export class MoviesService {
         const endpointUrl = `${environment.QUIB_ADMIN}/Movies`;
         return this.http.get<Movies[]>(endpointUrl)
     }
-    getActiveMoviesList() {
+    getActiveMoviesList():Observable<Movies[]> {
         const token = localStorage.getItem('token') || '';
         let httpOptions = new HttpHeaders().set('x-access-token', token)
-        const endpointUrl = `${environment.QUIB_ADMIN}/Movies`;
-       return this.http.get(endpointUrl)
+        const endpointUrl = `${environment.QUIB_ADMIN}/ActiveMovies`;
+       return this.http.get<Movies[]>(endpointUrl)
     }
-    markAsActive(id, Status) {
+    markAsActive(payload) {
+        const formData = new FormData()
+        formData.append("Id",payload.id)
+        formData.append("Title",payload.title)
+        formData.append("Director",payload.director)
+        formData.append("ReleaseYear",payload.releaseYear)
+        formData.append("Time.Hour",payload.HH)
+        formData.append("Time.Minute",payload.MM)
+        formData.append("Time.Seconds",payload.SS)
+        formData.append("IsActive",payload.isActive)
+        formData.append("PosterImage",payload.posterContentThumb)
         const token = localStorage.getItem('token') || '';
         let httpOptions = new HttpHeaders().set('x-access-token', token)
-        const endpointUrl = `${environment.JSON_SERVER}/product`;
-        // return this.http.post<any>(endpointUrl, categoryData, { 'headers': httpOptions });
-        return of("nvbbjs")
+        const endpointUrl = `${environment.QUIB_ADMIN}/UpdateMovie`;
+         return this.http.put(endpointUrl, payload, { 'headers': httpOptions });
+        
     }
     deleteMovies(moviesId) {
         const token = localStorage.getItem('token') || '';
         let httpOptions = new HttpHeaders().set('x-access-token', token)
-        const endpointUrl = `${environment.JSON_SERVER}/category/`;
-        //return this.http.delete<CATEGORY>(endpointUrl, { 'headers': httpOptions });
-        return of("bvsbh")
+        const endpointUrl = `${environment.QUIB_ADMIN}/DeleteMovies?Id=${moviesId}`;
+        return this.http.delete(endpointUrl, { 'headers': httpOptions });
     }
     Submit(payload) {
         const formData = new FormData()

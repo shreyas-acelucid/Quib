@@ -8,7 +8,7 @@ export interface Movies {
   modifiedDate:Date,
   posterContent:string
   posterContentThumb:string,
-  isActive:boolean,
+  isActive:boolean |any,
   MM:string | any,
   HH:string |any,
   SS:string |any

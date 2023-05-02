@@ -10,7 +10,8 @@ export interface Quib_User {
   followeeCount: string | number,
   followerCount: string | number,
   unPostedQuibsCount: string | number
-  isPending:boolean
+  isPending:boolean,
+  isModerator:boolean
 }
 
 export interface Quib {

@@ -75,8 +75,6 @@
 							class="w-full disableInputSearch"></th>
 					<th> <input pInputText type="text" disabled placeholder="No Search"
 							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
 					<th> <input pInputText type="text" disabled placeholder="No Search" class="w-full disableInputSearch"></th>
 					<th> <input pInputText type="text" disabled placeholder="No Search" class="w-full disableInputSearch"></th>
 					<th> <input pInputText type="text" disabled placeholder="No Search" class="w-full disableInputSearch"></th>
@@ -104,13 +102,6 @@
 								class="p-button-danger" pTooltip="Mark As Approved"
 								*ngIf="user.isPending==false||user.isPending==null "
 								style="height: 30px">Pending</button>
-						</div>
-					</td>
-					<td>
-						<div class="btn-grp">
-							<button class="p-button-primary" pButton type="button" icon="pi pi-eye"
-								pTooltip="View Details" tooltipPosition="bottom"
-								[disabled]="(user.isModerator === false)"></button>
 						</div>
 					</td>
 					<td>

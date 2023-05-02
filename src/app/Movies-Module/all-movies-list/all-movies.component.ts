@@ -5,8 +5,8 @@ import { MoviesService } from 'src/app/_services/movies.service';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
 import { MovieSearchKeyWord, Movies } from 'src/app/_models/movies';
 import { Table } from 'primeng/table';
-import { FormBuilder, FormGroup, Validators, FormArray, } from '@angular/forms';
-import { ConfirmationService, SortEvent } from 'primeng/api';
+import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
+import { ConfirmationService } from 'primeng/api';
 import { CommonService } from 'src/app/_services/common'
 @Component({
   selector: 'app-all-movies',
@@ -181,7 +181,11 @@ export class AllMoviesComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.ngxLoader.start();
-        this.MoviesService.markAsActive(id, Status).subscribe(res => {
+        let filterData = this.moviesList.filter(item => item.id === id);
+        filterData[0].posterContentThumb =  filterData[0].posterContentThumb.split("http://44.211.90.48/")[1];
+        filterData[0].isActive = Status
+        console.log(filterData[0])
+        this.MoviesService.markAsActive(filterData[0]).subscribe(res => {
           if (res) {
             this.toastr.showSuccess(" Status change successfully", "Status change")
             this.getMovieList()

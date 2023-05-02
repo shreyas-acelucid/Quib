@@ -70,7 +70,6 @@ export class QuibUserComponent implements OnInit {
       { field: 'followerCount', show: true, headers: 'FRS' },
       { field: 'unPostedQuibsCount', show: true, headers: 'UNP' },
       { field: 'status', show: true, headers: 'Status' },
-      { field: 'IsModerator', show: true, headers: 'Moderator Details' },
       { field: 'IsModerator', show: true, headers: 'IsModerator' },
       { field: 'curatorScore', show: true, headers: 'CUR' },
       { field: 'ccp', show: true, headers: 'CCP' },
@@ -134,7 +133,7 @@ export class QuibUserComponent implements OnInit {
   getUserList() {
     this.QuibService.getUserList().subscribe((data) => {
       this.Quib_User = data
-      this.Approved_UserList = data.filter(item => item.isPending === true)
+      this.Approved_UserList = data.filter(item => item.isModerator === true)
       this.QuibUserSearch();
       this.ngxLoader.stop();
     });
