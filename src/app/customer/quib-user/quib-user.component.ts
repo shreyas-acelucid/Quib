@@ -53,7 +53,6 @@ export class QuibUserComponent implements OnInit {
     this.fgsType = SPINNER.squareLoader
     this.ngxLoader.start();
     this.sidebarSpacing = 'contracted';
-   
     this.QuibService.SearchKeyWord.subscribe(res => {
       this.SearchKeyWord = res
     });
@@ -82,7 +81,6 @@ export class QuibUserComponent implements OnInit {
       { field: 'totalFlagReceived', show: true, headers: 'FLAGE' },
       { field: 'about', show: true, headers: 'PERS' }
     ]
-
   }
 
   onToggleSidebar(sidebarState: any) {
@@ -159,7 +157,6 @@ export class QuibUserComponent implements OnInit {
       },
     });
   }
-
 
   AssignMovieToModeratorUser() {
     this.ngxLoader.start();

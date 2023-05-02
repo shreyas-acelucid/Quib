@@ -59,14 +59,12 @@ export class ActiveMoviesComponent implements OnInit {
       { field: 'length', show: true, headers: 'Length' },
       { field: 'isActive', show: true, headers: 'Is Active' },
     ]
-    
     this.MoviesService.MovieSearchKeyWord.subscribe(res => {
       this.MovieSearchKeyWord = res;
     })
     this.getMovieList()
    }
-
-  onToggleSidebar(sidebarState: any) {
+   onToggleSidebar(sidebarState: any) {
     if (sidebarState === 'open') {
       this.sidebarSpacing = 'contracted';
     } else {
@@ -81,7 +79,6 @@ export class ActiveMoviesComponent implements OnInit {
       this.ngxLoader.stop();
     })
   }
-
 
   applyFilterGlobal($event, stringVal) {
     switch (($event.target as HTMLInputElement).id) {

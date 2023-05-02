@@ -75,7 +75,6 @@ export class AllMoviesComponent implements OnInit {
       this.MovieSearchKeyWord = res;
     })
     this.getMovieList()
-    
   }
 
   onToggleSidebar(sidebarState: any) {
