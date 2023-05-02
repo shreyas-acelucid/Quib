@@ -37,11 +37,10 @@ export class MoviesService {
         formData.append("Time.Minute",payload.MM)
         formData.append("Time.Seconds",payload.SS)
         formData.append("IsActive",payload.isActive)
-        formData.append("PosterImage",payload.posterContentThumb)
         const token = localStorage.getItem('token') || '';
         let httpOptions = new HttpHeaders().set('x-access-token', token)
         const endpointUrl = `${environment.QUIB_ADMIN}/UpdateMovie`;
-         return this.http.put(endpointUrl, payload, { 'headers': httpOptions });
+         return this.http.put(endpointUrl, formData, { 'headers': httpOptions });
         
     }
     deleteMovies(moviesId) {

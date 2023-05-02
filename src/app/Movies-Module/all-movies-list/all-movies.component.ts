@@ -214,16 +214,18 @@ export class AllMoviesComponent implements OnInit {
       Hour: this.AllMoviesForm.controls['hours'].value,
       Minute: this.AllMoviesForm.controls['minutes'].value,
       Seconds: this.AllMoviesForm.controls['seconds'].value,
-      IsActive: true,
+      IsActive: false,
       PosterImage: this.image
     }
     this.ngxLoader.start();
     this.MoviesService.Submit(payload).subscribe(res => {
       if (res) {
         this.toastr.showSuccess(" Movie data is updated successfully", "movie data")
+        this.display = false
         this.getMovieList()
       } else {
         this.toastr.showSuccess("somthing going wrong", "please check")
+        this.display = false
         this.getMovieList()
       }
     })
@@ -240,39 +242,26 @@ export class AllMoviesComponent implements OnInit {
     this.posterContentThumb = moviesData[0].posterContentThumb
     this.display = true
   }
-  submitMoviePosterDatas() {
-    this.display = false
-    const payload = {
-      id: this.PosterForm.controls['id'].value,
-      PosterImage: this.image
-    }
-    this.MoviesService.submitMoviePosterData(payload).subscribe(res => {
-      if (res) {
-        this.toastr.showSuccess(" Movie poster is updated successfully", "movie poster")
-        this.getMovieList()
-      } else {
-        this.toastr.showSuccess("somthing going wrong", "please check")
-        this.getMovieList()
-      }
-    })
-  }
   submitMoviePosterData() {
     this.display = false
     const payload = {
       id: this.PosterForm.controls['id'].value,
       PosterImage: this.image
     }
-    return new Promise((resolve, reject) => {
-      this.MoviesService.submitMoviePosterData(payload).toPromise().then(res => {
+    this.ngxLoader.start();
+    this.MoviesService.submitMoviePosterData(payload).subscribe(res => {
+      if (res) {
         this.toastr.showSuccess(" Movie poster is updated successfully", "movie poster")
+        this.display = false
         this.getMovieList()
-      }).catch(err => {
-        this.toastr.showSuccess("Movie poster is updated successfully", "movie poster")
+      } else {
+        this.toastr.showSuccess("somthing going wrong", "please check")
+        this.display = false
         this.getMovieList()
-      })
-    });
+      }
+    })
   }
-
+  
   ngOnDestroy(): void {
     this.MoviesService.MovieSearchKeyWord.next(this.MovieSearchKeyWord);
     this.CommonService.setMovieSerachWord(this.MovieSearchKeyWord);
