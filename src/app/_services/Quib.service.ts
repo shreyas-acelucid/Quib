@@ -61,14 +61,13 @@ export class QuibService {
   IsEnabled(Id: number, Status) {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
-    const endpointUrl = `${environment.JSON_SERVER}/orders`;
-  return of("")
+    return of("")
   }
 
   IsBumped(Id: number, Status) {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
-    const endpointUrl = `${environment.JSON_SERVER}/orders`;
+    
    return of("")
   }
 
@@ -83,7 +82,6 @@ export class QuibService {
   getMostActiveQuibList() {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
-    const endpointUrl = `${environment.JSON_SERVER}/orders`;
     return of("")
   }
   getQuibList():Observable<Quib[]> {
@@ -92,16 +90,10 @@ export class QuibService {
     const endpointUrl = `${environment.QUIB_ADMIN}/GetAllQuibs?pageNo=${1}`;
     return this.http.get<Quib[]>(endpointUrl);
   }
-  getAlphBeticQuibList() {
-    const token = localStorage.getItem('token') || '';
-    let httpOptions = new HttpHeaders().set('x-access-token', token)
-    const endpointUrl = `${environment.JSON_SERVER}/orders`;
-    return this.http.get(endpointUrl)
-  }
+  
   deleteQuib(QuibId) {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
-    const endpointUrl = `${environment.JSON_SERVER}/orders`;
     return of("")
   }
 

@@ -74,7 +74,6 @@ export class MoviesService {
     editMovies(payload, moviesId) {
         const token = localStorage.getItem('token') || '';
         let httpOptions = new HttpHeaders().set('x-access-token', token)
-        const endpointUrl = `${environment.JSON_SERVER}/category/`;
         //return this.http.delete<CATEGORY>(endpointUrl, { 'headers': httpOptions });
        return of(payload)
     }
