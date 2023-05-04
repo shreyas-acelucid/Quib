@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of,BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { QUIB_USER, Quib_User,Quib, QUIB_LIST, BUMP_IN_USER_LIST, FLAG_IN_USER_LIST } from "../_models/Quib_user"
+import { QUIB_USER, Quib_User,Quib, QUIB_LIST, BUMP_IN_USER_LIST, FLAG_IN_USER_LIST, ADMIN_QUIB } from "../_models/Quib_user"
 
 @Injectable({
   providedIn: 'root'
@@ -83,11 +83,11 @@ export class QuibService {
   }
 
 
-  AdminQuibList(payload) {
+  AdminQuibList(payload):Observable<ADMIN_QUIB[]> {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
     const endpointUrl = `${environment.QUIB_ADMIN}/GetQuibByUserIdAndMovieId?MovieId=${payload.movieId}&UserId=${payload.userId}`;
-    return this.http.get(endpointUrl)
+    return this.http.get<ADMIN_QUIB[]>(endpointUrl)
   }
   getQuibList() {
     const token = localStorage.getItem('token') || '';

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Quib } from 'src/app/_models/Quib_user';
+import { ADMIN_QUIB, Quib } from 'src/app/_models/Quib_user';
 import { QuibService } from 'src/app/_services/Quib.service';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 import { TABLE_HEADING } from '../../_models/table_heading'
@@ -18,7 +18,7 @@ export class AdminQuibComponent implements OnInit {
   @ViewChild('dt') dt: Table | undefined;
   sidebarSpacing: any;
   cols!: TABLE_HEADING[];
-  Admin_Quib: Quib[] = [];
+  Admin_Quib: ADMIN_QUIB[] = [];
   fgsType: any;
 
   constructor(
@@ -68,6 +68,7 @@ export class AdminQuibComponent implements OnInit {
       payload= res;
     })
     this.QuibService.AdminQuibList(payload).subscribe((data) => {
+      this.Admin_Quib = data
       this.ngxLoader.stop();
     });
   }

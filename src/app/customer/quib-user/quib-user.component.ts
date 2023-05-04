@@ -210,6 +210,9 @@ export class QuibUserComponent implements OnInit {
     if (this.SearchKeyWord.email != null && this.SearchKeyWord.email.trim().length > 0) {
       this.QuibUserTable.filter(this.SearchKeyWord.email, "email", "contains");
     }
+    if (this.SearchKeyWord.Gsearch != null && this.SearchKeyWord.Gsearch.trim().length > 0) {
+      this.QuibUserTable.filterGlobal(this.SearchKeyWord.Gsearch,  "contains");
+    }
   }
   FilterGlobal($event, stringVal) {
     this.QuibUserTable.filterGlobal(($event.target as HTMLInputElement).value, stringVal)

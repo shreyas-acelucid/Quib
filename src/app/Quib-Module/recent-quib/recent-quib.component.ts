@@ -222,4 +222,34 @@ export class RecentQuibComponent implements OnInit {
     this.QuibService.QuibSearchWord.next(this.QuibSearchWord);
     this.CommonService.setQuibSearchWord(this.QuibSearchWord);
   }
+
+  QuibSearch() {
+    if (this.QuibSearchWord.Gseacrh != null && this.QuibSearchWord.Gseacrh.trim().length > 0) {
+      this.QuibTable.filterGlobal(this.QuibSearchWord.Gseacrh, "contains")
+    }
+    if (this.QuibSearchWord.displayName != null && this.QuibSearchWord.displayName.trim().length > 0) {
+      this.QuibTable.filter(this.QuibSearchWord.displayName, "displayName", "contains")
+    }
+    if (this.QuibSearchWord.title != null && this.QuibSearchWord.title.trim().length > 0) {
+      this.QuibTable.filter(this.QuibSearchWord.title, "title", "contains")
+    }
+    if (this.QuibSearchWord.body != null && this.QuibSearchWord.body.trim().length > 0) {
+      this.QuibTable.filter(this.QuibSearchWord.body, "body", "contains")
+    }
+    if (this.QuibSearchWord.createdDate != null && this.QuibSearchWord.createdDate.trim().length > 0) {
+      this.QuibTable.filter(this.QuibSearchWord.createdDate, "createdDate", "contains")
+    }
+    if (this.QuibSearchWord.postedDate != null && this.QuibSearchWord.postedDate.trim().length > 0) {
+      this.QuibTable.filter(this.QuibSearchWord.postedDate, "postedDate", "contains")
+    }
+    if (this.QuibSearchWord.avr != null && this.QuibSearchWord.avr.trim().length > 0) {
+      this.QuibTable.filter(this.QuibSearchWord.avr, "avr", "contains")
+    }
+    if (this.QuibSearchWord.time != null && this.QuibSearchWord.time.trim().length > 0) {
+      this.QuibTable.filter(this.QuibSearchWord.time, "time", "contains")
+    }
+    if (this.QuibSearchWord.rating != null && this.QuibSearchWord.rating.trim().length > 0) {
+      this.QuibTable.filter(this.QuibSearchWord.rating, "rating", "contains")
+    }
+  }
 }

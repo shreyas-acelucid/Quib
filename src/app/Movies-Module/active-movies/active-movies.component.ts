@@ -77,7 +77,7 @@ export class ActiveMoviesComponent implements OnInit {
   getMovieList() {
     this.MoviesService.getMovieList().subscribe((res) => {
       this.moviesList = res.filter(item => item.isActive === true)
-      this.movieSearch();
+      this.activeMovieSearch();
       this.ngxLoader.stop();
     })
   }
@@ -141,7 +141,7 @@ export class ActiveMoviesComponent implements OnInit {
     this.MoviesService.MovieSearchKeyWord.next(this.MovieSearchKeyWord);
     this.CommonService.setMovieSerachWord(this.MovieSearchKeyWord);
   }
-  movieSearch() {
+  activeMovieSearch() {
     if (this.MovieSearchKeyWord.title != null && this.MovieSearchKeyWord.title.trim().length > 0) {
       this.ActiveMovieTable.filter(this.MovieSearchKeyWord.title, "title", "contains");
     }
@@ -154,12 +154,13 @@ export class ActiveMoviesComponent implements OnInit {
     if (this.MovieSearchKeyWord.length != null && this.MovieSearchKeyWord.length.trim().length > 0) {
       this.ActiveMovieTable.filter(this.MovieSearchKeyWord.length, "length", "contains");
     }
+    if(this.MovieSearchKeyWord.Gsearch != null && this.MovieSearchKeyWord.Gsearch.trim().length > 0){
+      this.ActiveMovieTable.filterGlobal(this.MovieSearchKeyWord.Gsearch,"contains")
+    }
   }
    FilterGlobal($event, stringVal) {
     this.MovieSearchKeyWord.Gsearch = ($event.target as HTMLInputElement).value;
-    if (this.MovieSearchKeyWord.Gsearch != null && this.MovieSearchKeyWord.Gsearch.trim().length > 0) {
-      this.ActiveMovieTable.filterGlobal(($event.target as HTMLInputElement).value, stringVal)
-    }
+    this.ActiveMovieTable.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
 }
  

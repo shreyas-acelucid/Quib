@@ -95,7 +95,7 @@ export class AllMoviesComponent implements OnInit {
           item['MM'] = this.consverIntoHHMMSS(item.length).MM,
           item['SS'] = this.consverIntoHHMMSS(item.length).SS
       })
-      this.movieSearch()
+      this.allMovieSearch()
       this.ngxLoader.stop();
     })
   }
@@ -183,7 +183,7 @@ export class AllMoviesComponent implements OnInit {
       accept: () => {
         this.ngxLoader.start();
         let filterData = this.moviesList.filter(item => item.id === id);
-        filterData[0].posterContentThumb =  filterData[0].posterContentThumb.split("http://44.211.90.48/")[1];
+        filterData[0].posterContentThumb = filterData[0].posterContentThumb.split("http://44.211.90.48/")[1];
         filterData[0].isActive = Status
         console.log(filterData[0])
         this.MoviesService.markAsActive(filterData[0]).subscribe(res => {
@@ -262,13 +262,13 @@ export class AllMoviesComponent implements OnInit {
       }
     })
   }
-  
+
   ngOnDestroy(): void {
     this.MoviesService.MovieSearchKeyWord.next(this.MovieSearchKeyWord);
     this.CommonService.setMovieSerachWord(this.MovieSearchKeyWord);
   }
 
-  movieSearch() {
+  allMovieSearch() {
     if (this.MovieSearchKeyWord.title != null && this.MovieSearchKeyWord.title.trim().length > 0) {
       this.AllMovieTable.filter(this.MovieSearchKeyWord.title, "title", "contains");
     }
@@ -281,12 +281,13 @@ export class AllMoviesComponent implements OnInit {
     if (this.MovieSearchKeyWord.length != null && this.MovieSearchKeyWord.length.trim().length > 0) {
       this.AllMovieTable.filter(this.MovieSearchKeyWord.length, "length", "contains");
     }
+    if (this.MovieSearchKeyWord.Gsearch != null && this.MovieSearchKeyWord.Gsearch.trim().length > 0) {
+      this.AllMovieTable.filterGlobal(this.MovieSearchKeyWord.Gsearch, "contains");
+    }
   }
   FilterGlobal($event, stringVal) {
     this.MovieSearchKeyWord.Gsearch = ($event.target as HTMLInputElement).value;
-    if (this.MovieSearchKeyWord.Gsearch != null && this.MovieSearchKeyWord.Gsearch.trim().length > 0) {
-      this.AllMovieTable.filterGlobal(($event.target as HTMLInputElement).value, stringVal)
-    }
+    this.AllMovieTable.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
 }
 
