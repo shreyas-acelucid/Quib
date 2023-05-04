@@ -1,8 +1,8 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
 	<div class="card col-sm-12" style="border:none;">
-		<p-table id="customerTable" #QuibTable [value]="quibLIst" [columns]="cols" responsiveLayout="scroll" [paginator]="true"
-			[rows]="10" [showCurrentPageReport]="true" [resizableColumns]="true" [rowsPerPageOptions]="[10,50,100]"
+		<p-table id="customerTable" #QuibTable [value]="quibLIst?.savedQuibs" [columns]="cols" responsiveLayout="scroll"
+			[paginator]="true" [rows]="20" [showCurrentPageReport]="true" [resizableColumns]="true"
 			stateStorage="session" stateKey="Quib-session"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
 			[globalFilterFields]="['user', 'movies']" styleClass="p-datatable-striped,width:max-content">
@@ -25,60 +25,66 @@
 				</tr>
 				<tr>
 					<th>
-						<input pInputText type="text" disabled
-							placeholder="No search" class="w-full intputSearch">
+						<input pInputText type="text" disabled placeholder="No search" class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text"  id ="displayName" [value]="QuibSearchWord.displayName"  (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search By displayName" class="w-full intputSearch">
+						<input pInputText type="text" id="displayName" [value]="QuibSearchWord.displayName"
+							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By displayName"
+							class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text"  id ="title" [value]="QuibSearchWord.title"  (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search By title" class="w-full intputSearch">
+						<input pInputText type="text" id="title" [value]="QuibSearchWord.title"
+							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By title"
+							class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text"  id ="body"  [value]="QuibSearchWord.body"  (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search By Quib" class="w-full intputSearch">
+						<input pInputText type="text" id="body" [value]="QuibSearchWord.body"
+							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By Quib"
+							class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text"  id ="time"  [value]="QuibSearchWord.time"  (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search By Time" class="w-full intputSearch">
+						<input pInputText type="text" id="time" [value]="QuibSearchWord.time"
+							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By Time"
+							class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text"  id ="createdDate" [value]="QuibSearchWord.createdDate"  (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search By createdDate" class="w-full intputSearch">
+						<input pInputText type="text" id="createdDate" [value]="QuibSearchWord.createdDate"
+							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By createdDate"
+							class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text"  id ="postedDate"  [value]="QuibSearchWord.postedDate" (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search By postedDate" class="w-full intputSearch">
+						<input pInputText type="text" id="postedDate" [value]="QuibSearchWord.postedDate"
+							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By postedDate"
+							class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text"  disabled id ="displayName"  (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search By displayName" class="w-full intputSearch">
+						<input pInputText type="text" disabled id="displayName"
+							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By displayName"
+							class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text"  disabled id ="displayName"  (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search By displayName" class="w-full intputSearch">
+						<input pInputText type="text" disabled id="displayName"
+							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By displayName"
+							class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text"  id ="avr" [value]="QuibSearchWord.avr"   (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search By AVR" class="w-full intputSearch">
+						<input pInputText type="text" id="avr" [value]="QuibSearchWord.avr"
+							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By AVR"
+							class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text"  id ="rating"  [value]="QuibSearchWord.rating"  (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search By rating" class="w-full intputSearch">
+						<input pInputText type="text" id="rating" [value]="QuibSearchWord.rating"
+							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By rating"
+							class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text"  disabled
-							placeholder="No search" class="w-full intputSearch">
+						<input pInputText type="text" disabled placeholder="No search" class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text" disabled 
-							placeholder="No search" class="w-full intputSearch">
+						<input pInputText type="text" disabled placeholder="No search" class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text" disabled
-							placeholder="No search" class="w-full intputSearch">
+						<input pInputText type="text" disabled placeholder="No search" class="w-full intputSearch">
 					</th>
 				</tr>
 			</ng-template>
@@ -111,10 +117,11 @@
 								style="height: 30px">{{Quib.isBumped}}</button>
 						</div>
 					</td>
-					<td>{{Quib.avr}}</td>
-					<td>{{Quib.rating}}</td>
-					<td (click)="getBumpUserListByQuibId()"><a style="color: blue; cursor: pointer;">B-IN</a></td>
-					<td (click)="[display = true,BIN =false]"><a style="color: blue; cursor: pointer;">Flage</a></td>
+					<td>0.00</td>
+					<td>0.00</td>
+					<td (click)="getBumpUserListByQuibId(Quib?.id)"><a style="color: blue; cursor: pointer;">B-IN</a>
+					</td>
+					<td (click)="getFlageUserListByQuibId(Quib?.id)"><a style="color: blue; cursor: pointer;">Flage</a></td>
 					<td>
 						<div class="btn-grp">
 							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
@@ -129,7 +136,7 @@
 						No Records Found.
 					</td>
 				</tr>
-			</ng-template>  
+			</ng-template>
 		</p-table>
 		<ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
 	</div>
@@ -146,53 +153,63 @@
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="name">User List</label>
-											</div>
+										</div>
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="image">Current Curator Point </label>
-											</div>
+										</div>
 									</div>
 								</div>
-								<div *ngFor="let item of BumpUserList , let index">
-									<div class="row gutters">
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
-												<input type="text" class="form-control" value="{{item.displayName}}"
-													readonly>
+								<div *ngFor="let item of BumpUserList , let indexvalue = index">
+									<div *ngIf="BumpUserList.length>0 else NoData">
+										<div class="row gutters">
+											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+												<div class="form-group">
+													<input type="text" class="form-control" value="{{item.userName}}"
+														readonly>
+												</div>
 											</div>
-										</div>
 
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
-												<div class="row gutters">
-													<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-														<button (click)="Decrement(index)" class="p-button-danger" pButton
-															type="button">
-															<i class="pi pi-minus-circle" style="font-size: 1rem"></i>
-														</button>
-													</div>
-													<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
-														<input type="text" class="form-control" [value]="CCP" readonly>
-													</div>
-													<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-														<button (click)="Increament()" class="p-button-success" pButton
-															type="button">
-															<i class="pi pi-plus-circle" style="font-size: 1rem"></i>
-														</button>
+											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+												<div class="form-group">
+													<div class="row gutters">
+														<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+															<button
+																(click)="BumpIncreamentAndDecreament(indexvalue,item.ccp-1)"
+																class="p-button-danger" pButton type="button">
+																<i class="pi pi-minus-circle"
+																	style="font-size: 1rem"></i>
+															</button>
+														</div>
+														<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
+															<input type="text" class="form-control" value="{{item.ccp}}"
+																readonly>
+														</div>
+														<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+															<button
+																(click)="BumpIncreamentAndDecreament(indexvalue,item.ccp+1)"
+																class="p-button-success" pButton type="button">
+																<i class="pi pi-plus-circle"
+																	style="font-size: 1rem"></i>
+															</button>
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
+								<ng-template #NoData>
+									<h1>No Records Found.</h1>
+								</ng-template>
 								<div class="row gutters mt-4">
 									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
 										<div class="text-right">
 											<button pButton type="button" id="submit" name="submit"
-												class="p-button-danger mr-4" (click)="display = false">Cancel</button>
+												class="p-button-danger mr-4" (click)="display=false">Cancel</button>
 											<button pButton type="button" id="submit" name="submit"
-												class="p-button-success">Submit</button>
+												class="p-button-success" (click)="submitBumpUserListdata()">Submit</button>
 										</div>
 									</div>
 								</div>
@@ -206,45 +223,69 @@
 			<div class="card col-sm-12" style="height: 70vh;">
 				<div class="row gutters">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-						<div class="h-100 mt-5">
+						<div class="h-100 mt-2">
 							<div class="card-body">
 								<div class="row gutters">
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="name">User List</label>
-											<input type="text" class="form-control" value="sohan" readonly>
 										</div>
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<div class="form-group">
-											<label for="image"> Current Flagger Point </label>
-											<div class="row gutters">
-												<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-													<button (click)="Decrement(1)" class="p-button-secondary" pButton
-														type="button">
-														<i class="pi pi-minus-circle" style="font-size: 1rem"></i>
-													</button>
+											<label for="image">Current Flagget Point </label>
+										</div>
+									</div>
+								</div>
+								<div *ngFor="let item of FlagUserList , let indexvalue= index">
+									<div *ngIf="FlagUserList.length>0 else NoFlaggerData">
+										<div class="row gutters">
+											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+												<div class="form-group">
+													<input type="text" class="form-control" value="{{item.userName}}"
+														readonly>
 												</div>
-												<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
-													<input type="text" class="form-control" [value]="CCP" readonly>
-												</div>
-												<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-													<button (click)="Increament()" class="p-button-success" pButton
-														type="button">
-														<i class="pi pi-plus-circle" style="font-size: 1rem"></i>
-													</button>
+											</div>
+
+											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+												<div class="form-group">
+													<div class="row gutters">
+														<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+															<button
+																(click)="FlagIncreamentAndDecreament(indexvalue,item.cfp-1)"
+																class="p-button-danger" pButton type="button">
+																<i class="pi pi-minus-circle"
+																	style="font-size: 1rem"></i>
+															</button>
+														</div>
+														<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
+															<input type="text" class="form-control" value="{{item.cfp}}"
+																readonly>
+														</div>
+														<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+															<button
+																(click)="FlagIncreamentAndDecreament(indexvalue,item.cfp+1)"
+																class="p-button-success" pButton type="button">
+																<i class="pi pi-plus-circle"
+																	style="font-size: 1rem"></i>
+															</button>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
+								<ng-template #NoFlaggerData>
+									<h1>No Records Found.</h1>
+								</ng-template>
 								<div class="row gutters mt-4">
 									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
 										<div class="text-right">
 											<button pButton type="button" id="submit" name="submit"
 												class="p-button-danger mr-4" (click)="display = false">Cancel</button>
 											<button pButton type="button" id="submit" name="submit"
-												class="p-button-success">Submit</button>
+												class="p-button-success" (click)="submitFlagUserListdata()">Submit</button>
 										</div>
 									</div>
 								</div>
@@ -253,6 +294,7 @@
 					</div>
 				</div>
 			</div>
+
 		</ng-template>
 	</p-dialog>
 

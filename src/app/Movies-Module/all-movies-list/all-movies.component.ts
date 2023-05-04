@@ -60,7 +60,9 @@ export class AllMoviesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sidebarSpacing = 'contracted';
     this.fgsType = SPINNER.squareLoader
+    this.ngxLoader.start();
     this.sidebarSpacing = 'contracted';
     this.cols = [
       { field: 'title', show: true, headers: 'Title' },
@@ -281,7 +283,10 @@ export class AllMoviesComponent implements OnInit {
     }
   }
   FilterGlobal($event, stringVal) {
-    this.AllMovieTable.filterGlobal(($event.target as HTMLInputElement).value, stringVal)
+    this.MovieSearchKeyWord.Gsearch = ($event.target as HTMLInputElement).value;
+    if (this.MovieSearchKeyWord.Gsearch != null && this.MovieSearchKeyWord.Gsearch.trim().length > 0) {
+      this.AllMovieTable.filterGlobal(($event.target as HTMLInputElement).value, stringVal)
+    }
   }
 }
 

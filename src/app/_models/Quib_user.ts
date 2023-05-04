@@ -48,6 +48,7 @@ export interface userSearchKeyWord {
   firstName: string |any,
   lastName: string |any,
   email: string | any
+  Gsearch:string |any
 }
 
 export interface QUIB_SEARCH_WORD {
@@ -60,4 +61,66 @@ export interface QUIB_SEARCH_WORD {
   avr: string | any,
   rating: string | any,
   Gseacrh:string|any
+}
+export interface ADMIN_QUIB {
+  id: number | any,
+  body: string,
+  userId: number | any,
+  parentId: number | any,
+  time: number | any,
+  isQuibZero: boolean | any,
+  createdDate: string | any,
+  modifiedDate: string | any,
+  movieId: number | any,
+  postedDate: string | any,
+  isPosted: boolean | any,
+  isEnabled: boolean | any,
+  isBumped: boolean | any,
+  bumpedBy: string | any,
+  isSeedQuib: boolean | any,
+  seedQuibType: string | any,
+  isScreenshot: boolean | any,
+  displayName: string | any,
+  avatarBase32ImagePath: string | any,
+  newUserId: string | any
+}
+
+
+export interface QUIB_LIST {
+  quibTotalPages: number | any,
+  currentPage: number | any,
+  savedQuibs: SAVE_QUIBS[],
+
+}
+
+export interface SAVE_QUIBS {
+  id: number |any,
+  movieId: number |any,
+  title: string,
+  body: string,
+  time: number |any,
+  displayName: string,
+  isBumped: boolean,
+  isEnabled: boolean,
+  isSeedQuib: boolean,
+  isQuibZero: boolean,
+  newUserId: string,
+  isPosted: boolean,
+  bumpedBy: string |any,
+  seedQuibType: string,
+  isScreenshot: boolean,
+  parentId: string |any,
+  createdDate: string |any,
+  postedDate: string |any,
+  modifiedDate: string |any
+}
+export interface BUMP_IN_USER_LIST {
+  id: string | any,
+  userName: string | any,
+  ccp: number | any
+}
+export interface FLAG_IN_USER_LIST {
+  id: string | any,
+  userName: string | any,
+  cfp: number | any
 }

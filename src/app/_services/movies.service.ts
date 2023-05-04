@@ -13,7 +13,8 @@ export class MoviesService {
         title: null,
         director: null,
         releaseYear: null,
-        length: null
+        length: null,
+        Gsearch:null,
     })
     getMovieList():Observable<Movies[]> {
         const token = localStorage.getItem('token') || '';

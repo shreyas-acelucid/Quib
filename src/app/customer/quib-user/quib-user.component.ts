@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Movies } from 'src/app/_models/movies';
 import { MoviesService } from 'src/app/_services/movies.service';
 import { CommonService } from 'src/app/_services/common'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-quib-user',
@@ -38,6 +39,7 @@ export class QuibUserComponent implements OnInit {
     private ngxLoader: NgxUiLoaderService,
     private toastr: ToastrMsgService,
     private fb: FormBuilder,
+    private router: Router,
     private CommonService: CommonService,
     private MoviesService: MoviesService,
     private confirmationService: ConfirmationService,
@@ -211,5 +213,9 @@ export class QuibUserComponent implements OnInit {
   }
   FilterGlobal($event, stringVal) {
     this.QuibUserTable.filterGlobal(($event.target as HTMLInputElement).value, stringVal)
+  }
+  AdminQuib() {
+    this.QuibService.adminQuib.next({ userId: "eb264530-2344-4e77-b687-6b4fab5d9679", movieId: 13 });
+    this.router.navigateByUrl("/Quib/admin-quib");
   }
 }

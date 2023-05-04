@@ -4,10 +4,10 @@ import { QuibService } from 'src/app/_services/Quib.service';
 import { TABLE_HEADING } from 'src/app/_models/table_heading';
 import { Table } from 'primeng/table';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
-import { QUIB_SEARCH_WORD, Quib } from 'src/app/_models/Quib_user';
+import { BUMP_IN_USER_LIST, FLAG_IN_USER_LIST, QUIB_LIST, QUIB_SEARCH_WORD, Quib } from 'src/app/_models/Quib_user';
 import { FormBuilder } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
-import {CommonService} from 'src/app/_services/common'
+import { CommonService } from 'src/app/_services/common'
 @Component({
   selector: 'app-recent-quib',
   templateUrl: './recent-quib.component.html',
@@ -20,17 +20,17 @@ export class RecentQuibComponent implements OnInit {
   fgsType: any;
   cols: TABLE_HEADING[];
   display: boolean = false;
-  quibLIst: Quib[] = [];
+  quibLIst: QUIB_LIST;
   BIN: boolean = false;
   CCP: number = 0;
-  BumpUserList:any =[];
-  FlageUserList:any =[];
-  QuibSearchWord:QUIB_SEARCH_WORD
+  BumpUserList: BUMP_IN_USER_LIST[] = [];
+  FlagUserList: FLAG_IN_USER_LIST[] = [];
+  QuibSearchWord: QUIB_SEARCH_WORD
 
   constructor(private ngxLoader: NgxUiLoaderService,
     private QuibService: QuibService,
     private fb: FormBuilder,
-    private CommonService:CommonService,
+    private CommonService: CommonService,
     private confirmationService: ConfirmationService,
     private toastr: ToastrMsgService) {
 
@@ -41,7 +41,11 @@ export class RecentQuibComponent implements OnInit {
     this.fgsType = SPINNER.squareLoader
     this.ngxLoader.start();
     this.sidebarSpacing = 'contracted';
-   this.cols = [
+    this.QuibService.QuibSearchWord.subscribe(res => {
+      this.QuibSearchWord = res
+    })
+    this.getQuibList()
+    this.cols = [
       { field: 'displayName', show: true, headers: 'User' },
       { field: 'title', show: true, headers: 'Movies' },
       { field: 'body', show: true, headers: 'Quib' },
@@ -55,10 +59,6 @@ export class RecentQuibComponent implements OnInit {
       { field: 'BumpIn', show: true, headers: 'B-IN' },
       { field: 'flage', show: true, headers: 'FLAG' },
     ]
-    this.QuibService.QuibSearchWord.subscribe(res => {
-      this.QuibSearchWord = res
-    })
-    this.getQuibList()
   }
   onToggleSidebar(sidebarState: any) {
     if (sidebarState === 'open') {
@@ -106,8 +106,8 @@ export class RecentQuibComponent implements OnInit {
     }
   }
   getQuibList() {
-    this.QuibService.getQuibList().subscribe((data: any) => {
-      this.quibLIst = data.savedQuibs;
+    this.QuibService.getQuibList().subscribe((data: QUIB_LIST) => {
+      this.quibLIst = data;
       this.ngxLoader.stop();
     });
   }
@@ -147,26 +147,71 @@ export class RecentQuibComponent implements OnInit {
       }
     })
   }
-  Increament() {
-    this.CCP++;
+  FlagIncreamentAndDecreament(index, value) {
+    this.FlagUserList[index].cfp = value
   }
-  Decrement(index) {
-    console.log(this.BumpUserList[index])
-    this.CCP--;
+  BumpIncreamentAndDecreament(index, value) {
+    this.BumpUserList[index].ccp = value;
   }
-
-  getBumpUserListByQuibId() {
+  submitBumpUserListdata() {
+    let payload = this.BumpUserList.map(item => {
+      return {
+        id: item.id,
+        ccp: item.ccp
+      }
+    })
     this.ngxLoader.start();
-    this.QuibService.getBumpUserListByQuibId().subscribe(res => {
-      this.BumpUserList =  res;
+    this.QuibService.submitBumpUserListdata(payload).subscribe(res => {
+      if (res) {
+        this.display = false;
+        this.BIN = false;
+        this.toastr.showSuccess(" Current Curator Point is  changed successfully", "Curator Point")
+        this.getQuibList()
+      } else {
+        this.display = false;
+        this.BIN = false;
+        this.toastr.showSuccess("Somthing is Wrong,Please check ", "Curator  Score")
+        this.getQuibList()
+      }
+    })
+  }
+  submitFlagUserListdata() {
+    let payload = this.FlagUserList.map(item => {
+      return {
+        id: item.id,
+        cfp: item.cfp
+      }
+    })
+    this.ngxLoader.start();
+    this.QuibService.submitFlagUserListdata(payload).subscribe(res => {
+      if (res) {
+        this.display = false;
+        this.BIN = false;
+        this.toastr.showSuccess(" Current Flagger Point is  changed successfully", "Flagger Point")
+        this.getQuibList()
+      } else {
+        this.display = false;
+        this.BIN = false;
+        this.toastr.showSuccess("Somthing is Wrong,Please check ", "Flagger Point")
+        this.getQuibList()
+      }
+    })
+  }
+  getBumpUserListByQuibId(id: number) {
+    this.ngxLoader.start();
+    this.QuibService.getBumpUserListByQuibId(id).subscribe(res => {
+      this.BumpUserList = res;
       this.display = true;
       this.BIN = true;
       this.ngxLoader.stop();
     })
   }
-  getFlageUserListByQuibId(){
-    this.QuibService.getFlageUserListByQuibId().subscribe(res=>{
-      this.FlageUserList = res;
+  getFlageUserListByQuibId(id: number) {
+    this.QuibService.getFlageUserListByQuibId(id).subscribe(res => {
+      this.FlagUserList = res;
+      this.display = true;
+      this.BIN = false;
+      this.ngxLoader.stop();
     })
   }
   FilterGlobal($event, stringVal) {

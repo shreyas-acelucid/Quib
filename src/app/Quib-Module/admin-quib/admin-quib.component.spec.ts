@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MostActiveComponent } from './most-active.component';
+import { AdminQuibComponent } from './admin-quib.component';
 
 describe('OrdersComponent', () => {
-  let component: MostActiveComponent;
-  let fixture: ComponentFixture<MostActiveComponent>;
+  let component: AdminQuibComponent;
+  let fixture: ComponentFixture<AdminQuibComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MostActiveComponent ]
+      declarations: [ AdminQuibComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MostActiveComponent);
+    fixture = TestBed.createComponent(AdminQuibComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

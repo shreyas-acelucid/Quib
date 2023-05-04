@@ -9,18 +9,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 
 @Component({
-  selector: 'app-most-active-quib',
-  templateUrl: './most-active.component.html',
-  styleUrls: ['./most-active.component.scss'],
+  selector: 'app-admin-quib',
+  templateUrl: './admin-quib.component.html',
+  styleUrls: ['./admin-quib.component.scss'],
   providers: [ConfirmationService]
 })
-export class MostActiveComponent implements OnInit {
+export class AdminQuibComponent implements OnInit {
   @ViewChild('dt') dt: Table | undefined;
   sidebarSpacing: any;
   cols!: TABLE_HEADING[];
-  Quib_User: Quib[] = [];
-  display: boolean = false;
-  mostActiveQuibForm: FormGroup
+  Admin_Quib: Quib[] = [];
   fgsType: any;
 
   constructor(
@@ -30,17 +28,7 @@ export class MostActiveComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private fb: FormBuilder,
   ) { 
-    this.mostActiveQuibForm = this.fb.group({
-      user: ["", [Validators.required]],
-      movies: ['', [Validators.required]],
-      quib: ['', [Validators.required]],
-      time: ['', [Validators.required]],
-      createdDate: ['', [Validators.required]],
-      postedDate: ['', [Validators.required]],
-      isEnabled: ['', [Validators.required]],
-      isBumped: ['', [Validators.required]],
-      quibType: ['', [Validators.required]],
-    })
+    
   }
 
   ngOnInit(): void {
@@ -48,7 +36,7 @@ export class MostActiveComponent implements OnInit {
     this.fgsType = SPINNER.squareLoader
     this.ngxLoader.start();
     this.sidebarSpacing = 'contracted';
-     this.getMostActiveQuibList()
+     this.AdminQuibList()
     this.cols = [
       { field: 'user', show: true, headers: 'User' },
       { field: 'movies', show: true, headers: 'Movies'},
@@ -74,8 +62,12 @@ export class MostActiveComponent implements OnInit {
     this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
  
-  getMostActiveQuibList() {
-    this.QuibService.getMostActiveQuibList().subscribe((data) => {
+  AdminQuibList() {
+    let payload;
+    this.QuibService.adminQuib.subscribe(res=>{
+      payload= res;
+    })
+    this.QuibService.AdminQuibList(payload).subscribe((data) => {
       this.ngxLoader.stop();
     });
   }
@@ -84,7 +76,7 @@ export class MostActiveComponent implements OnInit {
     this.QuibService.IsEnabled(id,Status).subscribe(res => {
       if (res) {
         this.toastr.showSuccess(" Status change successfully", "Status change")
-        this.getMostActiveQuibList()
+        this.AdminQuibList()
       }
     })
   }
@@ -94,7 +86,7 @@ export class MostActiveComponent implements OnInit {
     this.QuibService.IsBumped(id,Status).subscribe(res => {
       if (res) {
         this.toastr.showSuccess(" Status change successfully", "Status change")
-        this.getMostActiveQuibList()
+        this.AdminQuibList()
       }
     })
   }
@@ -108,7 +100,7 @@ export class MostActiveComponent implements OnInit {
         this.ngxLoader.start();
         this.QuibService.deleteQuib(QuibId).subscribe(res => {
           this.toastr.showSuccess(" Quib deleted successfully", "Quib delete")
-          this.getMostActiveQuibList()
+          this.AdminQuibList()
         })
       },
     });

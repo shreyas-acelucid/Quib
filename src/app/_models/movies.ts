@@ -19,7 +19,8 @@ export interface MovieSearchKeyWord {
   title:string ,
   director:string ,
   releaseYear:string|number |any,
-  length:string 
+  length:string,
+  Gsearch:string |any 
  }
 
 
