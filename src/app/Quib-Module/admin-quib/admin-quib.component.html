@@ -1,7 +1,7 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
 	<div class="card col-sm-12" style="border:none;">
-		<p-table id="customerTable" #dt [value]="Admin_Quib" [columns]="cols" responsiveLayout="scroll"
+		<p-table id="customerTable" #dt [value]="Admin_Quib?.savedQuibs" [columns]="cols" responsiveLayout="scroll"
 			[paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,50,100]" [showCurrentPageReport]="true" [resizableColumns]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
 			[globalFilterFields]="['user', 'movies']" styleClass="p-datatable-striped,width:max-content">
@@ -32,22 +32,18 @@
 					<td>{{AdminQuib.postedDate}}</td>
 					<td>
 						<div class="btn-grp">
-							<button (click)="IsEnabled(AdminQuib?.id,false)" pTooltip="mark as Decline" pButton type="button"
-								class="p-button-success" *ngIf="AdminQuib.isEnabled ==='Approved'"
+							<button pButton type="button" class="p-button-success" *ngIf="AdminQuib.isEnabled ===true"
 								style="height: 30px;">{{AdminQuib.isEnabled}}</button>
-							<button (click)="IsEnabled(AdminQuib?.id,true)" pButton type="button" class="p-button-danger"
-								pTooltip="mark as Approved" *ngIf="AdminQuib.isEnabled !='Approved'"
+							<button pButton type="button" class="p-button-danger" *ngIf="AdminQuib.isEnabled ==false || null"
 								style="height: 30px">{{AdminQuib.isEnabled}}</button>
 						</div>
 					</td>
 					<td>
 						<div class="btn-grp">
-							<button (click)="IsBumped(AdminQuib?.id,false)" pTooltip="mark as Decline" pButton type="button"
-								class="p-button-success" *ngIf="AdminQuib.isBumped =='Saved'"
+							<button pButton type="button" class="p-button-success" *ngIf="AdminQuib.isBumped ==true"
 								style="height: 30px;">{{AdminQuib.isBumped}}</button>
-							<button (click)="IsBumped(AdminQuib?.id,true)" pButton type="button" class="p-button-danger"
-								pTooltip="mark as Saved" *ngIf="AdminQuib.isBumped !='Saved'"
-								style="height: 30px">{{AdminQuib.isBumped}}</button>
+							<button pButton type="button" class="p-button-danger" pTooltip="mark as Saved"
+								*ngIf="AdminQuib.isBumped ===false || null" style="height: 30px">{{AdminQuib.isBumped}}</button>
 						</div>
 					</td>
 					<td>{{AdminQuib.quibType}}</td>

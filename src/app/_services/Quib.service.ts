@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of,BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { QUIB_USER, Quib_User,Quib, QUIB_LIST, BUMP_IN_USER_LIST, FLAG_IN_USER_LIST, ADMIN_QUIB } from "../_models/Quib_user"
+import { QUIB_USER, Quib_User,Quib, QUIB_LIST, BUMP_IN_USER_LIST, FLAG_IN_USER_LIST, ADMIN_QUIB, QUIB_USER_MOVIE_LIST } from "../_models/Quib_user"
 
 @Injectable({
   providedIn: 'root'
@@ -29,8 +29,8 @@ export class QuibService {
     time: null,
     createdDate:null,
     postedDate:null,
-    avr:null,
-    rating:null,
+    averageRating:null,
+    numOfRatings:null,
     Gseacrh:null
   })
   getUserList():Observable<Quib_User[]> {
@@ -71,8 +71,7 @@ export class QuibService {
   IsBumped(Id: number, Status) {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
-    
-   return of("")
+    return of("")
   }
 
   changeUserStatus(Id: string, Status: boolean) {
@@ -83,13 +82,13 @@ export class QuibService {
   }
 
 
-  AdminQuibList(payload):Observable<ADMIN_QUIB[]> {
+  AdminQuibList(payload): Observable<ADMIN_QUIB> {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
-    const endpointUrl = `${environment.QUIB_ADMIN}/GetQuibByUserIdAndMovieId?MovieId=${payload.movieId}&UserId=${payload.userId}`;
-    return this.http.get<ADMIN_QUIB[]>(endpointUrl)
+    const endpointUrl = `${environment.QUIB_ADMIN}/UserQuibDetail?pageNo=1&MovieId=${payload.movieId} &UserId=${payload.userId} `;
+    return this.http.get<ADMIN_QUIB>(endpointUrl)
   }
-  getQuibList() {
+ getQuibList() {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token)
     const endpointUrl = `${environment.QUIB_ADMIN}/GetAllQuibs?pageNo=${1}`;
@@ -142,5 +141,11 @@ export class QuibService {
     let httpOptions = new HttpHeaders().set('x-access-token', token)
     const endpointUrl = `${environment.QUIB_ADMIN}/api/QuibStream/UpdateCurrentFlaggerPoint`
     return this.http.post(endpointUrl, payload)
+  }
+  getUserQuibedMoviesList(userId: string): Observable<QUIB_USER_MOVIE_LIST[]> {
+    const token = localStorage.getItem('token') || '';
+    let httpOptions = new HttpHeaders().set('x-access-token', token)
+    const endpointUrl = `${environment.QUIB_ADMIN}/api/User/GetUserQuibDetailById?UserId=${userId}`
+    return this.http.get<QUIB_USER_MOVIE_LIST[]>(endpointUrl)
   }
 }

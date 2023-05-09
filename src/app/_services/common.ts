@@ -93,8 +93,8 @@ export class CommonService {
             time: keyWord.time,
             createdDate: keyWord.createdDate,
             postedDate: keyWord.postedDate,
-            avr: keyWord.avr,
-            rating: keyWord.rating
+            avr: keyWord.averageRating,
+            rating: keyWord.numOfRatings
         }
         localStorage.setItem("QuibSearch", JSON.stringify(payload))
     }

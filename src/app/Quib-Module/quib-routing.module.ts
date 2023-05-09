@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: '',
     component: RecentQuibComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'recent-quib', component: RecentQuibComponent

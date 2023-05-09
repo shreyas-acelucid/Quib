@@ -58,31 +58,40 @@ export interface QUIB_SEARCH_WORD {
   time: string | any,
   createdDate: string | any,
   postedDate: string | any,
-  avr: string | any,
-  rating: string | any,
+  averageRating: string | any,
+  numOfRatings: string | any,
   Gseacrh:string|any
 }
 export interface ADMIN_QUIB {
-  id: number | any,
-  body: string,
-  userId: number | any,
-  parentId: number | any,
-  time: number | any,
-  isQuibZero: boolean | any,
-  createdDate: string | any,
-  modifiedDate: string | any,
-  movieId: number | any,
-  postedDate: string | any,
-  isPosted: boolean | any,
-  isEnabled: boolean | any,
-  isBumped: boolean | any,
-  bumpedBy: string | any,
-  isSeedQuib: boolean | any,
-  seedQuibType: string | any,
-  isScreenshot: boolean | any,
-  displayName: string | any,
-  avatarBase32ImagePath: string | any,
+  currentPage: number | any
+  quibTotalPages: number | any
+  savedQuibs: ADMIN_QUIB_DATA[]
+}
+
+export interface ADMIN_QUIB_DATA {
+  averageRating: number | any
+  bIn: number | any
+  body: string
+  bumpedBy: string | any
+  createdDate: string | any
+  displayName: string | any
+  flag: number | any
+  id: number | any
+  isBumped: string | any
+  isEnabled: boolean
+  isPosted: boolean
+  isQuibZero: boolean
+  isScreenshot: boolean
+  isSeedQuib: boolean
+  modifiedDate: string | any
+  movieId: number | any
   newUserId: string | any
+  numOfRatings: number | any
+  parentId: string | any
+  postedDate: string | any
+  seedQuibType: string | any
+  time: number | any
+  title: string | any
 }
 
 
@@ -113,6 +122,8 @@ export interface SAVE_QUIBS {
   createdDate: string |any,
   postedDate: string |any,
   modifiedDate: string |any
+  averageRating:number |any
+  numOfRatings:number |any
 }
 export interface BUMP_IN_USER_LIST {
   id: string | any,
@@ -123,4 +134,17 @@ export interface FLAG_IN_USER_LIST {
   id: string | any,
   userName: string | any,
   cfp: number | any
+}
+
+export interface QUIB_USER_MOVIE_LIST {
+  movieId: number | any,
+  movieName: string,
+  totalQuibByMovieId: number,
+  ratedQuibByMovieId: number,
+  totalRatingByMovieId: number,
+  averageRatingByMovieId: number
+}
+export interface QUIB_BY_USERID_MOVIE_ID{
+  userId: string |any, 
+  movieId: number |any
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, } from '@angular/core';
-import { Quib_User, userSearchKeyWord } from 'src/app/_models/Quib_user';
+import { QUIB_USER_MOVIE_LIST, Quib_User, userSearchKeyWord } from 'src/app/_models/Quib_user';
 import { QuibService } from 'src/app/_services/Quib.service';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 import { TABLE_HEADING } from '../../_models/table_heading'
@@ -26,6 +26,7 @@ export class QuibUserComponent implements OnInit {
   Approved_UserList: Quib_User[] = [];
   selectedMovies: Movies[] = [];
   moviesList: Movies[]
+  userMovieList:QUIB_USER_MOVIE_LIST[]=[]
   movieId: any[] = [];
   fgsType: any;
   SearchKeyWord: userSearchKeyWord
@@ -34,6 +35,7 @@ export class QuibUserComponent implements OnInit {
   AssignToModerator:boolean = false;
   message: string;
   quibUserForm: FormGroup
+  userId:string
   constructor(
     private QuibService: QuibService,
     private ngxLoader: NgxUiLoaderService,
@@ -217,8 +219,16 @@ export class QuibUserComponent implements OnInit {
   FilterGlobal($event, stringVal) {
     this.QuibUserTable.filterGlobal(($event.target as HTMLInputElement).value, stringVal)
   }
-  AdminQuib() {
-    this.QuibService.adminQuib.next({ userId: "eb264530-2344-4e77-b687-6b4fab5d9679", movieId: 13 });
-    this.router.navigateByUrl("/Quib/admin-quib");
+  AdminQuib(MovieId: number) {
+    this.router.navigate(
+      ['/Quib/admin-quib'],
+      { queryParams: { userId: this.userId, movieId: MovieId } }
+    )
+  }
+  getUserQuibedMoviesList(userId: string) {
+    this.userId = userId
+    this.QuibService.getUserQuibedMoviesList(userId).subscribe(res => {
+      this.userMovieList = res
+    })
   }
 }

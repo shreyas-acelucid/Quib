@@ -26,6 +26,7 @@ export class RecentQuibComponent implements OnInit {
   BumpUserList: BUMP_IN_USER_LIST[] = [];
   FlagUserList: FLAG_IN_USER_LIST[] = [];
   QuibSearchWord: QUIB_SEARCH_WORD
+  headerMessage:string
 
   constructor(private ngxLoader: NgxUiLoaderService,
     private QuibService: QuibService,
@@ -54,8 +55,8 @@ export class RecentQuibComponent implements OnInit {
       { field: 'postedDate', show: true, headers: 'Posted Date' },
       { field: 'isEnabled', show: true, headers: 'IsEnabled' },
       { field: 'isBumped', show: true, headers: 'IsBumped' },
-      { field: 'avr', show: true, headers: 'AVR' },
-      { field: 'rating', show: true, headers: 'Rating' },
+      { field: 'averageRating', show: true, headers: 'AVR' },
+      { field: 'numOfRatings', show: true, headers: 'Rating' },
       { field: 'BumpIn', show: true, headers: 'B-IN' },
       { field: 'flage', show: true, headers: 'FLAG' },
     ]
@@ -93,12 +94,12 @@ export class RecentQuibComponent implements OnInit {
         this.QuibSearchWord.time = ($event.target as HTMLInputElement).value;
         this.QuibTable.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
-      case 'avr':
-        this.QuibSearchWord.avr = ($event.target as HTMLInputElement).value;
+      case 'averageRating':
+        this.QuibSearchWord.averageRating = ($event.target as HTMLInputElement).value;
         this.QuibTable.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
-      case 'rating':
-        this.QuibSearchWord.rating = ($event.target as HTMLInputElement).value;
+      case 'numOfRatings':
+        this.QuibSearchWord.numOfRatings = ($event.target as HTMLInputElement).value;
         this.QuibTable.filter(($event.target as HTMLInputElement).value, ($event.target as HTMLInputElement).id, stringVal);
         break;
       default:
@@ -198,6 +199,7 @@ export class RecentQuibComponent implements OnInit {
     })
   }
   getBumpUserListByQuibId(id: number) {
+    this.headerMessage  =  "Bumped User List"
     this.ngxLoader.start();
     this.QuibService.getBumpUserListByQuibId(id).subscribe(res => {
       this.BumpUserList = res;
@@ -207,6 +209,7 @@ export class RecentQuibComponent implements OnInit {
     })
   }
   getFlageUserListByQuibId(id: number) {
+    this.headerMessage  =  "Flagged User List"
     this.QuibService.getFlageUserListByQuibId(id).subscribe(res => {
       this.FlagUserList = res;
       this.display = true;
@@ -242,14 +245,14 @@ export class RecentQuibComponent implements OnInit {
     if (this.QuibSearchWord.postedDate != null && this.QuibSearchWord.postedDate.trim().length > 0) {
       this.QuibTable.filter(this.QuibSearchWord.postedDate, "postedDate", "contains")
     }
-    if (this.QuibSearchWord.avr != null && this.QuibSearchWord.avr.trim().length > 0) {
-      this.QuibTable.filter(this.QuibSearchWord.avr, "avr", "contains")
+    if (this.QuibSearchWord.averageRating != null && this.QuibSearchWord.averageRating.trim().length > 0) {
+      this.QuibTable.filter(this.QuibSearchWord.averageRating, "averageRating", "contains")
     }
     if (this.QuibSearchWord.time != null && this.QuibSearchWord.time.trim().length > 0) {
       this.QuibTable.filter(this.QuibSearchWord.time, "time", "contains")
     }
-    if (this.QuibSearchWord.rating != null && this.QuibSearchWord.rating.trim().length > 0) {
-      this.QuibTable.filter(this.QuibSearchWord.rating, "rating", "contains")
+    if (this.QuibSearchWord.numOfRatings != null && this.QuibSearchWord.numOfRatings.trim().length > 0) {
+      this.QuibTable.filter(this.QuibSearchWord.numOfRatings, "numOfRatings", "contains")
     }
   }
 }

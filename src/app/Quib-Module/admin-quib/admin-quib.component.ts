@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ADMIN_QUIB, Quib } from 'src/app/_models/Quib_user';
+import { ADMIN_QUIB, QUIB_BY_USERID_MOVIE_ID, Quib } from 'src/app/_models/Quib_user';
 import { QuibService } from 'src/app/_services/Quib.service';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 import { TABLE_HEADING } from '../../_models/table_heading'
 import { Table } from 'primeng/table';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-admin-quib',
@@ -18,17 +18,17 @@ export class AdminQuibComponent implements OnInit {
   @ViewChild('dt') dt: Table | undefined;
   sidebarSpacing: any;
   cols!: TABLE_HEADING[];
-  Admin_Quib: ADMIN_QUIB[] = [];
+  Admin_Quib: ADMIN_QUIB;
   fgsType: any;
+  payload:QUIB_BY_USERID_MOVIE_ID
 
   constructor(
     private QuibService: QuibService,
     private ngxLoader: NgxUiLoaderService,
     private toastr: ToastrMsgService,
+    private ActivatedRoute: ActivatedRoute,
     private confirmationService: ConfirmationService,
-    private fb: FormBuilder,
-  ) { 
-    
+    ) { 
   }
 
   ngOnInit(): void {
@@ -36,7 +36,10 @@ export class AdminQuibComponent implements OnInit {
     this.fgsType = SPINNER.squareLoader
     this.ngxLoader.start();
     this.sidebarSpacing = 'contracted';
-     this.AdminQuibList()
+    this.ActivatedRoute.queryParams.subscribe((res: QUIB_BY_USERID_MOVIE_ID) => {
+      this.payload = res
+    })
+   this.AdminQuibList(this.payload)
     this.cols = [
       { field: 'user', show: true, headers: 'User' },
       { field: 'movies', show: true, headers: 'Movies'},
@@ -47,10 +50,8 @@ export class AdminQuibComponent implements OnInit {
       { field: 'isEnabled', show: true, headers: 'Is Enabled' },
       { field: 'isBumped', show: true, headers: 'Is Bumped' },
       { field: 'quibType', show: true, headers: 'Quib Type' },
-      
-    ]
+      ]
   }
-
   onToggleSidebar(sidebarState: any) {
     if (sidebarState === 'open') {
       this.sidebarSpacing = 'contracted';
@@ -61,37 +62,12 @@ export class AdminQuibComponent implements OnInit {
   applyFilterGlobal($event, stringVal) {
     this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
- 
-  AdminQuibList() {
-    let payload;
-    this.QuibService.adminQuib.subscribe(res=>{
-      payload= res;
-    })
+ AdminQuibList(payload) {
     this.QuibService.AdminQuibList(payload).subscribe((data) => {
       this.Admin_Quib = data
       this.ngxLoader.stop();
     });
   }
-  IsEnabled(id:number,Status:boolean){
-    this.ngxLoader.start();
-    this.QuibService.IsEnabled(id,Status).subscribe(res => {
-      if (res) {
-        this.toastr.showSuccess(" Status change successfully", "Status change")
-        this.AdminQuibList()
-      }
-    })
-  }
-
-  IsBumped(id:number,Status:boolean){
-    this.ngxLoader.start();
-    this.QuibService.IsBumped(id,Status).subscribe(res => {
-      if (res) {
-        this.toastr.showSuccess(" Status change successfully", "Status change")
-        this.AdminQuibList()
-      }
-    })
-  }
- 
   deleteQuib(QuibId) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to delete Quib ?',
@@ -101,7 +77,7 @@ export class AdminQuibComponent implements OnInit {
         this.ngxLoader.start();
         this.QuibService.deleteQuib(QuibId).subscribe(res => {
           this.toastr.showSuccess(" Quib deleted successfully", "Quib delete")
-          this.AdminQuibList()
+          this.AdminQuibList(this.payload)
         })
       },
     });

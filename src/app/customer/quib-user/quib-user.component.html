@@ -119,7 +119,7 @@
 					<td>null</td>
 					<td>null</td>
 					<td>
-						<a style="color: blue; cursor: pointer;" (click)="[display =true, MoVList = true, AssignToModerator =false,message='Movie List']">MOV</a>
+						<a style="color: blue; cursor: pointer;" (click)="[display =true, MoVList = true, AssignToModerator =false, getUserQuibedMoviesList(user?.id),message='Movie List']">MOV</a>
 					</td>
 					<td>{{user.totalQuibsWritten}}</td>
 					<td>{{user.averageOverallRating}}</td>
@@ -193,47 +193,31 @@
 				</div>
 			</form>
 		</ng-container>
-		<ng-container  *ngIf="MoVList">
-			<p-card class="m-5">
-				<div class="row gutters">
-					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-						<strong class="heading-section">Movie Name</strong> =><span class="content-data" (click)="AdminQuib()" style="cursor: pointer;">chinaTown</span> <br>
-						<strong class="heading-section">Total No of Quib</strong> =><span class="content-data">153</span> <br>
+		<ng-container *ngIf="MoVList && userMovieList.length>0">
+			<div *ngFor="let item of userMovieList ">
+				<p-card class="m-5">
+					<div class="row gutters">
+						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+							<strong class="heading-section">Movie Name</strong> =><span class="content-data"
+								(click)="AdminQuib(item?.movieId)" style="cursor: pointer;">{{item?.movieName}}</span> <br>
+							<strong class="heading-section">Total No of Quib</strong> =><span
+								class="content-data">{{item?.totalQuibByMovieId}}</span>
+							<br>
+						</div>
+						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+							<strong class="heading-section">Total No of Rated Quib</strong> =><span
+								class="content-data">{{item?.ratedQuibByMovieId}}</span>
+							<br>
+							<strong class="heading-section">AVR Rating</strong> =><span
+								class="content-data">{{item?.averageRatingByMovieId}}</span> <br>
+						</div>
 					</div>
-					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-						<strong class="heading-section">Total No of Rated Quib</strong> =><span class="content-data">13</span> <br>
-						<strong class="heading-section">AVR Rating</strong> =><span class="content-data">2.5</span> <br>
-					</div>
+				</p-card>
+			</div>
+		</ng-container>
 
-				</div>
-			</p-card>
-			<p-card class="m-5">
-				<div class="row gutters">
-					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-						<strong class="heading-section">Movie Name</strong> =><span class="content-data" style="cursor: pointer;">pulp Fiction</span><br>
-						<strong class="heading-section">Total No of Quib</strong> =><span class="content-data">153</span> <br>
-					</div>
-					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-						<strong class="heading-section">Total No of Rated Quib</strong>=><span class="content-data">13</span> <br>
-						<strong class="heading-section">AVR Rating</strong> =><span class="content-data">2.5</span> <br>
-					</div>
-
-				</div>
-			</p-card>
-			<p-card class="m-5">
-				<div class="row gutters">
-					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-						<strong class="heading-section">Movie Name</strong>=><span class="content-data" style="cursor: pointer;">BirdMan</span> <br>
-						<strong class="heading-section">Total No of Quib</strong> =><span class="content-data">153</span> <br>
-					</div>
-					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-						<strong class="heading-section">Total No of Rated Quib</strong> =><span class="content-data">13</span> <br>
-						<strong class="heading-section">AVR Rating</strong> =><span class="content-data">2.5</span> <br>
-					</div>
-
-				</div>
-			</p-card>
-			
+		<ng-container *ngIf="MoVList && userMovieList.length==0">
+			<h1 class="NoRecord">Sorry No Data Found</h1>
 		</ng-container>
 
 	</p-dialog>
