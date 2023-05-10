@@ -149,7 +149,7 @@
 
 	<!--pop model edit user  start from here ------>
 	<p-dialog [(visible)]="display" [modal]="true" [header]="message"
-		[style]="{width: '55vw',height:'80vh'}" position="top" [baseZIndex]="10000">
+		[style]="styleValue" position="top" [baseZIndex]="10000">
 		<ng-container *ngIf="AssignToModerator">
 			<form [formGroup]="quibUserForm">
 				<div class="card col-sm-12">

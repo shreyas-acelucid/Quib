@@ -36,7 +36,10 @@ export class QuibUserComponent implements OnInit {
   message: string;
   quibUserForm: FormGroup
   userId:string
-  styleValue:STYLE_VALUE
+  styleValue: STYLE_VALUE = {
+    height: '55vw',
+    width: '80vh'
+  }
   constructor(
     private QuibService: QuibService,
     private ngxLoader: NgxUiLoaderService,
@@ -230,6 +233,7 @@ export class QuibUserComponent implements OnInit {
     this.userId = userId
     this.QuibService.getUserQuibedMoviesList(userId).subscribe(res => {
       this.userMovieList = res
-      })
+    })
+    
   }
 }
