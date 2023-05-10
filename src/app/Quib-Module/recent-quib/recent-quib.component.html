@@ -137,7 +137,7 @@
 		<ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
 	</div>
 
-	<p-dialog [(visible)]="display" [modal]="true" [header]="headerMessage" [style]="{width: '55vw',height:'90vh'}"
+	<p-dialog [(visible)]="display" [modal]="true" [header]="headerMessage" [style]="styleValue"
 		position="top" [baseZIndex]="10000">
 		<div *ngIf="BIN; else flage">
 			<ng-container *ngIf="BumpUserList.length >0">

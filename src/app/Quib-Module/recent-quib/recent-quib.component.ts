@@ -4,7 +4,7 @@ import { QuibService } from 'src/app/_services/Quib.service';
 import { TABLE_HEADING } from 'src/app/_models/table_heading';
 import { Table } from 'primeng/table';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
-import { BUMP_IN_USER_LIST, FLAG_IN_USER_LIST, QUIB_LIST, QUIB_SEARCH_WORD, Quib } from 'src/app/_models/Quib_user';
+import { BUMP_IN_USER_LIST, FLAG_IN_USER_LIST, QUIB_LIST, QUIB_SEARCH_WORD, Quib, STYLE_VALUE } from 'src/app/_models/Quib_user';
 import { FormBuilder } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { CommonService } from 'src/app/_services/common'
@@ -27,6 +27,7 @@ export class RecentQuibComponent implements OnInit {
   FlagUserList: FLAG_IN_USER_LIST[] = [];
   QuibSearchWord: QUIB_SEARCH_WORD
   headerMessage:string
+  styleValue:STYLE_VALUE
 
   constructor(private ngxLoader: NgxUiLoaderService,
     private QuibService: QuibService,
@@ -206,7 +207,14 @@ export class RecentQuibComponent implements OnInit {
       this.display = true;
       this.BIN = true;
       this.ngxLoader.stop();
-    })
+      if (this.BumpUserList.length === 0) {
+        this.styleValue.height = "20vh",
+          this.styleValue.width = "55vw"
+      } else {
+        this.styleValue.height = "90vh",
+          this.styleValue.width = "55vw"
+      }
+  })
   }
   getFlageUserListByQuibId(id: number) {
     this.headerMessage  =  "Flagged User List"
@@ -214,6 +222,13 @@ export class RecentQuibComponent implements OnInit {
       this.FlagUserList = res;
       this.display = true;
       this.BIN = false;
+      if (this.FlagUserList.length === 0) {
+        this.styleValue.height = "20vh",
+          this.styleValue.width = "55vw"
+      } else {
+        this.styleValue.height = "90vh",
+          this.styleValue.width = "55vw"
+      }
       this.ngxLoader.stop();
     })
   }
@@ -255,6 +270,4 @@ export class RecentQuibComponent implements OnInit {
       this.QuibTable.filter(this.QuibSearchWord.numOfRatings, "numOfRatings", "contains")
     }
   }
-  // added some for demo
-  //hjkshvskgit
-}
+ }

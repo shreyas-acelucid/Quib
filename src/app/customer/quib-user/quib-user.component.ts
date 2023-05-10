@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, } from '@angular/core';
-import { QUIB_USER_MOVIE_LIST, Quib_User, userSearchKeyWord } from 'src/app/_models/Quib_user';
+import { QUIB_USER_MOVIE_LIST, Quib_User, STYLE_VALUE, userSearchKeyWord } from 'src/app/_models/Quib_user';
 import { QuibService } from 'src/app/_services/Quib.service';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 import { TABLE_HEADING } from '../../_models/table_heading'
@@ -36,6 +36,7 @@ export class QuibUserComponent implements OnInit {
   message: string;
   quibUserForm: FormGroup
   userId:string
+  styleValue:STYLE_VALUE
   constructor(
     private QuibService: QuibService,
     private ngxLoader: NgxUiLoaderService,
@@ -229,6 +230,6 @@ export class QuibUserComponent implements OnInit {
     this.userId = userId
     this.QuibService.getUserQuibedMoviesList(userId).subscribe(res => {
       this.userMovieList = res
-    })
+      })
   }
 }
