@@ -255,5 +255,5 @@ export class RecentQuibComponent implements OnInit {
       this.QuibTable.filter(this.QuibSearchWord.numOfRatings, "numOfRatings", "contains")
     }
   }
-  // this is for demo 
+  // remove commnected code 
 }
