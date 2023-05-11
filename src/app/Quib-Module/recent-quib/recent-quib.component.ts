@@ -25,7 +25,7 @@ export class RecentQuibComponent implements OnInit {
   CCP: number = 0;
   totalRecords: number;
   pageNo: number = 1;
-  loading: boolean = false
+  loading: boolean 
   BumpUserList: BUMP_IN_USER_LIST[] = [];
   FlagUserList: FLAG_IN_USER_LIST[] = [];
   QuibSearchWord: QUIB_SEARCH_WORD
@@ -115,7 +115,8 @@ export class RecentQuibComponent implements OnInit {
       this.quibLIst = data;
       this.totalRecords = data.quibTotalPages
       this.ngxLoader.stop();
-    });
+      this.loading  = false;
+      });
   }
 
   deleteQuib(QuibId) {
@@ -280,7 +281,7 @@ export class RecentQuibComponent implements OnInit {
     this.QuibService.getQuibList(this.pageNo).subscribe((data: QUIB_LIST) => {
       this.quibLIst = data;
       this.totalRecords = data.quibTotalPages
-      this.loading = false
+      this.loading = false;
     });
   }
 }
