@@ -148,3 +148,8 @@ export interface QUIB_BY_USERID_MOVIE_ID{
   userId: string |any, 
   movieId: number |any
 }
+
+export interface STYLE_VALUE {
+  height:string
+  width:string
+ }

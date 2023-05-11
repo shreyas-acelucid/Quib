@@ -4,7 +4,7 @@ import { QuibService } from 'src/app/_services/Quib.service';
 import { TABLE_HEADING } from 'src/app/_models/table_heading';
 import { Table } from 'primeng/table';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
-import { BUMP_IN_USER_LIST, FLAG_IN_USER_LIST, QUIB_LIST, QUIB_SEARCH_WORD, Quib } from 'src/app/_models/Quib_user';
+import { BUMP_IN_USER_LIST, FLAG_IN_USER_LIST, QUIB_LIST, QUIB_SEARCH_WORD, Quib, STYLE_VALUE } from 'src/app/_models/Quib_user';
 import { FormBuilder } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { CommonService } from 'src/app/_services/common'
@@ -23,10 +23,14 @@ export class RecentQuibComponent implements OnInit {
   quibLIst: QUIB_LIST;
   BIN: boolean = false;
   CCP: number = 0;
+  totalRecords: number;
+  pageNo: number = 1;
+  loading: boolean
   BumpUserList: BUMP_IN_USER_LIST[] = [];
   FlagUserList: FLAG_IN_USER_LIST[] = [];
   QuibSearchWord: QUIB_SEARCH_WORD
-  headerMessage:string
+  headerMessage: string
+  styleValue: STYLE_VALUE
 
   constructor(private ngxLoader: NgxUiLoaderService,
     private QuibService: QuibService,
@@ -107,8 +111,9 @@ export class RecentQuibComponent implements OnInit {
     }
   }
   getQuibList() {
-    this.QuibService.getQuibList().subscribe((data: QUIB_LIST) => {
+    this.QuibService.getQuibList(this.pageNo).subscribe((data: QUIB_LIST) => {
       this.quibLIst = data;
+      this.totalRecords = data.quibTotalPages
       this.ngxLoader.stop();
     });
   }
@@ -199,21 +204,35 @@ export class RecentQuibComponent implements OnInit {
     })
   }
   getBumpUserListByQuibId(id: number) {
-    this.headerMessage  =  "Bumped User List"
+    this.headerMessage = "Bumped User List"
     this.ngxLoader.start();
     this.QuibService.getBumpUserListByQuibId(id).subscribe(res => {
       this.BumpUserList = res;
       this.display = true;
       this.BIN = true;
       this.ngxLoader.stop();
+      if (this.BumpUserList.length === 0) {
+        this.styleValue.height = "20vh",
+          this.styleValue.width = "55vw"
+      } else {
+        this.styleValue.height = "90vh",
+          this.styleValue.width = "55vw"
+      }
     })
   }
   getFlageUserListByQuibId(id: number) {
-    this.headerMessage  =  "Flagged User List"
+    this.headerMessage = "Flagged User List"
     this.QuibService.getFlageUserListByQuibId(id).subscribe(res => {
       this.FlagUserList = res;
       this.display = true;
       this.BIN = false;
+      if (this.FlagUserList.length === 0) {
+        this.styleValue.height = "20vh",
+          this.styleValue.width = "55vw"
+      } else {
+        this.styleValue.height = "90vh",
+          this.styleValue.width = "55vw"
+      }
       this.ngxLoader.stop();
     })
   }
@@ -255,6 +274,13 @@ export class RecentQuibComponent implements OnInit {
       this.QuibTable.filter(this.QuibSearchWord.numOfRatings, "numOfRatings", "contains")
     }
   }
-  // added some for demo
-  //hjkshvskgit
+  loadNextQuibsdata(event) {
+    this.loading = true;
+    this.pageNo = (event.first + event.rows) / 20;
+    this.QuibService.getQuibList(this.pageNo).subscribe((data: QUIB_LIST) => {
+      this.quibLIst = data;
+      this.totalRecords = data.quibTotalPages
+      this.loading = false
+    });
+  }
 }
