@@ -25,7 +25,7 @@ export class RecentQuibComponent implements OnInit {
   CCP: number = 0;
   totalRecords: number;
   pageNo: number = 1;
-  loading: boolean
+  loading: boolean = false
   BumpUserList: BUMP_IN_USER_LIST[] = [];
   FlagUserList: FLAG_IN_USER_LIST[] = [];
   QuibSearchWord: QUIB_SEARCH_WORD
