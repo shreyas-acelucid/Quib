@@ -23,11 +23,14 @@ export class RecentQuibComponent implements OnInit {
   quibLIst: QUIB_LIST;
   BIN: boolean = false;
   CCP: number = 0;
+  totalRecords: number;
+  pageNo: number = 1;
+  loading: boolean
   BumpUserList: BUMP_IN_USER_LIST[] = [];
   FlagUserList: FLAG_IN_USER_LIST[] = [];
   QuibSearchWord: QUIB_SEARCH_WORD
-  headerMessage:string
-  styleValue:STYLE_VALUE
+  headerMessage: string
+  styleValue: STYLE_VALUE
 
   constructor(private ngxLoader: NgxUiLoaderService,
     private QuibService: QuibService,
@@ -108,8 +111,9 @@ export class RecentQuibComponent implements OnInit {
     }
   }
   getQuibList() {
-    this.QuibService.getQuibList().subscribe((data: QUIB_LIST) => {
+    this.QuibService.getQuibList(this.pageNo).subscribe((data: QUIB_LIST) => {
       this.quibLIst = data;
+      this.totalRecords = data.quibTotalPages
       this.ngxLoader.stop();
     });
   }
@@ -200,7 +204,7 @@ export class RecentQuibComponent implements OnInit {
     })
   }
   getBumpUserListByQuibId(id: number) {
-    this.headerMessage  =  "Bumped User List"
+    this.headerMessage = "Bumped User List"
     this.ngxLoader.start();
     this.QuibService.getBumpUserListByQuibId(id).subscribe(res => {
       this.BumpUserList = res;
@@ -214,10 +218,10 @@ export class RecentQuibComponent implements OnInit {
         this.styleValue.height = "90vh",
           this.styleValue.width = "55vw"
       }
-  })
+    })
   }
   getFlageUserListByQuibId(id: number) {
-    this.headerMessage  =  "Flagged User List"
+    this.headerMessage = "Flagged User List"
     this.QuibService.getFlageUserListByQuibId(id).subscribe(res => {
       this.FlagUserList = res;
       this.display = true;
@@ -270,4 +274,13 @@ export class RecentQuibComponent implements OnInit {
       this.QuibTable.filter(this.QuibSearchWord.numOfRatings, "numOfRatings", "contains")
     }
   }
- }
+  loadNextQuibsdata(event) {
+    this.loading = true;
+    this.pageNo = (event.first + event.rows) / 20;
+    this.QuibService.getQuibList(this.pageNo).subscribe((data: QUIB_LIST) => {
+      this.quibLIst = data;
+      this.totalRecords = data.quibTotalPages
+      this.loading = false
+    });
+  }
+}

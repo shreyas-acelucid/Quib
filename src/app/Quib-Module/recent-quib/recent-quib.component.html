@@ -2,7 +2,8 @@
 <div class="body bcard" [ngClass]="sidebarSpacing">
 	<div class="card col-sm-12" style="border:none;">
 		<p-table id="customerTable" #QuibTable [value]="quibLIst?.savedQuibs" [columns]="cols" responsiveLayout="scroll"
-			[paginator]="true" [rows]="20" [showCurrentPageReport]="true" [resizableColumns]="true"
+			[paginator]="true" [rows]="10" [showCurrentPageReport]="true" [resizableColumns]="true"
+			[totalRecords]="totalRecords" [lazy]="true" [loading]="loading" (onLazyLoad)="loadNextQuibsdata($event)"
 			stateStorage="session" stateKey="Quib-session"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
 			[globalFilterFields]="['user', 'movies']" styleClass="p-datatable-striped,width:max-content">
@@ -117,7 +118,8 @@
 					<td>{{Quib?.numOfRatings}}</td>
 					<td (click)="getBumpUserListByQuibId(Quib?.id)"><a style="color: blue; cursor: pointer;">B-IN</a>
 					</td>
-					<td (click)="getFlageUserListByQuibId(Quib?.id)"><a style="color: blue; cursor: pointer;">Flage</a></td>
+					<td (click)="getFlageUserListByQuibId(Quib?.id)"><a style="color: blue; cursor: pointer;">Flage</a>
+					</td>
 					<td>
 						<div class="btn-grp">
 							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
@@ -137,8 +139,8 @@
 		<ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
 	</div>
 
-	<p-dialog [(visible)]="display" [modal]="true" [header]="headerMessage" [style]="styleValue"
-		position="top" [baseZIndex]="10000">
+	<p-dialog [(visible)]="display" [modal]="true" [header]="headerMessage" [style]="styleValue" position="top"
+		[baseZIndex]="10000">
 		<div *ngIf="BIN; else flage">
 			<ng-container *ngIf="BumpUserList.length >0">
 				<div class="card col-sm-12" style="height: 70vh;">
@@ -162,39 +164,46 @@
 										<div class="row gutters">
 											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 												<div class="form-group">
-													<input type="text" class="form-control" value="{{item.userName}}" readonly>
+													<input type="text" class="form-control" value="{{item.userName}}"
+														readonly>
 												</div>
 											</div>
 											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 												<div class="form-group">
 													<div class="row gutters">
 														<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-															<button (click)="BumpIncreamentAndDecreament(indexvalue,item.ccp-1)"
+															<button
+																(click)="BumpIncreamentAndDecreament(indexvalue,item.ccp-1)"
 																class="p-button-danger" pButton type="button">
-																<i class="pi pi-minus-circle" style="font-size: 1rem"></i>
+																<i class="pi pi-minus-circle"
+																	style="font-size: 1rem"></i>
 															</button>
 														</div>
 														<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
-															<input type="text" class="form-control" value="{{item.ccp}}" readonly>
+															<input type="text" class="form-control" value="{{item.ccp}}"
+																readonly>
 														</div>
 														<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-															<button (click)="BumpIncreamentAndDecreament(indexvalue,item.ccp+1)"
+															<button
+																(click)="BumpIncreamentAndDecreament(indexvalue,item.ccp+1)"
 																class="p-button-success" pButton type="button">
-																<i class="pi pi-plus-circle" style="font-size: 1rem"></i>
+																<i class="pi pi-plus-circle"
+																	style="font-size: 1rem"></i>
 															</button>
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
-			
+
 									</div>
 									<div class="row gutters mt-4">
 										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
 											<div class="text-right">
-												<button pButton type="button" id="submit" name="submit" class="p-button-danger mr-4"
-													(click)="display=false">Cancel</button>
-												<button pButton type="button" id="submit" name="submit" class="p-button-success"
+												<button pButton type="button" id="submit" name="submit"
+													class="p-button-danger mr-4" (click)="display=false">Cancel</button>
+												<button pButton type="button" id="submit" name="submit"
+													class="p-button-success"
 													(click)="submitBumpUserListdata()">Submit</button>
 											</div>
 										</div>
@@ -232,17 +241,20 @@
 										<div class="row gutters">
 											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 												<div class="form-group">
-													<input type="text" class="form-control" value="{{item.userName}}" readonly>
+													<input type="text" class="form-control" value="{{item.userName}}"
+														readonly>
 												</div>
 											</div>
-		
+
 											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 												<div class="form-group">
 													<div class="row gutters">
 														<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-															<button (click)="FlagIncreamentAndDecreament(indexvalue,item.cfp-1)"
+															<button
+																(click)="FlagIncreamentAndDecreament(indexvalue,item.cfp-1)"
 																class="p-button-danger" pButton type="button">
-																<i class="pi pi-minus-circle" style="font-size: 1rem"></i>
+																<i class="pi pi-minus-circle"
+																	style="font-size: 1rem"></i>
 															</button>
 														</div>
 														<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
@@ -250,24 +262,28 @@
 																readonly>
 														</div>
 														<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-															<button (click)="FlagIncreamentAndDecreament(indexvalue,item.cfp+1)"
+															<button
+																(click)="FlagIncreamentAndDecreament(indexvalue,item.cfp+1)"
 																class="p-button-success" pButton type="button">
-																<i class="pi pi-plus-circle" style="font-size: 1rem"></i>
+																<i class="pi pi-plus-circle"
+																	style="font-size: 1rem"></i>
 															</button>
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
-		
+
 									</div>
-		
+
 									<div class="row gutters mt-4">
 										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
 											<div class="text-right">
 												<button pButton type="button" id="submit" name="submit"
-													class="p-button-danger mr-4" (click)="display = false">Cancel</button>
-												<button pButton type="button" id="submit" name="submit" class="p-button-success"
+													class="p-button-danger mr-4"
+													(click)="display = false">Cancel</button>
+												<button pButton type="button" id="submit" name="submit"
+													class="p-button-success"
 													(click)="submitFlagUserListdata()">Submit</button>
 											</div>
 										</div>
