@@ -5,12 +5,17 @@ import { AllMoviesComponent } from './all-movies-list/all-movies.component'
 
 const routes: Routes = [
   {
-    path: 'all-movies', component: AllMoviesComponent
+    path: '',
+    component: AllMoviesComponent,
   },
   {
-    path: 'active-movies', component: ActiveMoviesComponent
+    path: 'all-movies',
+    component: AllMoviesComponent,
   },
-  
+  {
+    path: 'active-movies',
+    component: ActiveMoviesComponent,
+  },
 ];
 
 @NgModule({
