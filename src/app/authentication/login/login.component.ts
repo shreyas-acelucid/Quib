@@ -51,13 +51,13 @@ export class LoginComponent implements OnInit {
             if (this.CommonService.getMovieSearchWord() != null) {
               this.MoviesService.MovieSearchKeyWord.next(this.CommonService.getMovieSearchWord());
             }
-            if (this.CommonService.getUserSearchkeyWord() !!= null) {
+            if (this.CommonService.getUserSearchkeyWord() != null) {
               this.QuibService.SearchKeyWord.next(this.CommonService.getUserSearchkeyWord());
             }
-            if (this.CommonService.getQuibSearchWord() !!= null) {
+            if (this.CommonService.getQuibSearchWord() != null) {
               this.QuibService.QuibSearchWord.next(this.CommonService.getQuibSearchWord());
             }
-            this.router.navigateByUrl("/dashboard");
+            this.router.navigateByUrl("/customer/quib-user");
             let email = localStorage.getItem('email');
             this.toastr.showSuccess("Login Success", "Login");
           }

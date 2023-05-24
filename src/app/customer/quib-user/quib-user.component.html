@@ -10,7 +10,7 @@
 				<div class="row">
 					<div class="p-input-icon-right ml-5">
 						<i class="pi pi-search"></i>
-						<input pInputText type="text" id="Gsearch" placeholder="Search by FirstName or LastName "
+						<input pInputText type="text" id="Gsearch" [value]="SearchKeyWord.Gsearch" placeholder="Search by columnName"
 							(input)="FilterGlobal($event, 'contains')" />
 					</div>
 					<div class="p-input-icon-right ml-5">
@@ -149,7 +149,7 @@
 
 	<!--pop model edit user  start from here ------>
 	<p-dialog [(visible)]="display" [modal]="true" [header]="message"
-		[style]="styleValue" position="top" [baseZIndex]="10000">
+		style="height:65vw;width:80vh" position="top" [baseZIndex]="10000">
 		<ng-container *ngIf="AssignToModerator">
 			<form [formGroup]="quibUserForm">
 				<div class="card col-sm-12">
@@ -168,7 +168,7 @@
 											<div class="form-group">
 												<label for="FirstName"> Moderator User List </label>
 												<select class="form-control" formControlName="user"
-													placeholder="Select User">
+													placeholder="Select User" >
 													<option *ngFor="let  item of Approved_UserList" [value]="item.id">
 														{{item.email}}</option>
 												</select>

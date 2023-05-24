@@ -34,14 +34,18 @@ th {
       .p-dialog .p-dialog-header {
         background-color: #c6c7cd94;
       }
-      
+      .p-menuitem-link-active{
+        background-color: darkblue !important;
+        color: white;
+      }
     }
   }
 
 
   :host ::ng-deep .p-multiselect {
     min-width: 20rem;
-    width: 90%;
+    max-width: 20rem;
+    height: auto;
 }
 
 :host ::ng-deep .multiselect-custom {

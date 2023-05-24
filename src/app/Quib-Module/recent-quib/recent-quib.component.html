@@ -2,8 +2,8 @@
 <div class="body bcard" [ngClass]="sidebarSpacing">
 	<div class="card col-sm-12" style="border:none;">
 		<p-table id="customerTable" #QuibTable [value]="quibLIst?.savedQuibs" [columns]="cols" responsiveLayout="scroll"
-			[paginator]="true" [rows]="10" [showCurrentPageReport]="true" [resizableColumns]="true"
-			[totalRecords]="totalRecords" [lazy]="true" [loading]="loading" (onLazyLoad)="loadNextQuibsdata($event)"
+			[paginator]="true" [rows] ="20" [showCurrentPageReport]="true" [resizableColumns]="true"
+			[totalRecords]="totalRecords" [lazy]="true"  (onLazyLoad)="loadNextQuibsdata($event)"
 			stateStorage="session" stateKey="Quib-session"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
 			[globalFilterFields]="['user', 'movies']" styleClass="p-datatable-striped,width:max-content">
@@ -101,24 +101,24 @@
 					<td>
 						<div class="btn-grp">
 							<button pButton type="button" class="p-button-success" *ngIf="Quib.isEnabled ==true"
-								style="height: 30px;">{{Quib.isEnabled}}</button>
+								style="height: 30px;">Enabled</button>
 							<button pButton type="button" class="p-button-danger" *ngIf="Quib.isEnabled == false"
-								style="height: 30px">{{Quib.isEnabled}}</button>
+								style="height: 30px">Disbaled</button>
 						</div>
 					</td>
 					<td>
 						<div class="btn-grp">
 							<button pButton type="button" class="p-button-success" *ngIf="Quib.isBumped ==true"
-								style="height: 30px;">{{Quib.isBumped}}</button>
+								style="height: 30px;">Bumped</button>
 							<button pButton type="button" class="p-button-danger" *ngIf="Quib.isBumped ==false"
-								style="height: 30px">{{Quib.isBumped}}</button>
+								style="height: 30px">UnBumped</button>
 						</div>
 					</td>
 					<td>{{Quib?.averageRating}}</td>
 					<td>{{Quib?.numOfRatings}}</td>
 					<td (click)="getBumpUserListByQuibId(Quib?.id)"><a style="color: blue; cursor: pointer;">B-IN</a>
 					</td>
-					<td (click)="getFlageUserListByQuibId(Quib?.id)"><a style="color: blue; cursor: pointer;">Flage</a>
+					<td (click)="getFlageUserListByQuibId(Quib?.id)"><a style="color: blue; cursor: pointer;">Flag</a>
 					</td>
 					<td>
 						<div class="btn-grp">

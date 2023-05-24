@@ -31,6 +31,7 @@ export class AllMoviesComponent implements OnInit {
   posterContentThumb: any = undefined;
   screenShotImage: any = undefined
   message: string;
+  headerMessage:string
   MovieSearchKeyWord: MovieSearchKeyWord
   AllMoviesForm: FormGroup
   PosterForm: FormGroup
@@ -65,7 +66,7 @@ export class AllMoviesComponent implements OnInit {
     this.ngxLoader.start();
     this.sidebarSpacing = 'contracted';
     this.cols = [
-      { field: 'title', show: true, headers: 'Title' },
+      { field: 'title', show: true, headers: 'Movie title' },
       { field: 'director', show: true, headers: 'Director' },
       { field: 'releaseYear', show: true, headers: 'Release Year' },
       { field: 'length', show: true, headers: 'Length' },
@@ -132,9 +133,11 @@ export class AllMoviesComponent implements OnInit {
       minutes: this.consverIntoHHMMSS(moviesData[0].length).MM
     })
     this.posterContentThumb = moviesData[0].posterContentThumb
+    this.headerMessage="Edit Movie"
     this.display = true
   }
   AddMovies() {
+    this.headerMessage="Add Movie"
     this.addEditMovie = true;
     this.AllMoviesForm.reset()
     this.display = true

@@ -11,8 +11,8 @@
 				<div class="row">
 					<span class="p-input-icon-right ml-5">
 						<i class="pi pi-search"></i>
-						<input pInputText type="text" (input)="FilterGlobal($event, 'contains')"
-							placeholder="Search by Title and Length" />
+						<input pInputText type="text" [value]="MovieSearchKeyWord.Gsearch" (input)="FilterGlobal($event, 'contains')"
+							placeholder="Search by columnName" />
 					</span>
 					<span class="p-input-icon-right ml-5">
 						<button pButton type="button" label="Add Movie" class="p-button-success"
@@ -115,7 +115,7 @@
 	</div>
 
 	<!--pop model edit movies  start from here ------>
-	<p-dialog [(visible)]="display" [modal]="true" header="Add Movies" [style]="{width: '70vw',height:'100vh'}"
+	<p-dialog [(visible)]="display" [modal]="true" [header]="headerMessage" [style]="{width: '70vw',height:'100vh'}"
 		position="top" [baseZIndex]="10000">
 		<ng-container *ngIf="addEditMovie">
 			<form [formGroup]="AllMoviesForm">
@@ -135,7 +135,7 @@
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="form-group">
 												<label for="image">Director </label>
-												<input type="text" class="form-control" placeholder="director"
+												<input type="text" class="form-control" placeholder="Director"
 													formControlName="director">
 											</div>
 										</div>
@@ -171,21 +171,21 @@
 												<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 													<div class="form-group">
 														<label for="Name">HH</label>
-														<input type="number" class="form-control" placeholder="hours"
+														<input type="number" class="form-control" placeholder="Hours"
 															formControlName="hours">
 													</div>
 												</div>
 												<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 													<div class="form-group">
 														<label for="Name">MM</label>
-														<input type="number" class="form-control" placeholder="minutes"
+														<input type="number" class="form-control" placeholder="Minutes"
 															formControlName="minutes">
 													</div>
 												</div>
 												<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 													<div class="form-group">
 														<label for="Name">SS</label>
-														<input type="number" class="form-control" placeholder="seconds"
+														<input type="number" class="form-control" placeholder="Seconds"
 															formControlName="seconds">
 													</div>
 												</div>

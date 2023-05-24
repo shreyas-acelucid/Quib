@@ -31,7 +31,7 @@
 
     .p-panelmenu .p-panelmenu-content .p-menuitem .p-menuitem-link .p-menuitem-text {
       color: #f4f4f4 !important;
-      background-color: #a8a8a8 !important;
+      // background-color: #a8a8a8 !important;
       
     }
 
@@ -52,6 +52,9 @@
       color: #f4f4f4;
       padding-left:  5px
     }
+    // p-panelmenu .p-menuitem-link .ng-tns-c284-5 .ng-star-inserted .p-menuitem-link-active{
+    //   border-color: 1px red !important;
+    // }
   }
 }
 

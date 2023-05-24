@@ -55,7 +55,7 @@ export class ActiveMoviesComponent implements OnInit {
     this.ngxLoader.start();
     this.sidebarSpacing = 'contracted';
     this.cols = [
-      { field: 'title', show: true, headers: 'Title' },
+      { field: 'title', show: true, headers: 'Movie title' },
       { field: 'director', show: true, headers: 'Director' },
       { field: 'releaseyear', show: true, headers: 'Release Year' },
       { field: 'length', show: true, headers: 'Length' },
