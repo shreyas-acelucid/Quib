@@ -93,9 +93,9 @@ export class AllMoviesComponent implements OnInit {
       this.moviesList = res
       this.moviesList.map(item => {
         item.posterContentThumb = this.baseUrl.concat(item.posterContentThumb)
-        item['HH'] = this.consverIntoHHMMSS(item.length).HH,
-          item['MM'] = this.consverIntoHHMMSS(item.length).MM,
-          item['SS'] = this.consverIntoHHMMSS(item.length).SS
+          item['HH'] = this.CommonService.consverIntoHHMMSS(item.length).HH,
+          item['MM'] = this.CommonService.consverIntoHHMMSS(item.length).MM,
+          item['SS'] = this.CommonService.consverIntoHHMMSS(item.length).SS
       })
       this.allMovieSearch()
       this.ngxLoader.stop();
@@ -131,9 +131,9 @@ export class AllMoviesComponent implements OnInit {
       title: moviesData[0].title,
       director: moviesData[0].director,
       releaseYear: moviesData[0].releaseYear,
-      hours: this.consverIntoHHMMSS(moviesData[0].length).HH,
-      seconds: this.consverIntoHHMMSS(moviesData[0].length).SS,
-      minutes: this.consverIntoHHMMSS(moviesData[0].length).MM
+      hours: this.CommonService.consverIntoHHMMSS(moviesData[0].length).HH,
+      seconds: this.CommonService.consverIntoHHMMSS(moviesData[0].length).SS,
+      minutes: this.CommonService.consverIntoHHMMSS(moviesData[0].length).MM
     })
     this.posterContentThumb = moviesData[0].posterContentThumb
     this.headerMessage="Edit Movie"
@@ -202,18 +202,7 @@ export class AllMoviesComponent implements OnInit {
     });
   }
 
-  consverIntoHHMMSS(value) {
-    const HH = (value / 3600).toString().split(".")[0];
-    const Rem = (value % 3600);
-    const MM = (Rem / 60).toString().split(".")[0];
-    const SS = (Rem % 60);
-    return {
-      MM: MM,
-      HH: HH,
-      SS: SS
-    }
-  }
-  Submit() {
+ Submit() {
     const payload = {
       id:this.AllMoviesForm.controls['id'].value,
       Title: this.AllMoviesForm.controls['title'].value,

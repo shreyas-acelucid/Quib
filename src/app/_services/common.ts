@@ -65,7 +65,8 @@ export class CommonService {
             displayName: keyWord.displayName,
             firstName: keyWord.firstName,
             lastName: keyWord.lastName,
-            email: keyWord.email
+            email: keyWord.email,
+            Gsearch:keyWord.Gsearch
         }
         localStorage.setItem("userSearch", JSON.stringify(payload))
     }
@@ -104,4 +105,15 @@ export class CommonService {
         QuibSearchKeyWord = JSON.parse(localStorage.getItem("QuibSearch"));
         return QuibSearchKeyWord
     }
+    consverIntoHHMMSS(value) {
+        const HH = (value / 3600).toString().split(".")[0];
+        const Rem = (value % 3600);
+        const MM = (Rem / 60).toString().split(".")[0];
+        const SS = (Rem % 60);
+        return {
+          MM: MM,
+          HH: HH,
+          SS: SS
+        }
+      }
 }

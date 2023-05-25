@@ -2,16 +2,16 @@
 <div class="body bcard" [ngClass]="sidebarSpacing">
 	<div class="card col-sm-12" style="border:none;">
 		<p-table id="customerTable" #QuibUserTable [value]="Quib_User" [columns]="cols" responsiveLayout="scroll"
-			dataKey="id" stateStorage="session" stateKey="QuibUser-session"
-			[paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,50,100]" [showCurrentPageReport]="true"
+			dataKey="id" stateStorage="session" stateKey="QuibUser-session" [paginator]="true" [rows]="10"
+			[rowsPerPageOptions]="[10,50,100]" [showCurrentPageReport]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
-			[globalFilterFields]="['firstName','lastName','email','displayName']"  styleClass="p-datatable-striped">
+			[globalFilterFields]="['firstName','lastName','email','displayName']" styleClass="p-datatable-striped">
 			<ng-template pTemplate="caption">
 				<div class="row">
 					<div class="p-input-icon-right ml-5">
 						<i class="pi pi-search"></i>
-						<input pInputText type="text" id="Gsearch" [value]="SearchKeyWord.Gsearch" placeholder="Search by columnName"
-							(input)="FilterGlobal($event, 'contains')" />
+						<input pInputText type="text" id="Gsearch" [value]="SearchKeyWord.Gsearch"
+							placeholder="Search by columnName" (input)="FilterGlobal($event, 'contains')" />
 					</div>
 					<div class="p-input-icon-right ml-5">
 						<button pButton type="button" label="Assign Movie to Moderator" class="p-button-success"
@@ -30,20 +30,24 @@
 				<tr>
 					<th></th>
 					<th>
-						<input pInputText type="text"  id ="displayName" [value]="SearchKeyWord.displayName" (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search By displayName" class="w-full intputSearch">
+						<input pInputText type="text" id="displayName" [value]="SearchKeyWord.displayName"
+							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By displayName"
+							class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text" id="firstName" [value]="SearchKeyWord.firstName" (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search By firstName" class="w-full intputSearch">
+						<input pInputText type="text" id="firstName" [value]="SearchKeyWord.firstName"
+							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By firstName"
+							class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text" id="lastName" [value]="SearchKeyWord.lastName" (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search By lastName" class="w-full intputSearch">
+						<input pInputText type="text" id="lastName" [value]="SearchKeyWord.lastName"
+							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By lastName"
+							class="w-full intputSearch">
 					</th>
 					<th>
-						<input pInputText type="text" id="email"  [value]="SearchKeyWord.email" (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search By email" class="w-full intputSearch">
+						<input pInputText type="text" id="email" [value]="SearchKeyWord.email"
+							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By email"
+							class="w-full intputSearch">
 					</th>
 					<th><input pInputText type="text" disabled placeholder="No Search"
 							class="w-full disableInputSearch"></th>
@@ -75,10 +79,13 @@
 							class="w-full disableInputSearch"></th>
 					<th> <input pInputText type="text" disabled placeholder="No Search"
 							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search" class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search" class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search" class="w-full disableInputSearch"></th>
-					</tr>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+					<th> <input pInputText type="text" disabled placeholder="No Search"
+							class="w-full disableInputSearch"></th>
+				</tr>
 
 			</ng-template>
 			<ng-template pTemplate="body" let-i="rowIndex" let-user>
@@ -119,7 +126,8 @@
 					<td>{{user.ccp}}</td>
 					<td>{{user.cfp}}</td>
 					<td>
-						<a style="color: blue; cursor: pointer;" (click)="[display =true, MoVList = true, AssignToModerator =false, getUserQuibedMoviesList(user?.id),message='Movie List']">MOV</a>
+						<a style="color: blue; cursor: pointer;"
+							(click)="[display =true, MoVList = true, AssignToModerator =false, getUserQuibedMoviesList(user?.id),message='Movie List']">MOV</a>
 					</td>
 					<td>{{user.totalQuibsWritten}}</td>
 					<td>{{user.averageOverallRating}}</td>
@@ -148,8 +156,8 @@
 	</div>
 
 	<!--pop model edit user  start from here ------>
-	<p-dialog [(visible)]="display" [modal]="true" [header]="message"
-		style="height:65vw;width:80vh" position="top" [baseZIndex]="10000">
+	<p-dialog [(visible)]="display" [modal]="true" [header]="message" style="height:65vw;width:80vh" position="top"
+		[baseZIndex]="10000">
 		<ng-container *ngIf="AssignToModerator">
 			<form [formGroup]="quibUserForm">
 				<div class="card col-sm-12">
@@ -168,7 +176,7 @@
 											<div class="form-group">
 												<label for="FirstName"> Moderator User List </label>
 												<select class="form-control" formControlName="user"
-													placeholder="Select User" >
+													placeholder="Select User">
 													<option *ngFor="let  item of Approved_UserList" [value]="item.id">
 														{{item.email}}</option>
 												</select>
@@ -179,7 +187,8 @@
 										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
 											<div class="text-right">
 												<button pButton type="button" id="submit" name="submit"
-													class="p-button-danger mr-4" (click)="display = false">Cancel</button>
+													class="p-button-danger mr-4"
+													(click)="display = false">Cancel</button>
 												<button pButton type="button" id="submit" name="submit"
 													class="p-button-success"
 													(click)="AssignMovieToModeratorUser()">Submit</button>
@@ -199,7 +208,8 @@
 					<div class="row gutters">
 						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 							<strong class="heading-section">Movie Name</strong> =><span class="content-data"
-								(click)="AdminQuib(item?.movieId)" style="cursor: pointer;">{{item?.movieName}}</span> <br>
+								(click)="AdminQuib(item?.movieId)" style="cursor: pointer;">{{item?.movieName}}</span>
+							<br>
 							<strong class="heading-section">Total No of Quib</strong> =><span
 								class="content-data">{{item?.totalQuibByMovieId}}</span>
 							<br>

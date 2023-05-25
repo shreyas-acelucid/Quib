@@ -77,6 +77,11 @@ export class ActiveMoviesComponent implements OnInit {
   getMovieList() {
     this.MoviesService.getMovieList().subscribe((res) => {
       this.moviesList = res.filter(item => item.isActive === true)
+      this.moviesList.map(item=>{
+        item['HH'] = this.CommonService.consverIntoHHMMSS(item.length).HH,
+          item['MM'] = this.CommonService.consverIntoHHMMSS(item.length).MM,
+          item['SS'] = this.CommonService.consverIntoHHMMSS(item.length).SS
+      })
       this.activeMovieSearch();
       this.ngxLoader.stop();
     })
