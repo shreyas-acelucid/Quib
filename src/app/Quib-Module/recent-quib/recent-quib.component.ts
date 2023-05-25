@@ -277,7 +277,7 @@ export class RecentQuibComponent implements OnInit {
   }
   loadNextQuibsdata(event) {
     this.loading = true;
-    this.pageNo = (event.first + event.rows) / 10;
+    this.pageNo = (event.first + event.rows) / 20;
     this.QuibService.getQuibList(this.pageNo).subscribe((data: QUIB_LIST) => {
       this.quibLIst = data;
       this.totalRecords = data.quibTotalPages

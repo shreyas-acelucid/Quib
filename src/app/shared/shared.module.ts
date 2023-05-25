@@ -16,7 +16,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { AccordionModule } from 'primeng/accordion'
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {CardModule} from 'primeng/card';
-import { CKEditorModule } from 'ckeditor4-angular';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatTabsModule} from '@angular/material/tabs';
@@ -45,7 +44,6 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
     TableModule,
     PanelMenuModule,
     CardModule,
-    CKEditorModule,
     MatExpansionModule,
     DialogModule,
     MatDividerModule,
@@ -76,7 +74,6 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
     AccordionModule,
     PanelMenuModule,
     CardModule,
-    CKEditorModule,
     MatExpansionModule,
     MatDividerModule,
     MatTabsModule,

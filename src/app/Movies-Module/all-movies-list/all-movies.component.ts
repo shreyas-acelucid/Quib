@@ -21,6 +21,7 @@ export class AllMoviesComponent implements OnInit {
   moviesList: Movies[]
   fgsType: any;
   addEditMovie: boolean = false;
+  editMode:boolean =  false;
   screenshot: boolean = false;
   moviePoster: boolean = false;
   display: boolean = false;
@@ -66,7 +67,7 @@ export class AllMoviesComponent implements OnInit {
     this.ngxLoader.start();
     this.sidebarSpacing = 'contracted';
     this.cols = [
-      { field: 'title', show: true, headers: 'Movie title' },
+      { field: 'title', show: true, headers: 'Movie Title' },
       { field: 'director', show: true, headers: 'Director' },
       { field: 'releaseYear', show: true, headers: 'Release Year' },
       { field: 'length', show: true, headers: 'Length' },
@@ -123,8 +124,10 @@ export class AllMoviesComponent implements OnInit {
   }
   EditMovies(id) {
     this.addEditMovie = true;
+    this.editMode = true;
     let moviesData = this.moviesList.filter(item => item.id === id)
     this.AllMoviesForm.patchValue({
+      id:id,
       title: moviesData[0].title,
       director: moviesData[0].director,
       releaseYear: moviesData[0].releaseYear,
@@ -139,6 +142,7 @@ export class AllMoviesComponent implements OnInit {
   AddMovies() {
     this.headerMessage="Add Movie"
     this.addEditMovie = true;
+    this.editMode =  false;
     this.AllMoviesForm.reset()
     this.display = true
     this.posterContentThumb = null
@@ -188,7 +192,6 @@ export class AllMoviesComponent implements OnInit {
         let filterData = this.moviesList.filter(item => item.id === id);
         filterData[0].posterContentThumb = filterData[0].posterContentThumb.split("http://44.211.90.48/")[1];
         filterData[0].isActive = Status
-        console.log(filterData[0])
         this.MoviesService.markAsActive(filterData[0]).subscribe(res => {
           if (res) {
             this.toastr.showSuccess(" Status change successfully", "Status change")
@@ -212,6 +215,7 @@ export class AllMoviesComponent implements OnInit {
   }
   Submit() {
     const payload = {
+      id:this.AllMoviesForm.controls['id'].value,
       Title: this.AllMoviesForm.controls['title'].value,
       Director: this.AllMoviesForm.controls['director'].value,
       ReleaseYear: this.AllMoviesForm.controls['releaseYear'].value,
@@ -222,17 +226,33 @@ export class AllMoviesComponent implements OnInit {
       PosterImage: this.image
     }
     this.ngxLoader.start();
-    this.MoviesService.Submit(payload).subscribe(res => {
-      if (res) {
-        this.toastr.showSuccess(" Movie data is updated successfully", "movie data")
-        this.display = false
-        this.getMovieList()
-      } else {
-        this.toastr.showSuccess("somthing going wrong", "please check")
-        this.display = false
-        this.getMovieList()
-      }
-    })
+    if(this.editMode){
+      this.MoviesService.editMovies(payload).subscribe(res => {
+        if (res) {
+          this.toastr.showSuccess(" Movie data is updated successfully", "movie data")
+          this.display = false
+          this.getMovieList()
+        } else {
+          this.toastr.showSuccess("somthing going wrong", "please check")
+          this.display = false
+          this.getMovieList()
+        }
+      })
+    }
+    if(!this.editMode){
+      this.MoviesService.Submit(payload).subscribe(res => {
+        if (res) {
+          this.toastr.showSuccess("Movie is added successfully", "Movie data")
+          this.display = false
+          this.getMovieList()
+        } else {
+          this.toastr.showSuccess("somthing going wrong", "please check")
+          this.display = false
+          this.getMovieList()
+        }
+      })
+    }
+    
   }
   updateMoviePoster(id) {
     this.addEditMovie = false;
