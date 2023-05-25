@@ -6,13 +6,16 @@
 			[totalRecords]="totalRecords" [lazy]="true"  (onLazyLoad)="loadNextQuibsdata($event)"
 			stateStorage="session" stateKey="Quib-session"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
-			[globalFilterFields]="['user', 'movies']" styleClass="p-datatable-striped,width:max-content">
+			[globalFilterFields]="['displayName', 'title','body','time','createdDate','postedDate','averageRating','numOfRatings']" styleClass="p-datatable-striped,width:max-content">
 			<ng-template pTemplate="caption">
 				<div class="row">
 					<div class="p-input-icon-right ml-5">
 						<i class="pi pi-search"></i>
 						<input pInputText type="text" id="search-box" placeholder="Search by each column"
 							(input)="FilterGlobal($event, 'contains')" />
+					</div>
+					<div class="p-input-icon-right ml-5">
+						<h4 style="font-family: 'Times New Roman', Times, serif;">Quib list</h4>
 					</div>
 				</div>
 			</ng-template>

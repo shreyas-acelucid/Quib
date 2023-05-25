@@ -5,13 +5,16 @@
 			[rowsPerPageOptions]="[10,50,100]" [showCurrentPageReport]="true" [value]="moviesList"
 			dataKey="id" stateStorage="session" stateKey="activeMovie-session"
 			[resizableColumns]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-			[responsive]="true" [globalFilterFields]="['title', 'length', 'isActive']" styleClass="p-datatable-striped">
+			[responsive]="true" [globalFilterFields]="['title', 'length', 'isActive','director','releaseYear']" styleClass="p-datatable-striped">
 			<ng-template pTemplate="caption">
 				<div class="row">
 					<span class="p-input-icon-right ml-5">
 						<i class="pi pi-search"></i>
 						<input pInputText type="text" [value]="MovieSearchKeyWord.Gsearch" (input)="FilterGlobal($event, 'contains')"
 							placeholder="Search by columnName" />
+					</span>
+					<span class="p-input-icon-right ml-5">
+						<h4 style="font-family:'Times New Roman', Times, serif;">Active Movies</h4>
 					</span>
 				</div>
 			</ng-template>
