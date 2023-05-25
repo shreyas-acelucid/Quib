@@ -1,7 +1,7 @@
 <div *ngIf="device === 'desktop'" class="sidebar-cont" [@toggleSidebar]="state">
     <div class="sidebar">
       <ul class="menu-list">
-            <li class="menu-list"><p-panelMenu [model]="items"></p-panelMenu></li>
+            <li class="menu-list"><p-panelMenu [model]="items" [multiple]="false"></p-panelMenu></li>
         </ul>
     </div>
 </div>
