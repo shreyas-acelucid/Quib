@@ -3,7 +3,7 @@
 	<div class="card col-sm-12" style="border:none;">
 		<p-table id="customerTable" #QuibTable [value]="quibLIst?.savedQuibs" [columns]="cols" responsiveLayout="scroll"
 			[paginator]="true" [rows] ="20" [showCurrentPageReport]="true" [resizableColumns]="true"
-			[totalRecords]="totalRecords" [lazy]="true"  (onLazyLoad)="loadNextQuibsdata($event)"
+			[totalRecords]="totalRecords" [lazy]="true"(onPage)="loadNextQuibsdata($event)"
 			stateStorage="session" stateKey="Quib-session"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
 			[globalFilterFields]="['displayName', 'title','body','time','createdDate','postedDate','averageRating','numOfRatings']" styleClass="p-datatable-striped,width:max-content">
