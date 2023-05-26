@@ -8,6 +8,9 @@
 			[responsive]="true" [globalFilterFields]="['title', 'length', 'isActive','releaseYear','director','length']"
 			styleClass="p-datatable-striped">
 			<ng-template pTemplate="caption">
+				<span class="p-input-icon-right ml-5">
+					<h2 style="font-family:'Times New Roman', Times, serif;">All Movies</h2>
+				</span>
 				<div class="row">
 					<span class="p-input-icon-right ml-5">
 						<i class="pi pi-search"></i>
@@ -17,9 +20,6 @@
 					<span class="p-input-icon-right ml-5">
 						<button pButton type="button" label="Add Movie" class="p-button-success"
 							(click)="AddMovies()"></button>
-					</span>
-					<span class="p-input-icon-right ml-5">
-						<h4 style="font-family:'Times New Roman', Times, serif;">All Movies</h4>
 					</span>
 				</div>
 			</ng-template>

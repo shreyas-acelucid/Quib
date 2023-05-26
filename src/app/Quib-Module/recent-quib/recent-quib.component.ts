@@ -284,4 +284,5 @@ export class RecentQuibComponent implements OnInit {
       this.loading = false;
     });
   }
+  //[lazy]="true"(onPage)="loadNextQuibsdata($event)" , add these two point for lazy loading 
 }

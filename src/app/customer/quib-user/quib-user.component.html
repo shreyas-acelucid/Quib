@@ -7,6 +7,9 @@
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
 			[globalFilterFields]="['firstName','lastName','email','displayName']" styleClass="p-datatable-striped">
 			<ng-template pTemplate="caption">
+				<span class="p-input-icon-right ml-5">
+					<h2 style="font-family:'Times New Roman', Times, serif;">Users List</h2>
+				</span>
 				<div class="row">
 					<div class="p-input-icon-right ml-5">
 						<i class="pi pi-search"></i>
@@ -17,10 +20,7 @@
 						<button pButton type="button" label="Assign Movie to Moderator" class="p-button-success"
 							(click)="[display =true, MoVList = false, AssignToModerator =true, message='Assign Movie to Moderator']"></button>
 					</div>
-					<span class="p-input-icon-right ml-5">
-						<h4 style="font-family:'Times New Roman', Times, serif;">Quib Users</h4>
-					</span>
-				</div>
+					</div>
 			</ng-template>
 			<ng-template pTemplate="header" let-columns>
 				<tr>
@@ -171,9 +171,9 @@
 									<div class="row gutters">
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 											<label for="FirstName"> Movies List </label>
-											<p-multiSelect [options]="moviesList" optionLabel="title"
+											<p-multiSelect [options]="moviesList" optionLabel="title" [virtualScroll]="true"
 												[(ngModel)]="selectedMovies" display="chip" defaultLabel="Select Movies"
-												[ngModelOptions]="{standalone: true}"></p-multiSelect>
+												></p-multiSelect>
 										</div>
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 											<div class="form-group">
