@@ -159,11 +159,11 @@
 	</div>
 
 	<!--pop model edit user  start from here ------>
-	<p-dialog [(visible)]="display" [modal]="true" [header]="message" style="height:65vw;width:80vh" position="top"
+	<p-dialog [(visible)]="display" [modal]="true" [header]="message" [style]="{width: '60vw',height:'90vh'}" position="top"
 		[baseZIndex]="10000">
 		<ng-container *ngIf="AssignToModerator">
 			<form [formGroup]="quibUserForm">
-				<div class="card col-sm-12">
+				<div class="card col-sm-12" style="height: 70vh;">
 					<div class="row gutters">
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 							<div class="h-100 mt-5">
