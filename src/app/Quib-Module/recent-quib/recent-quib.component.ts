@@ -114,6 +114,13 @@ export class RecentQuibComponent implements OnInit {
     this.QuibService.getQuibList(this.pageNo).subscribe((data: QUIB_LIST) => {
       this.quibLIst = data;
       this.totalRecords = data.quibTotalPages
+      this.quibLIst.savedQuibs.map(item=> {
+        item.createdDate=  this.CommonService.convertDate(item.createdDate);
+        item.postedDate  = this.CommonService.convertDate(item.postedDate);
+        item['MM'] =this.CommonService.consverIntoHHMMSS(item.time).MM
+        item['HH']= this.CommonService.consverIntoHHMMSS(item.time).HH
+        item['SS']=this.CommonService.consverIntoHHMMSS(item.time).SS
+      })
       this.ngxLoader.stop();
       this.loading  = false;
       });

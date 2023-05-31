@@ -124,6 +124,9 @@ export interface SAVE_QUIBS {
   modifiedDate: string |any
   averageRating:number |any
   numOfRatings:number |any
+  MM:string | any,
+  HH:string |any,
+  SS:string |any
 }
 export interface BUMP_IN_USER_LIST {
   id: string | any,
