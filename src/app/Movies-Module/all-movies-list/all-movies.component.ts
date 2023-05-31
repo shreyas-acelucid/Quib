@@ -244,6 +244,7 @@ export class AllMoviesComponent implements OnInit {
     
   }
   updateMoviePoster(id) {
+    this.headerMessage =  "upLoad Movie Poster"
     this.addEditMovie = false;
     this.moviePoster = true;
     this.screenshot = false;
