@@ -6,27 +6,35 @@ import { AuthGuardService as AuthGuard} from './_services/auth-guard.service';
 const routes: Routes = [
   {
     path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then(mod => mod.DashboardModule),
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((mod) => mod.DashboardModule),
     // canActivate: [AuthGuard]
   },
   {
     path: 'customer',
-    loadChildren: () => import('./customer/customer.module').then(mod => mod.CustomerModule),
+    loadChildren: () =>
+      import('./customer/customer.module').then((mod) => mod.CustomerModule),
     // canActivate: [AuthGuard]
   },
   {
     path: 'Quib',
-    loadChildren: () => import('./Quib-Module/quib.module').then(mod => mod.QuibModule)
+    loadChildren: () =>
+      import('./Quib-Module/quib.module').then((mod) => mod.QuibModule),
   },
   {
     path: 'Movies',
-    loadChildren: () => import('./Movies-Module/movies.module').then(mod => mod.MoviesModule)
+    loadChildren: () =>
+      import('./Movies-Module/movies.module').then((mod) => mod.MoviesModule),
   },
-  
-  
-  { path: '', component: AuthenticationComponent },
-  { path: '',   redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+
+  {
+    path: '',
+    loadChildren: () =>
+      import('./customer/customer.module').then((mod) => mod.CustomerModule),
+  },
+
+  { path: '', redirectTo: '/customer/quib-user', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
