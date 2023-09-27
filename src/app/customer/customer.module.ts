@@ -7,7 +7,8 @@ import { AngularMaterialModule } from '../_modules/angular-material.module';
 import { QuibUserComponent } from './quib-user/quib-user.component';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {MultiSelectModule} from 'primeng/multiselect';
-
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import {TableModule} from 'primeng/table';
 @NgModule({
   declarations: [
    QuibUserComponent,
@@ -20,7 +21,10 @@ import {MultiSelectModule} from 'primeng/multiselect';
     SharedImportsModule,
     ConfirmDialogModule,
     AngularMaterialModule,
-    MultiSelectModule
+    MultiSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TableModule
   ]
 })
 

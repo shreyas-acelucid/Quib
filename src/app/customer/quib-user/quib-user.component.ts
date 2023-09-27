@@ -11,11 +11,12 @@ import { TABLE_HEADING } from '../../_models/table_heading';
 import { Table } from 'primeng/table';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
 import { ConfirmationService } from 'primeng/api';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Movies } from 'src/app/_models/movies';
 import { MoviesService } from 'src/app/_services/movies.service';
 import { CommonService } from 'src/app/_services/common';
 import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-quib-user',
@@ -23,6 +24,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./quib-user.component.scss'],
   providers: [ConfirmationService],
 })
+
+
 export class QuibUserComponent implements OnInit {
   @ViewChild('QuibUserTable') QuibUserTable: Table | undefined;
   sidebarSpacing: any;
@@ -30,6 +33,9 @@ export class QuibUserComponent implements OnInit {
   Quib_User: Quib_User[] = [];
   Approved_UserList: Quib_User[] = [];
   selectedMovies: Movies[] = [];
+  selectedColumns: any[] = [];
+  colsOptions: any[] = []; 
+  filteredCols: any[] = [];
   moviesList: Movies[];
   userMovieList: QUIB_USER_MOVIE_LIST[] = [];
   movieId: any[] = [];
@@ -39,8 +45,11 @@ export class QuibUserComponent implements OnInit {
   MoVList: boolean = false;
   AssignToModerator: boolean = false;
   message: string;
-  quibUserForm: FormGroup;
+  quibUserForm = new FormGroup({});
+  columnSelectorForm = new FormGroup({});
+
   userId: string;
+  
   styleValue: STYLE_VALUE = {
     height: '55vw',
     width: '80vh',
@@ -53,13 +62,22 @@ export class QuibUserComponent implements OnInit {
     private router: Router,
     private CommonService: CommonService,
     private MoviesService: MoviesService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    
   ) {
     this.quibUserForm = this.fb.group({
       curator: ['', [Validators.required]],
       user: ['', [Validators.required]],
+      selectedMovies: new FormControl([])    
     });
+    this.columnSelectorForm =  this.fb.group({
+      selectedColumns: new FormControl([])
+    })
   }
+  // addSelectedMovie(movie: Movies) {
+  //   const selectedMovies = this.quibUserForm.get('selectedMovies') as FormArray;
+  //   selectedMovies.push(this.fb.control(movie));
+  // }
 
   ngOnInit(): void {
     this.sidebarSpacing = 'contracted';
@@ -94,7 +112,17 @@ export class QuibUserComponent implements OnInit {
       { field: 'totalFlagReceived', show: true, headers: 'FLAGE' },
       { field: 'about', show: true, headers: 'PERS' },
     ];
+    this.colsOptions = this.cols.map(col => ({ label: col.headers, value: col.field }));
+    
   }
+  //colsOptions = this.cols.map(col => ({ label: col.headers, value: col.field }));
+
+  SelectRequestedColumns(){
+    this.selectedColumns = this.columnSelectorForm.controls['selectedColumns'].value;
+    this.filteredCols = this.cols.filter(col => this.selectedColumns.some(selectedCol => selectedCol.value === col.field)).
+    map(col => ({headers: col.headers}));
+  }
+
 
   onToggleSidebar(sidebarState: any) {
     if (sidebarState === 'open') {
@@ -196,7 +224,7 @@ export class QuibUserComponent implements OnInit {
   AssignMovieToModeratorUser() {
     this.ngxLoader.start();
     this.display = false;
-    this.selectedMovies.map((item) => {
+    this.quibUserForm.controls['selectedMovies'].value.map((item) => {
       return this.movieId.push(item.id);
     });
     const payload = {
@@ -206,7 +234,7 @@ export class QuibUserComponent implements OnInit {
     this.QuibService.AssignMovieToModeratorUser(payload).subscribe((res) => {
       if (res) {
         this.toastr.showSuccess(
-          'Movies is Assign to  Moderator user  successfully',
+          'Movies Assigned to  Moderator user  successfully',
           'Moderator user'
         );
         this.display = false;

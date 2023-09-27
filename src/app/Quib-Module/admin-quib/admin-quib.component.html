@@ -16,8 +16,8 @@
 			</ng-template>
 			<ng-template pTemplate="header" let-columns>
 				<tr>
-					<th>S.no</th>
-					<th *ngFor="let col of columns">{{col.headers}}</th>
+					<th pResizableColumn>S.no</th>
+					<th pResizableColumn *ngFor="let col of columns">{{col.headers}}</th>
 					<th>Action</th>
 				</tr>
 			</ng-template>

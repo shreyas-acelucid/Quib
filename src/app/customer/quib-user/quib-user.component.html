@@ -1,8 +1,10 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
 	<div class="card col-sm-12" style="border:none;">
-		<p-table id="customerTable" #QuibUserTable [value]="Quib_User" [columns]="cols" responsiveLayout="scroll"
-			dataKey="id" stateStorage="session" stateKey="QuibUser-session" [paginator]="true" [rows]="10"
+		<p-table 
+		id="customerTable" #QuibUserTable [value]="Quib_User" [columns]="cols" [resizableColumns]="true" columnResizeMode="expand"
+		responsiveLayout="scroll"
+			dataKey="id" stateStorage="session" stateKey="QuibUser-session" [paginator]="true" [rows]="10" 
 			[rowsPerPageOptions]="[10,50,100]" [showCurrentPageReport]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
 			[globalFilterFields]="['firstName','lastName','email','displayName']" styleClass="p-datatable-striped">
@@ -14,40 +16,51 @@
 					<div class="p-input-icon-right ml-5">
 						<i class="pi pi-search"></i>
 						<input pInputText type="text" id="Gsearch" [value]="SearchKeyWord.Gsearch"
-							placeholder="Search by columnName" (input)="FilterGlobal($event, 'contains')" />
+							placeholder="Search by name/email" (input)="FilterGlobal($event, 'contains')" />
 					</div>
 					<div class="p-input-icon-right ml-5">
 						<button pButton type="button" label="Assign Movie to Moderator" class="p-button-success"
 							(click)="[display =true, MoVList = false, AssignToModerator =true, message='Assign Movie to Moderator']"></button>
 					</div>
+					<div class="p-input-icon-right ml-5">
+						<form [formGroup]="columnSelectorForm">
+							<label for="ColumnSelect" style="margin-right: 10px; font-family: 'Times New Roman', Times, serif;"> Select Columns </label>
+								<p-multiSelect [options]="colsOptions" optionLabel="label" [virtualScroll]="true"
+									formControlName="selectedColumns" display="chip" defaultLabel="Select Columns to display"
+								></p-multiSelect>
+								<button pButton type="button" id="submit" name="submit"
+													class="p-button-primary" style="margin-left: 8px; margin-bottom: 6.7px; height: 30px"
+													(click)="SelectRequestedColumns()">Submit</button>
+						</form>
+					</div>
 					</div>
 			</ng-template>
 			<ng-template pTemplate="header" let-columns>
 				<tr>
-					<th>S.no</th>
-					<th *ngFor="let col of columns" [pSortableColumn]="col.field">{{col.headers}}
+					<th pResizableColumn >S.no</th>
+					<th pResizableColumn *ngFor="let col of cols" [pSortableColumn]="col.field">{{col.headers}}
 						<p-sortIcon [field]="col.field"></p-sortIcon>
 					</th>
-					<th>Action</th>
+					<th pResizableColumn>Action</th>
 				</tr>
 				<tr>
-					<th></th>
-					<th>
+					<th pResizableColumn></th>
+					<th *ngIf="filteredCols.length==0" pResizableColumn>
 						<input pInputText type="text" id="displayName" [value]="SearchKeyWord.displayName"
 							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By displayName"
 							class="w-full intputSearch">
 					</th>
-					<th>
+					<th pResizableColumn>
 						<input pInputText type="text" id="firstName" [value]="SearchKeyWord.firstName"
 							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By firstName"
 							class="w-full intputSearch">
 					</th>
-					<th>
+					<th pResizableColumn>
 						<input pInputText type="text" id="lastName" [value]="SearchKeyWord.lastName"
 							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By lastName"
 							class="w-full intputSearch">
 					</th>
-					<th>
+					<th pResizableColumn>
 						<input pInputText type="text" id="email" [value]="SearchKeyWord.email"
 							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By email"
 							class="w-full intputSearch">
@@ -95,7 +108,7 @@
 				<tr>
 					<td>{{i+1}}</td>
 					<td>{{user.displayName}}</td>
-					<td>{{user.firstName}}</td>
+					<td>{{user.firstName}}</td>					
 					<td>{{user.lastName}}</td>
 					<td>{{user.email}}</td>
 					<td>{{user.createdDate | date:'dd/MM/yyyy'}}</td>
@@ -172,7 +185,7 @@
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 											<label for="FirstName"> Movies List </label>
 											<p-multiSelect [options]="moviesList" optionLabel="title" [virtualScroll]="true"
-												[(ngModel)]="selectedMovies" display="chip" defaultLabel="Select Movies"
+											formControlName="selectedMovies" display="chip" defaultLabel="Select Movies"
 												></p-multiSelect>
 										</div>
 										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">

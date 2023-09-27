@@ -4,7 +4,7 @@
 		<p-table id="customerTable" #AllMovieTable [columns]="cols" responsiveLayout="scroll" [paginator]="true" [rows]="10"
 			[rowsPerPageOptions]="[10,50,100]" [showCurrentPageReport]="true" [value]="moviesList"
 			dataKey="id" stateStorage="session" stateKey="AllMovie-session"
-			[resizableColumns]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+			[resizableColumns]="true" columnResizeMode="expand" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
 			[responsive]="true" [globalFilterFields]="['title', 'length', 'isActive','releaseYear','director','length']"
 			styleClass="p-datatable-striped">
 			<ng-template pTemplate="caption">
@@ -26,44 +26,44 @@
 
 			<ng-template pTemplate="header" let-columns>
 				<tr>
-					<th>S.no</th>
-					<th *ngFor="let col of columns" [pSortableColumn]="col.field">{{col.headers}}
+					<th pResizableColumn>S.no</th>
+					<th pResizableColumn *ngFor="let col of columns" [pSortableColumn]="col.field">{{col.headers}}
 						<p-sortIcon [field]="col.field"></p-sortIcon>
 					</th>
-					<th>Options</th>
+					<th pResizableColumn>Options</th>
 				</tr>
 				<tr>
-					<th>
+					<th pResizableColumn>
 						<input pInputText type="text" disabled (input)="applyFilterGlobal($event, 'contains')"
 							placeholder=" No Search" class="w-full intputSearch">
 					</th>
-					<th>
+					<th pResizableColumn>
 						<input pInputText type="text" id="title"  [value]="MovieSearchKeyWord.title" (input)="applyFilterGlobal($event, 'contains')"
 							placeholder="Search by Title" class="w-full intputSearch">
 					</th>
-					<th>
+					<th pResizableColumn>
 						<input pInputText type="text" id="director" [value]="MovieSearchKeyWord.director" (input)="applyFilterGlobal($event, 'contains')"
 							placeholder="Search by Director" class="w-full intputSearch">
 					</th>
-					<th>
+					<th pResizableColumn>
 						<input pInputText type="text" id="releaseYear" [value]="MovieSearchKeyWord.releaseYear" (input)="applyFilterGlobal($event, 'contains')"
 							placeholder="Search by Year" class="w-full intputSearch">
 					</th>
-					<th>
+					<th pResizableColumn>
 						<input pInputText type="text" id="length" [value]="MovieSearchKeyWord.length" disabled (input)="applyFilterGlobal($event, 'contains')"
 							placeholder="Search by Length" class="w-full intputSearch">
 					</th>
-					<th>
+					<th pResizableColumn>
 						<input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" disabled
 							placeholder="Search by Status" class="w-full intputSearch">
 					</th>
-					<th>
+					<th pResizableColumn>
 						<input pInputText type="text" disabled placeholder="Movie Poster" class="w-full intputSearch">
 					</th>
-					<th>
+					<th pResizableColumn>
 						<input pInputText type="text" disabled placeholder="Action" class="w-full intputSearch">
 					</th>
-					<th>
+					<th pResizableColumn>
 						<input pInputText type="text" disabled placeholder="Action" class="w-full intputSearch">
 					</th>
 				</tr>
