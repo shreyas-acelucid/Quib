@@ -8,6 +8,7 @@ import { Table } from 'primeng/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/_services/common'
 import { ConfirmationService } from 'primeng/api';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-active-movies',
   templateUrl: './active-movies.component.html',
@@ -25,6 +26,11 @@ export class ActiveMoviesComponent implements OnInit {
   image: File;
   MovieSearchKeyWord: MovieSearchKeyWord;
   imageUrl;
+  columnSelectorForm = new FormGroup({});
+  selectedColumns: any[] = [];
+  filteredCols: any[] = [];
+  colsOptions: any[] = []; 
+
   constructor(
     private ngxLoader: NgxUiLoaderService,
     private MoviesService: MoviesService,
@@ -61,17 +67,37 @@ export class ActiveMoviesComponent implements OnInit {
       { field: 'length', show: true, headers: 'Length' },
       { field: 'isActive', show: true, headers: 'Is Active' },
     ]
+    this.colsOptions = this.cols.map(col => ({ label: col.headers, value: col.field }));
     this.MoviesService.MovieSearchKeyWord.subscribe(res => {
       this.MovieSearchKeyWord = res;
     })
-    this.getMovieList()
+    this.getMovieList();
+
+    this.columnSelectorForm =  this.fb.group({
+      selectedColumns: new FormControl([])
+    })
    }
+
+  SelectRequestedColumns(){
+    this.selectedColumns = this.columnSelectorForm.controls['selectedColumns'].value;
+    this.filteredCols = this.cols.filter(col => this.selectedColumns.some(selectedCol => selectedCol.value === col.field)).
+    map(col => ({headers: col.headers}));
+  } 
+
    onToggleSidebar(sidebarState: any) {
     if (sidebarState === 'open') {
       this.sidebarSpacing = 'contracted';
     } else {
       this.sidebarSpacing = 'expanded';
     }
+  }
+
+  shouldDisplayColumn(header: string): boolean {
+
+    if (this.filteredCols.length === 0) {
+      return true;
+    }
+    return this.filteredCols.some(col => col.headers === header);
   }
 
   getMovieList() {

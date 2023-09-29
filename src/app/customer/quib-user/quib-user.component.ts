@@ -115,12 +115,19 @@ export class QuibUserComponent implements OnInit {
     this.colsOptions = this.cols.map(col => ({ label: col.headers, value: col.field }));
     
   }
-  //colsOptions = this.cols.map(col => ({ label: col.headers, value: col.field }));
-
+  
   SelectRequestedColumns(){
     this.selectedColumns = this.columnSelectorForm.controls['selectedColumns'].value;
     this.filteredCols = this.cols.filter(col => this.selectedColumns.some(selectedCol => selectedCol.value === col.field)).
     map(col => ({headers: col.headers}));
+  } 
+
+  shouldDisplayColumn(header: string): boolean {
+
+    if (this.filteredCols.length === 0) {
+      return true;
+    }
+    return this.filteredCols.some(col => col.headers === header);
   }
 
 

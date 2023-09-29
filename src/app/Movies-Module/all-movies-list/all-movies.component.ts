@@ -7,7 +7,8 @@ import { MovieSearchKeyWord, Movies } from 'src/app/_models/movies';
 import { Table } from 'primeng/table';
 import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
-import { CommonService } from 'src/app/_services/common'
+import { CommonService } from 'src/app/_services/common';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-all-movies',
   templateUrl: './all-movies.component.html',
@@ -27,15 +28,21 @@ export class AllMoviesComponent implements OnInit {
   display: boolean = false;
   image: File;
   imageUrl;
-  baseUrl: string = "http://44.211.90.48"
+  baseUrl: string = "http://44.211.90.48";
   posterContent: any = undefined;
   posterContentThumb: any = undefined;
-  screenShotImage: any = undefined
+  screenShotImage: any = undefined;
   message: string;
-  headerMessage:string
-  MovieSearchKeyWord: MovieSearchKeyWord
-  AllMoviesForm: FormGroup
-  PosterForm: FormGroup
+  headerMessage:string;
+  MovieSearchKeyWord: MovieSearchKeyWord;
+  AllMoviesForm: FormGroup;
+  PosterForm: FormGroup;
+  columnSelectorForm = new FormGroup({});
+  colsOptions: any[] = [];
+  selectedColumns: any[] = []; 
+  filteredCols: any[] = [];
+  
+
   constructor(private ngxLoader: NgxUiLoaderService,
     private fb: FormBuilder,
     private MoviesService: MoviesService,
@@ -59,6 +66,9 @@ export class AllMoviesComponent implements OnInit {
       id: [''],
       title: [''],
     })
+    this.columnSelectorForm =  this.fb.group({
+      selectedColumns: new FormControl([])
+    })
   }
 
   ngOnInit(): void {
@@ -77,8 +87,23 @@ export class AllMoviesComponent implements OnInit {
     ]
     this.MoviesService.MovieSearchKeyWord.subscribe(res => {
       this.MovieSearchKeyWord = res;
-    })
-    this.getMovieList()
+    });
+    this.colsOptions = this.cols.map(col => ({ label: col.headers, value: col.field }));
+    this.getMovieList();
+  }
+
+  SelectRequestedColumns(){
+    this.selectedColumns = this.columnSelectorForm.controls['selectedColumns'].value;
+    this.filteredCols = this.cols.filter(col => this.selectedColumns.some(selectedCol => selectedCol.value === col.field)).
+    map(col => ({headers: col.headers}));
+  }
+  
+  shouldDisplayColumn(header: string): boolean {
+
+    if (this.filteredCols.length === 0) {
+      return true;
+    }
+    return this.filteredCols.some(col => col.headers === header);
   }
 
   onToggleSidebar(sidebarState: any) {

@@ -5,7 +5,7 @@
 			[rowsPerPageOptions]="[10,50,100]" [showCurrentPageReport]="true" [value]="moviesList"
 			dataKey="id" stateStorage="session" stateKey="AllMovie-session"
 			[resizableColumns]="true" columnResizeMode="expand" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-			[responsive]="true" [globalFilterFields]="['title', 'length', 'isActive','releaseYear','director','length']"
+			[responsive]="true" [globalFilterFields]="['title', 'length', 'isActive','releaseYear','director']"
 			styleClass="p-datatable-striped">
 			<ng-template pTemplate="caption">
 				<span class="p-input-icon-right ml-5">
@@ -21,18 +21,44 @@
 						<button pButton type="button" label="Add Movie" class="p-button-success"
 							(click)="AddMovies()"></button>
 					</span>
+					<div class="p-input-icon-right ml-5">
+						<form [formGroup]="columnSelectorForm">
+							<label for="ColumnSelect" style="margin-right: 10px; font-family: 'Times New Roman', Times, serif;"> Select Columns </label>
+								<p-multiSelect [options]="colsOptions" optionLabel="label" [virtualScroll]="true"
+									formControlName="selectedColumns" display="chip" defaultLabel="Select Columns to display"
+								></p-multiSelect>
+								<button pButton type="button" id="submit" name="submit"
+													class="p-button-primary" style="margin-left: 8px; margin-bottom: 6.7px; height: 30px;"
+													(click)="SelectRequestedColumns()">Submit</button>
+						</form>
+					</div>
 				</div>
 			</ng-template>
 
 			<ng-template pTemplate="header" let-columns>
 				<tr>
 					<th pResizableColumn>S.no</th>
-					<th pResizableColumn *ngFor="let col of columns" [pSortableColumn]="col.field">{{col.headers}}
+					<th pResizableColumn *ngFor="let col of filteredCols.length==0 ? cols : filteredCols" [pSortableColumn]="col.field">{{col.headers}}
 						<p-sortIcon [field]="col.field"></p-sortIcon>
 					</th>
 					<th pResizableColumn>Options</th>
 				</tr>
+
 				<tr>
+					<ng-container *ngIf="filteredCols.length === 0; else colsTemplate">
+					  <th pResizableColumn></th>
+					  <th pResizableColumn *ngFor="let col of cols"></th>
+					  <th pResizableColumn></th>
+					</ng-container>
+				</tr>
+				  
+				  <ng-template #colsTemplate>
+					<th pResizableColumn></th>
+					<th pResizableColumn *ngFor="let col of filteredCols"></th>
+					<th pResizableColumn></th>
+				  </ng-template>
+
+				<!-- <tr>
 					<th pResizableColumn>
 						<input pInputText type="text" disabled (input)="applyFilterGlobal($event, 'contains')"
 							placeholder=" No Search" class="w-full intputSearch">
@@ -66,16 +92,16 @@
 					<th pResizableColumn>
 						<input pInputText type="text" disabled placeholder="Action" class="w-full intputSearch">
 					</th>
-				</tr>
+				</tr> -->
 			</ng-template>
 			<ng-template pTemplate="body" let-i="rowIndex" let-moviesList>
 				<tr>
 					<td>{{i+1}}</td>
-					<td>{{moviesList?.title}}</td>
-					<td>{{moviesList?.director}}</td>
-					<td>{{moviesList?.releaseYear}}</td>
-					<td>{{moviesList?.HH}}:{{moviesList?.MM}}:{{moviesList?.SS}}</td>
-					<td>
+					<td *ngIf="shouldDisplayColumn('Movie Title')">{{moviesList?.title}}</td>
+					<td *ngIf="shouldDisplayColumn('Director')">{{moviesList?.director}}</td>
+					<td *ngIf="shouldDisplayColumn('Release Year')">{{moviesList?.releaseYear}}</td>
+					<td *ngIf="shouldDisplayColumn('Length')">{{moviesList?.HH}}:{{moviesList?.MM}}:{{moviesList?.SS}}</td>
+					<td *ngIf="shouldDisplayColumn('Status')">
 						<div class="btn-grp">
 							<button pTooltip="mark as InActive" pButton type="button" class="p-button-success"
 								(click)="markAsActive(moviesList?.id,false)" *ngIf="moviesList.isActive ==true"
@@ -85,12 +111,12 @@
 								style="height: 30px">InActive</button>
 						</div>
 					</td>
-					<td>
+					<td *ngIf="shouldDisplayColumn('Movie Poster')">
 						<img [src]="moviesList?.posterContentThumb" class="form-control"
 							style="width: 90%; height: 8vh; cursor: pointer;"
 							(click)="updateMoviePoster(moviesList?.id)">
 					</td>
-					<td (click)="[display = true,screenshot=true,
+					<td *ngIf="shouldDisplayColumn('ScreenShot')" (click)="[display = true,screenshot=true,
 					moviePoster=false,addEditMovie=false,headerMessage='upLoad Screen_Shot']">
 					<a style="color: blue; cursor: pointer;">Screen_Shot</a>
 					</td>

@@ -8,13 +8,13 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((mod) => mod.DashboardModule),
-    // canActivate: [AuthGuard]
+     //canActivate: [AuthGuard]
   },
   {
     path: 'customer',
     loadChildren: () =>
       import('./customer/customer.module').then((mod) => mod.CustomerModule),
-    // canActivate: [AuthGuard]
+     //canActivate: [AuthGuard]
   },
   {
     path: 'Quib',

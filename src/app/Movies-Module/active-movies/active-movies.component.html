@@ -16,18 +16,46 @@
 						<input pInputText type="text" [value]="MovieSearchKeyWord.Gsearch" (input)="FilterGlobal($event, 'contains')"
 							placeholder="Search by columnName" />
 					</span>
+					<div class="p-input-icon-right ml-5">
+						<form [formGroup]="columnSelectorForm">
+							<label for="ColumnSelect" style="margin-right: 10px; font-family: 'Times New Roman', Times, serif;"> Select Columns </label>
+								<p-multiSelect [options]="colsOptions" optionLabel="label" [virtualScroll]="true"
+									formControlName="selectedColumns" display="chip" defaultLabel="Select Columns to display" class="fixed-width-multiSelect"	
+								></p-multiSelect>
+								<button pButton type="button" id="submit" name="submit"
+													class="p-button-primary" style="margin-left: 8px; margin-bottom: 6.7px; height: 30px;"
+													(click)="SelectRequestedColumns()">Submit</button>
+						</form>
+					</div>
+					
 				</div>
+
 			</ng-template>
 
 			<ng-template pTemplate="header" let-columns>
 				<tr>
 					<th pResizableColumn>S.no</th>
-					<th pResizableColumn *ngFor="let col of columns" [pSortableColumn]="col.field">{{col.headers}}
+					<th pResizableColumn *ngFor="let col of filteredCols.length==0 ? cols : filteredCols" [pSortableColumn]="col.field">{{col.headers}}
 						<p-sortIcon [field]="col.field"></p-sortIcon>
 					</th>
 					<th>Options</th>
 				</tr>
+
 				<tr>
+					<ng-container *ngIf="filteredCols.length === 0; else colsTemplate">
+					  <th pResizableColumn></th>
+					  <th pResizableColumn *ngFor="let col of cols"></th>
+					  <th pResizableColumn></th>
+					</ng-container>
+				</tr>
+				  
+				  <ng-template #colsTemplate>
+					<th pResizableColumn></th>
+					<th pResizableColumn *ngFor="let col of filteredCols"></th>
+					<th pResizableColumn></th>
+				  </ng-template>
+
+				<!-- <tr>
 					<th pResizableColumn>
 						<input pInputText type="text" disabled placeholder="No Search" class="w-full intputSearch">
 					</th>
@@ -55,16 +83,16 @@
 						<input pInputText type="text" disabled placeholder="No Search" class="w-full intputSearch">
 					</th>
 
-				</tr>
+				</tr> -->
 			</ng-template>
 			<ng-template pTemplate="body" let-i="rowIndex" let-activeMoviesList>
 				<tr>
 					<td>{{i+1}}</td>
-					<td>{{activeMoviesList?.title}}</td>
-					<td>{{activeMoviesList?.director}}</td>
-					<td>{{activeMoviesList?.releaseYear}}</td>
-					<td>{{activeMoviesList?.HH}}:{{activeMoviesList?.MM}}:{{activeMoviesList?.SS}}</td>
-					<td>
+					<td *ngIf="shouldDisplayColumn('Movie title')">{{activeMoviesList?.title}}</td>
+					<td *ngIf="shouldDisplayColumn('Director')">{{activeMoviesList?.director}}</td>
+					<td *ngIf="shouldDisplayColumn('Release Year')">{{activeMoviesList?.releaseYear}}</td>
+					<td *ngIf="shouldDisplayColumn('Length')">{{activeMoviesList?.HH}}:{{activeMoviesList?.MM}}:{{activeMoviesList?.SS}}</td>
+					<td *ngIf="shouldDisplayColumn('Is Active')">
 						<button pButton type="button" class="p-button-success"
 							style="height: 30px;">Active</button>
 					</td>

@@ -5,6 +5,8 @@ import { AllMoviesComponent } from './all-movies-list/all-movies.component';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 import {SharedModule} from '../shared/shared.module';
 import { ActiveMoviesComponent } from './active-movies/active-movies.component';
+import {MultiSelectModule} from 'primeng/multiselect';
+
 @NgModule({
   declarations: [
     AllMoviesComponent,
@@ -15,7 +17,8 @@ import { ActiveMoviesComponent } from './active-movies/active-movies.component';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    MoviesRoutingModule
+    MoviesRoutingModule,
+    MultiSelectModule
   ]
 })
 export class MoviesModule { }

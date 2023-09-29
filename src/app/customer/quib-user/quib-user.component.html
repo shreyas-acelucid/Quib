@@ -29,7 +29,7 @@
 									formControlName="selectedColumns" display="chip" defaultLabel="Select Columns to display"
 								></p-multiSelect>
 								<button pButton type="button" id="submit" name="submit"
-													class="p-button-primary" style="margin-left: 8px; margin-bottom: 6.7px; height: 30px"
+													class="p-button-primary" style="margin-left: 8px; margin-bottom: 6.7px; height: 30px;"
 													(click)="SelectRequestedColumns()">Submit</button>
 						</form>
 					</div>
@@ -38,14 +38,30 @@
 			<ng-template pTemplate="header" let-columns>
 				<tr>
 					<th pResizableColumn >S.no</th>
-					<th pResizableColumn *ngFor="let col of cols" [pSortableColumn]="col.field">{{col.headers}}
+					<th pResizableColumn *ngFor="let col of filteredCols.length==0 ? cols : filteredCols" [pSortableColumn]="col.field">{{col.headers}}
 						<p-sortIcon [field]="col.field"></p-sortIcon>
 					</th>
 					<th pResizableColumn>Action</th>
 				</tr>
+
 				<tr>
+					<ng-container *ngIf="filteredCols.length === 0; else colsTemplate">
+					  <th pResizableColumn></th>
+					  <th pResizableColumn *ngFor="let col of cols"></th>
+					  <th pResizableColumn></th>
+					</ng-container>
+				</tr>
+				  
+				  <ng-template #colsTemplate>
 					<th pResizableColumn></th>
-					<th *ngIf="filteredCols.length==0" pResizableColumn>
+					<th pResizableColumn *ngFor="let col of filteredCols"></th>
+					<th pResizableColumn></th>
+				  </ng-template>
+				  
+
+				<!-- <tr>
+					<th pResizableColumn></th>
+					<th pResizableColumn>
 						<input pInputText type="text" id="displayName" [value]="SearchKeyWord.displayName"
 							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By displayName"
 							class="w-full intputSearch">
@@ -101,22 +117,22 @@
 							class="w-full disableInputSearch"></th>
 					<th> <input pInputText type="text" disabled placeholder="No Search"
 							class="w-full disableInputSearch"></th>
-				</tr>
+				</tr> -->
 
 			</ng-template>
 			<ng-template pTemplate="body" let-i="rowIndex" let-user>
 				<tr>
 					<td>{{i+1}}</td>
-					<td>{{user.displayName}}</td>
-					<td>{{user.firstName}}</td>					
-					<td>{{user.lastName}}</td>
-					<td>{{user.email}}</td>
-					<td>{{user.createdDate | date:'dd/MM/yyyy'}}</td>
-					<td>{{user.bumpCount}}</td>
-					<td>{{user.followeeCount}}</td>
-					<td>{{user.followerCount}}</td>
-					<td>{{user.unPostedQuibsCount}}</td>
-					<td>
+					<td *ngIf="shouldDisplayColumn('Display Name')">{{user.displayName}}</td>
+					<td *ngIf="shouldDisplayColumn('First Name')">{{user.firstName}}</td>					
+					<td *ngIf="shouldDisplayColumn('Last Name')">{{user.lastName}}</td>
+					<td *ngIf="shouldDisplayColumn('Email')">{{user.email}}</td>
+					<td *ngIf="shouldDisplayColumn('Join')">{{user.createdDate | date:'dd/MM/yyyy'}}</td>
+					<td *ngIf="shouldDisplayColumn('BMP')">{{user.bumpCount}}</td>
+					<td *ngIf="shouldDisplayColumn('FNG')">{{user.followeeCount}}</td>
+					<td *ngIf="shouldDisplayColumn('FRS')">{{user.followerCount}}</td>
+					<td *ngIf="shouldDisplayColumn('UNP')">{{user.unPostedQuibsCount}}</td>
+					<td *ngIf="shouldDisplayColumn('Status')">
 						<div class="btn-grp">
 							<button (click)="changeUserStatus(user?.id,false)" pTooltip="Mark As Pending" pButton
 								type="button" class="p-button-success" *ngIf="user.isPending ==true"
@@ -127,7 +143,7 @@
 								style="height: 30px">Pending</button>
 						</div>
 					</td>
-					<td>
+					<td *ngIf="shouldDisplayColumn('IsModerator')">
 						<div class="btn-grp">
 							<button (click)="markUserAsModerator(user?.id,false)" pTooltip="Mark As Normal User "
 								pButton type="button" class="p-button-success" *ngIf="user.isModerator ==true"
@@ -138,19 +154,19 @@
 								style="height: 30px">Pending</button>
 						</div>
 					</td>
-					<td>{{user.curatorScore}}</td>
-					<td>{{user.ccp}}</td>
-					<td>{{user.cfp}}</td>
-					<td>
+					<td *ngIf="shouldDisplayColumn('CUR')">{{user.curatorScore}}</td>
+					<td *ngIf="shouldDisplayColumn('CCP')">{{user.ccp}}</td>
+					<td *ngIf="shouldDisplayColumn('CFP')">{{user.cfp}}</td>
+					<td *ngIf="shouldDisplayColumn('MOV')">
 						<a style="color: blue; cursor: pointer;"
 							(click)="[display =true, MoVList = true, AssignToModerator =false, getUserQuibedMoviesList(user?.id),message='Movie List']">MOV</a>
 					</td>
-					<td>{{user.totalQuibsWritten}}</td>
-					<td>{{user.averageOverallRating}}</td>
-					<td>{{user.totalBumpReceived}}</td>
-					<td>{{user.bumpCount}}</td>
-					<td>{{user.totalFlagReceived}}</td>
-					<td>{{user.about}}</td>
+					<td *ngIf="shouldDisplayColumn('QUIBS')">{{user.totalQuibsWritten}}</td>
+					<td *ngIf="shouldDisplayColumn('AVR')">{{user.averageOverallRating}}</td>
+					<td *ngIf="shouldDisplayColumn('B-IN')">{{user.totalBumpReceived}}</td>
+					<td *ngIf="shouldDisplayColumn('B-OUT')">{{user.bumpCount}}</td>
+					<td *ngIf="shouldDisplayColumn('FLAGE')">{{user.totalFlagReceived}}</td>
+					<td *ngIf="shouldDisplayColumn('PERS')">{{user.about}}</td>
 					<td>
 						<div class="btn-grp">
 							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
