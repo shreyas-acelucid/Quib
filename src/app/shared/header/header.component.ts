@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.sidebarState = 'open';
+    this.sidebarState = 'close';
   }
 
   onToggleSidebar() {

@@ -15,18 +15,18 @@
 						<i class="pi pi-search"></i>
 						<input pInputText type="text" [value]="MovieSearchKeyWord.Gsearch" (input)="FilterGlobal($event, 'contains')"
 							placeholder="Search by columnName" />
-					</span>
-					<div class="p-input-icon-right ml-5">
-						<form [formGroup]="columnSelectorForm">
-							<label for="ColumnSelect" style="margin-right: 10px; font-family: 'Times New Roman', Times, serif;"> Select Columns </label>
-								<p-multiSelect [options]="colsOptions" optionLabel="label" [virtualScroll]="true"
-									formControlName="selectedColumns" display="chip" defaultLabel="Select Columns to display" class="fixed-width-multiSelect"	
-								></p-multiSelect>
-								<button pButton type="button" id="submit" name="submit"
-													class="p-button-primary" style="margin-left: 8px; margin-bottom: 6.7px; height: 30px;"
-													(click)="SelectRequestedColumns()">Submit</button>
-						</form>
-					</div>
+					</span>			
+									<div class="p-input-icon-right ml-5">
+					<form [formGroup]="columnSelectorForm">
+						<label for="ColumnSelect" style="margin-right: 10px; font-family: 'Times New Roman', Times, serif;"> Select Columns </label>
+							<p-multiSelect [options]="colsOptions" optionLabel="label" [virtualScroll]="true"
+								formControlName="selectedColumns" display="chip" defaultLabel="Select Columns to display"  	
+							></p-multiSelect>
+							<button pButton type="button" id="submit" name="submit"
+												class="p-button-primary" style="margin-left: 8px; margin-bottom: 6.7px; height: 30px;"
+												(click)="SelectRequestedColumns()">Submit</button>
+					</form>
+</div>
 					
 				</div>
 

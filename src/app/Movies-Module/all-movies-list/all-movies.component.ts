@@ -72,10 +72,9 @@ export class AllMoviesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sidebarSpacing = 'contracted';
+    this.sidebarSpacing = 'expanded';
     this.fgsType = SPINNER.squareLoader
     this.ngxLoader.start();
-    this.sidebarSpacing = 'contracted';
     this.cols = [
       { field: 'title', show: true, headers: 'Movie Title' },
       { field: 'director', show: true, headers: 'Director' },

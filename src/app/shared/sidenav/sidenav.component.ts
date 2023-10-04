@@ -61,7 +61,7 @@ export class SidenavComponent implements OnInit {
   ngOnInit() {
     if (window.innerWidth > 992) {
       this.device = 'desktop';
-      this.state = 'open';
+      this.state = 'close';
     } else {
       this.device = 'mobile';
       this.state = 'close';

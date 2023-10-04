@@ -63,7 +63,7 @@ export class QuibUserComponent implements OnInit {
     private CommonService: CommonService,
     private MoviesService: MoviesService,
     private confirmationService: ConfirmationService,
-    
+        
   ) {
     this.quibUserForm = this.fb.group({
       curator: ['', [Validators.required]],
@@ -80,10 +80,9 @@ export class QuibUserComponent implements OnInit {
   // }
 
   ngOnInit(): void {
-    this.sidebarSpacing = 'contracted';
+    this.sidebarSpacing = 'expanded';
     this.fgsType = SPINNER.squareLoader;
     this.ngxLoader.start();
-    this.sidebarSpacing = 'contracted';
     this.QuibService.SearchKeyWord.subscribe((res) => {
       this.SearchKeyWord = res;
     });

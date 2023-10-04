@@ -9,6 +9,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {MultiSelectModule} from 'primeng/multiselect';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {TableModule} from 'primeng/table';
+import { MatTableModule } from '@angular/material/table';
 @NgModule({
   declarations: [
    QuibUserComponent,
@@ -24,7 +25,8 @@ import {TableModule} from 'primeng/table';
     MultiSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    TableModule
+    TableModule,
+    MatTableModule
   ]
 })
 

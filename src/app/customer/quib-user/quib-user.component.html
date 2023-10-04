@@ -1,6 +1,7 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
-	<div class="card col-sm-12" style="border:none;">
+	
+	<div class="card col-sm-12 table-container" style="border:none;">
 		<p-table 
 		id="customerTable" #QuibUserTable [value]="Quib_User" [columns]="cols" [resizableColumns]="true" columnResizeMode="expand"
 		responsiveLayout="scroll"
@@ -24,7 +25,8 @@
 					</div>
 					<div class="p-input-icon-right ml-5">
 						<form [formGroup]="columnSelectorForm">
-							<label for="ColumnSelect" style="margin-right: 10px; font-family: 'Times New Roman', Times, serif;"> Select Columns </label>
+							<label for="ColumnSelect" style="margin-right: 10px; font-family: 'Times New Roman', Times, serif;
+							"> Select Columns </label>
 								<p-multiSelect [options]="colsOptions" optionLabel="label" [virtualScroll]="true"
 									formControlName="selectedColumns" display="chip" defaultLabel="Select Columns to display"
 								></p-multiSelect>
@@ -36,14 +38,15 @@
 					</div>
 			</ng-template>
 			<ng-template pTemplate="header" let-columns>
-				<tr>
+				
+				<tr class="sticky-table-head">
 					<th pResizableColumn >S.no</th>
 					<th pResizableColumn *ngFor="let col of filteredCols.length==0 ? cols : filteredCols" [pSortableColumn]="col.field">{{col.headers}}
 						<p-sortIcon [field]="col.field"></p-sortIcon>
 					</th>
-					<th pResizableColumn>Action</th>
+                    <th pResizableColumn>Action</th>
 				</tr>
-
+				
 				<tr>
 					<ng-container *ngIf="filteredCols.length === 0; else colsTemplate">
 					  <th pResizableColumn></th>
@@ -186,6 +189,7 @@
 		</p-table>
 		<ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
 	</div>
+
 
 	<!--pop model edit user  start from here ------>
 	<p-dialog [(visible)]="display" [modal]="true" [header]="message" [style]="{width: '60vw',height:'90vh'}" position="top"

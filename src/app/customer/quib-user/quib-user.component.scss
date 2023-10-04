@@ -75,3 +75,30 @@ th {
     color: chocolate;
 }
 
+.table-container {
+  max-height: calc(100vh - 55px); 
+  overflow-y: auto;
+  position: relative; 
+}
+
+// .sticky-table-head th {
+//   position: sticky;
+//   position: -webkit-sticky;
+//   top: 0;
+//   background-color: #ffffff; 
+//   z-index: 500;
+//   overflow: hidden;
+// }
+
+.sticky-table-head {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  background-color: #ffffff; 
+  z-index: 500;
+  overflow: hidden;
+}
+
+
+
+
