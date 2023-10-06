@@ -27,14 +27,10 @@ const routes: Routes = [
       import('./Movies-Module/movies.module').then((mod) => mod.MoviesModule),
   },
 
-  {
-    path: '',
-    loadChildren: () =>
-      import('./customer/customer.module').then((mod) => mod.CustomerModule),
-  },
-
-  { path: '', redirectTo: '/customer/quib-user', pathMatch: 'full' },
-  { path: '**', redirectTo: '', pathMatch: 'full' },
+  { path: '', component: AuthenticationComponent },
+  { path: '',   redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' }
+ 
 ];
 
 @NgModule({
