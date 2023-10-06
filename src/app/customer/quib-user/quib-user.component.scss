@@ -81,7 +81,16 @@ th {
   position: relative; 
 }
 
-// .sticky-table-head th {
+.sticky-table-head th {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  background-color: #ffffff; 
+  z-index: 500;
+  overflow: hidden;
+}
+
+// .sticky-table-head {
 //   position: sticky;
 //   position: -webkit-sticky;
 //   top: 0;
@@ -90,14 +99,31 @@ th {
 //   overflow: hidden;
 // }
 
-.sticky-table-head {
-  position: sticky;
-  position: -webkit-sticky;
-  top: 0;
-  background-color: #ffffff; 
-  z-index: 500;
-  overflow: hidden;
-}
+// :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+//   position: -webkit-sticky;
+//   position: sticky;
+//   top: 5rem;
+// }
+
+// .layout-news-active :host ::ng-deep .p-datatable tr > th {
+//   top: 7rem;
+// }
+
+// :host ::ng-deep .p-datatable .p-datatable-thead > tr > th { 
+//   position: -webkit-sticky; 
+//   position: sticky; 
+//   top: 5rem; 
+// } 
+
+// @media screen and (max-width: 64em) { 
+//   :host ::ng-deep .p-datatable .p-datatable-thead th { 
+//       top: 0px; 
+//   } 
+// } @media screen and (max-width: 64em) { 
+//   :host ::ng-deep .p-datatable .p-datatable-thead th { 
+//       top: 0px; 
+//   } 
+// } 
 
 
 

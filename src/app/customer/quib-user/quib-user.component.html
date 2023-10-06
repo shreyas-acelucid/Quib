@@ -3,15 +3,15 @@
 	
 	<div class="card col-sm-12 table-container" style="border:none;">
 		<p-table 
-		id="customerTable" #QuibUserTable [value]="Quib_User" [columns]="cols" [resizableColumns]="true" columnResizeMode="expand"
-		responsiveLayout="scroll"
+		id="customerTable" #QuibUserTable [value]="Quib_User" [columns]="cols" [resizableColumns]="true" columnResizeMode="expand" 
+		responsiveLayout="scroll" 
 			dataKey="id" stateStorage="session" stateKey="QuibUser-session" [paginator]="true" [rows]="10" 
 			[rowsPerPageOptions]="[10,50,100]" [showCurrentPageReport]="true"
 			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
 			[globalFilterFields]="['firstName','lastName','email','displayName']" styleClass="p-datatable-striped">
 			<ng-template pTemplate="caption">
 				<span class="p-input-icon-right ml-5">
-					<h2 style="font-family:'Times New Roman', Times, serif;">Users List</h2>
+					<h2 style="font-family:'Times New Roman', Times, serif;">Users</h2>
 				</span>
 				<div class="row">
 					<div class="p-input-icon-right ml-5">
@@ -19,14 +19,9 @@
 						<input pInputText type="text" id="Gsearch" [value]="SearchKeyWord.Gsearch"
 							placeholder="Search by name/email" (input)="FilterGlobal($event, 'contains')" />
 					</div>
-					<div class="p-input-icon-right ml-5">
-						<button pButton type="button" label="Assign Movie to Moderator" class="p-button-success"
-							(click)="[display =true, MoVList = false, AssignToModerator =true, message='Assign Movie to Moderator']"></button>
-					</div>
+					
 					<div class="p-input-icon-right ml-5">
 						<form [formGroup]="columnSelectorForm">
-							<label for="ColumnSelect" style="margin-right: 10px; font-family: 'Times New Roman', Times, serif;
-							"> Select Columns </label>
 								<p-multiSelect [options]="colsOptions" optionLabel="label" [virtualScroll]="true"
 									formControlName="selectedColumns" display="chip" defaultLabel="Select Columns to display"
 								></p-multiSelect>
@@ -35,6 +30,14 @@
 													(click)="SelectRequestedColumns()">Submit</button>
 						</form>
 					</div>
+
+					<div class="p-input-icon-right ml-5">
+						<button pButton type="button" label="Assign Movie to Moderator" class="p-button-success"
+							(click)="[display =true, MoVList = false, AssignToModerator =true, message='Assign Movie to Moderator']" style="margin-left: 2rem;"></button>
+					</div>
+
+					
+					
 					</div>
 			</ng-template>
 			<ng-template pTemplate="header" let-columns>
@@ -130,7 +133,7 @@
 					<td *ngIf="shouldDisplayColumn('First Name')">{{user.firstName}}</td>					
 					<td *ngIf="shouldDisplayColumn('Last Name')">{{user.lastName}}</td>
 					<td *ngIf="shouldDisplayColumn('Email')">{{user.email}}</td>
-					<td *ngIf="shouldDisplayColumn('Join')">{{user.createdDate | date:'dd/MM/yyyy'}}</td>
+					<td *ngIf="shouldDisplayColumn('Join')">{{user.createdDate | date:'MM/dd/yyyy'}}</td>
 					<td *ngIf="shouldDisplayColumn('BMP')">{{user.bumpCount}}</td>
 					<td *ngIf="shouldDisplayColumn('FNG')">{{user.followeeCount}}</td>
 					<td *ngIf="shouldDisplayColumn('FRS')">{{user.followerCount}}</td>

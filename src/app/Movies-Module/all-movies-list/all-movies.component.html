@@ -1,8 +1,8 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
 	<div class="card col-sm-12" style="border:none;">
-		<p-table id="customerTable" #AllMovieTable [columns]="cols" responsiveLayout="scroll" [paginator]="true" [rows]="10"
-			[rowsPerPageOptions]="[10,50,100]" [showCurrentPageReport]="true" [value]="moviesList"
+		<p-table id="customerTable" #AllMovieTable [columns]="cols" responsiveLayout="scroll" [paginator]="true" [rows]="20"
+			[rowsPerPageOptions]="[20,50,100]" [showCurrentPageReport]="true" [value]="moviesList"
 			dataKey="id" stateStorage="session" stateKey="AllMovie-session"
 			[resizableColumns]="true" columnResizeMode="expand" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
 			[responsive]="true" [globalFilterFields]="['title', 'length', 'isActive','releaseYear','director']"
@@ -17,13 +17,8 @@
 						<input pInputText type="text" [value]="MovieSearchKeyWord.Gsearch" (input)="FilterGlobal($event, 'contains')"
 							placeholder="Search by columnName" />
 					</span>
-					<span class="p-input-icon-right ml-5">
-						<button pButton type="button" label="Add Movie" class="p-button-success"
-							(click)="AddMovies()"></button>
-					</span>
 					<div class="p-input-icon-right ml-5">
 						<form [formGroup]="columnSelectorForm">
-							<label for="ColumnSelect" style="margin-right: 10px; font-family: 'Times New Roman', Times, serif;"> Select Columns </label>
 								<p-multiSelect [options]="colsOptions" optionLabel="label" [virtualScroll]="true"
 									formControlName="selectedColumns" display="chip" defaultLabel="Select Columns to display"
 								></p-multiSelect>
@@ -32,6 +27,11 @@
 													(click)="SelectRequestedColumns()">Submit</button>
 						</form>
 					</div>
+					<span class="p-input-icon-right ml-5">
+						<button pButton type="button" label="Add Movie" class="p-button-success" style="margin-left: 2rem; width: 10rem;"
+							(click)="AddMovies()"></button>
+					</span>
+					
 				</div>
 			</ng-template>
 
