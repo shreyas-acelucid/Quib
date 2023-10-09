@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   QUIB_USER_MOVIE_LIST,
   Quib_User,
@@ -47,6 +47,8 @@ export class QuibUserComponent implements OnInit {
   message: string;
   quibUserForm = new FormGroup({});
   columnSelectorForm = new FormGroup({});
+  hoverableCells: NodeListOf<HTMLElement>;
+  showPopup: boolean = false;
 
   userId: string;
   
@@ -63,7 +65,7 @@ export class QuibUserComponent implements OnInit {
     private CommonService: CommonService,
     private MoviesService: MoviesService,
     private confirmationService: ConfirmationService,
-        
+    private el: ElementRef,
   ) {
     this.quibUserForm = this.fb.group({
       curator: ['', [Validators.required]],
@@ -112,14 +114,42 @@ export class QuibUserComponent implements OnInit {
       { field: 'about', show: true, headers: 'PERS' },
     ];
     this.colsOptions = this.cols.map(col => ({ label: col.headers, value: col.field }));
+
+    this.hoverableCells = this.el.nativeElement.querySelectorAll('.hoverable-cell');
+    this.hoverableCells.forEach((cell: HTMLElement) => {
+      cell.addEventListener('mouseover', () => {
+        this.setPopupContent(cell.textContent);
+
+        const popup = cell.nextElementSibling as HTMLElement;
+        if (popup) {
+          popup.style.display = 'block';
+        }
+      });
+
+      cell.addEventListener('mouseout', () => {
+        const popup = cell.nextElementSibling as HTMLElement;
+        if (popup) {
+          popup.style.display = 'none';
+        }
+      });
+    });
     
   }
+
+  private setPopupContent(content: string) {
+    const popupContent = this.el.nativeElement.querySelector('.popup-content');
+    if (popupContent) {
+      popupContent.textContent = content;
+    }
+  }
   
-  SelectRequestedColumns(){
+
+
+  SelectRequestedColumns() {
     this.selectedColumns = this.columnSelectorForm.controls['selectedColumns'].value;
     this.filteredCols = this.cols.filter(col => this.selectedColumns.some(selectedCol => selectedCol.value === col.field)).
-    map(col => ({headers: col.headers}));
-  } 
+      map(col => ({ headers: col.headers }));
+  }
 
   shouldDisplayColumn(header: string): boolean {
 

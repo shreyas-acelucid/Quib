@@ -125,6 +125,61 @@ th {
 //   } 
 // } 
 
+th{
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// th:hover{
+//   white-space: normal;
+//   overflow: visible;
+//   text-overflow: unset;
+// }
+
+td{
+  max-width: 200px;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.3s ease;
+  position: relative; 
+}
+
+td:hover {
+  white-space: normal; 
+  overflow: visible; 
+  text-overflow: unset; 
+}
+
+.popup {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  white-space: pre-wrap;
+  overflow: auto;
+}
+
+.hoverable-cell:hover + .popup {
+  display: block;
+}
+
+.popup-content {
+  background-color: #fff; 
+  border: 1px solid #ccc; 
+  padding: 10px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+  max-width: 300px; 
+  white-space: pre-wrap; 
+  overflow: auto; 
+}
+
+
 
 
 
