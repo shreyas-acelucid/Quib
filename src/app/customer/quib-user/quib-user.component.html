@@ -3,7 +3,7 @@
 	
 	<div class="card col-sm-12 table-container" style="border:none;">
 		<p-table 
-		id="customerTable" #QuibUserTable [value]="Quib_User" [columns]="cols" [resizableColumns]="true" scrollHeight="70vh"  columnResizeMode="fit" [scrollable]="true"
+		id="customerTable" #QuibUserTable [value]="Quib_User" [columns]="cols" [resizableColumns]="true" scrollHeight="70vh"  columnResizeMode="expand" [scrollable]="true"
 		responsiveLayout="scroll" 
 			dataKey="id" stateStorage="session" stateKey="QuibUser-session" [paginator]="true" [rows]="20" 
 			[rowsPerPageOptions]="[20,50,100]" [showCurrentPageReport]="true"
@@ -45,7 +45,7 @@
 			<ng-template pTemplate="header" let-columns>
 				
 				<tr>
-					<th style="width: 25px;">S.no</th>
+					<th style="width: 25px;" pResizableColumn >S.no</th>
 					<th pResizableColumn *ngFor="let col of filteredCols.length==0 ? cols : filteredCols" [pSortableColumn]="col.field">{{col.headers}}
 						<p-sortIcon [field]="col.field"></p-sortIcon>
 					</th>
@@ -148,7 +148,7 @@
 							<button (click)="changeUserStatus(user?.id,true)" pButton type="button"
 								class="p-button-danger" pTooltip="Mark As Approved"
 								*ngIf="user.isPending==false||user.isPending==null "
-								style="height: 30px">Pending</button>
+								style="height: 30px; width:6.78rem; padding-left: 1.55rem">Pending</button>
 						</div>
 					</td>
 					<td *ngIf="shouldDisplayColumn('IsModerator')">
@@ -159,7 +159,7 @@
 							<button (click)="markUserAsModerator(user?.id,true)" pButton type="button"
 								class="p-button-danger" pTooltip="Mark As Moderator"
 								*ngIf="user.isModerator==false||user.isModerator==null "
-								style="height: 30px">Pending</button>
+								style="height: 30px; width:6.78rem; padding-left: 1.55rem">Pending</button>
 						</div>
 					</td>
 					<td *ngIf="shouldDisplayColumn('CUR')">{{user.curatorScore}}</td>
