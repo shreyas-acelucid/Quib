@@ -6,17 +6,18 @@ export const SideNaveMenueRoute = [
     },
     {
         label: 'Movies',
-        // routerLink: ['/Movies/active-movies'],
-        items: [
-            {
-                label: 'All Movies',
-                routerLink: ['/Movies/all-movies']
-            },
-            {
-                label: 'Active Movies',
-                routerLink: ['/Movies/active-movies']
-            },
-        ]
+        icon: 'pi pi-inbox',
+        routerLink: ['/Movies/all-movies'],
+        // items: [
+        //     {
+        //         label: 'All Movies',
+        //         routerLink: ['/Movies/all-movies']
+        //     },
+        //     {
+        //         label: 'Active Movies',
+        //         routerLink: ['/Movies/active-movies']
+        //     },
+        // ]
     },
     {
         label: 'Quibs',
