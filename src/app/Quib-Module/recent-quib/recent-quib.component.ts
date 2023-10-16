@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 import { QuibService } from 'src/app/_services/Quib.service';
+import { MoviesService } from 'src/app/_services/movies.service';
 import { TABLE_HEADING } from 'src/app/_models/table_heading';
 import { Table } from 'primeng/table';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
 import { BUMP_IN_USER_LIST, FLAG_IN_USER_LIST, QUIB_LIST, QUIB_SEARCH_WORD, STYLE_VALUE } from 'src/app/_models/Quib_user';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { CommonService } from 'src/app/_services/common'
 @Component({
@@ -24,13 +25,19 @@ export class RecentQuibComponent implements OnInit {
   BIN: boolean = false;
   CCP: number = 0;
   totalRecords: number;
-  pageNo: number = 1;
+  pageNo: number = 100;
   loading: boolean 
   BumpUserList: BUMP_IN_USER_LIST[] = [];
   FlagUserList: FLAG_IN_USER_LIST[] = [];
   QuibSearchWord: QUIB_SEARCH_WORD
   headerMessage: string
   styleValue: STYLE_VALUE
+  movieAndUserSelectionForm: FormGroup = new FormGroup({});
+  @Input() movieTitles: any[] = [];
+  selectedMovie: any;
+  @Input() userNames: any[] = [];
+  selectedUser: any;
+
 
   constructor(private ngxLoader: NgxUiLoaderService,
     private QuibService: QuibService,
@@ -38,18 +45,23 @@ export class RecentQuibComponent implements OnInit {
     private CommonService: CommonService,
     private confirmationService: ConfirmationService,
     private toastr: ToastrMsgService) {
+      this.movieAndUserSelectionForm = this.fb.group({
+        selectedMovie: new FormControl(''),
+        selectedUser: new FormControl('')
+      });
 
   }
 
   ngOnInit(): void {
-    this.sidebarSpacing = 'contracted';
+    this.sidebarSpacing = 'expanded';
     this.fgsType = SPINNER.squareLoader
     this.ngxLoader.start();
-    this.sidebarSpacing = 'contracted';
+    this.sidebarSpacing = 'expanded';
     this.QuibService.QuibSearchWord.subscribe(res => {
       this.QuibSearchWord = res
     })
     this.getQuibList()
+    this.getMovieList()
     this.cols = [
       { field: 'displayName', show: true, headers: 'User' },
       { field: 'title', show: true, headers: 'Movies' },
@@ -65,6 +77,7 @@ export class RecentQuibComponent implements OnInit {
       { field: 'flage', show: true, headers: 'FLAG' },
     ]
   }
+
   onToggleSidebar(sidebarState: any) {
     if (sidebarState === 'open') {
       this.sidebarSpacing = 'contracted';
@@ -110,6 +123,19 @@ export class RecentQuibComponent implements OnInit {
 
     }
   }
+
+  getMovieList(){
+    this.QuibService.getAllMoviesAdminPanel().subscribe((data : any[]) => {
+      this.movieTitles = data;
+    });
+  }
+
+  getUserList(){
+    this.QuibService.getAllUsersAdminPanel().subscribe((data : any[]) => {
+      this.userNames = data;
+    });
+  }
+
   getQuibList() {
     this.QuibService.getQuibList(this.pageNo).subscribe((data: QUIB_LIST) => {
       this.quibLIst = data;

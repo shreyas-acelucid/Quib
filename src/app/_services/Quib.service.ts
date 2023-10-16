@@ -148,4 +148,15 @@ export class QuibService {
     const endpointUrl = `${environment.QUIB_ADMIN}/api/User/GetUserQuibDetailById?UserId=${userId}`
     return this.http.get<QUIB_USER_MOVIE_LIST[]>(endpointUrl)
   }
+
+  getAllMoviesAdminPanel(){
+    const endpointUrl = `${environment.QUIB_ADMIN}/GetMovieDetailsAdminPanel`;
+    return this.http.get(endpointUrl);
+  }
+
+  getAllUsersAdminPanel(){
+    const endpointUrl = `${environment.QUIB_ADMIN}/api/User/GetUsersForAdminPanel`;
+    return this.http.get(endpointUrl);
+  }
+
 }
