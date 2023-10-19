@@ -5,7 +5,7 @@ import { MoviesService } from 'src/app/_services/movies.service';
 import { TABLE_HEADING } from 'src/app/_models/table_heading';
 import { Table } from 'primeng/table';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
-import { BUMP_IN_USER_LIST, FLAG_IN_USER_LIST, QUIB_LIST, QUIB_SEARCH_WORD, STYLE_VALUE } from 'src/app/_models/Quib_user';
+import { BUMP_IN_USER_LIST, FLAG_IN_USER_LIST, QUIB_LIST, QUIB_SEARCH_WORD, SAVE_QUIBS, STYLE_VALUE } from 'src/app/_models/Quib_user';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { CommonService } from 'src/app/_services/common'
@@ -22,6 +22,7 @@ export class RecentQuibComponent implements OnInit {
   cols: TABLE_HEADING[];
   display: boolean = false;
   quibLIst: QUIB_LIST;
+  newQuibList: any[] = [];
   BIN: boolean = false;
   CCP: number = 0;
   totalRecords: number;
@@ -60,8 +61,10 @@ export class RecentQuibComponent implements OnInit {
     this.QuibService.QuibSearchWord.subscribe(res => {
       this.QuibSearchWord = res
     })
-    this.getQuibList()
-    this.getMovieList()
+    // this.getQuibList()
+    // this.getMovieList()
+    // this.getUserList()
+    this.fetchOnLoad()
     this.cols = [
       { field: 'displayName', show: true, headers: 'User' },
       { field: 'title', show: true, headers: 'Movies' },
@@ -124,6 +127,12 @@ export class RecentQuibComponent implements OnInit {
     }
   }
 
+  fetchOnLoad(){
+    this.getMovieList()
+    this.getUserList()
+    //this.getQuibList()
+  }
+
   getMovieList(){
     this.QuibService.getAllMoviesAdminPanel().subscribe((data : any[]) => {
       this.movieTitles = data;
@@ -134,6 +143,61 @@ export class RecentQuibComponent implements OnInit {
     this.QuibService.getAllUsersAdminPanel().subscribe((data : any[]) => {
       this.userNames = data;
     });
+    this.ngxLoader.stop();
+  }
+
+  getUsersOnMovieSelection(){
+    this.selectedMovie = this.movieAndUserSelectionForm.get('selectedMovie'); 
+    const selectedMovieId = this.selectedMovie.value;
+    if(this.selectedUser == null){  
+      if(selectedMovieId){
+        //this.ngxLoader.start();
+        this.QuibService.getAllFilteredUsers(selectedMovieId).subscribe((data : any[]) =>{
+          this.userNames = data;
+        });
+        this.getFilteredQuibList(null,selectedMovieId); 
+      }
+    }
+    else{
+      const selectedUserId = this.selectedUser.value;
+      this.getFilteredQuibList(selectedUserId,selectedMovieId);
+    }
+  
+  }
+
+  getMoviesOnUserSelection(){
+    this.selectedUser = this.movieAndUserSelectionForm.get('selectedUser');
+    const selectedUserId = this.selectedUser.value;
+    if(this.selectedMovie == null){
+      if(selectedUserId){
+          //this.ngxLoader.start();
+          this.QuibService.getAllFilteredMovies(selectedUserId).subscribe((data : any[]) => {
+          this.movieTitles = data;
+        });
+        this.getFilteredQuibList(selectedUserId,null); 
+      }
+    }
+    else{
+      const selectedMovieId = this.selectedMovie.value;
+      this.getFilteredQuibList(selectedUserId,selectedMovieId); 
+    }
+  }
+
+  getFilteredQuibList(userId,movieId){
+    this.ngxLoader.start();
+    this.QuibService.getFilteredQuibs(userId,movieId).subscribe((data: QUIB_LIST) => {
+      this.quibLIst = data;
+      this.totalRecords = data.quibTotalPages
+      this.quibLIst.savedQuibs.map(item=> {
+        item.createdDate=  this.CommonService.convertDate(item.createdDate);
+        item.postedDate  = this.CommonService.convertDate(item.postedDate);
+        item['MM'] =this.CommonService.consverIntoHHMMSS(item.time).MM
+        item['HH']= this.CommonService.consverIntoHHMMSS(item.time).HH
+        item['SS']=this.CommonService.consverIntoHHMMSS(item.time).SS
+      })
+      this.ngxLoader.stop();
+      this.loading  = false;
+      });
   }
 
   getQuibList() {
