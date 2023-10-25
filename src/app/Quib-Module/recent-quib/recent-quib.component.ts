@@ -35,8 +35,10 @@ export class RecentQuibComponent implements OnInit {
   styleValue: STYLE_VALUE
   movieAndUserSelectionForm: FormGroup = new FormGroup({});
   @Input() movieTitles: any[] = [];
+  @Input() filteredMovieTitles:any[] = [];
   selectedMovie: any;
   @Input() userNames: any[] = [];
+  @Input() filteredUserNames: any[] = [];
   selectedUser: any;
 
 
@@ -130,62 +132,129 @@ export class RecentQuibComponent implements OnInit {
   fetchOnLoad(){
     this.getMovieList()
     this.getUserList()
-    //this.getQuibList()
+  }
+
+  async onSubmit(){
+    this.selectedMovie = this.movieAndUserSelectionForm.get('selectedMovie');
+    this.selectedUser = this.movieAndUserSelectionForm.get('selectedUser');
+    if((this.selectedMovie==null || this.selectedMovie.value=="") && (this.selectedUser==null || this.selectedUser.value=="")){
+      window.alert("Please select either a movie or a writer");
+    }
+    else if(this.selectedMovie == null || this.selectedMovie.value==""){
+      const selectedUserId = this.selectedUser.value;
+      (await this.QuibService.getAllFilteredMovies(selectedUserId)).subscribe((data : any[]) => {
+        this.filteredMovieTitles = data;
+      });
+      await this.getFilteredQuibList(selectedUserId,null); 
+    }
+    else if(this.selectedUser == null || this.selectedUser.value == ""){
+      const selectedMovieId = this.selectedMovie.value;
+      (await this.QuibService.getAllFilteredUsers(selectedMovieId)).subscribe((data : any[]) =>{
+        this.filteredUserNames = data;
+      });
+      await this.getFilteredQuibList(null,selectedMovieId);
+    }
+    else{
+      const selectedMovieId = this.selectedMovie.value;
+      const selectedUserId = this.selectedUser.value;
+      await this.getFilteredQuibList(selectedUserId,selectedMovieId);
+    }
+  }
+
+  onReset(){
+    this.movieAndUserSelectionForm.reset();
+    this.movieAndUserSelectionForm.get('selectedMovie').setValue('');
+    this.movieAndUserSelectionForm.get('selectedUser').setValue('');
+    this.filteredMovieTitles = this.movieTitles;
+    this.filteredUserNames = this.userNames;
+    this.quibLIst = null;
+    this.selectedMovie = null;
+    this.selectedMovie.value = "";
+    this.selectedUser = null;
+    this.selectedUser.value = "";
   }
 
   getMovieList(){
     this.QuibService.getAllMoviesAdminPanel().subscribe((data : any[]) => {
       this.movieTitles = data;
+      this.filteredMovieTitles = this.movieTitles;
     });
   }
 
   getUserList(){
     this.QuibService.getAllUsersAdminPanel().subscribe((data : any[]) => {
       this.userNames = data;
+      this.filteredUserNames  = this.userNames;
     });
     this.ngxLoader.stop();
   }
 
-  getUsersOnMovieSelection(){
-    this.selectedMovie = this.movieAndUserSelectionForm.get('selectedMovie'); 
-    const selectedMovieId = this.selectedMovie.value;
-    if(this.selectedUser == null){  
-      if(selectedMovieId){
-        //this.ngxLoader.start();
-        this.QuibService.getAllFilteredUsers(selectedMovieId).subscribe((data : any[]) =>{
-          this.userNames = data;
-        });
-        this.getFilteredQuibList(null,selectedMovieId); 
-      }
-    }
-    else{
-      const selectedUserId = this.selectedUser.value;
-      this.getFilteredQuibList(selectedUserId,selectedMovieId);
-    }
+  // getUsersOnMovieSelection(){
+  //   this.selectedMovie = this.movieAndUserSelectionForm.get('selectedMovie'); 
+  //   const selectedMovieId = this.selectedMovie.value;
+  //   if(this.selectedUser == null){  
+  //     if(selectedMovieId){
+  //       //this.ngxLoader.start();
+  //       this.QuibService.getAllFilteredUsers(selectedMovieId).subscribe((data : any[]) =>{
+  //         this.userNames = data;
+  //       });
+  //       this.getFilteredQuibList(null,selectedMovieId); 
+  //     }
+  //   }
+  //   else{
+  //     const selectedUserId = this.selectedUser.value;
+  //     this.getFilteredQuibList(selectedUserId,selectedMovieId);
+  //   }
   
-  }
+  // }
 
-  getMoviesOnUserSelection(){
-    this.selectedUser = this.movieAndUserSelectionForm.get('selectedUser');
-    const selectedUserId = this.selectedUser.value;
-    if(this.selectedMovie == null){
-      if(selectedUserId){
-          //this.ngxLoader.start();
-          this.QuibService.getAllFilteredMovies(selectedUserId).subscribe((data : any[]) => {
-          this.movieTitles = data;
-        });
-        this.getFilteredQuibList(selectedUserId,null); 
-      }
-    }
-    else{
+  async getFilteredUsersOnMovieSelection(){
+    this.selectedMovie = this.movieAndUserSelectionForm.get('selectedMovie');
+    if(this.selectedUser == null || this.selectedUser.value == ""){ 
       const selectedMovieId = this.selectedMovie.value;
-      this.getFilteredQuibList(selectedUserId,selectedMovieId); 
+      (await this.QuibService.getAllFilteredUsers(selectedMovieId)).subscribe((data : any[]) =>{
+               this.filteredUserNames = data;
+        });
+    }
+    if(this.selectedUser.value){
+      this.movieAndUserSelectionForm.get('selectedUser').setValue(this.selectedUser.value());
     }
   }
 
-  getFilteredQuibList(userId,movieId){
+  async getFilteredMoviesOnUserSelection(){
+    this.selectedUser = this.movieAndUserSelectionForm.get('selectedUser');
+    if(this.selectedMovie == null || this.selectedMovie.value == ""){
+    const selectedUserId = this.selectedUser.value;
+    (await this.QuibService.getAllFilteredMovies(selectedUserId)).subscribe((data : any[]) => {
+               this.filteredMovieTitles = data;
+        });
+    }
+    if(this.selectedUser.value){
+      this.movieAndUserSelectionForm.get('selectedMovie').setValue(this.selectedMovie.value());
+    }
+  }
+
+  // getMoviesOnUserSelection(){
+  //   this.selectedUser = this.movieAndUserSelectionForm.get('selectedUser');
+  //   const selectedUserId = this.selectedUser.value;
+  //   if(this.selectedMovie == null){
+  //     if(selectedUserId){
+  //         //this.ngxLoader.start();
+  //         this.QuibService.getAllFilteredMovies(selectedUserId).subscribe((data : any[]) => {
+  //         this.movieTitles = data;
+  //       });
+  //       this.getFilteredQuibList(selectedUserId,null); 
+  //     }
+  //   }
+  //   else{
+  //     const selectedMovieId = this.selectedMovie.value;
+  //     this.getFilteredQuibList(selectedUserId,selectedMovieId); 
+  //   }
+  // }
+
+  async getFilteredQuibList(userId,movieId){
     this.ngxLoader.start();
-    this.QuibService.getFilteredQuibs(userId,movieId).subscribe((data: QUIB_LIST) => {
+    await (await this.QuibService.getFilteredQuibs(userId, movieId)).subscribe((data: QUIB_LIST) => {
       this.quibLIst = data;
       this.totalRecords = data.quibTotalPages
       this.quibLIst.savedQuibs.map(item=> {

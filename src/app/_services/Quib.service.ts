@@ -159,18 +159,18 @@ export class QuibService {
     return this.http.get(endpointUrl);
   }
 
-  getAllFilteredUsers(movieId){
+  async getAllFilteredUsers(movieId){
     const userId = localStorage.getItem('userId');
     const endpointUrl = `${environment.QUIB_ADMIN}/GetQuibsUsersByMovieId?movieId=${movieId}&UserId=${userId}`;
-    return this.http.get(endpointUrl);
+    return await this.http.get(endpointUrl);
   }
 
-  getAllFilteredMovies(userId){
+  async getAllFilteredMovies(userId){
     const endpointUrl = `${environment.QUIB_ADMIN}/AllQubbiedMoviesByUserId?userId=${userId}`
-    return this.http.get(endpointUrl);
+    return await this.http.get(endpointUrl);
   }
 
-  getFilteredQuibs(userId,movieId){
+  async getFilteredQuibs(userId,movieId){
     var endpoint;
     if(userId == null){
       endpoint = `${environment.QUIB_ADMIN}/GetQuibsAdminPanel?movieId=${movieId}`
@@ -179,7 +179,7 @@ export class QuibService {
       endpoint = `${environment.QUIB_ADMIN}/GetQuibsAdminPanel?userId=${userId}`
     else
       endpoint = `${environment.QUIB_ADMIN}/GetQuibsAdminPanel?movieId=${movieId}&userId=${userId}`
-    return this.http.get(endpoint);
+    return await this.http.get(endpoint);
   }
 
 }

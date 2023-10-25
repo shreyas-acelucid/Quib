@@ -19,18 +19,23 @@
 					</div>
 					<div class="p-input-icon-right ml-5">
 						<form [formGroup]="movieAndUserSelectionForm">
-							<select formControlName="selectedMovie" optionLabel="title" display="chip" defaultLabel="Select Movie" (change)="getUsersOnMovieSelection()">
+							<select formControlName="selectedMovie" optionLabel="title" display="chip" defaultLabel="Select Movie" (change)="getFilteredUsersOnMovieSelection()">
 								<option value="" disabled selected>Select Movie</option>
-								<option *ngFor="let movie of movieTitles" [value]="movie.movieId">
+								<option *ngFor="let movie of filteredMovieTitles" [value]="movie.movieId">
 									{{movie.title}}
 								</option>
 							</select>
-							<select formControlName="selectedUser" optionLabel="displayName" display="chip" defaultLabel="Select User" (change) ="getMoviesOnUserSelection()">
+							<select formControlName="selectedUser" optionLabel="displayName" display="chip" defaultLabel="Select User" style="margin-left: 3px;" (change)="getFilteredMoviesOnUserSelection()">
 								<option value="" disabled selected>Select User</option>
-								<option *ngFor="let user of userNames" [value]="user.userId">
+								<option *ngFor="let user of filteredUserNames" [value]="user.userId">
 									{{user.displayName}}
 								</option>
 							</select>
+							<button pButton type="button" id="submit" name="submit" class="p-button-success" style="height: 25px;
+							margin-left: 3px;" (click)="onSubmit()">Submit</button>
+							<button pButton type="button" id="reset" name="reset" class="p-button-danger" style="height: 25px;
+							margin-left: 3px;" (click)="onReset()">Reset</button>
+
 						</form>
 					</div>
 					
