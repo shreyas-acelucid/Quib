@@ -1,55 +1,122 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
-	<div class="card col-sm-12" style="border:none;">
-		<p-table id="customerTable" #QuibTable [value]="quibLIst?.savedQuibs" [columns]="cols" responsiveLayout="scroll"
-			[paginator]="true" [rows] ="10" [showCurrentPageReport]="true" [resizableColumns]="true"
-			[totalRecords]="totalRecords"
-			stateStorage="session" stateKey="Quib-session"
-			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
-			[globalFilterFields]="['displayName', 'title','body','time','createdDate','postedDate','averageRating','numOfRatings']" styleClass="p-datatable-striped,width:max-content">
-			<ng-template pTemplate="caption">
-				<div class="row">
-					<div class="p-input-icon-right ml-5">
-						<h2 style="font-family: 'Times New Roman', Times, serif;">Quib list</h2>
-					</div>
-					<div class="p-input-icon-right ml-5">
-						<i class="pi pi-search"></i>
-						<input pInputText type="text" id="search-box" placeholder="Search by each column"
-							(input)="FilterGlobal($event, 'contains')" />
-					</div>
-					<div class="p-input-icon-right ml-5">
-						<form [formGroup]="movieAndUserSelectionForm">
-							<select formControlName="selectedMovie" optionLabel="title" display="chip" defaultLabel="Select Movie" (change)="getFilteredUsersOnMovieSelection()">
-								<option value="" disabled selected>Select Movie</option>
-								<option *ngFor="let movie of filteredMovieTitles" [value]="movie.movieId">
-									{{movie.title}}
-								</option>
-							</select>
-							<select formControlName="selectedUser" optionLabel="displayName" display="chip" defaultLabel="Select User" style="margin-left: 3px;" (change)="getFilteredMoviesOnUserSelection()">
-								<option value="" disabled selected>Select User</option>
-								<option *ngFor="let user of filteredUserNames" [value]="user.userId">
-									{{user.displayName}}
-								</option>
-							</select>
-							<button pButton type="button" id="submit" name="submit" class="p-button-success" style="height: 25px;
-							margin-left: 3px;" (click)="onSubmit()">Submit</button>
-							<button pButton type="button" id="reset" name="reset" class="p-button-danger" style="height: 25px;
-							margin-left: 3px;" (click)="onReset()">Reset</button>
-
-						</form>
-					</div>
-					
-				</div>
-			</ng-template>
-			<ng-template pTemplate="header" let-columns>
-				<tr>
-					<th>S.no</th>
-					<th *ngFor="let col of columns" [pSortableColumn]="col.field">{{col.headers}}
-						<p-sortIcon [field]="col.field"></p-sortIcon>
-					</th>
-					<th>Action</th>
-				</tr>
-				<!-- <tr>
+  <div class="card col-sm-12" style="border: none">
+    <p-table
+      id="customerTable"
+      #QuibTable
+      [value]="quibLIst?.savedQuibs"
+      [columns]="cols"
+      responsiveLayout="scroll"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [resizableColumns]="true"
+      [totalRecords]="totalRecords"
+      stateStorage="session"
+      stateKey="Quib-session"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [responsive]="true"
+      [globalFilterFields]="[
+        'displayName',
+        'title',
+        'body',
+        'time',
+        'createdDate',
+        'postedDate',
+        'averageRating',
+        'numOfRatings'
+      ]"
+      styleClass="p-datatable-striped,width:max-content"
+    >
+      <ng-template pTemplate="caption">
+        <div class="row">
+          <div class="p-input-icon-right ml-5">
+            <h2 style="font-family: 'Times New Roman', Times, serif">
+              Quib list
+            </h2>
+          </div>
+          <div class="p-input-icon-right ml-5">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              id="search-box"
+              placeholder="Search by each column"
+              (input)="FilterGlobal($event, 'contains')"
+            />
+          </div>
+          <div class="p-input-icon-right ml-5">
+            <form [formGroup]="movieAndUserSelectionForm">
+              <select
+                formControlName="selectedMovie"
+                optionLabel="title"
+                display="chip"
+                defaultLabel="Select Movie"
+                (change)="getFilteredUsersOnMovieSelection()"
+                style="width: 12rem"
+              >
+                <option value="" disabled selected>Select Movie</option>
+                <option value="null">--unselect movie--</option>
+                <option
+                  *ngFor="let movie of filteredMovieTitles"
+                  [value]="movie.movieId"
+                >
+                  {{ movie.title }}
+                </option>
+              </select>
+              <select
+                formControlName="selectedUser"
+                optionLabel="displayName"
+                display="chip"
+                defaultLabel="Select User"
+                style="margin-left: 3px; width: 12rem"
+                (change)="getFilteredMoviesOnUserSelection()"
+              >
+                <option value="" disabled selected>Select User</option>
+                <option value="null">--unselect user--</option>
+                <option
+                  *ngFor="let user of filteredUserNames"
+                  [value]="user.userId"
+                >
+                  {{ user.displayName }}
+                </option>
+              </select>
+              <button
+                pButton
+                type="button"
+                id="submit"
+                name="submit"
+                class="p-button-success"
+                style="height: 25px; margin-left: 3px"
+                (click)="onSubmit()"
+              >
+                Submit
+              </button>
+              <button
+                pButton
+                type="button"
+                id="reset"
+                name="reset"
+                class="p-button-danger"
+                style="height: 25px; margin-left: 3px"
+                (click)="onReset()"
+              >
+                Reset
+              </button>
+            </form>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th>S.no</th>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+            {{ col.headers }}
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>
+          <th>Action</th>
+        </tr>
+        <!-- <tr>
 					<th>
 						<input pInputText type="text" disabled placeholder="No search" class="w-full intputSearch">
 					</th>
@@ -113,218 +180,369 @@
 						<input pInputText type="text" disabled placeholder="No search" class="w-full intputSearch">
 					</th>
 				</tr> -->
-			</ng-template>
-			<ng-template pTemplate="body" let-i="rowIndex" let-Quib>
-				<tr>
-					<td>{{i+1}}</td>
-					<td>{{Quib.displayName}}</td>
-					<td>{{Quib.title}}</td>
-					<td>{{Quib.body}}</td>
-					<td>{{Quib.HH}}:{{Quib.MM}}:{{Quib.SS}}</td>
-					<td>{{Quib.createdDate}}</td>
-					<td>{{Quib.postedDate}}</td>
-					<td>
-						<div class="btn-grp">
-							<button pButton type="button" class="p-button-success" *ngIf="Quib.isEnabled ==true"
-								style="height: 30px;">Enabled</button>
-							<button pButton type="button" class="p-button-danger" *ngIf="Quib.isEnabled == false"
-								style="height: 30px">Disbaled</button>
-						</div>
-					</td>
-					<td>
-						<div class="btn-grp">
-							<button pButton type="button" class="p-button-success" *ngIf="Quib.isBumped ==true"
-								style="height: 30px;">Bumped</button>
-							<button pButton type="button" class="p-button-danger" *ngIf="Quib.isBumped ==false"
-								style="height: 30px">UnBumped</button>
-						</div>
-					</td>
-					<td>{{Quib?.averageRating}}</td>
-					<td>{{Quib?.numOfRatings}}</td>
-					<td (click)="getBumpUserListByQuibId(Quib?.id)"><a style="color: blue; cursor: pointer;">B-IN</a>
-					</td>
-					<td (click)="getFlageUserListByQuibId(Quib?.id)"><a style="color: blue; cursor: pointer;">Flag</a>
-					</td>
-					<td>
-						<div class="btn-grp">
-							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
-								(click)="deleteQuib(Quib?.id)" pTooltip="Delete Quib" tooltipPosition="bottom"></button>
-						</div>
-					</td>
-				</tr>
-			</ng-template>
-			<ng-template pTemplate="emptymessage">
-				<tr>
-					<td class="text-center text-danger font-weight-700" colspan="12">
-						No Records Found.
-					</td>
-				</tr>
-			</ng-template>
-		</p-table>
-		<ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
-	</div>
+      </ng-template>
+      <ng-template pTemplate="body" let-i="rowIndex" let-Quib>
+        <tr>
+          <td>{{ i + 1 }}</td>
+          <td>{{ Quib.displayName }}</td>
+          <td>{{ Quib.title }}</td>
+          <td>{{ Quib.body }}</td>
+          <td>{{ Quib.HH }}:{{ Quib.MM }}:{{ Quib.SS }}</td>
+          <td>{{ Quib.createdDate }}</td>
+          <td>{{ Quib.postedDate }}</td>
+          <td>
+            <div class="btn-grp">
+              <button
+                pButton
+                type="button"
+                class="p-button-success"
+                *ngIf="Quib.isEnabled == true"
+                style="height: 30px"
+              >
+                Enabled
+              </button>
+              <button
+                pButton
+                type="button"
+                class="p-button-danger"
+                *ngIf="Quib.isEnabled == false"
+                style="height: 30px"
+              >
+                Disbaled
+              </button>
+            </div>
+          </td>
+          <td>
+            <div class="btn-grp">
+              <button
+                pButton
+                type="button"
+                class="p-button-success"
+                *ngIf="Quib.isBumped == true"
+                style="height: 30px"
+              >
+                Bumped
+              </button>
+              <button
+                pButton
+                type="button"
+                class="p-button-danger"
+                *ngIf="Quib.isBumped == false"
+                style="height: 30px"
+              >
+                UnBumped
+              </button>
+            </div>
+          </td>
+          <td>{{ Quib?.averageRating }}</td>
+          <td>{{ Quib?.numOfRatings }}</td>
+          <td (click)="getBumpUserListByQuibId(Quib?.id)">
+            <a style="color: blue; cursor: pointer">B-IN</a>
+          </td>
+          <td (click)="getFlageUserListByQuibId(Quib?.id)">
+            <a style="color: blue; cursor: pointer">Flag</a>
+          </td>
+          <td>
+            <div class="btn-grp">
+              <button
+                class="p-button-danger"
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                (click)="deleteQuib(Quib?.id)"
+                pTooltip="Delete Quib"
+                tooltipPosition="bottom"
+              ></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td class="text-center text-danger font-weight-700" colspan="12">
+            No Records Found.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
+  </div>
 
-	<p-dialog [(visible)]="display" [modal]="true" [header]="headerMessage" [style]="styleValue" position="top"
-		[baseZIndex]="10000">
-		<div *ngIf="BIN; else flage">
-			<ng-container *ngIf="BumpUserList.length >0">
-				<div class="card col-sm-12" style="height: 70vh;">
-					<div class="row gutters">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-							<div class="h-100 mt-2">
-								<div class="card-body">
-									<div class="row gutters">
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
-												<label for="name">User List</label>
-											</div>
-										</div>
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
-												<label for="image">Current Curator Point </label>
-											</div>
-										</div>
-									</div>
-									<div *ngFor="let item of BumpUserList , let indexvalue = index">
-										<div class="row gutters">
-											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-												<div class="form-group">
-													<input type="text" class="form-control" value="{{item.userName}}"
-														readonly>
-												</div>
-											</div>
-											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-												<div class="form-group">
-													<div class="row gutters">
-														<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-															<button
-																(click)="BumpIncreamentAndDecreament(indexvalue,item.ccp-1)"
-																class="p-button-danger" pButton type="button">
-																<i class="pi pi-minus-circle"
-																	style="font-size: 1rem"></i>
-															</button>
-														</div>
-														<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
-															<input type="text" class="form-control" value="{{item.ccp}}"
-																readonly>
-														</div>
-														<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-															<button
-																(click)="BumpIncreamentAndDecreament(indexvalue,item.ccp+1)"
-																class="p-button-success" pButton type="button">
-																<i class="pi pi-plus-circle"
-																	style="font-size: 1rem"></i>
-															</button>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
+  <p-dialog
+    [(visible)]="display"
+    [modal]="true"
+    [header]="headerMessage"
+    [style]="styleValue"
+    position="top"
+    [baseZIndex]="10000"
+  >
+    <div *ngIf="BIN; else flage">
+      <ng-container *ngIf="BumpUserList.length > 0">
+        <div class="card col-sm-12" style="height: 70vh">
+          <div class="row gutters">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="h-100 mt-2">
+                <div class="card-body">
+                  <div class="row gutters">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="name">User List</label>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="image">Current Curator Point </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    *ngFor="let item of BumpUserList; let indexvalue = index"
+                  >
+                    <div class="row gutters">
+                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="{{ item.userName }}"
+                            readonly
+                          />
+                        </div>
+                      </div>
+                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                          <div class="row gutters">
+                            <div
+                              class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2"
+                            >
+                              <button
+                                (click)="
+                                  BumpIncreamentAndDecreament(
+                                    indexvalue,
+                                    item.ccp - 1
+                                  )
+                                "
+                                class="p-button-danger"
+                                pButton
+                                type="button"
+                              >
+                                <i
+                                  class="pi pi-minus-circle"
+                                  style="font-size: 1rem"
+                                ></i>
+                              </button>
+                            </div>
+                            <div
+                              class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8"
+                            >
+                              <input
+                                type="text"
+                                class="form-control"
+                                value="{{ item.ccp }}"
+                                readonly
+                              />
+                            </div>
+                            <div
+                              class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2"
+                            >
+                              <button
+                                (click)="
+                                  BumpIncreamentAndDecreament(
+                                    indexvalue,
+                                    item.ccp + 1
+                                  )
+                                "
+                                class="p-button-success"
+                                pButton
+                                type="button"
+                              >
+                                <i
+                                  class="pi pi-plus-circle"
+                                  style="font-size: 1rem"
+                                ></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row gutters mt-4">
+                    <div
+                      class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
+                    >
+                      <div class="text-right">
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-danger mr-4"
+                          (click)="display = false"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-success"
+                          (click)="submitBumpUserListdata()"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="BumpUserList.length === 0">
+        <h1 class="NoRecord">Sorry No Data Found</h1>
+      </ng-container>
+    </div>
+    <ng-template #flage>
+      <ng-container *ngIf="FlagUserList.length > 0">
+        <div class="card col-sm-12" style="height: 70vh">
+          <div class="row gutters">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="h-100 mt-2">
+                <div class="card-body">
+                  <div class="row gutters">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="name">User List</label>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="image">Current Flagget Point </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    *ngFor="let item of FlagUserList; let indexvalue = index"
+                  >
+                    <div class="row gutters">
+                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="{{ item.userName }}"
+                            readonly
+                          />
+                        </div>
+                      </div>
 
-									</div>
-									<div class="row gutters mt-4">
-										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
-											<div class="text-right">
-												<button pButton type="button" id="submit" name="submit"
-													class="p-button-danger mr-4" (click)="display=false">Cancel</button>
-												<button pButton type="button" id="submit" name="submit"
-													class="p-button-success"
-													(click)="submitBumpUserListdata()">Submit</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</ng-container>
-			<ng-container *ngIf="BumpUserList.length ===0">
-				<h1 class="NoRecord">Sorry No Data Found</h1>
-			</ng-container>
-		</div>
-		<ng-template #flage>
-			<ng-container *ngIf="FlagUserList.length >0">
-				<div class="card col-sm-12" style="height: 70vh;">
-					<div class="row gutters">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-							<div class="h-100 mt-2">
-								<div class="card-body">
-									<div class="row gutters">
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
-												<label for="name">User List</label>
-											</div>
-										</div>
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
-												<label for="image">Current Flagget Point </label>
-											</div>
-										</div>
-									</div>
-									<div *ngFor="let item of FlagUserList , let indexvalue= index">
-										<div class="row gutters">
-											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-												<div class="form-group">
-													<input type="text" class="form-control" value="{{item.userName}}"
-														readonly>
-												</div>
-											</div>
+                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                          <div class="row gutters">
+                            <div
+                              class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2"
+                            >
+                              <button
+                                (click)="
+                                  FlagIncreamentAndDecreament(
+                                    indexvalue,
+                                    item.cfp - 1
+                                  )
+                                "
+                                class="p-button-danger"
+                                pButton
+                                type="button"
+                              >
+                                <i
+                                  class="pi pi-minus-circle"
+                                  style="font-size: 1rem"
+                                ></i>
+                              </button>
+                            </div>
+                            <div
+                              class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8"
+                            >
+                              <input
+                                type="text"
+                                class="form-control"
+                                value="{{ item.cfp }}"
+                                readonly
+                              />
+                            </div>
+                            <div
+                              class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2"
+                            >
+                              <button
+                                (click)="
+                                  FlagIncreamentAndDecreament(
+                                    indexvalue,
+                                    item.cfp + 1
+                                  )
+                                "
+                                class="p-button-success"
+                                pButton
+                                type="button"
+                              >
+                                <i
+                                  class="pi pi-plus-circle"
+                                  style="font-size: 1rem"
+                                ></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-												<div class="form-group">
-													<div class="row gutters">
-														<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-															<button
-																(click)="FlagIncreamentAndDecreament(indexvalue,item.cfp-1)"
-																class="p-button-danger" pButton type="button">
-																<i class="pi pi-minus-circle"
-																	style="font-size: 1rem"></i>
-															</button>
-														</div>
-														<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
-															<input type="text" class="form-control" value="{{item.cfp}}"
-																readonly>
-														</div>
-														<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
-															<button
-																(click)="FlagIncreamentAndDecreament(indexvalue,item.cfp+1)"
-																class="p-button-success" pButton type="button">
-																<i class="pi pi-plus-circle"
-																	style="font-size: 1rem"></i>
-															</button>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
+                  <div class="row gutters mt-4">
+                    <div
+                      class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
+                    >
+                      <div class="text-right">
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-danger mr-4"
+                          (click)="display = false"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-success"
+                          (click)="submitFlagUserListdata()"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="FlagUserList.length === 0">
+        <h1 class="NoRecord">Sorry No Data Found</h1>
+      </ng-container>
+    </ng-template>
+  </p-dialog>
 
-									</div>
-
-									<div class="row gutters mt-4">
-										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
-											<div class="text-right">
-												<button pButton type="button" id="submit" name="submit"
-													class="p-button-danger mr-4"
-													(click)="display = false">Cancel</button>
-												<button pButton type="button" id="submit" name="submit"
-													class="p-button-success"
-													(click)="submitFlagUserListdata()">Submit</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</ng-container>
-			<ng-container *ngIf="FlagUserList.length===0">
-				<h1 class="NoRecord"> Sorry No Data Found</h1>
-			</ng-container>
-		</ng-template>
-	</p-dialog>
-
-	<p-confirmDialog header="Confirmation" [style]="{width: '40vw'}" position="top" [baseZIndex]="10000"
-		icon="pi pi-exclamation-triangle"></p-confirmDialog>
+  <p-confirmDialog
+    header="Confirmation"
+    [style]="{ width: '40vw' }"
+    position="top"
+    [baseZIndex]="10000"
+    icon="pi pi-exclamation-triangle"
+  ></p-confirmDialog>
 </div>
