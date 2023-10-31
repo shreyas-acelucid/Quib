@@ -1,58 +1,108 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
-	
-	<div class="card col-sm-12 table-container" style="border:none;">
-		<p-table 
-		id="customerTable" #QuibUserTable [value]="Quib_User" [columns]="cols" [resizableColumns]="true" scrollHeight="70vh"  columnResizeMode="expand" [scrollable]="true"
-		responsiveLayout="scroll" 
-			dataKey="id" stateStorage="session" stateKey="QuibUser-session" [paginator]="true" [rows]="20" 
-			[rowsPerPageOptions]="[20,50,100]" [showCurrentPageReport]="true"
-			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
-			[globalFilterFields]="['firstName','lastName','email','displayName']" styleClass="p-datatable-gridlines" [tableStyle]="{'min-width': '280rem'}">
-			<ng-template pTemplate="caption">			
-				<div class="row">
-					<div class="p-input-icon-right ml-5">
-						<span class="p-input-icon-right ml-5">
-							<h2 style="font-family:'Times New Roman', Times, serif;">Users</h2>
-						</span>
-					</div>
-					<div class="p-input-icon-right ml-5">
-						<i class="pi pi-search"></i>
-						<input pInputText type="text" id="Gsearch" [value]="SearchKeyWord.Gsearch"
-							placeholder="Search by name/email" (input)="FilterGlobal($event, 'contains')" />
-					</div>
-					
-					<div class="p-input-icon-right ml-5">
-						<form [formGroup]="columnSelectorForm">
-								<p-multiSelect [options]="colsOptions" optionLabel="label" [virtualScroll]="true"
-									formControlName="selectedColumns" display="chip" defaultLabel="Select Columns to display"
-								></p-multiSelect>
-								<button pButton type="button" id="submit" name="submit"
-													class="p-button-primary" style="margin-left: 8px; margin-bottom: 6.7px; height: 30px;"
-													(click)="SelectRequestedColumns()">Submit</button>
-						</form>
-					</div>
+  <div class="card col-sm-12 table-container" style="border: none">
+    <p-table
+      id="customerTable"
+      #QuibUserTable
+      [value]="Quib_User"
+      [columns]="cols"
+      [resizableColumns]="true"
+      scrollHeight="70vh"
+      columnResizeMode="expand"
+      [scrollable]="true"
+      responsiveLayout="scroll"
+      dataKey="id"
+      stateStorage="session"
+      stateKey="QuibUser-session"
+      [paginator]="true"
+      [rows]="20"
+      [rowsPerPageOptions]="[20, 50, 100]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [responsive]="true"
+      [globalFilterFields]="['firstName', 'lastName', 'email', 'displayName']"
+      styleClass="p-datatable-gridlines"
+      [tableStyle]="{ 'min-width': '280rem' }"
+    >
+      <ng-template pTemplate="caption">
+        <div class="row">
+          <div class="p-input-icon-right ml-5">
+            <span class="p-input-icon-right ml-5">
+              <h2 style="font-family: 'Times New Roman', Times, serif">
+                Users
+              </h2>
+            </span>
+          </div>
+          <div class="p-input-icon-right ml-5">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              id="Gsearch"
+              [value]="SearchKeyWord.Gsearch"
+              placeholder="Search by name/email"
+              (input)="FilterGlobal($event, 'contains')"
+            />
+          </div>
 
-					<div class="p-input-icon-right ml-5">
-						<button pButton type="button" label="Assign Movie to Moderator" class="p-button-success"
-							(click)="[display =true, MoVList = false, AssignToModerator =true, message='Assign Movie to Moderator']" style="margin-left: 2rem;"></button>
-					</div>
+          <div class="p-input-icon-right ml-5">
+            <form [formGroup]="columnSelectorForm">
+              <p-multiSelect
+                [options]="colsOptions"
+                optionLabel="label"
+                [virtualScroll]="true"
+                formControlName="selectedColumns"
+                display="chip"
+                defaultLabel="Select Columns to display"
+              ></p-multiSelect>
+              <button
+                pButton
+                type="button"
+                id="submit"
+                name="submit"
+                class="p-button-primary"
+                style="margin-left: 8px; margin-bottom: 6.7px; height: 30px"
+                (click)="SelectRequestedColumns()"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
 
-					
-					
-					</div>
-			</ng-template>
-			<ng-template pTemplate="header" let-columns>
-				
-				<tr>
-					<th style="width: 25px;" pResizableColumn >S.no</th>
-					<th pResizableColumn *ngFor="let col of filteredCols.length==0 ? cols : filteredCols" [pSortableColumn]="col.field">{{col.headers}}
-						<p-sortIcon [field]="col.field"></p-sortIcon>
-					</th>
-                    <th pResizableColumn>Action</th>
-				</tr>
-				
-				<!-- <tr>
+          <div class="p-input-icon-right ml-5">
+            <button
+              pButton
+              type="button"
+              label="Assign Movie to Moderator"
+              class="p-button-success"
+              (click)="
+                [
+                  (display = true),
+                  (MoVList = false),
+                  (AssignToModerator = true),
+                  (message = 'Assign Movie to Moderator')
+                ]
+              "
+              style="margin-left: 2rem"
+            ></button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="width: 25px" pResizableColumn>S.no</th>
+          <th
+            pResizableColumn
+            *ngFor="let col of filteredCols.length == 0 ? cols : filteredCols"
+            [pSortableColumn]="col.field"
+          >
+            {{ col.headers }}
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>
+          <th pResizableColumn>Action</th>
+        </tr>
+
+        <!-- <tr>
 					<ng-container *ngIf="filteredCols.length === 0; else colsTemplate">
 					  <th pResizableColumn></th>
 					  <th pResizableColumn *ngFor="let col of cols"></th>
@@ -67,7 +117,7 @@
 				  </ng-template>
 				   -->
 
-				<!-- <tr>
+        <!-- <tr>
 					<th pResizableColumn></th>
 					<th pResizableColumn>
 						<input pInputText type="text" id="displayName" [value]="SearchKeyWord.displayName"
@@ -126,156 +176,271 @@
 					<th> <input pInputText type="text" disabled placeholder="No Search"
 							class="w-full disableInputSearch"></th>
 				</tr> -->
+      </ng-template>
+      <ng-template pTemplate="body" let-i="rowIndex" let-user>
+        <tr>
+          <td>{{ i + 1 }}</td>
+          <td *ngIf="shouldDisplayColumn('Display Name')">
+            {{ user.displayName }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('First Name')">
+            {{ user.firstName }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('Last Name')">{{ user.lastName }}</td>
+          <td *ngIf="shouldDisplayColumn('Email')">{{ user.email }}</td>
+          <td *ngIf="shouldDisplayColumn('Join')">
+            {{ user.createdDate | date : "MM/dd/yyyy" }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('BMP')">{{ user.bumpCount }}</td>
+          <td *ngIf="shouldDisplayColumn('FNG')">{{ user.followeeCount }}</td>
+          <td *ngIf="shouldDisplayColumn('FRS')">{{ user.followerCount }}</td>
+          <td *ngIf="shouldDisplayColumn('UNP')">
+            {{ user.unPostedQuibsCount }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('Status')">
+            <div class="btn-grp">
+              <button
+                (click)="changeUserStatus(user?.id, false)"
+                pTooltip="Mark As Pending"
+                pButton
+                type="button"
+                class="p-button-success"
+                *ngIf="user.isPending == true"
+                style="height: 30px"
+              >
+                Approved
+              </button>
+              <button
+                (click)="changeUserStatus(user?.id, true)"
+                pButton
+                type="button"
+                class="p-button-danger"
+                pTooltip="Mark As Approved"
+                *ngIf="user.isPending == false || user.isPending == null"
+                style="height: 30px; width: 6.78rem; padding-left: 1.55rem"
+              >
+                Pending
+              </button>
+            </div>
+          </td>
+          <td *ngIf="shouldDisplayColumn('IsModerator')">
+            <div class="btn-grp">
+              <button
+                (click)="markUserAsModerator(user?.id, false)"
+                pTooltip="Mark As Normal User "
+                pButton
+                type="button"
+                class="p-button-success"
+                *ngIf="user.isModerator == true"
+                style="height: 30px"
+              >
+                Approved
+              </button>
+              <button
+                (click)="markUserAsModerator(user?.id, true)"
+                pButton
+                type="button"
+                class="p-button-danger"
+                pTooltip="Mark As Moderator"
+                *ngIf="user.isModerator == false || user.isModerator == null"
+                style="height: 30px; width: 6.78rem; padding-left: 1.55rem"
+              >
+                Pending
+              </button>
+            </div>
+          </td>
+          <td *ngIf="shouldDisplayColumn('CUR')">{{ user.curatorScore }}</td>
+          <td *ngIf="shouldDisplayColumn('CCP')">{{ user.ccp }}</td>
+          <td *ngIf="shouldDisplayColumn('CFP')">{{ user.cfp }}</td>
+          <td *ngIf="shouldDisplayColumn('MOV')">
+            <a
+              style="color: blue; cursor: pointer"
+              (click)="
+                [
+                  (display = true),
+                  (MoVList = true),
+                  (AssignToModerator = false),
+                  getUserQuibedMoviesList(user?.id),
+                  (message = 'Movie List')
+                ]
+              "
+              >MOV</a
+            >
+          </td>
+          <td *ngIf="shouldDisplayColumn('QUIBS')">
+            {{ user.totalQuibsWritten }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('AVR')">
+            {{ user.averageOverallRating }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('B-IN')">
+            {{ user.totalBumpReceived }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('B-OUT')">{{ user.bumpCount }}</td>
+          <td *ngIf="shouldDisplayColumn('FLAGE')">
+            {{ user.totalFlagReceived }}
+          </td>
+          <td
+            *ngIf="shouldDisplayColumn('PERS')"
+            (mouseenter)="showPopup = true"
+            (mouseleave)="showPopup = false"
+            class="hoverable-cell"
+          >
+            {{ user.about }}
+            <div *ngIf="showPopup" class="popup">
+              <div class="popup-content">{{ user.about }}</div>
+            </div>
+          </td>
+          <td>
+            <div class="btn-grp">
+              <button
+                class="p-button-danger"
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                pTooltip="Delete user"
+                tooltipPosition="bottom"
+                (click)="deleteUser(user?.id)"
+              ></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td class="text-center text-danger font-weight-700" colspan="12">
+            No Records Found.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
+  </div>
 
-			</ng-template>
-			<ng-template pTemplate="body" let-i="rowIndex" let-user>
-				<tr>
-					<td>{{i+1}}</td>
-					<td *ngIf="shouldDisplayColumn('Display Name')">{{user.displayName}}</td>
-					<td *ngIf="shouldDisplayColumn('First Name')">{{user.firstName}}</td>					
-					<td *ngIf="shouldDisplayColumn('Last Name')">{{user.lastName}}</td>
-					<td *ngIf="shouldDisplayColumn('Email')">{{user.email}}</td>
-					<td *ngIf="shouldDisplayColumn('Join')">{{user.createdDate | date:'MM/dd/yyyy'}}</td>
-					<td *ngIf="shouldDisplayColumn('BMP')">{{user.bumpCount}}</td>
-					<td *ngIf="shouldDisplayColumn('FNG')">{{user.followeeCount}}</td>
-					<td *ngIf="shouldDisplayColumn('FRS')">{{user.followerCount}}</td>
-					<td *ngIf="shouldDisplayColumn('UNP')">{{user.unPostedQuibsCount}}</td>
-					<td *ngIf="shouldDisplayColumn('Status')">
-						<div class="btn-grp">
-							<button (click)="changeUserStatus(user?.id,false)" pTooltip="Mark As Pending" pButton
-								type="button" class="p-button-success" *ngIf="user.isPending ==true"
-								style="height: 30px;">Approved</button>
-							<button (click)="changeUserStatus(user?.id,true)" pButton type="button"
-								class="p-button-danger" pTooltip="Mark As Approved"
-								*ngIf="user.isPending==false||user.isPending==null "
-								style="height: 30px; width:6.78rem; padding-left: 1.55rem">Pending</button>
-						</div>
-					</td>
-					<td *ngIf="shouldDisplayColumn('IsModerator')">
-						<div class="btn-grp">
-							<button (click)="markUserAsModerator(user?.id,false)" pTooltip="Mark As Normal User "
-								pButton type="button" class="p-button-success" *ngIf="user.isModerator ==true"
-								style="height: 30px;">Approved</button>
-							<button (click)="markUserAsModerator(user?.id,true)" pButton type="button"
-								class="p-button-danger" pTooltip="Mark As Moderator"
-								*ngIf="user.isModerator==false||user.isModerator==null "
-								style="height: 30px; width:6.78rem; padding-left: 1.55rem">Pending</button>
-						</div>
-					</td>
-					<td *ngIf="shouldDisplayColumn('CUR')">{{user.curatorScore}}</td>
-					<td *ngIf="shouldDisplayColumn('CCP')">{{user.ccp}}</td>
-					<td *ngIf="shouldDisplayColumn('CFP')">{{user.cfp}}</td>
-					<td *ngIf="shouldDisplayColumn('MOV')">
-						<a style="color: blue; cursor: pointer;"
-							(click)="[display =true, MoVList = true, AssignToModerator =false, getUserQuibedMoviesList(user?.id),message='Movie List']">MOV</a>
-					</td>
-					<td *ngIf="shouldDisplayColumn('QUIBS')">{{user.totalQuibsWritten}}</td>
-					<td *ngIf="shouldDisplayColumn('AVR')">{{user.averageOverallRating}}</td>
-					<td *ngIf="shouldDisplayColumn('B-IN')">{{user.totalBumpReceived}}</td>
-					<td *ngIf="shouldDisplayColumn('B-OUT')">{{user.bumpCount}}</td>
-					<td *ngIf="shouldDisplayColumn('FLAGE')">{{user.totalFlagReceived}}</td>
-					<td *ngIf="shouldDisplayColumn('PERS')" (mouseenter)="showPopup = true" (mouseleave)="showPopup = false" class="hoverable-cell">{{user.about}} 
-						<div *ngIf="showPopup" class="popup">
-						<div class="popup-content">{{user.about}}</div>
-					  </div> </td>
-					<td>
-						<div class="btn-grp">
-							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
-								pTooltip="Delete user" tooltipPosition="bottom" (click)="deleteUser(user?.id)"></button>
-						</div>
-					</td>
+  <!--pop model edit user  start from here ------>
+  <p-dialog
+    [(visible)]="display"
+    [modal]="true"
+    [header]="message"
+    [style]="{ width: '60vw', height: '90vh' }"
+    position="top"
+    [baseZIndex]="10000"
+  >
+    <ng-container *ngIf="AssignToModerator">
+      <form [formGroup]="quibUserForm">
+        <div class="card col-sm-12" style="height: 70vh">
+          <div class="row gutters">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="h-100 mt-5">
+                <div class="card-body">
+                  <div class="row gutters">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <label for="FirstName"> Movies List </label>
+                      <p-multiSelect
+                        [options]="moviesList"
+                        optionLabel="title"
+                        [virtualScroll]="true"
+                        formControlName="selectedMovies"
+                        display="chip"
+                        defaultLabel="Select Movies"
+                      ></p-multiSelect>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="FirstName"> Moderator User List </label>
+                        <select
+                          class="form-control"
+                          formControlName="user"
+                          placeholder="Select User"
+                        >
+                          <option
+                            *ngFor="let item of Approved_UserList"
+                            [value]="item.id"
+                          >
+                            {{ item.email }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row gutters mt-4">
+                    <div
+                      class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
+                    >
+                      <div class="text-right">
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-danger mr-4"
+                          (click)="display = false"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-success"
+                          (click)="AssignMovieToModeratorUser()"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+    <ng-container *ngIf="MoVList && userMovieList.length > 0">
+      <div *ngFor="let item of userMovieList">
+        <p-card class="m-5">
+          <div class="row gutters">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+              <strong class="heading-section">Movie Name</strong> =><span
+                class="content-data"
+                (click)="AdminQuib(item?.movieId)"
+                style="cursor: pointer"
+                >{{ item?.movieName }}</span
+              >
+              <br />
+              <strong class="heading-section">Total No of Quib</strong> =><span
+                class="content-data"
+                >{{ item?.totalQuibByMovieId }}</span
+              >
+              <br />
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+              <strong class="heading-section">Total No of Rated Quib</strong>
+              =><span class="content-data">{{ item?.ratedQuibByMovieId }}</span>
+              <br />
+              <strong class="heading-section">AVR Rating</strong> =><span
+                class="content-data"
+                >{{ item?.averageRatingByMovieId }}</span
+              >
+              <br />
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </ng-container>
 
-				</tr>
-			</ng-template>
-			<ng-template pTemplate="emptymessage">
-				<tr>
-					<td class="text-center text-danger font-weight-700" colspan="12">
-						No Records Found.
-					</td>
-				</tr>
-			</ng-template>
-		</p-table>
-		<ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
-	</div>
-
-
-	<!--pop model edit user  start from here ------>
-	<p-dialog [(visible)]="display" [modal]="true" [header]="message" [style]="{width: '60vw',height:'90vh'}" position="top"
-		[baseZIndex]="10000">
-		<ng-container *ngIf="AssignToModerator">
-			<form [formGroup]="quibUserForm">
-				<div class="card col-sm-12" style="height: 70vh;">
-					<div class="row gutters">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-							<div class="h-100 mt-5">
-								<div class="card-body">
-									<div class="row gutters">
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<label for="FirstName"> Movies List </label>
-											<p-multiSelect [options]="moviesList" optionLabel="title" [virtualScroll]="true"
-											formControlName="selectedMovies" display="chip" defaultLabel="Select Movies"
-												></p-multiSelect>
-										</div>
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
-												<label for="FirstName"> Moderator User List </label>
-												<select class="form-control" formControlName="user"
-													placeholder="Select User">
-													<option *ngFor="let  item of Approved_UserList" [value]="item.id">
-														{{item.email}}</option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="row gutters mt-4">
-										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
-											<div class="text-right">
-												<button pButton type="button" id="submit" name="submit"
-													class="p-button-danger mr-4"
-													(click)="display = false">Cancel</button>
-												<button pButton type="button" id="submit" name="submit"
-													class="p-button-success"
-													(click)="AssignMovieToModeratorUser()">Submit</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</form>
-		</ng-container>
-		<ng-container *ngIf="MoVList && userMovieList.length>0">
-			<div *ngFor="let item of userMovieList ">
-				<p-card class="m-5">
-					<div class="row gutters">
-						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-							<strong class="heading-section">Movie Name</strong> =><span class="content-data"
-								(click)="AdminQuib(item?.movieId)" style="cursor: pointer;">{{item?.movieName}}</span>
-							<br>
-							<strong class="heading-section">Total No of Quib</strong> =><span
-								class="content-data">{{item?.totalQuibByMovieId}}</span>
-							<br>
-						</div>
-						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-							<strong class="heading-section">Total No of Rated Quib</strong> =><span
-								class="content-data">{{item?.ratedQuibByMovieId}}</span>
-							<br>
-							<strong class="heading-section">AVR Rating</strong> =><span
-								class="content-data">{{item?.averageRatingByMovieId}}</span> <br>
-						</div>
-					</div>
-				</p-card>
-			</div>
-		</ng-container>
-
-		<ng-container *ngIf="MoVList && userMovieList.length==0">
-			<h1 class="NoRecord">Sorry No Data Found</h1>
-		</ng-container>
-
-	</p-dialog>
-	<!--pop model edit user  end from here ------>
-	<p-confirmDialog header="Confirmation" [style]="{width: '40vw'}" position="top" [baseZIndex]="10000"
-		icon="pi pi-exclamation-triangle"></p-confirmDialog>
+    <ng-container *ngIf="MoVList && userMovieList.length == 0">
+      <h1 class="NoRecord">Sorry No Data Found</h1>
+    </ng-container>
+  </p-dialog>
+  <!--pop model edit user  end from here ------>
+  <p-confirmDialog
+    header="Confirmation"
+    [style]="{ width: '40vw' }"
+    position="top"
+    [baseZIndex]="10000"
+    icon="pi pi-exclamation-triangle"
+  ></p-confirmDialog>
 </div>

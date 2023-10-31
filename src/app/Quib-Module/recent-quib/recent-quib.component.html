@@ -64,6 +64,52 @@
                   {{ movie.title }}
                 </option>
               </select>
+              <a *ngIf="filterDirectionTowardsUser" (click)="onReset()">
+                <img
+                  src="../../../assets/images/reset-right3.png"
+                  alt="Arrow right"
+                  style="
+                    cursor: pointer;
+                    height: 25px;
+                    width: 50px;
+                    margin-right: 6.5px;
+                    margin-left: 10px;
+                    margin-bottom: 6.8px;
+                  "
+                />
+              </a>
+              <a *ngIf="filterDirectionTowardsMovie" (click)="onReset()">
+                <img
+                  src="../../../assets/images/reset-left3.png"
+                  alt="Arrow right"
+                  style="
+                    cursor: pointer;
+                    height: 24px;
+                    width: 50px;
+                    margin-right: 6.5px;
+                    margin-left: 10px;
+                    margin-bottom: 6.8px;
+                  "
+                />
+              </a>
+              <a
+                *ngIf="
+                  !filterDirectionTowardsUser && !filterDirectionTowardsMovie
+                "
+              >
+                <img
+                  src="../../../assets/images/block.png"
+                  alt=""
+                  style="
+                    height: 25px;
+                    width: 50px;
+                    margin-right: 6.5px;
+                    margin-left: 10px;
+                    margin-bottom: 6.8px;
+                  "
+                />
+              </a>
+
               <select
                 formControlName="selectedUser"
                 optionLabel="displayName"
@@ -87,12 +133,12 @@
                 id="submit"
                 name="submit"
                 class="p-button-success"
-                style="height: 25px; margin-left: 3px"
+                style="height: 25px; margin-left: 3px; margin-bottom: 6.5px"
                 (click)="onSubmit()"
               >
                 Submit
               </button>
-              <button
+              <!-- <button
                 pButton
                 type="button"
                 id="reset"
@@ -103,6 +149,13 @@
               >
                 Reset
               </button>
+              <a (click)="onReset()">
+                <img
+                  src="../../../assets/images/reset-right3.png"
+                  alt="Arrow right"
+                  style="cursor: pointer; height: 25px; width: 50px"
+                />
+              </a> -->
             </form>
           </div>
         </div>
