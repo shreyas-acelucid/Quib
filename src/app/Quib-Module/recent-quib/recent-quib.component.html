@@ -31,9 +31,7 @@
       <ng-template pTemplate="caption">
         <div class="row">
           <div class="p-input-icon-right ml-5">
-            <h2 style="font-family: 'Times New Roman', Times, serif">
-              Quib list
-            </h2>
+            <h2 style="font-family: 'Times New Roman', Times, serif">Quibs</h2>
           </div>
           <div class="p-input-icon-right ml-5">
             <i class="pi pi-search"></i>
@@ -41,7 +39,7 @@
               pInputText
               type="text"
               id="search-box"
-              placeholder="Search by each column"
+              placeholder="Search"
               (input)="FilterGlobal($event, 'contains')"
             />
           </div>
