@@ -16,7 +16,7 @@ import {
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { CommonService } from 'src/app/_services/common';
-import { faLeaf } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-recent-quib',
   templateUrl: './recent-quib.component.html',
@@ -50,6 +50,13 @@ export class RecentQuibComponent implements OnInit {
   selectedUser: any;
   filterDirectionTowardsUser: boolean = false;
   filterDirectionTowardsMovie: boolean = false;
+  columnSelectorForm = new FormGroup({});
+  colsOptions: any[] = [];
+  selectedColumns: any[] = [];
+  filteredCols: any[] = [];
+  multiSelectStyle = {
+    width: '12.5rem',
+  };
 
   constructor(
     private ngxLoader: NgxUiLoaderService,
@@ -62,6 +69,9 @@ export class RecentQuibComponent implements OnInit {
     this.movieAndUserSelectionForm = this.fb.group({
       selectedMovie: new FormControl(''),
       selectedUser: new FormControl(''),
+    });
+    this.columnSelectorForm = this.fb.group({
+      selectedColumns: new FormControl([]),
     });
   }
 
@@ -91,6 +101,10 @@ export class RecentQuibComponent implements OnInit {
       { field: 'BumpIn', show: true, headers: 'B-IN' },
       { field: 'flage', show: true, headers: 'FLAG' },
     ];
+    this.colsOptions = this.cols.map((col) => ({
+      label: col.headers,
+      value: col.field,
+    }));
   }
 
   onToggleSidebar(sidebarState: any) {
@@ -180,6 +194,25 @@ export class RecentQuibComponent implements OnInit {
     }
   }
 
+  SelectRequestedColumns() {
+    this.selectedColumns =
+      this.columnSelectorForm.controls['selectedColumns'].value;
+    this.filteredCols = this.cols
+      .filter((col) =>
+        this.selectedColumns.some(
+          (selectedCol) => selectedCol.value === col.field
+        )
+      )
+      .map((col) => ({ headers: col.headers }));
+  }
+
+  shouldDisplayColumn(header: string): boolean {
+    if (this.filteredCols.length === 0) {
+      return true;
+    }
+    return this.filteredCols.some((col) => col.headers === header);
+  }
+
   fetchOnLoad() {
     this.getMovieList();
     this.getUserList();
@@ -192,7 +225,10 @@ export class RecentQuibComponent implements OnInit {
       (this.selectedMovie == null || this.selectedMovie.value == '') &&
       (this.selectedUser == null || this.selectedUser.value == '')
     ) {
-      window.alert('Please select either a movie or a writer');
+      this.toastr.showWarning(
+        'Please select either a Movie or a User',
+        'Select'
+      );
     } else if (this.selectedMovie == null || this.selectedMovie.value == '') {
       const selectedUserId = this.selectedUser.value;
       (await this.QuibService.getAllFilteredMovies(selectedUserId)).subscribe(
@@ -264,6 +300,13 @@ export class RecentQuibComponent implements OnInit {
   //   }
 
   // }
+
+  filterMovieTitles(event: any) {
+    const searchText = event.target.value.toLowerCase();
+    this.filteredMovieTitles = this.filteredMovieTitles.filter((movie) => {
+      movie.title.toLowerCase.includes(searchText);
+    });
+  }
 
   async getFilteredUsersOnMovieSelection() {
     this.selectedMovie = this.movieAndUserSelectionForm.get('selectedMovie');

@@ -41,7 +41,7 @@ export interface QUIB_USER {
   Username: string;
   About: string;
   IsEnabled: boolean | any;
-  // status: boolean,
+  isDeleted: boolean;
 }
 
 export interface userSearchKeyWord {

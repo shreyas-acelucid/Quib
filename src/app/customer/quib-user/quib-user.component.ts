@@ -24,8 +24,6 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./quib-user.component.scss'],
   providers: [ConfirmationService],
 })
-
-
 export class QuibUserComponent implements OnInit {
   @ViewChild('QuibUserTable') QuibUserTable: Table | undefined;
   sidebarSpacing: any;
@@ -34,7 +32,7 @@ export class QuibUserComponent implements OnInit {
   Approved_UserList: Quib_User[] = [];
   selectedMovies: Movies[] = [];
   selectedColumns: any[] = [];
-  colsOptions: any[] = []; 
+  colsOptions: any[] = [];
   filteredCols: any[] = [];
   moviesList: Movies[];
   userMovieList: QUIB_USER_MOVIE_LIST[] = [];
@@ -51,7 +49,7 @@ export class QuibUserComponent implements OnInit {
   showPopup: boolean = false;
 
   userId: string;
-  
+
   styleValue: STYLE_VALUE = {
     height: '55vw',
     width: '80vh',
@@ -65,16 +63,16 @@ export class QuibUserComponent implements OnInit {
     private CommonService: CommonService,
     private MoviesService: MoviesService,
     private confirmationService: ConfirmationService,
-    private el: ElementRef,
+    private el: ElementRef
   ) {
     this.quibUserForm = this.fb.group({
       curator: ['', [Validators.required]],
       user: ['', [Validators.required]],
-      selectedMovies: new FormControl([])    
+      selectedMovies: new FormControl([]),
     });
-    this.columnSelectorForm =  this.fb.group({
-      selectedColumns: new FormControl([])
-    })
+    this.columnSelectorForm = this.fb.group({
+      selectedColumns: new FormControl([]),
+    });
   }
   // addSelectedMovie(movie: Movies) {
   //   const selectedMovies = this.quibUserForm.get('selectedMovies') as FormArray;
@@ -113,9 +111,13 @@ export class QuibUserComponent implements OnInit {
       { field: 'totalFlagReceived', show: true, headers: 'FLAGE' },
       { field: 'about', show: true, headers: 'PERS' },
     ];
-    this.colsOptions = this.cols.map(col => ({ label: col.headers, value: col.field }));
+    this.colsOptions = this.cols.map((col) => ({
+      label: col.headers,
+      value: col.field,
+    }));
 
-    this.hoverableCells = this.el.nativeElement.querySelectorAll('.hoverable-cell');
+    this.hoverableCells =
+      this.el.nativeElement.querySelectorAll('.hoverable-cell');
     this.hoverableCells.forEach((cell: HTMLElement) => {
       cell.addEventListener('mouseover', () => {
         this.setPopupContent(cell.textContent);
@@ -133,7 +135,6 @@ export class QuibUserComponent implements OnInit {
         }
       });
     });
-    
   }
 
   private setPopupContent(content: string) {
@@ -142,23 +143,25 @@ export class QuibUserComponent implements OnInit {
       popupContent.textContent = content;
     }
   }
-  
-
 
   SelectRequestedColumns() {
-    this.selectedColumns = this.columnSelectorForm.controls['selectedColumns'].value;
-    this.filteredCols = this.cols.filter(col => this.selectedColumns.some(selectedCol => selectedCol.value === col.field)).
-      map(col => ({ headers: col.headers }));
+    this.selectedColumns =
+      this.columnSelectorForm.controls['selectedColumns'].value;
+    this.filteredCols = this.cols
+      .filter((col) =>
+        this.selectedColumns.some(
+          (selectedCol) => selectedCol.value === col.field
+        )
+      )
+      .map((col) => ({ headers: col.headers }));
   }
 
   shouldDisplayColumn(header: string): boolean {
-
     if (this.filteredCols.length === 0) {
       return true;
     }
-    return this.filteredCols.some(col => col.headers === header);
+    return this.filteredCols.some((col) => col.headers === header);
   }
-
 
   onToggleSidebar(sidebarState: any) {
     if (sidebarState === 'open') {

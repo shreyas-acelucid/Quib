@@ -294,14 +294,23 @@
           <td>
             <div class="btn-grp">
               <button
+                (click)="deleteUser(user?.id)"
                 class="p-button-danger"
                 pButton
                 type="button"
                 icon="pi pi-trash"
                 pTooltip="Delete user"
                 tooltipPosition="bottom"
-                (click)="deleteUser(user?.id)"
               ></button>
+              <!-- <button
+                class="p-button-success"
+                pButton
+                type="button"
+                pTooltip="Restore User"
+                icon="pi pi-sync"
+                tooltipPosition="bottom"
+                *ngIf="user.IsDeleted == true"
+              ></button> -->
             </div>
           </td>
         </tr>

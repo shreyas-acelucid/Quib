@@ -52,7 +52,13 @@
                 display="chip"
                 defaultLabel="Select Movie"
                 (change)="getFilteredUsersOnMovieSelection()"
-                style="width: 12rem"
+                (input)="filterMovieTitles($event)"
+                style="
+                  width: 12rem;
+                  height: 2.4rem;
+                  border: 1px solid #a6a6a6;
+                  border-radius: 3px;
+                "
               >
                 <option value="" disabled selected>Select Movie</option>
                 <option value="null">--unselect movie--</option>
@@ -114,7 +120,13 @@
                 optionLabel="displayName"
                 display="chip"
                 defaultLabel="Select User"
-                style="margin-left: 3px; width: 12rem"
+                style="
+                  margin-left: 3px;
+                  width: 12rem;
+                  height: 2.4rem;
+                  border: 1px solid #a6a6a6;
+                  border-radius: 3px;
+                "
                 (change)="getFilteredMoviesOnUserSelection()"
               >
                 <option value="" disabled selected>Select User</option>
@@ -132,29 +144,35 @@
                 id="submit"
                 name="submit"
                 class="p-button-success"
-                style="height: 25px; margin-left: 3px; margin-bottom: 6.5px"
+                style="height: 1.89rem; margin-left: 3px; margin-bottom: 4.7px"
                 (click)="onSubmit()"
               >
                 Submit
               </button>
-              <!-- <button
+            </form>
+          </div>
+
+          <div class="p-input-icon-right ml-5">
+            <form [formGroup]="columnSelectorForm">
+              <p-multiSelect
+                [options]="colsOptions"
+                optionLabel="label"
+                [virtualScroll]="true"
+                formControlName="selectedColumns"
+                display="chip"
+                defaultLabel="Select Columns to display"
+              ></p-multiSelect>
+              <button
                 pButton
                 type="button"
-                id="reset"
-                name="reset"
-                class="p-button-danger"
-                style="height: 25px; margin-left: 3px"
-                (click)="onReset()"
+                id="submit"
+                name="submit"
+                class="p-button-primary"
+                style="margin-left: 8px; margin-bottom: 5.8px; height: 30px"
+                (click)="SelectRequestedColumns()"
               >
-                Reset
+                Submit
               </button>
-              <a (click)="onReset()">
-                <img
-                  src="../../../assets/images/reset-right3.png"
-                  alt="Arrow right"
-                  style="cursor: pointer; height: 25px; width: 50px"
-                />
-              </a> -->
             </form>
           </div>
         </div>
@@ -162,7 +180,10 @@
       <ng-template pTemplate="header" let-columns>
         <tr>
           <th>S.no</th>
-          <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+          <th
+            *ngFor="let col of filteredCols.length == 0 ? cols : filteredCols"
+            [pSortableColumn]="col.field"
+          >
             {{ col.headers }}
             <p-sortIcon [field]="col.field"></p-sortIcon>
           </th>
@@ -236,13 +257,19 @@
       <ng-template pTemplate="body" let-i="rowIndex" let-Quib>
         <tr>
           <td>{{ i + 1 }}</td>
-          <td>{{ Quib.displayName }}</td>
-          <td>{{ Quib.title }}</td>
-          <td>{{ Quib.body }}</td>
-          <td>{{ Quib.HH }}:{{ Quib.MM }}:{{ Quib.SS }}</td>
-          <td>{{ Quib.createdDate }}</td>
-          <td>{{ Quib.postedDate }}</td>
-          <td>
+          <td *ngIf="shouldDisplayColumn('User')">{{ Quib.displayName }}</td>
+          <td *ngIf="shouldDisplayColumn('Movies')">{{ Quib.title }}</td>
+          <td *ngIf="shouldDisplayColumn('Quib')">{{ Quib.body }}</td>
+          <td *ngIf="shouldDisplayColumn('Time')">
+            {{ Quib.HH }}:{{ Quib.MM }}:{{ Quib.SS }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('Created Date')">
+            {{ Quib.createdDate }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('Posted Date')">
+            {{ Quib.postedDate }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('IsEnabled')">
             <div class="btn-grp">
               <button
                 pButton
@@ -264,7 +291,7 @@
               </button>
             </div>
           </td>
-          <td>
+          <td *ngIf="shouldDisplayColumn('IsBumped')">
             <div class="btn-grp">
               <button
                 pButton
@@ -286,12 +313,20 @@
               </button>
             </div>
           </td>
-          <td>{{ Quib?.averageRating }}</td>
-          <td>{{ Quib?.numOfRatings }}</td>
-          <td (click)="getBumpUserListByQuibId(Quib?.id)">
+          <td *ngIf="shouldDisplayColumn('AVR')">{{ Quib?.averageRating }}</td>
+          <td *ngIf="shouldDisplayColumn('Rating')">
+            {{ Quib?.numOfRatings }}
+          </td>
+          <td
+            *ngIf="shouldDisplayColumn('B-IN')"
+            (click)="getBumpUserListByQuibId(Quib?.id)"
+          >
             <a style="color: blue; cursor: pointer">B-IN</a>
           </td>
-          <td (click)="getFlageUserListByQuibId(Quib?.id)">
+          <td
+            *ngIf="shouldDisplayColumn('FLAG')"
+            (click)="getFlageUserListByQuibId(Quib?.id)"
+          >
             <a style="color: blue; cursor: pointer">Flag</a>
           </td>
           <td>

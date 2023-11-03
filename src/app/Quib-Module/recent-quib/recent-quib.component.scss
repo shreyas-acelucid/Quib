@@ -41,6 +41,11 @@ td {
   display: flex
 }
 
+.custom-multi-select {
+  width: 12.5rem;
+}
+
+
 :host {
   ::ng-deep {
     .p-dialog .p-dialog-header {
