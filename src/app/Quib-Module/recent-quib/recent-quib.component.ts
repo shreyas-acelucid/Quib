@@ -407,21 +407,23 @@ export class RecentQuibComponent implements OnInit {
 
   async getFilteredQuibList(userId, movieId) {
     this.ngxLoader.start();
-    await (
-      await this.QuibService.getFilteredQuibs(userId, movieId)
-    ).subscribe((data: QUIB_LIST) => {
-      this.quibLIst = data;
-      this.totalRecords = data.quibTotalPages;
-      this.quibLIst.savedQuibs.map((item) => {
-        item.createdDate = this.CommonService.convertDate(item.createdDate);
-        item.postedDate = this.CommonService.convertDate(item.postedDate);
-        item['MM'] = this.CommonService.consverIntoHHMMSS(item.time).MM;
-        item['HH'] = this.CommonService.consverIntoHHMMSS(item.time).HH;
-        item['SS'] = this.CommonService.consverIntoHHMMSS(item.time).SS;
-      });
-      this.ngxLoader.stop();
-      this.loading = false;
-    });
+    (await this.QuibService.getFilteredQuibs(userId, movieId)).subscribe(
+      (data: QUIB_LIST) => {
+        this.quibLIst = data;
+        this.totalRecords = data.quibTotalPages;
+        this.quibLIst.savedQuibs.map((item) => {
+          item.createdDate = this.CommonService.convertDate(item.createdDate);
+          item.postedDate = item.postedDate
+            ? this.CommonService.convertDate(item.postedDate)
+            : '00:00:00';
+          item['MM'] = this.CommonService.consverIntoHHMMSS(item.time).MM;
+          item['HH'] = this.CommonService.consverIntoHHMMSS(item.time).HH;
+          item['SS'] = this.CommonService.consverIntoHHMMSS(item.time).SS;
+        });
+        this.ngxLoader.stop();
+        this.loading = false;
+      }
+    );
   }
 
   getQuibList() {

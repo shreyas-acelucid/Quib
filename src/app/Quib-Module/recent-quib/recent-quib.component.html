@@ -8,7 +8,8 @@
       [columns]="cols"
       responsiveLayout="scroll"
       [paginator]="true"
-      [rows]="10"
+      [rows]="100"
+      [rowsPerPageOptions]="[20, 50, 100]"
       [showCurrentPageReport]="true"
       [resizableColumns]="true"
       [totalRecords]="totalRecords"
@@ -151,7 +152,6 @@
               </button>
             </form>
           </div>
-
           <div class="p-input-icon-right ml-5">
             <form [formGroup]="columnSelectorForm">
               <p-multiSelect
@@ -293,6 +293,15 @@
           </td>
           <td *ngIf="shouldDisplayColumn('IsBumped')">
             <div class="btn-grp">
+              <button
+                pButton
+                type="button"
+                class="p-button-danger"
+                *ngIf="Quib.isBumped == null"
+                style="height: 30px"
+              >
+                UnBumped
+              </button>
               <button
                 pButton
                 type="button"
