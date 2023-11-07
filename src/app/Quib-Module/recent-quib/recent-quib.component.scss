@@ -52,3 +52,16 @@ td {
     }
   }
 }
+:host ::ng-deep .p-multiselect {
+  min-width: 15rem;
+  max-width: 15rem;
+  height: auto;
+}
+// p-multiselect{
+//   max-width: 20rem !important;
+//   min-width: 20rem !important;
+//   .p-multiselect{
+//     max-width: 20rem !important;
+//     min-width: 20rem !important;
+//   }
+// }

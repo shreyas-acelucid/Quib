@@ -8,8 +8,8 @@
       [columns]="cols"
       [resizableColumns]="true"
       scrollHeight="70vh"
-      columnResizeMode="expand"
       [scrollable]="true"
+      columnResizeMode="expand"
       responsiveLayout="scroll"
       dataKey="id"
       stateStorage="session"
@@ -22,7 +22,6 @@
       [responsive]="true"
       [globalFilterFields]="['firstName', 'lastName', 'email', 'displayName']"
       styleClass="p-datatable-gridlines"
-      [tableStyle]="{ 'min-width': '280rem' }"
     >
       <ng-template pTemplate="caption">
         <div class="row">

@@ -1,64 +1,114 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
-	<div class="card col-sm-12" style="border:none;">
-		<p-table id="customerTable" #AllMovieTable [columns]="cols" responsiveLayout="scroll" [paginator]="true" [rows]="20"
-			[rowsPerPageOptions]="[20,50,100]" [showCurrentPageReport]="true" [value]="moviesList"
-			dataKey="id" stateStorage="session" stateKey="AllMovie-session"
-			[resizableColumns]="true" columnResizeMode="expand" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-			[responsive]="true" [globalFilterFields]="['title', 'length', 'isActive','releaseYear','director']"
-			styleClass="p-datatable-striped">
-			<ng-template pTemplate="caption">
-				<span class="p-input-icon-right ml-5">
-					<h2 style="font-family:'Times New Roman', Times, serif;">All Movies</h2>
-				</span>
-				<div class="row">
-					<span class="p-input-icon-right ml-5">
-						<i class="pi pi-search"></i>
-						<input pInputText type="text" [value]="MovieSearchKeyWord.Gsearch" (input)="FilterGlobal($event, 'contains')"
-							placeholder="Search by columnName" />
-					</span>
-					<div class="p-input-icon-right ml-5">
-						<form [formGroup]="columnSelectorForm">
-								<p-multiSelect [options]="colsOptions" optionLabel="label" [virtualScroll]="true"
-									formControlName="selectedColumns" display="chip" defaultLabel="Select Columns to display"
-								></p-multiSelect>
-								<button pButton type="button" id="submit" name="submit"
-													class="p-button-primary" style="margin-left: 8px; margin-bottom: 6.7px; height: 30px;"
-													(click)="SelectRequestedColumns()">Submit</button>
-						</form>
-					</div>
-					<span class="p-input-icon-right ml-5">
-						<button pButton type="button" label="Add Movie" class="p-button-success" style="margin-left: 2rem; width: 10rem;"
-							(click)="AddMovies()"></button>
-					</span>
-					
-				</div>
-			</ng-template>
+  <div class="card col-sm-12" style="border: none">
+    <p-table
+      id="customerTable"
+      #AllMovieTable
+      [columns]="cols"
+      responsiveLayout="scroll"
+      [paginator]="true"
+      [rows]="20"
+      [rowsPerPageOptions]="[20, 50, 100]"
+      [showCurrentPageReport]="true"
+      [value]="moviesList"
+      dataKey="id"
+      stateStorage="session"
+      stateKey="AllMovie-session"
+      [resizableColumns]="true"
+      columnResizeMode="expand"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [responsive]="true"
+      [globalFilterFields]="[
+        'title',
+        'length',
+        'isActive',
+        'releaseYear',
+        'director'
+      ]"
+      styleClass="p-datatable-striped"
+    >
+      <ng-template pTemplate="caption">
+        <div class="row">
+          <span class="p-input-icon-right ml-5">
+            <h2 style="font-family: 'Times New Roman', Times, serif">
+              All Movies
+            </h2>
+          </span>
+          <span class="p-input-icon-right ml-5">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              [value]="MovieSearchKeyWord.Gsearch"
+              (input)="FilterGlobal($event, 'contains')"
+              placeholder="Search by columnName"
+            />
+          </span>
+          <div class="p-input-icon-right ml-5">
+            <form [formGroup]="columnSelectorForm">
+              <p-multiSelect
+                [options]="colsOptions"
+                optionLabel="label"
+                [virtualScroll]="true"
+                formControlName="selectedColumns"
+                display="chip"
+                defaultLabel="Select Columns to display"
+              ></p-multiSelect>
+              <button
+                pButton
+                type="button"
+                id="submit"
+                name="submit"
+                class="p-button-primary"
+                style="margin-left: 8px; margin-bottom: 6.7px; height: 30px"
+                (click)="SelectRequestedColumns()"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+          <span class="p-input-icon-right ml-5">
+            <button
+              pButton
+              type="button"
+              label="Add Movie"
+              class="p-button-success"
+              style="margin-left: 2rem; width: 10rem"
+              (click)="AddMovies()"
+            ></button>
+          </span>
+        </div>
+      </ng-template>
 
-			<ng-template pTemplate="header" let-columns>
-				<tr>
-					<th pResizableColumn>S.no</th>
-					<th pResizableColumn *ngFor="let col of filteredCols.length==0 ? cols : filteredCols" [pSortableColumn]="col.field">{{col.headers}}
-						<p-sortIcon [field]="col.field"></p-sortIcon>
-					</th>
-					<th pResizableColumn>Options</th>
-				</tr>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th pResizableColumn>S.no</th>
+          <th
+            pResizableColumn
+            *ngFor="let col of filteredCols.length == 0 ? cols : filteredCols"
+            [pSortableColumn]="col.field"
+          >
+            {{ col.headers }}
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>
+          <th pResizableColumn>Options</th>
+        </tr>
 
-				<tr>
-					<ng-container *ngIf="filteredCols.length === 0; else colsTemplate">
-					  <th pResizableColumn></th>
-					  <th pResizableColumn *ngFor="let col of cols"></th>
-					  <th pResizableColumn></th>
-					</ng-container>
-				</tr>
-				  
-				  <ng-template #colsTemplate>
-					<th pResizableColumn></th>
-					<th pResizableColumn *ngFor="let col of filteredCols"></th>
-					<th pResizableColumn></th>
-				  </ng-template>
+        <tr>
+          <ng-container *ngIf="filteredCols.length === 0; else colsTemplate">
+            <th pResizableColumn></th>
+            <th pResizableColumn *ngFor="let col of cols"></th>
+            <th pResizableColumn></th>
+          </ng-container>
+        </tr>
 
-				<!-- <tr>
+        <ng-template #colsTemplate>
+          <th pResizableColumn></th>
+          <th pResizableColumn *ngFor="let col of filteredCols"></th>
+          <th pResizableColumn></th>
+        </ng-template>
+
+        <!-- <tr>
 					<th pResizableColumn>
 						<input pInputText type="text" disabled (input)="applyFilterGlobal($event, 'contains')"
 							placeholder=" No Search" class="w-full intputSearch">
@@ -93,270 +143,432 @@
 						<input pInputText type="text" disabled placeholder="Action" class="w-full intputSearch">
 					</th>
 				</tr> -->
-			</ng-template>
-			<ng-template pTemplate="body" let-i="rowIndex" let-moviesList>
-				<tr>
-					<td>{{i+1}}</td>
-					<td *ngIf="shouldDisplayColumn('Movie Title')">{{moviesList?.title}}</td>
-					<td *ngIf="shouldDisplayColumn('Director')">{{moviesList?.director}}</td>
-					<td *ngIf="shouldDisplayColumn('Release Year')">{{moviesList?.releaseYear}}</td>
-					<td *ngIf="shouldDisplayColumn('Length')">{{moviesList?.HH}}:{{moviesList?.MM}}:{{moviesList?.SS}}</td>
-					<td *ngIf="shouldDisplayColumn('Status')">
-						<div class="btn-grp">
-							<button pTooltip="mark as InActive" pButton type="button" class="p-button-success"
-								(click)="markAsActive(moviesList?.id,false)" *ngIf="moviesList.isActive ==true"
-								style="height: 30px; width: 6rem; padding-left: 1.63rem;">Active</button>
-							<button pButton type="button" class="p-button-danger" pTooltip="mark as Active"
-								(click)="markAsActive(moviesList?.id,true)" *ngIf="moviesList.isActive ==false"
-								style="height: 30px">InActive</button>
-						</div>
-					</td>
-					<td *ngIf="shouldDisplayColumn('Movie Poster')">
-						<img [src]="moviesList?.posterContentThumb" class="form-control"
-							style="width: 90%; height: 8vh; cursor: pointer;"
-							(click)="updateMoviePoster(moviesList?.id)">
-					</td>
-					<td *ngIf="shouldDisplayColumn('ScreenShot')" (click)="[display = true,screenshot=true,
-					moviePoster=false,addEditMovie=false,headerMessage='upLoad Screen_Shot']">
-					<a style="color: blue; cursor: pointer;">Screen_Shot</a>
-					</td>
-					<td>
-						<div class="btn-grp">
-							<button class="p-button-warning" pButton type="button" icon="pi pi-user-edit"
-								pTooltip="Edit movie" tooltipPosition="bottom" style="margin-right:5px"
-								(click)="EditMovies(moviesList?.id)"></button>
-							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
-								pTooltip="Delete movie" tooltipPosition="bottom" style="margin-right:5px"
-								(click)="deleteMovies(moviesList?.id)"></button>
-						</div>
-					</td>
-				</tr>
-			</ng-template>
-			<ng-template pTemplate="emptymessage">
-				<tr>
-					<td class="text-center text-danger font-weight-700" colspan="12">
-						No Records Found.
-					</td>
-				</tr>
-			</ng-template>
-		</p-table>
-		<ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
-	</div>
+      </ng-template>
+      <ng-template pTemplate="body" let-i="rowIndex" let-moviesList>
+        <tr>
+          <td>{{ i + 1 }}</td>
+          <td *ngIf="shouldDisplayColumn('Movie Title')">
+            {{ moviesList?.title }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('Director')">
+            {{ moviesList?.director }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('Release Year')">
+            {{ moviesList?.releaseYear }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('Length')">
+            {{ moviesList?.HH }}:{{ moviesList?.MM }}:{{ moviesList?.SS }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('Status')">
+            <div class="btn-grp">
+              <button
+                pTooltip="mark as InActive"
+                pButton
+                type="button"
+                class="p-button-success"
+                (click)="markAsActive(moviesList?.id, false)"
+                *ngIf="moviesList.isActive == true"
+                style="height: 30px; width: 6rem; padding-left: 1.63rem"
+              >
+                Active
+              </button>
+              <button
+                pButton
+                type="button"
+                class="p-button-danger"
+                pTooltip="mark as Active"
+                (click)="markAsActive(moviesList?.id, true)"
+                *ngIf="moviesList.isActive == false"
+                style="height: 30px"
+              >
+                InActive
+              </button>
+            </div>
+          </td>
+          <td *ngIf="shouldDisplayColumn('Movie Poster')">
+            <img
+              [src]="moviesList?.posterContentThumb"
+              class="form-control"
+              style="width: 90%; height: 8vh; cursor: pointer"
+              (click)="updateMoviePoster(moviesList?.id)"
+            />
+          </td>
+          <td
+            *ngIf="shouldDisplayColumn('ScreenShot')"
+            (click)="
+              [
+                (display = true),
+                (screenshot = true),
+                (moviePoster = false),
+                (addEditMovie = false),
+                (headerMessage = 'upLoad Screen_Shot')
+              ]
+            "
+          >
+            <a style="color: blue; cursor: pointer">Screen_Shot</a>
+          </td>
+          <td>
+            <div class="btn-grp">
+              <button
+                class="p-button-warning"
+                pButton
+                type="button"
+                icon="pi pi-user-edit"
+                pTooltip="Edit movie"
+                tooltipPosition="bottom"
+                style="margin-right: 5px"
+                (click)="EditMovies(moviesList?.id)"
+              ></button>
+              <button
+                class="p-button-danger"
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                pTooltip="Delete movie"
+                tooltipPosition="bottom"
+                style="margin-right: 5px"
+                (click)="deleteMovies(moviesList?.id)"
+              ></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td class="text-center text-danger font-weight-700" colspan="12">
+            No Records Found.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
+  </div>
 
-	<!--pop model edit movies  start from here ------>
-	<p-dialog [(visible)]="display" [modal]="true" [header]="headerMessage" [style]="{width: '70vw',height:'100vh'}"
-		position="top" [baseZIndex]="10000">
-		<ng-container *ngIf="addEditMovie">
-			<form [formGroup]="AllMoviesForm">
-				<div class="card col-sm-12" style="height: 100vh;">
-					<div class="row gutters">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-							<div class="h-100 mt-5">
-								<div class="card-body">
-									<div class="row gutters">
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
-												<label for="name">Title</label>
-												<input type="text" class="form-control" placeholder="Title"
-													formControlName="title">
-											</div>
-										</div>
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
-												<label for="image">Director </label>
-												<input type="text" class="form-control" placeholder="Director"
-													formControlName="director">
-											</div>
-										</div>
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
-												<label for="Name">Release Year</label>
-												<input type="text" class="form-control" placeholder="Release Year"
-													formControlName="releaseYear">
-											</div>
-										</div>
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="row gutters">
-												<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-													<div class="form-group">
-														<label for="Name">Movie Poster</label>
-														<input type="file" formControlName="posterContentThumb"
-															class="form-control"
-															(change)="OnChangePosterContentthumb($event)">
-													</div>
-												</div>
+  <!--pop model edit movies  start from here ------>
+  <p-dialog
+    [(visible)]="display"
+    [modal]="true"
+    [header]="headerMessage"
+    [style]="{ width: '70vw', height: '100vh' }"
+    position="top"
+    [baseZIndex]="10000"
+  >
+    <ng-container *ngIf="addEditMovie">
+      <form [formGroup]="AllMoviesForm">
+        <div class="card col-sm-12" style="height: 100vh">
+          <div class="row gutters">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="h-100 mt-5">
+                <div class="card-body">
+                  <div class="row gutters">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="name">Title</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Title"
+                          formControlName="title"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="image">Director </label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Director"
+                          formControlName="director"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="Name">Release Year</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Release Year"
+                          formControlName="releaseYear"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="row gutters">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                          <div class="form-group">
+                            <label for="Name">Movie Poster</label>
+                            <input
+                              type="file"
+                              formControlName="posterContentThumb"
+                              class="form-control"
+                              (change)="OnChangePosterContentthumb($event)"
+                            />
+                          </div>
+                        </div>
 
-												<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-													*ngIf="posterContentThumb != undefined">
-													<div class="form-group">
-														<img [src]="posterContentThumb" class="form-control"
-															style="width: 80%; height: 10vh;">
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="row gutters">
-												<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-													<div class="form-group">
-														<label for="Name">HH</label>
-														<input type="number" class="form-control" placeholder="Hours"
-															formControlName="hours">
-													</div>
-												</div>
-												<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-													<div class="form-group">
-														<label for="Name">MM</label>
-														<input type="number" class="form-control" placeholder="Minutes"
-															formControlName="minutes">
-													</div>
-												</div>
-												<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-													<div class="form-group">
-														<label for="Name">SS</label>
-														<input type="number" class="form-control" placeholder="Seconds"
-															formControlName="seconds">
-													</div>
-												</div>
+                        <div
+                          class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+                          *ngIf="posterContentThumb != undefined"
+                        >
+                          <div class="form-group">
+                            <img
+                              [src]="posterContentThumb"
+                              class="form-control"
+                              style="width: 80%; height: 10vh"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="row gutters">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                          <div class="form-group">
+                            <label for="Name">HH</label>
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Hours"
+                              formControlName="hours"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                          <div class="form-group">
+                            <label for="Name">MM</label>
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Minutes"
+                              formControlName="minutes"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                          <div class="form-group">
+                            <label for="Name">SS</label>
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Seconds"
+                              formControlName="seconds"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-											</div>
-										</div>
+                  <div class="row gutters mt-4">
+                    <div
+                      class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
+                    >
+                      <div class="text-right">
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-danger mr-4"
+                          (click)="display = false"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-success"
+                          (click)="Submit()"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+    <ng-container *ngIf="moviePoster">
+      <form [formGroup]="PosterForm">
+        <div class="card col-sm-12" style="height: 70vh">
+          <div class="row gutters">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="h-100 mt-5">
+                <div class="card-body">
+                  <div class="row gutters">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="name">Title</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Title"
+                          formControlName="title"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="row gutters">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                          <div class="form-group">
+                            <label for="Name">Movie Poster</label>
+                            <input
+                              type="file"
+                              formControlName="posterContentThumb"
+                              class="form-control"
+                              (change)="OnChangePosterContentthumb($event)"
+                            />
+                          </div>
+                        </div>
 
-									</div>
+                        <div
+                          class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+                          *ngIf="posterContentThumb != undefined"
+                        >
+                          <div class="form-group">
+                            <img
+                              [src]="posterContentThumb"
+                              class="form-control"
+                              style="width: 80%; height: 10vh"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row gutters mt-4">
+                    <div
+                      class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
+                    >
+                      <div class="text-right">
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-danger mr-4"
+                          (click)="display = false"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-success"
+                          (click)="submitMoviePosterData()"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+    <ng-container *ngIf="screenshot">
+      <form [formGroup]="PosterForm">
+        <div class="card col-sm-12" style="height: 70vh">
+          <div class="row gutters">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="h-100 mt-5">
+                <div class="card-body">
+                  <div class="row gutters">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="name">Title</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Title"
+                          formControlName="title"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="row gutters">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                          <div class="form-group">
+                            <label for="Name">Screenshot</label>
+                            <input
+                              type="file"
+                              formControlName="posterContentThumb"
+                              class="form-control"
+                              (change)="OnchangeScreenShot($event)"
+                            />
+                          </div>
+                        </div>
 
-									<div class="row gutters mt-4">
-										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
-											<div class="text-right">
-												<button pButton type="button" id="submit" name="submit"
-													class="p-button-danger mr-4"
-													(click)="display = false">Cancel</button>
-												<button pButton type="button" id="submit" name="submit"
-													class="p-button-success" (click)="Submit()">Submit</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</form>
-		</ng-container>
-		<ng-container *ngIf="moviePoster">
-			<form [formGroup]="PosterForm">
-				<div class="card col-sm-12" style="height: 70vh;">
-					<div class="row gutters">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-							<div class="h-100 mt-5">
-								<div class="card-body">
-									<div class="row gutters">
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
-												<label for="name">Title</label>
-												<input type="text" class="form-control" placeholder="Title"
-													formControlName="title">
-											</div>
-										</div>
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="row gutters">
-												<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-													<div class="form-group">
-														<label for="Name">Movie Poster</label>
-														<input type="file" formControlName="posterContentThumb"
-															class="form-control"
-															(change)="OnChangePosterContentthumb($event)">
-													</div>
-												</div>
-
-												<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-													*ngIf="posterContentThumb != undefined">
-													<div class="form-group">
-														<img [src]="posterContentThumb" class="form-control"
-															style="width: 80%; height: 10vh;">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row gutters mt-4">
-										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
-											<div class="text-right">
-												<button pButton type="button" id="submit" name="submit"
-													class="p-button-danger mr-4"
-													(click)="display = false">Cancel</button>
-												<button pButton type="button" id="submit" name="submit"
-													class="p-button-success"
-													(click)="submitMoviePosterData()">Submit</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</form>
-		</ng-container>
-		<ng-container *ngIf="screenshot">
-			<form [formGroup]="PosterForm">
-				<div class="card col-sm-12" style="height: 70vh;">
-					<div class="row gutters">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-							<div class="h-100 mt-5">
-								<div class="card-body">
-									<div class="row gutters">
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="form-group">
-												<label for="name">Title</label>
-												<input type="text" class="form-control" placeholder="Title"
-													formControlName="title">
-											</div>
-										</div>
-										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-											<div class="row gutters">
-												<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-													<div class="form-group">
-														<label for="Name">Screenshot</label>
-														<input type="file" formControlName="posterContentThumb"
-															class="form-control"
-															(change)="OnchangeScreenShot($event)">
-													</div>
-												</div>
-
-												<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-													*ngIf="screenShotImage != undefined">
-													<div class="form-group">
-														<img [src]="screenShotImage" class="form-control"
-															style="width: 80%; height: 10vh;">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row gutters mt-4">
-										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
-											<div class="text-right">
-												<button pButton type="button" id="submit" name="submit"
-													class="p-button-danger mr-4"
-													(click)="display = false">Cancel</button>
-												<button pButton type="button" id="submit" name="submit"
-													class="p-button-success"
-													(click)="submitMoviePosterData()">Submit</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</form>
-		</ng-container>
-	</p-dialog>
-	<!--pop model edit movies  end  from here ------>
-	<p-confirmDialog header="Confirmation" [style]="{width: '40vw'}" position="top" [baseZIndex]="10000"
-		icon="pi pi-exclamation-triangle"></p-confirmDialog>
-
+                        <div
+                          class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+                          *ngIf="screenShotImage != undefined"
+                        >
+                          <div class="form-group">
+                            <img
+                              [src]="screenShotImage"
+                              class="form-control"
+                              style="width: 80%; height: 10vh"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row gutters mt-4">
+                    <div
+                      class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
+                    >
+                      <div class="text-right">
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-danger mr-4"
+                          (click)="display = false"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-success"
+                          (click)="submitMoviePosterData()"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </p-dialog>
+  <!--pop model edit movies  end  from here ------>
+  <p-confirmDialog
+    header="Confirmation"
+    [style]="{ width: '40vw' }"
+    position="top"
+    [baseZIndex]="10000"
+    icon="pi pi-exclamation-triangle"
+  ></p-confirmDialog>
 </div>

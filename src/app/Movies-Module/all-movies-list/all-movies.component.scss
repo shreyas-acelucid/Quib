@@ -31,3 +31,8 @@ td {
     }
   }
 }
+:host ::ng-deep .p-multiselect {
+  min-width: 20rem;
+  max-width: 20rem;
+  height: auto;
+}

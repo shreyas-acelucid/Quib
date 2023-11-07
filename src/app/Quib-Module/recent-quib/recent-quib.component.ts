@@ -16,6 +16,8 @@ import {
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { CommonService } from 'src/app/_services/common';
+import { DropdownModule } from 'primeng/dropdown';
+// import { DropdownFilterOptions } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-recent-quib',
@@ -57,6 +59,7 @@ export class RecentQuibComponent implements OnInit {
   multiSelectStyle = {
     width: '12.5rem',
   };
+  //filterValue = '';
 
   constructor(
     private ngxLoader: NgxUiLoaderService,
@@ -193,6 +196,11 @@ export class RecentQuibComponent implements OnInit {
       default:
     }
   }
+
+  // myResetFunction(options: any) {
+  //   options.reset();
+  //   this.filterValue = '';
+  // }
 
   SelectRequestedColumns() {
     this.selectedColumns =

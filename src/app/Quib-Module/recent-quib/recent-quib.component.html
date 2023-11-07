@@ -174,6 +174,50 @@
                 Submit
               </button>
             </form>
+            <!-- <p-dropdown
+              [options]="filteredMovieTitles"
+              [(ngModel)]="selectedMovie"
+              optionLabel="title"
+              filterBy="title"
+              [showClear]="true"
+              placeholder="Select a Movie"
+            >
+              <ng-template pTemplate="filter" let-options="options">
+                <div class="flex p-3">
+                  <div class="p-inputgroup" (click)="$event.stopPropagation()">
+                    <span class="p-inputgroup-addon"
+                      ><i class="pi pi-search"></i
+                    ></span>
+                    <input
+                      type="text"
+                      pInputText
+                      placeholder="Filter"
+                      [(ngModel)]="filterValue"
+                      (keyup)="options.filter($event)"
+                    />
+                  </div>
+                  <button
+                    pButton
+                    icon="pi pi-times"
+                    class="ml-3"
+                    (click)="myResetFunction(options)"
+                  ></button>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="selectedItem">
+                <div
+                  class="country-item country-item-value"
+                  *ngIf="selectedMovie"
+                >
+                  <div>{{ selectedMovie.title }}</div>
+                </div>
+              </ng-template>
+              <ng-template let-movie pTemplate="item">
+                <div class="country-item">
+                  <div>{{ movie.title }}</div>
+                </div>
+              </ng-template>
+            </p-dropdown> -->
           </div>
         </div>
       </ng-template>
