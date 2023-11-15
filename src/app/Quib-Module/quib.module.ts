@@ -6,6 +6,7 @@ import { RecentQuibComponent } from './recent-quib/recent-quib.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [AdminQuibComponent, RecentQuibComponent],
@@ -16,6 +17,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
     FormsModule,
     ReactiveFormsModule,
     MultiSelectModule,
+    DropdownModule,
   ],
 })
 export class QuibModule {}

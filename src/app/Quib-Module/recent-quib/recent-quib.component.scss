@@ -41,6 +41,21 @@ td {
   display: flex
 }
 
+// .table-max-width th,
+// .table-max-width td{
+//   max-width: 200px;
+//   white-space: pre-wrap;
+// }
+
+// .max-width-cell {
+//   max-width: 600px; 
+//   //overflow: hidden;
+//   // text-overflow: ellipsis; 
+//   //white-space: normal;
+//   word-break: break-all; 
+// }
+
+
 :host {
   ::ng-deep {
     .p-dialog .p-dialog-header {
@@ -57,11 +72,4 @@ td {
   max-width: 15rem;
   height: auto;
 }
-// p-multiselect{
-//   max-width: 20rem !important;
-//   min-width: 20rem !important;
-//   .p-multiselect{
-//     max-width: 20rem !important;
-//     min-width: 20rem !important;
-//   }
-// }
+

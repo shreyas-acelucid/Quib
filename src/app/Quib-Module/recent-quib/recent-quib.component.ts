@@ -16,8 +16,7 @@ import {
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { CommonService } from 'src/app/_services/common';
-import { DropdownModule } from 'primeng/dropdown';
-// import { DropdownFilterOptions } from 'primeng/dropdown';
+//import { DropdownFilterOptions } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-recent-quib',
@@ -59,7 +58,7 @@ export class RecentQuibComponent implements OnInit {
   multiSelectStyle = {
     width: '12.5rem',
   };
-  //filterValue = '';
+  filterValue = '';
 
   constructor(
     private ngxLoader: NgxUiLoaderService,
@@ -197,10 +196,10 @@ export class RecentQuibComponent implements OnInit {
     }
   }
 
-  // myResetFunction(options: any) {
-  //   options.reset();
-  //   this.filterValue = '';
-  // }
+  myResetFunction(options: any) {
+    options.reset();
+    this.filterValue = '';
+  }
 
   SelectRequestedColumns() {
     this.selectedColumns =
@@ -317,7 +316,10 @@ export class RecentQuibComponent implements OnInit {
   }
 
   async getFilteredUsersOnMovieSelection() {
-    this.selectedMovie = this.movieAndUserSelectionForm.get('selectedMovie');
+    this.movieAndUserSelectionForm.updateValueAndValidity();
+    this.selectedMovie =
+      this.movieAndUserSelectionForm.controls['selectedMovie'];
+    //console.log('Selected Movie Control:', this.selectedMovie);
     if (
       this.selectedMovie.value == null ||
       this.selectedMovie.value === 'null'

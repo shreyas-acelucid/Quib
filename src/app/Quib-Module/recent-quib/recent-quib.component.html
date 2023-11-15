@@ -27,7 +27,7 @@
         'averageRating',
         'numOfRatings'
       ]"
-      styleClass="p-datatable-striped,width:max-content"
+      styleClass="p-datatable-striped,width:max-content table-max-width"
     >
       <ng-template pTemplate="caption">
         <div class="row">
@@ -173,51 +173,19 @@
               >
                 Submit
               </button>
+              <p-dropdown
+                [options]="filteredMovieTitles"
+                formControlName="selectedMovie"
+                optionLabel="title"
+                optionValue="movieId"
+                filterBy="title"
+                [showClear]="true"
+                placeholder="Select a Movie"
+                [filter]="true"
+                (onChange)="getFilteredUsersOnMovieSelection()"
+              >
+              </p-dropdown>
             </form>
-            <!-- <p-dropdown
-              [options]="filteredMovieTitles"
-              [(ngModel)]="selectedMovie"
-              optionLabel="title"
-              filterBy="title"
-              [showClear]="true"
-              placeholder="Select a Movie"
-            >
-              <ng-template pTemplate="filter" let-options="options">
-                <div class="flex p-3">
-                  <div class="p-inputgroup" (click)="$event.stopPropagation()">
-                    <span class="p-inputgroup-addon"
-                      ><i class="pi pi-search"></i
-                    ></span>
-                    <input
-                      type="text"
-                      pInputText
-                      placeholder="Filter"
-                      [(ngModel)]="filterValue"
-                      (keyup)="options.filter($event)"
-                    />
-                  </div>
-                  <button
-                    pButton
-                    icon="pi pi-times"
-                    class="ml-3"
-                    (click)="myResetFunction(options)"
-                  ></button>
-                </div>
-              </ng-template>
-              <ng-template pTemplate="selectedItem">
-                <div
-                  class="country-item country-item-value"
-                  *ngIf="selectedMovie"
-                >
-                  <div>{{ selectedMovie.title }}</div>
-                </div>
-              </ng-template>
-              <ng-template let-movie pTemplate="item">
-                <div class="country-item">
-                  <div>{{ movie.title }}</div>
-                </div>
-              </ng-template>
-            </p-dropdown> -->
           </div>
         </div>
       </ng-template>
@@ -227,6 +195,7 @@
           <th
             *ngFor="let col of filteredCols.length == 0 ? cols : filteredCols"
             [pSortableColumn]="col.field"
+            class="max-width-cell"
           >
             {{ col.headers }}
             <p-sortIcon [field]="col.field"></p-sortIcon>
@@ -303,7 +272,9 @@
           <td>{{ i + 1 }}</td>
           <td *ngIf="shouldDisplayColumn('User')">{{ Quib.displayName }}</td>
           <td *ngIf="shouldDisplayColumn('Movies')">{{ Quib.title }}</td>
-          <td *ngIf="shouldDisplayColumn('Quib')">{{ Quib.body }}</td>
+          <td *ngIf="shouldDisplayColumn('Quib')" class="max-width-cell">
+            {{ Quib.body }}
+          </td>
           <td *ngIf="shouldDisplayColumn('Time')">
             {{ Quib.HH }}:{{ Quib.MM }}:{{ Quib.SS }}
           </td>

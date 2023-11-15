@@ -21,7 +21,6 @@
       [responsive]="true"
       [globalFilterFields]="['firstName', 'lastName', 'email', 'displayName']"
       styleClass="p-datatable-gridlines"
-      [tableStyle]="{ 'min-width': '280rem' }"
     >
       <ng-template pTemplate="caption">
         <div class="row">
@@ -283,7 +282,6 @@
             *ngIf="shouldDisplayColumn('PERS')"
             (mouseenter)="showPopup = true"
             (mouseleave)="showPopup = false"
-            class="hoverable-cell"
           >
             {{ user.about }}
             <div *ngIf="showPopup" class="popup">
