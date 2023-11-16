@@ -47,7 +47,7 @@
           </div>
           <div class="p-input-icon-right ml-5">
             <form [formGroup]="movieAndUserSelectionForm">
-              <select
+              <!-- <select
                 formControlName="selectedMovie"
                 optionLabel="title"
                 display="chip"
@@ -69,7 +69,19 @@
                 >
                   {{ movie.title }}
                 </option>
-              </select>
+              </select> -->
+              <p-dropdown
+                [options]="filteredMovieTitles"
+                formControlName="selectedMovie"
+                optionLabel="title"
+                optionValue="movieId"
+                filterBy="title"
+                [showClear]="true"
+                placeholder="Select a Movie"
+                [filter]="true"
+                (onChange)="getFilteredUsersOnMovieSelection()"
+              >
+              </p-dropdown>
               <a *ngIf="filterDirectionTowardsUser" (click)="onReset()">
                 <img
                   src="../../../assets/images/reset-right3.png"
@@ -116,7 +128,7 @@
                 />
               </a>
 
-              <select
+              <!-- <select
                 formControlName="selectedUser"
                 optionLabel="displayName"
                 display="chip"
@@ -138,7 +150,20 @@
                 >
                   {{ user.displayName }}
                 </option>
-              </select>
+              </select> -->
+              <p-dropdown
+                [options]="filteredUserNames"
+                formControlName="selectedUser"
+                optionLabel="displayName"
+                optionValue="userId"
+                filterBy="displayName"
+                [showClear]="true"
+                placeholder="Select a User"
+                [filter]="true"
+                style="margin-left: 3px"
+                (onChange)="getFilteredMoviesOnUserSelection()"
+              >
+              </p-dropdown>
               <button
                 pButton
                 type="button"
@@ -173,18 +198,6 @@
               >
                 Submit
               </button>
-              <p-dropdown
-                [options]="filteredMovieTitles"
-                formControlName="selectedMovie"
-                optionLabel="title"
-                optionValue="movieId"
-                filterBy="title"
-                [showClear]="true"
-                placeholder="Select a Movie"
-                [filter]="true"
-                (onChange)="getFilteredUsersOnMovieSelection()"
-              >
-              </p-dropdown>
             </form>
           </div>
         </div>

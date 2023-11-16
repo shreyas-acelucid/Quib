@@ -227,6 +227,27 @@ export class QuibUserComponent implements OnInit {
       },
     });
   }
+
+  restoreUser(userId: string) {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to restore user?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.ngxLoader.start();
+        this.QuibService.restoreUser(userId).subscribe((res) => {
+          if (res) {
+            this.toastr.showSuccess(
+              'user restored successfully',
+              'user restore'
+            );
+            this.getUserList();
+          }
+        });
+      },
+    });
+  }
+
   getUserList() {
     this.QuibService.getUserList().subscribe((data) => {
       this.Quib_User = data;

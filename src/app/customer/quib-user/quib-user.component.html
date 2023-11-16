@@ -88,7 +88,7 @@
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th style="width: 25px" pResizableColumn>S.no</th>
+          <th style="width: 40px !important" pResizableColumn>S.no</th>
           <th
             pResizableColumn
             *ngFor="let col of filteredCols.length == 0 ? cols : filteredCols"
@@ -298,16 +298,18 @@
                 icon="pi pi-trash"
                 pTooltip="Delete user"
                 tooltipPosition="bottom"
+                *ngIf="!user.isDeleted"
               ></button>
-              <!-- <button
+              <button
+                (click)="restoreUser(user?.id)"
                 class="p-button-success"
                 pButton
                 type="button"
                 pTooltip="Restore User"
                 icon="pi pi-sync"
                 tooltipPosition="bottom"
-                *ngIf="user.IsDeleted == true"
-              ></button> -->
+                *ngIf="user.isDeleted"
+              ></button>
             </div>
           </td>
         </tr>
