@@ -11,6 +11,7 @@ import {
   FLAG_IN_USER_LIST,
   ADMIN_QUIB,
   QUIB_USER_MOVIE_LIST,
+  MODERATOR_MOVIE_LIST,
 } from '../_models/Quib_user';
 
 @Injectable({
@@ -176,12 +177,12 @@ export class QuibService {
   async getAllFilteredUsers(movieId) {
     const userId = localStorage.getItem('userId');
     const endpointUrl = `${environment.QUIB_ADMIN}/GetQuibsUsersByMovieId?movieId=${movieId}&UserId=${userId}`;
-    return await this.http.get(endpointUrl);
+    return this.http.get(endpointUrl);
   }
 
   async getAllFilteredMovies(userId) {
     const endpointUrl = `${environment.QUIB_ADMIN}/AllQubbiedMoviesByUserId?userId=${userId}`;
-    return await this.http.get(endpointUrl);
+    return this.http.get(endpointUrl);
   }
 
   async getFilteredQuibs(userId, movieId) {
@@ -192,6 +193,11 @@ export class QuibService {
       endpoint = `${environment.QUIB_ADMIN}/GetQuibsAdminPanel?userId=${userId}`;
     else
       endpoint = `${environment.QUIB_ADMIN}/GetQuibsAdminPanel?movieId=${movieId}&userId=${userId}`;
-    return await this.http.get(endpoint);
+    return this.http.get(endpoint);
+  }
+
+  getModeratorMovies(userId): Observable<MODERATOR_MOVIE_LIST[]> {
+    const endpointUrl = `${environment.QUIB_ADMIN}/GetAssignedMoviesByUserId?userId=${userId}`;
+    return this.http.get<MODERATOR_MOVIE_LIST[]>(endpointUrl);
   }
 }

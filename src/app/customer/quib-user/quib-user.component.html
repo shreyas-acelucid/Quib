@@ -97,7 +97,7 @@
             {{ col.headers }}
             <p-sortIcon [field]="col.field"></p-sortIcon>
           </th>
-          <th pResizableColumn>Action</th>
+          <!-- <th pResizableColumn [pSortableColumn]="isDeleted">Action</th> -->
         </tr>
 
         <!-- <tr>
@@ -247,6 +247,21 @@
               </button>
             </div>
           </td>
+          <td *ngIf="shouldDisplayColumn('Moderator Movies')">
+            <a
+              style="color: blue; cursor: pointer"
+              (click)="
+                [
+                  (display = true),
+                  (ModeratorMovies = true),
+                  (AssignToModerator = false),
+                  getModeratorMovieList(user?.id),
+                  (message = 'Moderator Movie List')
+                ]
+              "
+              >M Movies</a
+            >
+          </td>
           <td *ngIf="shouldDisplayColumn('CUR')">{{ user.curatorScore }}</td>
           <td *ngIf="shouldDisplayColumn('CCP')">{{ user.ccp }}</td>
           <td *ngIf="shouldDisplayColumn('CFP')">{{ user.cfp }}</td>
@@ -288,28 +303,30 @@
               <div class="popup-content">{{ user.about }}</div>
             </div>
           </td>
-          <td>
+          <td *ngIf="shouldDisplayColumn('Action')">
             <div class="btn-grp">
               <button
                 (click)="deleteUser(user?.id)"
-                class="p-button-danger"
-                pButton
-                type="button"
-                icon="pi pi-trash"
-                pTooltip="Delete user"
-                tooltipPosition="bottom"
-                *ngIf="!user.isDeleted"
-              ></button>
-              <button
-                (click)="restoreUser(user?.id)"
                 class="p-button-success"
                 pButton
                 type="button"
+                pTooltip="Delete user"
+                tooltipPosition="bottom"
+                *ngIf="!user.isDeleted"
+              >
+                Delete
+              </button>
+              <button
+                (click)="restoreUser(user?.id)"
+                class="p-button-danger"
+                pButton
+                type="button"
                 pTooltip="Restore User"
-                icon="pi pi-sync"
                 tooltipPosition="bottom"
                 *ngIf="user.isDeleted"
-              ></button>
+              >
+                Restore
+              </button>
             </div>
           </td>
         </tr>
@@ -440,6 +457,42 @@
     </ng-container>
 
     <ng-container *ngIf="MoVList && userMovieList.length == 0">
+      <h1 class="NoRecord">Sorry No Data Found</h1>
+    </ng-container>
+
+    <ng-container *ngIf="ModeratorMovies && moderatorMovieList.length > 0">
+      <div *ngFor="let item of moderatorMovieList">
+        <p-card class="m-5">
+          <div class="row gutters">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+              <strong class="heading-section">Movie Name</strong> =><span
+                class="content-data"
+                (click)="AdminQuib(item?.movieId)"
+                style="cursor: pointer"
+                >{{ item?.title }}</span
+              >
+              <br />
+              <strong class="heading-section">Movie Id</strong> =><span
+                class="content-data"
+                >{{ item?.movieId }}</span
+              >
+              <br />
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+              <strong class="heading-section">Is Active</strong>
+              =><span class="content-data">{{ item?.isActive }}</span>
+              <br />
+              <strong class="heading-section">Assigned Date</strong> =><span
+                class="content-data"
+                >{{ item?.createdDate }}</span
+              >
+              <br />
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="ModeratorMovies && moderatorMovieList.length == 0">
       <h1 class="NoRecord">Sorry No Data Found</h1>
     </ng-container>
   </p-dialog>

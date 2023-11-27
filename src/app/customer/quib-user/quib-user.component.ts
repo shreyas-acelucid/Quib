@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
+  MODERATOR_MOVIE_LIST,
   QUIB_USER_MOVIE_LIST,
   Quib_User,
   STYLE_VALUE,
@@ -47,6 +48,8 @@ export class QuibUserComponent implements OnInit {
   columnSelectorForm = new FormGroup({});
   hoverableCells: NodeListOf<HTMLElement>;
   showPopup: boolean = false;
+  moderatorMovieList: MODERATOR_MOVIE_LIST[] = [];
+  ModeratorMovies: boolean = false;
 
   userId: string;
 
@@ -100,6 +103,7 @@ export class QuibUserComponent implements OnInit {
       { field: 'unPostedQuibsCount', show: true, headers: 'UNP' },
       { field: 'status', show: true, headers: 'Status' },
       { field: 'IsModerator', show: true, headers: 'IsModerator' },
+      { field: 'ModeratorMovies', show: true, headers: 'M Movies' },
       { field: 'curatorScore', show: true, headers: 'CUR' },
       { field: 'ccp', show: true, headers: 'CCP' },
       { field: 'cfp', show: true, headers: 'CFP' },
@@ -110,6 +114,8 @@ export class QuibUserComponent implements OnInit {
       { field: 'bumpCount', show: true, headers: 'B-OUT' },
       { field: 'totalFlagReceived', show: true, headers: 'FLAGE' },
       { field: 'about', show: true, headers: 'PERS' },
+      { field: 'Action', show: true, headers: 'Action' },
+      { field: 'ModeratorMovies', show: true, headers: 'M Movies' },
     ];
     this.colsOptions = this.cols.map((col) => ({
       label: col.headers,
@@ -384,6 +390,13 @@ export class QuibUserComponent implements OnInit {
     this.userId = userId;
     this.QuibService.getUserQuibedMoviesList(userId).subscribe((res) => {
       this.userMovieList = res;
+    });
+  }
+
+  getModeratorMovieList(userId: string) {
+    this.userId = userId;
+    this.QuibService.getModeratorMovies(userId).subscribe((res) => {
+      this.moderatorMovieList = res;
     });
   }
 }

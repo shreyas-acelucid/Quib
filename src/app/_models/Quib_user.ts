@@ -155,3 +155,12 @@ export interface STYLE_VALUE {
   height: string;
   width: string;
 }
+export interface MODERATOR_MOVIE_LIST {
+  id: number | any;
+  userId: string;
+  movieId: number;
+  title: string;
+  isActive: boolean;
+  createdDate: string;
+  modifiedDate: string;
+}
