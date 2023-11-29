@@ -90,6 +90,17 @@ th {
   overflow: hidden;
 }
 
+
+ .movie-content:hover {
+  color: red;
+  text-decoration: underline;
+}
+
+.movie-content {
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+
 // .sticky-table-head {
 //   position: sticky;
 //   position: -webkit-sticky;

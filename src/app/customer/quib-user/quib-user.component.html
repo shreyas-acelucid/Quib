@@ -247,7 +247,9 @@
               </button>
             </div>
           </td>
-          <td *ngIf="shouldDisplayColumn('Moderator Movies')">
+          <td
+            *ngIf="shouldDisplayColumn('Moderator Movies') && user.isModerator"
+          >
             <a
               style="color: blue; cursor: pointer"
               (click)="
@@ -255,12 +257,18 @@
                   (display = true),
                   (ModeratorMovies = true),
                   (AssignToModerator = false),
+                  (MoVList = false),
                   getModeratorMovieList(user?.id),
                   (message = 'Moderator Movie List')
                 ]
               "
               >M Movies</a
             >
+          </td>
+          <td
+            *ngIf="shouldDisplayColumn('Moderator Movies') && !user.isModerator"
+          >
+            M Movies
           </td>
           <td *ngIf="shouldDisplayColumn('CUR')">{{ user.curatorScore }}</td>
           <td *ngIf="shouldDisplayColumn('CCP')">{{ user.ccp }}</td>
@@ -273,6 +281,7 @@
                   (display = true),
                   (MoVList = true),
                   (AssignToModerator = false),
+                  (ModeratorMovies = false),
                   getUserQuibedMoviesList(user?.id),
                   (message = 'Movie List')
                 ]
@@ -466,27 +475,30 @@
           <div class="row gutters">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
               <strong class="heading-section">Movie Name</strong> =><span
-                class="content-data"
+                class="content-data movie-content"
                 (click)="AdminQuib(item?.movieId)"
                 style="cursor: pointer"
                 >{{ item?.title }}</span
               >
               <br />
-              <strong class="heading-section">Movie Id</strong> =><span
+              <strong class="heading-section">Assigned Date</strong> =><span
                 class="content-data"
-                >{{ item?.movieId }}</span
+                >{{ getFormattedDate(item?.createdDate) }}</span
               >
               <br />
             </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-              <strong class="heading-section">Is Active</strong>
-              =><span class="content-data">{{ item?.isActive }}</span>
-              <br />
-              <strong class="heading-section">Assigned Date</strong> =><span
-                class="content-data"
-                >{{ item?.createdDate }}</span
+            <div
+              class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+              style="text-align: center"
+            >
+              <button
+                pButton
+                type="button"
+                class="p-button-danger mr-4"
+                (click)="removeMovieFromModerator(item.id, item.userId)"
               >
-              <br />
+                Remove
+              </button>
             </div>
           </div>
         </p-card>

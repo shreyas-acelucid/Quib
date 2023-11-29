@@ -200,4 +200,9 @@ export class QuibService {
     const endpointUrl = `${environment.QUIB_ADMIN}/GetAssignedMoviesByUserId?userId=${userId}`;
     return this.http.get<MODERATOR_MOVIE_LIST[]>(endpointUrl);
   }
+
+  async removeModeratorMovie(moderatorId) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/removeAssignedMovies?moderatorId=${moderatorId}`;
+    return this.http.post(endpointUrl, null);
+  }
 }

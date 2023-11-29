@@ -1,70 +1,132 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
-	<div class="card col-sm-12" style="border:none;">
-		<p-table id="customerTable" #dt [value]="Admin_Quib?.savedQuibs" [columns]="cols" responsiveLayout="scroll"
-			[paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,50,100]" [showCurrentPageReport]="true" [resizableColumns]="true"
-			currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [responsive]="true"
-			[globalFilterFields]="['user', 'movies']" styleClass="p-datatable-striped,width:max-content">
-			<ng-template pTemplate="caption">
-				<div class="row">
-					<div class="p-input-icon-right ml-5">
-						<i class="pi pi-search"></i>
-						<input pInputText type="text" id="search-box" placeholder="Search by User or Movies"
-							(input)="applyFilterGlobal($event, 'contains')" />
-					</div>
-				</div>
-			</ng-template>
-			<ng-template pTemplate="header" let-columns>
-				<tr>
-					<th pResizableColumn>S.no</th>
-					<th pResizableColumn *ngFor="let col of columns">{{col.headers}}</th>
-					<th>Action</th>
-				</tr>
-			</ng-template>
-			<ng-template pTemplate="body" let-i="rowIndex" let-AdminQuib>
-				<tr>
-					<td>{{i+1}}</td>
-					<td>{{AdminQuib.displayName}}</td>
-					<td>{{AdminQuib.movieId}}</td>
-					<td>{{AdminQuib.body}}</td>
-					<td>{{AdminQuib.time}}</td>
-					<td>{{AdminQuib.createdDate}}</td>
-					<td>{{AdminQuib.postedDate}}</td>
-					<td>
-						<div class="btn-grp">
-							<button pButton type="button" class="p-button-success" *ngIf="AdminQuib.isEnabled ===true"
-								style="height: 30px;">{{AdminQuib.isEnabled}}</button>
-							<button pButton type="button" class="p-button-danger" *ngIf="AdminQuib.isEnabled ==false || null"
-								style="height: 30px">{{AdminQuib.isEnabled}}</button>
-						</div>
-					</td>
-					<td>
-						<div class="btn-grp">
-							<button pButton type="button" class="p-button-success" *ngIf="AdminQuib.isBumped ==true"
-								style="height: 30px;">{{AdminQuib.isBumped}}</button>
-							<button pButton type="button" class="p-button-danger" pTooltip="mark as Saved"
-								*ngIf="AdminQuib.isBumped ===false || null" style="height: 30px">{{AdminQuib.isBumped}}</button>
-						</div>
-					</td>
-					<td>{{AdminQuib.quibType}}</td>
-					<td>
-						<div class="btn-grp">
-							<button class="p-button-danger" pButton type="button" icon="pi pi-trash"
-							(click)="deleteQuib(AdminQuib?.id)"	pTooltip="Delete Quib" tooltipPosition="bottom"></button>
-						</div>
-					</td>
-				</tr>
-			</ng-template>
-			<ng-template pTemplate="emptymessage">
-				<tr>
-					<td class="text-center text-danger font-weight-700" colspan="12">
-						No Records Found.
-					</td>
-				</tr>
-			</ng-template>
-		</p-table>
-		<ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
-	</div>
-	<p-confirmDialog header="Confirmation" [style]="{width: '40vw'}" position="top" [baseZIndex]="10000"
-		icon="pi pi-exclamation-triangle"></p-confirmDialog>
+  <div class="card col-sm-12" style="border: none">
+    <p-table
+      id="customerTable"
+      #dt
+      [value]="Admin_Quib?.savedQuibs"
+      [columns]="cols"
+      responsiveLayout="scroll"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 50, 100]"
+      [showCurrentPageReport]="true"
+      [resizableColumns]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [responsive]="true"
+      [globalFilterFields]="['user', 'movies']"
+      styleClass="p-datatable-striped,width:max-content"
+    >
+      <ng-template pTemplate="caption">
+        <div class="row">
+          <div class="p-input-icon-right ml-5">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              id="search-box"
+              placeholder="Search by User or Movies"
+              (input)="applyFilterGlobal($event, 'contains')"
+            />
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th pResizableColumn>S.no</th>
+          <th pResizableColumn *ngFor="let col of columns">
+            {{ col.headers }}
+          </th>
+          <th>Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-i="rowIndex" let-AdminQuib>
+        <tr>
+          <td>{{ i + 1 }}</td>
+          <td>{{ AdminQuib.displayName }}</td>
+          <td>{{ AdminQuib.movieId }}</td>
+          <td>{{ AdminQuib.body }}</td>
+          <td>{{ AdminQuib.time }}</td>
+          <td>{{ AdminQuib.createdDate }}</td>
+          <td>{{ AdminQuib.postedDate }}</td>
+          <td>
+            <div class="btn-grp">
+              <button
+                pButton
+                type="button"
+                class="p-button-success"
+                *ngIf="AdminQuib.isEnabled === true"
+                style="height: 30px"
+              >
+                {{ AdminQuib.isEnabled }}
+              </button>
+              <button
+                pButton
+                type="button"
+                class="p-button-danger"
+                *ngIf="AdminQuib.isEnabled == false || null"
+                style="height: 30px"
+              >
+                {{ AdminQuib.isEnabled }}
+              </button>
+            </div>
+          </td>
+          <td>
+            <div class="btn-grp">
+              <button
+                pButton
+                type="button"
+                class="p-button-success"
+                *ngIf="AdminQuib.isBumped == true"
+                style="height: 30px"
+              >
+                {{ AdminQuib.isBumped }}
+              </button>
+              <button
+                pButton
+                type="button"
+                class="p-button-danger"
+                pTooltip="mark as Saved"
+                *ngIf="
+                  AdminQuib.isBumped == false || AdminQuib.isBumped == null
+                "
+                style="height: 30px"
+              >
+                false
+              </button>
+            </div>
+          </td>
+          <!-- <td>{{ AdminQuib.quibType }}</td> -->
+          <td>
+            <div class="btn-grp">
+              <button
+                class="p-button-danger"
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                (click)="deleteQuib(AdminQuib?.id)"
+                pTooltip="Delete Quib"
+                tooltipPosition="bottom"
+              ></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td class="text-center text-danger font-weight-700" colspan="12">
+            No Records Found.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <ngx-ui-loader [fgsColor]="'#000000'" [fgsType]="fgsType"></ngx-ui-loader>
+  </div>
+  <p-confirmDialog
+    header="Confirmation"
+    [style]="{ width: '40vw' }"
+    position="top"
+    [baseZIndex]="10000"
+    icon="pi pi-exclamation-triangle"
+  ></p-confirmDialog>
 </div>

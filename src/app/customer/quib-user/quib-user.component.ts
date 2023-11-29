@@ -115,7 +115,6 @@ export class QuibUserComponent implements OnInit {
       { field: 'totalFlagReceived', show: true, headers: 'FLAGE' },
       { field: 'about', show: true, headers: 'PERS' },
       { field: 'Action', show: true, headers: 'Action' },
-      { field: 'ModeratorMovies', show: true, headers: 'M Movies' },
     ];
     this.colsOptions = this.cols.map((col) => ({
       label: col.headers,
@@ -167,6 +166,23 @@ export class QuibUserComponent implements OnInit {
       return true;
     }
     return this.filteredCols.some((col) => col.headers === header);
+  }
+
+  getFormattedDate(dateTime: any) {
+    var date = dateTime.split('T')[0];
+    return date;
+  }
+
+  async removeMovieFromModerator(id: number, userId: string) {
+    (await this.QuibService.removeModeratorMovie(id)).subscribe((res) => {
+      if (res) {
+        this.toastr.showSuccess(
+          'Moderator movie removed successfully',
+          'Remove Movie'
+        );
+        this.getModeratorMovieList(userId);
+      }
+    });
   }
 
   onToggleSidebar(sidebarState: any) {
