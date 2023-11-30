@@ -174,14 +174,21 @@ export class QuibUserComponent implements OnInit {
   }
 
   async removeMovieFromModerator(id: number, userId: string) {
-    (await this.QuibService.removeModeratorMovie(id)).subscribe((res) => {
-      if (res) {
-        this.toastr.showSuccess(
-          'Moderator movie removed successfully',
-          'Remove Movie'
-        );
-        this.getModeratorMovieList(userId);
-      }
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to remove movie from moderator user?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: async () => {
+        (await this.QuibService.removeModeratorMovie(id)).subscribe((res) => {
+          if (res) {
+            this.toastr.showSuccess(
+              'Moderator movie removed successfully',
+              'Remove Movie'
+            );
+            this.getModeratorMovieList(userId);
+          }
+        });
+      },
     });
   }
 
@@ -333,12 +340,21 @@ export class QuibUserComponent implements OnInit {
     this.ngxLoader.start();
     this.QuibService.markUserAsModerator(userId, status).subscribe((res) => {
       if (res) {
-        this.toastr.showSuccess(
-          ' Moderator  user is added successfully',
-          'Moderator user'
-        );
-        this.display = false;
-        this.getUserList();
+        if (status) {
+          this.toastr.showSuccess(
+            'User is marked a moderator',
+            'Moderator user'
+          );
+          this.display = false;
+          this.getUserList();
+        } else {
+          this.toastr.showWarning(
+            'User is unmarked as moderator',
+            'Moderator user'
+          );
+          this.display = false;
+          this.getUserList();
+        }
       }
     });
   }
