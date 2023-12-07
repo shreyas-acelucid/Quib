@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { CommonService } from 'src/app/_services/common';
 import { FormControl } from '@angular/forms';
+import { Dir } from '@angular/cdk/bidi';
 @Component({
   selector: 'app-all-movies',
   templateUrl: './all-movies.component.html',
@@ -264,46 +265,78 @@ export class AllMoviesComponent implements OnInit {
   }
 
   Submit() {
-    const payload = {
-      id: this.AllMoviesForm.controls['id'].value,
-      Title: this.AllMoviesForm.controls['title'].value,
-      Director: this.AllMoviesForm.controls['director'].value,
-      ReleaseYear: this.AllMoviesForm.controls['releaseYear'].value,
-      Hour: this.AllMoviesForm.controls['hours'].value,
-      Minute: this.AllMoviesForm.controls['minutes'].value,
-      Seconds: this.AllMoviesForm.controls['seconds'].value,
-      IsActive: false,
-      PosterImage: this.image,
-    };
-    this.ngxLoader.start();
-    if (this.editMode) {
-      this.MoviesService.editMovies(payload).subscribe((res) => {
-        if (res) {
-          this.toastr.showSuccess(
-            ' Movie data is updated successfully',
-            'movie data'
-          );
-          this.display = false;
-          this.getMovieList();
-        } else {
-          this.toastr.showSuccess('somthing going wrong', 'please check');
-          this.display = false;
-          this.getMovieList();
-        }
-      });
-    }
-    if (!this.editMode) {
-      this.MoviesService.Submit(payload).subscribe((res) => {
-        if (res) {
-          this.toastr.showSuccess('Movie is added successfully', 'Movie data');
-          this.display = false;
-          this.getMovieList();
-        } else {
-          this.toastr.showSuccess('somthing going wrong', 'please check');
-          this.display = false;
-          this.getMovieList();
-        }
-      });
+    const id = this.AllMoviesForm.controls['id'].value;
+    const Title = this.AllMoviesForm.controls['title'].value;
+    const Director = this.AllMoviesForm.controls['director'].value;
+    const ReleaseYear = this.AllMoviesForm.controls['releaseYear'].value;
+    const Hour = this.AllMoviesForm.controls['hours'].value;
+    const Minute = this.AllMoviesForm.controls['minutes'].value;
+    const Seconds = this.AllMoviesForm.controls['seconds'].value;
+    const PosterImage = this.image;
+    if (
+      !Title ||
+      !Director ||
+      !ReleaseYear ||
+      !Hour ||
+      !Minute ||
+      !Seconds ||
+      !PosterImage
+    ) {
+      this.toastr.showWarning(
+        'Please fill out all the fields before submitting the form',
+        'Form incomplete'
+      );
+    } else {
+      const payload = {
+        id: id,
+        Title: Title,
+        Director: Director,
+        ReleaseYear: ReleaseYear,
+        Hour: Hour,
+        Minute: Minute,
+        Seconds: Seconds,
+        IsActive: false,
+        PosterImage: PosterImage,
+      };
+      this.ngxLoader.start();
+      if (this.editMode) {
+        this.MoviesService.editMovies(payload).subscribe((res) => {
+          if (res) {
+            this.toastr.showSuccess(
+              'Movie data is updated successfully',
+              'movie data'
+            );
+            this.display = false;
+            this.getMovieList();
+          } else {
+            this.toastr.showSuccess('Something going wrong', 'Please check');
+            this.display = false;
+            this.getMovieList();
+          }
+        });
+      }
+      if (!this.editMode) {
+        this.MoviesService.Submit(payload).subscribe({
+          next: (response) => {
+            this.toastr.showSuccess(
+              'Movie is added successfully',
+              'Movie data'
+            );
+            this.display = false;
+            this.getMovieList();
+          },
+          error: (error) => {
+            this.display = false;
+            this.getMovieList();
+            alert(error.error.message);
+            console.log(error.error.message);
+            this.toastr.showWarning('Something going wrong', 'Please check');
+            this.display = false;
+            this.getMovieList();
+          },
+          complete: () => {},
+        });
+      }
     }
   }
   updateMoviePoster(id) {

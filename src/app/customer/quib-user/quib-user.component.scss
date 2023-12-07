@@ -48,6 +48,13 @@ th {
     height: auto;
 }
 
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  z-index: 9;
+}
+
 :host ::ng-deep .multiselect-custom {
     .p-multiselect-label {
         padding-top: .5rem;
@@ -100,6 +107,14 @@ th {
   transition: color 0.3s ease, text-decoration 0.3s ease;
 }
 
+.disabled-option{
+  color:#aaa;
+  cursor:not-allowed;
+
+}
+.movie-option {
+  cursor: not-allowed;
+}
 
 // .sticky-table-head {
 //   position: sticky;

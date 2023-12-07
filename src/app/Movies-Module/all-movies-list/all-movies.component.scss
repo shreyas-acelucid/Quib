@@ -8,6 +8,13 @@
   justify-content: center;
 }
 
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  z-index: 9;
+}
+
 :host ::ng-deep .p-dialog .p-button {
   min-width: 6rem;
 }
@@ -36,3 +43,4 @@ td {
   max-width: 20rem;
   height: auto;
 }
+

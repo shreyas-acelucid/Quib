@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
             this.router.navigateByUrl('/login');
             this.toastr.showError('Login failed', 'Login');
           } else {
-            localStorage.setItem('token', res.token);
+            //localStorage.setItem('token', res.token);
             if (this.CommonService.getMovieSearchWord() != null) {
               this.MoviesService.MovieSearchKeyWord.next(
                 this.CommonService.getMovieSearchWord()
@@ -85,6 +85,11 @@ export class LoginComponent implements OnInit {
           this.toastr.showError(errorMessage, 'Login Failed');
         }
       );
+  }
+
+  redirectToForgotPassword() {
+    window.location.href =
+      'http://44.211.90.48/Identity/Account/ForgotPassword';
   }
 
   ngOnInit(): void {}

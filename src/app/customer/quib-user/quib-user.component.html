@@ -38,7 +38,7 @@
               type="text"
               id="Gsearch"
               [value]="SearchKeyWord.Gsearch"
-              placeholder="Search by name/email"
+              placeholder="Search..."
               (input)="FilterGlobal($event, 'contains')"
             />
           </div>
@@ -248,9 +248,7 @@
               </button>
             </div>
           </td>
-          <td
-            *ngIf="shouldDisplayColumn('Moderator Movies') && user.isModerator"
-          >
+          <td *ngIf="shouldDisplayColumn('M Movies') && user.isModerator">
             <a
               style="color: blue; cursor: pointer"
               (click)="
@@ -266,9 +264,7 @@
               >M Movies</a
             >
           </td>
-          <td
-            *ngIf="shouldDisplayColumn('Moderator Movies') && !user.isModerator"
-          >
+          <td *ngIf="shouldDisplayColumn('M Movies') && !user.isModerator">
             M Movies
           </td>
           <td *ngIf="shouldDisplayColumn('CUR')">{{ user.curatorScore }}</td>
@@ -370,23 +366,13 @@
                 <div class="card-body">
                   <div class="row gutters">
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                      <label for="FirstName"> Movies List </label>
-                      <p-multiSelect
-                        [options]="moviesList"
-                        optionLabel="title"
-                        [virtualScroll]="true"
-                        formControlName="selectedMovies"
-                        display="chip"
-                        defaultLabel="Select Movies"
-                      ></p-multiSelect>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                       <div class="form-group">
                         <label for="FirstName"> Moderator User List </label>
                         <select
                           class="form-control"
                           formControlName="user"
                           placeholder="Select User"
+                          (change)="onSelectedModeratorChange($event)"
                         >
                           <option
                             *ngFor="let item of Approved_UserList"
@@ -396,6 +382,32 @@
                           </option>
                         </select>
                       </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <label for="FirstName"> Movies List </label>
+                      <p-multiSelect
+                        [options]="moviesList"
+                        optionLabel="title"
+                        [virtualScroll]="true"
+                        formControlName="selectedMovies"
+                        display="chip"
+                        defaultLabel="Select Movies"
+                        ><ng-template let-movie pTemplate="item">
+                          <div
+                            [ngClass]="{
+                              'disabled-option': isOptionDisabled(movie)
+                            }"
+                            [attr.disabled]="
+                              isOptionDisabled(movie) ? true : null
+                            "
+                            [attr.readOnly]="
+                              isOptionDisabled(movie) ? true : null
+                            "
+                          >
+                            {{ movie.title }}
+                          </div>
+                        </ng-template></p-multiSelect
+                      >
                     </div>
                   </div>
                   <div class="row gutters mt-4">
@@ -433,7 +445,7 @@
         </div>
       </form>
     </ng-container>
-    <ng-container *ngIf="MoVList && userMovieList.length > 0">
+    <!-- <ng-container *ngIf="MoVList && userMovieList.length > 0">
       <div *ngFor="let item of userMovieList">
         <p-card class="m-5">
           <div class="row gutters">
@@ -464,6 +476,31 @@
           </div>
         </p-card>
       </div>
+    </ng-container> -->
+
+    <ng-container *ngIf="MoVList && userMovieList.length > 0">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Movie Name</th>
+            <th>Total No of Quib</th>
+            <th>Total No of Rated Quib</th>
+            <th>AVR Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of userMovieList; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td (click)="AdminQuib(item?.movieId)" style="cursor: pointer">
+              {{ item?.movieName }}
+            </td>
+            <td>{{ item?.totalQuibByMovieId }}</td>
+            <td>{{ item?.ratedQuibByMovieId }}</td>
+            <td>{{ item?.averageRatingByMovieId }}</td>
+          </tr>
+        </tbody>
+      </table>
     </ng-container>
 
     <ng-container *ngIf="MoVList && userMovieList.length == 0">
@@ -471,40 +508,49 @@
     </ng-container>
 
     <ng-container *ngIf="ModeratorMovies && moderatorMovieList.length > 0">
-      <div *ngFor="let item of moderatorMovieList">
-        <p-card class="m-5">
-          <div class="row gutters">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-              <strong class="heading-section">Movie Name</strong> =><span
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Movie Name</th>
+            <th>Assigned Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of moderatorMovieList; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>
+              <span
                 class="content-data movie-content"
                 (click)="AdminQuib(item?.movieId)"
                 style="cursor: pointer"
-                >{{ item?.title }}</span
               >
-              <br />
-              <strong class="heading-section">Assigned Date</strong> =><span
-                class="content-data"
-                >{{ getFormattedDate(item?.createdDate) }}</span
-              >
-              <br />
-            </div>
-            <div
-              class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-              style="text-align: center"
-            >
+                {{ item?.title }}
+              </span>
+            </td>
+            <td>{{ getFormattedDate(item?.createdDate) }}</td>
+            <td style="text-align: center">
               <button
                 pButton
                 type="button"
-                class="p-button-danger mr-4"
+                class="p-button-danger"
                 (click)="removeMovieFromModerator(item.id, item.userId)"
               >
                 Remove
               </button>
-            </div>
-          </div>
-        </p-card>
-      </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <p-paginator
+        [rows]="rowsPerPage"
+        [totalRecords]="moderatorMovieList.length"
+        (onPageChange)="onPageChange($event)"
+      >
+      </p-paginator> -->
     </ng-container>
+
     <ng-container *ngIf="ModeratorMovies && moderatorMovieList.length == 0">
       <h1 class="NoRecord">Sorry No Data Found</h1>
     </ng-container>

@@ -5,16 +5,14 @@ import { SharedModule } from '../shared/shared.module';
 import { SharedModule as SharedImportsModule } from '../_modules/shared.module';
 import { AngularMaterialModule } from '../_modules/angular-material.module';
 import { QuibUserComponent } from './quib-user/quib-user.component';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {MultiSelectModule} from 'primeng/multiselect';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
-import {TableModule} from 'primeng/table';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TableModule } from 'primeng/table';
 import { MatTableModule } from '@angular/material/table';
+import { PaginatorModule } from 'primeng/paginator';
 @NgModule({
-  declarations: [
-   QuibUserComponent,
-    
-  ],
+  declarations: [QuibUserComponent],
   imports: [
     CommonModule,
     CustomerRoutingModule,
@@ -26,8 +24,8 @@ import { MatTableModule } from '@angular/material/table';
     FormsModule,
     ReactiveFormsModule,
     TableModule,
-    MatTableModule
-  ]
+    MatTableModule,
+    PaginatorModule,
+  ],
 })
-
-export class CustomerModule { }
+export class CustomerModule {}

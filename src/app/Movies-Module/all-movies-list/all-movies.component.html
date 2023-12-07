@@ -6,6 +6,7 @@
       #AllMovieTable
       [columns]="cols"
       responsiveLayout="scroll"
+      scrollHeight="70vh"
       [paginator]="true"
       [rows]="20"
       [rowsPerPageOptions]="[20, 50, 100]"
@@ -91,10 +92,10 @@
             {{ col.headers }}
             <p-sortIcon [field]="col.field"></p-sortIcon>
           </th>
-          <th pResizableColumn>Options</th>
+          <th pResizableColumn>Action</th>
         </tr>
 
-        <tr>
+        <!-- <tr>
           <ng-container *ngIf="filteredCols.length === 0; else colsTemplate">
             <th pResizableColumn></th>
             <th pResizableColumn *ngFor="let col of cols"></th>
@@ -106,7 +107,7 @@
           <th pResizableColumn></th>
           <th pResizableColumn *ngFor="let col of filteredCols"></th>
           <th pResizableColumn></th>
-        </ng-template>
+        </ng-template> -->
 
         <!-- <tr>
 					<th pResizableColumn>
@@ -189,7 +190,7 @@
             <img
               [src]="moviesList?.posterContentThumb"
               class="form-control"
-              style="width: 90%; height: 8vh; cursor: pointer"
+              style="width: 90%; height: auto; max-height: 8vh; cursor: pointer"
               (click)="updateMoviePoster(moviesList?.id)"
             />
           </td>

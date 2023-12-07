@@ -50,7 +50,9 @@ export class QuibUserComponent implements OnInit {
   showPopup: boolean = false;
   moderatorMovieList: MODERATOR_MOVIE_LIST[] = [];
   ModeratorMovies: boolean = false;
-
+  pagedModeratorMovieList: any[] = [];
+  currentPage = 1;
+  rowsPerPage = 10;
   userId: string;
 
   styleValue: STYLE_VALUE = {
@@ -71,7 +73,7 @@ export class QuibUserComponent implements OnInit {
     this.quibUserForm = this.fb.group({
       curator: ['', [Validators.required]],
       user: ['', [Validators.required]],
-      selectedMovies: new FormControl([]),
+      selectedMovies: new FormControl([], Validators.required),
     });
     this.columnSelectorForm = this.fb.group({
       selectedColumns: new FormControl([]),
@@ -311,25 +313,36 @@ export class QuibUserComponent implements OnInit {
   }
 
   AssignMovieToModeratorUser() {
-    this.ngxLoader.start();
-    this.display = false;
     this.quibUserForm.controls['selectedMovies'].value.map((item) => {
       return this.movieId.push(item.id);
     });
-    const payload = {
-      UserId: this.quibUserForm.controls['user'].value,
-      movieIds: this.movieId,
-    };
-    this.QuibService.AssignMovieToModeratorUser(payload).subscribe((res) => {
-      if (res) {
-        this.toastr.showSuccess(
-          'Movies Assigned to  Moderator user  successfully',
-          'Moderator user'
-        );
+    if (this.movieId.length == 0 || !this.quibUserForm.controls['user'].value) {
+      this.toastr.showWarning(
+        'Please fill out all the fields before submitting the form',
+        'Form incomplete'
+      );
+    } else {
+      const payload = {
+        UserId: this.quibUserForm.controls['user'].value,
+        movieIds: this.movieId,
+      };
+      this.QuibService.AssignMovieToModeratorUser(payload).subscribe((res) => {
+        this.ngxLoader.start();
         this.display = false;
-        this.getUserList();
-      }
-    });
+        if (res) {
+          this.toastr.showSuccess(
+            'Movies Assigned to Moderator user successfully',
+            'Moderator user'
+          );
+          this.display = false;
+          this.movieId = [];
+          this.quibUserForm.controls['user'].setValue(
+            this.quibUserForm.controls['user'].value
+          );
+          this.getUserList();
+        }
+      });
+    }
   }
   getMovieList() {
     this.MoviesService.getMovieList().subscribe((res) => {
@@ -425,10 +438,42 @@ export class QuibUserComponent implements OnInit {
     });
   }
 
+  onSelectedModeratorChange(event: any): void {
+    const moderatorId = event.target.value;
+    this.getModeratorMovieList(moderatorId);
+  }
+
   getModeratorMovieList(userId: string) {
     this.userId = userId;
     this.QuibService.getModeratorMovies(userId).subscribe((res) => {
       this.moderatorMovieList = res;
     });
+    // const startIndex = (this.currentPage - 1) * this.rowsPerPage;
+    // const endIndex = startIndex + this.rowsPerPage;
+    // this.pagedModeratorMovieList = this.moderatorMovieList.slice(
+    //   startIndex,
+    //   endIndex
+    // );
+  }
+
+  isOptionDisabled(movie: any): boolean {
+    var isDisabled: boolean = this.moderatorMovieList.some(
+      (moderatorMovie) => moderatorMovie.movieId === movie.id
+    );
+    return isDisabled;
+  }
+
+  updatePagedModeratorMovieList(): void {
+    const startIndex = (this.currentPage - 1) * this.rowsPerPage;
+    const endIndex = startIndex + this.rowsPerPage;
+    this.pagedModeratorMovieList = this.moderatorMovieList.slice(
+      startIndex,
+      endIndex
+    );
+  }
+
+  onPageChange(event: any): void {
+    this.currentPage = event.page + 1;
+    this.updatePagedModeratorMovieList();
   }
 }

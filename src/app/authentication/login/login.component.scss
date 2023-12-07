@@ -77,3 +77,14 @@ mat-form-field {
     font-size: 1rem;
   }
 }
+
+.forgot-password-link {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.forgot-password-link:hover {
+  color: #ffffff; 
+}
+
