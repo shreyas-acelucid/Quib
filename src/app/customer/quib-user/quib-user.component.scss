@@ -53,7 +53,19 @@ th {
   position: sticky;
   top: 0px;
   z-index: 9;
+  
 }
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th,
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  max-width: 500px !important; 
+  overflow: hidden;
+  white-space: normal;
+  word-wrap: break-word;
+  width: 100% !important; 
+}
+
+
 
 :host ::ng-deep .multiselect-custom {
     .p-multiselect-label {
