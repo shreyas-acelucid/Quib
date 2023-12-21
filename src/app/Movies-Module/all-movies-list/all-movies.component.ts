@@ -340,7 +340,7 @@ export class AllMoviesComponent implements OnInit {
     }
   }
   updateMoviePoster(id) {
-    this.headerMessage = 'upLoad Movie Poster';
+    this.headerMessage = 'Upload Movie Poster';
     this.addEditMovie = false;
     this.moviePoster = true;
     this.screenshot = false;
@@ -352,27 +352,37 @@ export class AllMoviesComponent implements OnInit {
     this.posterContentThumb = moviesData[0].posterContentThumb;
     this.display = true;
   }
+  
   submitMoviePosterData() {
-    this.display = false;
-    const payload = {
-      id: this.PosterForm.controls['id'].value,
-      PosterImage: this.image,
-    };
-    this.ngxLoader.start();
-    this.MoviesService.submitMoviePosterData(payload).subscribe((res) => {
-      if (res) {
-        this.toastr.showSuccess(
-          ' Movie poster is updated successfully',
-          'movie poster'
-        );
-        this.display = false;
-        this.getMovieList();
-      } else {
-        this.toastr.showSuccess('somthing going wrong', 'please check');
-        this.display = false;
-        this.getMovieList();
-      }
-    });
+    const id = this.PosterForm.controls['id'].value;
+    const image = this.image;
+    if (!id || !image) {
+      this.toastr.showWarning(
+        'Please fill out all the fields before submitting the form',
+        'Form incomplete'
+      );
+    } else {
+      const payload = {
+        id: id,
+        PosterImage: image,
+      };
+      this.display = false;
+      this.ngxLoader.start();
+      this.MoviesService.submitMoviePosterData(payload).subscribe((res) => {
+        if (res) {
+          this.toastr.showSuccess(
+            'Movie poster is updated successfully',
+            'Movie poster'
+          );
+          this.display = false;
+          this.getMovieList();
+        } else {
+          this.toastr.showSuccess('somthing going wrong', 'please check');
+          this.display = false;
+          this.getMovieList();
+        }
+      });
+    }
   }
 
   ngOnDestroy(): void {
