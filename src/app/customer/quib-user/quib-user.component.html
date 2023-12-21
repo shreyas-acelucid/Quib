@@ -305,9 +305,6 @@
             (mouseleave)="showPopup = false"
           >
             {{ user.about }}
-            <div *ngIf="showPopup" class="popup">
-              <div class="popup-content">{{ user.about }}</div>
-            </div>
           </td>
           <td *ngIf="shouldDisplayColumn('Action')">
             <div class="btn-grp">
@@ -359,7 +356,7 @@
   >
     <ng-container *ngIf="AssignToModerator">
       <form [formGroup]="quibUserForm">
-        <div class="card col-sm-12" style="height: 70vh">
+        <div class="card col-sm-12" style="height: 40vh">
           <div class="row gutters">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
               <div class="h-100 mt-5">
@@ -445,38 +442,6 @@
         </div>
       </form>
     </ng-container>
-    <!-- <ng-container *ngIf="MoVList && userMovieList.length > 0">
-      <div *ngFor="let item of userMovieList">
-        <p-card class="m-5">
-          <div class="row gutters">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-              <strong class="heading-section">Movie Name</strong> =><span
-                class="content-data"
-                (click)="AdminQuib(item?.movieId)"
-                style="cursor: pointer"
-                >{{ item?.movieName }}</span
-              >
-              <br />
-              <strong class="heading-section">Total No of Quib</strong> =><span
-                class="content-data"
-                >{{ item?.totalQuibByMovieId }}</span
-              >
-              <br />
-            </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-              <strong class="heading-section">Total No of Rated Quib</strong>
-              =><span class="content-data">{{ item?.ratedQuibByMovieId }}</span>
-              <br />
-              <strong class="heading-section">AVR Rating</strong> =><span
-                class="content-data"
-                >{{ item?.averageRatingByMovieId }}</span
-              >
-              <br />
-            </div>
-          </div>
-        </p-card>
-      </div>
-    </ng-container> -->
 
     <ng-container *ngIf="MoVList && userMovieList.length > 0">
       <table class="table">

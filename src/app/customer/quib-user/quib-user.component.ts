@@ -103,8 +103,8 @@ export class QuibUserComponent implements OnInit {
       { field: 'followeeCount', show: true, headers: 'FNG' },
       { field: 'followerCount', show: true, headers: 'FRS' },
       { field: 'unPostedQuibsCount', show: true, headers: 'UNP' },
-      { field: 'status', show: true, headers: 'Status' },
-      { field: 'IsModerator', show: true, headers: 'IsModerator' },
+      { field: 'isPending', show: true, headers: 'Status' },
+      { field: 'isModerator', show: true, headers: 'IsModerator' },
       { field: 'ModeratorMovies', show: true, headers: 'M Movies' },
       { field: 'curatorScore', show: true, headers: 'CUR' },
       { field: 'ccp', show: true, headers: 'CCP' },
@@ -116,7 +116,7 @@ export class QuibUserComponent implements OnInit {
       { field: 'bumpCount', show: true, headers: 'B-OUT' },
       { field: 'totalFlagReceived', show: true, headers: 'FLAGE' },
       { field: 'about', show: true, headers: 'PERS' },
-      { field: 'Action', show: true, headers: 'Action' },
+      { field: 'isDeleted', show: true, headers: 'Action' },
     ];
     this.colsOptions = this.cols.map((col) => ({
       label: col.headers,
@@ -441,6 +441,7 @@ export class QuibUserComponent implements OnInit {
   onSelectedModeratorChange(event: any): void {
     const moderatorId = event.target.value;
     this.getModeratorMovieList(moderatorId);
+    this.ModeratorMovies = true;
   }
 
   getModeratorMovieList(userId: string) {
