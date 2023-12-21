@@ -41,6 +41,12 @@ td {
   display: flex
 }
 
+:host ::ng-deep .p-dropdown {
+  min-width: 12rem;
+  max-width: 12rem;
+  height: auto;
+}
+
 // .table-max-width th,
 // .table-max-width td{
 //   max-width: 200px;
