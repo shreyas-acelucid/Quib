@@ -241,7 +241,7 @@ export class AllMoviesComponent implements OnInit {
 
   redirectToAdminSS(movieId: any, movieTitle: any) {
     const url = `/Movies/admin-screenshots/${movieId}/${movieTitle}`;
-    window.open(url, '_blank');
+    this.router.navigate([url]);
   }
 
   markAsActive(id: number, Status: boolean) {
