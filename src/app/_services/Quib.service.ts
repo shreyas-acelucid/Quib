@@ -205,4 +205,19 @@ export class QuibService {
     const endpointUrl = `${environment.QUIB_ADMIN}/removeAssignedMovies?moderatorId=${moderatorId}`;
     return this.http.post(endpointUrl, null);
   }
+
+  async getAdminScreenshots(movieId) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/GetAdminScreenshots?movieId=${movieId}`;
+    return this.http.get(endpointUrl);
+  }
+
+  async updateIsSelected(QuibId: number, checked: boolean) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/updateIsSelected?quibId=${QuibId}&IsSelected=${checked}`;
+    return this.http.put(endpointUrl, null);
+  }
+
+  async getSelectedScreenshots(movieId, status) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/fetchScreenshotsBySelectedStatus?movieId=${movieId}&isSelected=${status}`;
+    return this.http.get(endpointUrl);
+  }
 }

@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthenticationComponent } from './authentication/authentication/authentication.component';
-import { AuthGuardService as AuthGuard} from './_services/auth-guard.service';
+import { AuthGuardService as AuthGuard } from './_services/auth-guard.service';
 
 const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((mod) => mod.DashboardModule),
-     //canActivate: [AuthGuard]
+    //canActivate: [AuthGuard]
   },
   {
     path: 'customer',
     loadChildren: () =>
       import('./customer/customer.module').then((mod) => mod.CustomerModule),
-     //canActivate: [AuthGuard]
+    //canActivate: [AuthGuard]
   },
   {
     path: 'Quib',
@@ -28,13 +28,12 @@ const routes: Routes = [
   },
 
   { path: '', component: AuthenticationComponent },
-  { path: '',   redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
- 
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

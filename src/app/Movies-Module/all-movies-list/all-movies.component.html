@@ -194,7 +194,7 @@
               (click)="updateMoviePoster(moviesList?.id)"
             />
           </td>
-          <td
+          <!-- <td
             *ngIf="shouldDisplayColumn('ScreenShot')"
             (click)="
               [
@@ -207,6 +207,14 @@
             "
           >
             <a style="color: blue; cursor: pointer">Screen_Shot</a>
+          </td> -->
+          <td
+            *ngIf="shouldDisplayColumn('admin-ss')"
+            (click)="redirectToAdminSS(moviesList.id, moviesList.title)"
+          >
+            <a style="color: blue; cursor: pointer" target="_blank"
+              >ScreenShots</a
+            >
           </td>
           <td>
             <div class="btn-grp">

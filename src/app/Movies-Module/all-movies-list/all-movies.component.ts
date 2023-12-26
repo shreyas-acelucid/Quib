@@ -10,6 +10,7 @@ import { ConfirmationService } from 'primeng/api';
 import { CommonService } from 'src/app/_services/common';
 import { FormControl } from '@angular/forms';
 import { Dir } from '@angular/cdk/bidi';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-all-movies',
   templateUrl: './all-movies.component.html',
@@ -49,7 +50,8 @@ export class AllMoviesComponent implements OnInit {
     private MoviesService: MoviesService,
     private CommonService: CommonService,
     private confirmationService: ConfirmationService,
-    private toastr: ToastrMsgService
+    private toastr: ToastrMsgService,
+    private router: Router
   ) {
     this.AllMoviesForm = this.fb.group({
       id: [''],
@@ -84,7 +86,8 @@ export class AllMoviesComponent implements OnInit {
       { field: 'length', show: true, headers: 'Length' },
       { field: 'isActive', show: true, headers: 'Status' },
       { field: 'posterContentThumb', show: true, headers: 'Movie Poster' },
-      { field: 'screenshot', show: true, headers: 'ScreenShot' },
+      //{ field: 'screenshot', show: true, headers: 'ScreenShot' },
+      { field: 'admin-ss', show: true, headers: 'Screenshots' },
     ];
     this.MoviesService.MovieSearchKeyWord.subscribe((res) => {
       this.MovieSearchKeyWord = res;
@@ -235,6 +238,12 @@ export class AllMoviesComponent implements OnInit {
       },
     });
   }
+
+  redirectToAdminSS(movieId: any, movieTitle: any) {
+    const url = `/Movies/admin-screenshots/${movieId}/${movieTitle}`;
+    window.open(url, '_blank');
+  }
+
   markAsActive(id: number, Status: boolean) {
     if (Status) {
       this.message = 'Are you sure that you want to mark as Active';
@@ -352,7 +361,7 @@ export class AllMoviesComponent implements OnInit {
     this.posterContentThumb = moviesData[0].posterContentThumb;
     this.display = true;
   }
-  
+
   submitMoviePosterData() {
     const id = this.PosterForm.controls['id'].value;
     const image = this.image;
