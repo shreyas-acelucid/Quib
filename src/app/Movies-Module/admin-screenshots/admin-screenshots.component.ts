@@ -6,6 +6,8 @@ import { ThemePalette } from '@angular/material/core';
 import { error } from 'console';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-admin-screenshots',
@@ -21,13 +23,40 @@ export class AdminScreenshotsComponent implements OnInit {
   color: ThemePalette = 'accent';
   serverBaseUrl: string = 'http://44.211.90.48/';
   private pageX: number;
+  timeRangeSelectionForm = new FormGroup({});
+  timeRangeSelector: boolean = false;
+  display: boolean = false;
+  message: string = '';
+  image: File;
+  screenShotImage: any = undefined;
+  AddScreenshot: boolean = false;
+  AddScreenshotForm = new FormGroup({});
+  posterContentThumb: any = undefined;
 
   constructor(
+    private ngxLoader: NgxUiLoaderService,
     private QuibService: QuibService,
     private route: ActivatedRoute,
     private renderer: Renderer2,
-    private toastr: ToastrMsgService
-  ) {}
+    private toastr: ToastrMsgService,
+    private fb: FormBuilder
+  ) {
+    this.timeRangeSelectionForm = this.fb.group({
+      fromHours: ['', [Validators.required]],
+      fromMinutes: ['', [Validators.required]],
+      fromSeconds: ['', [Validators.required]],
+      toHours: ['', [Validators.required]],
+      toMinutes: ['', [Validators.required]],
+      toSeconds: ['', [Validators.required]],
+    });
+    this.AddScreenshotForm = this.fb.group({
+      posterContentThumb: ['', [Validators.required]],
+      posterContent: ['', [Validators.required]],
+      hours: ['', [Validators.required]],
+      minutes: ['', [Validators.required]],
+      seconds: ['', [Validators.required]],
+    });
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -58,6 +87,7 @@ export class AdminScreenshotsComponent implements OnInit {
   }
 
   async getAdminScreenshots() {
+    this.ngxLoader.start();
     (await this.QuibService.getAdminScreenshots(this.movieId)).subscribe({
       next: (response: any[]) => {
         this.allScreenshots = response;
@@ -65,10 +95,12 @@ export class AdminScreenshotsComponent implements OnInit {
           'All screenshots fetched successfully',
           'Screenshots'
         );
+        this.ngxLoader.stop();
       },
       error: (error) => {
         console.log(error);
         console.log(error.error.message);
+        this.ngxLoader.stop();
       },
       complete: () => {},
     });
@@ -151,6 +183,106 @@ export class AdminScreenshotsComponent implements OnInit {
             'Screenshots'
           );
         }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {},
+    });
+  }
+
+  async fetchScreenshotsbyTime() {
+    const fromHours: number =
+      this.timeRangeSelectionForm.controls['fromHours'].value;
+    const toHours: number =
+      this.timeRangeSelectionForm.controls['toHours'].value;
+    const fromMinutes: number =
+      this.timeRangeSelectionForm.controls['fromMinutes'].value;
+    const toMinutes: number =
+      this.timeRangeSelectionForm.controls['toMinutes'].value;
+    const fromseconds: number =
+      this.timeRangeSelectionForm.controls['fromSeconds'].value;
+    const toSeconds: number =
+      this.timeRangeSelectionForm.controls['toSeconds'].value;
+
+    // if (
+    //   !fromHours ||
+    //   !toHours ||
+    //   !fromMinutes ||
+    //   !toMinutes ||
+    //   !fromseconds ||
+    //   !toSeconds
+    // ) {
+    //   this.toastr.showWarning(
+    //     'Please fill out all the fields before submitting',
+    //     'Oops!'
+    //   );
+    // } else {
+    const fromTime = fromHours * 3600 + fromMinutes * 60 + fromseconds;
+    const toTime = toHours * 3600 + toMinutes * 60 + toSeconds;
+
+    if (fromTime > toTime) {
+      this.toastr.showError('From Time should be less than To time', 'Oops!');
+    } else {
+      this.display = false;
+      this.timeRangeSelector = false;
+      (
+        await this.QuibService.fetchScreenshotsByTimeRange(
+          this.movieId,
+          fromTime,
+          toTime
+        )
+      ).subscribe({
+        next: (response: any[]) => {
+          this.allScreenshots = response;
+          this.toastr.showSuccess(
+            'Screenshots fetched for a particular time range',
+            'Screenshots'
+          );
+        },
+        error: (error) => {
+          console.log(error);
+        },
+        complete: () => {},
+      });
+      //}
+    }
+  }
+
+  OnchangeScreenShot(event) {
+    var reader = new FileReader();
+    this.image = event.target.files[0];
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = (data) => {
+      this.screenShotImage = data.target.result;
+    };
+  }
+
+  async SubmitScreenshots() {
+    const hours = this.AddScreenshotForm.controls['hours'].value;
+    const minutes = this.AddScreenshotForm.controls['minutes'].value;
+    const seconds = this.AddScreenshotForm.controls['seconds'].value;
+
+    const time = hours * 3600 + minutes * 60 + seconds;
+    const ScreenShotImage = this.image;
+
+    // const payload = {
+    //   MovieId: this.movieId,
+    //   Screenshot: ScreenShotImage,
+    //   UserId: 'a6ec419c-e8c4-48f9-874a-6f1eb9421464',
+    //   Time: time,
+    // };
+
+    const formData = new FormData();
+    formData.append('MovieId', this.movieId.toString());
+    formData.append('Screenshot', ScreenShotImage);
+    formData.append('UserId', 'a6ec419c-e8c4-48f9-874a-6f1eb9421464');
+    formData.append('Time', time.toString());
+    this.display = false;
+    this.AddScreenshot = false;
+    (await this.QuibService.addScreenShots(formData)).subscribe({
+      next: (response: any) => {
+        this.toastr.showSuccess(`${response.message}`, 'Screenshot');
       },
       error: (error) => {
         console.log(error);

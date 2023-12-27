@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of, BehaviorSubject, endWith } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
   QUIB_USER,
@@ -219,5 +219,15 @@ export class QuibService {
   async getSelectedScreenshots(movieId, status) {
     const endpointUrl = `${environment.QUIB_ADMIN}/fetchScreenshotsBySelectedStatus?movieId=${movieId}&isSelected=${status}`;
     return this.http.get(endpointUrl);
+  }
+
+  async fetchScreenshotsByTimeRange(movieId, fromTime, toTime) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/fetchScreenshotsByTimeRange?movieId=${movieId}&startTime=${fromTime}&endTime=${toTime}`;
+    return this.http.get(endpointUrl);
+  }
+
+  async addScreenShots(payload) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/api/QuibStream/UpdateScreenshot`;
+    return this.http.post(endpointUrl, payload);
   }
 }

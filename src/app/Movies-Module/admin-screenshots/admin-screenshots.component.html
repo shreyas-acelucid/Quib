@@ -4,15 +4,37 @@
   </div>
 
   <div id="navbar">
-    <a style="cursor: pointer">Upload</a>
+    <a
+      style="cursor: pointer"
+      (click)="
+        [
+          (display = true),
+          (AddScreenshot = true),
+          (timeRangeSelector = false),
+          (message = 'Upload ScreenShot')
+        ]
+      "
+      >Upload</a
+    >
     <a (click)="getAdminScreenshots()" style="cursor: pointer">Show all</a>
     <a (click)="getSelectedScreenshots()" style="cursor: pointer"
-      >Show selected</a
+      >Show Selected</a
     >
     <a (click)="getUnSelectedScreenshots()" style="cursor: pointer"
       >Show Unselected</a
     >
-    <a style="cursor: pointer">Select Time Range</a>
+    <a
+      style="cursor: pointer"
+      (click)="
+        [
+          (display = true),
+          (timeRangeSelector = true),
+          (AddScreenshot = false),
+          (message = 'Select Time Range')
+        ]
+      "
+      >Select Time Range</a
+    >
   </div>
 
   <div class="main-container">
@@ -40,3 +62,258 @@
   </div>
   <footer></footer>
 </body>
+<p-dialog
+  [(visible)]="display"
+  [modal]="true"
+  [header]="message"
+  [style]="{ width: '50vw', height: '77vh' }"
+  position="top"
+  [baseZIndex]="10000"
+>
+  <ng-container *ngIf="timeRangeSelector">
+    <form [formGroup]="timeRangeSelectionForm">
+      <div class="card col-sm-12" style="height: 58vh">
+        <div class="row gutters">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="h-100 mt-5">
+              <div class="card-body">
+                <div class="row gutters">
+                  <div
+                    class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+                    style="margin-right: 350px"
+                  >
+                    <h5>From:</h5>
+                    <div class="row gutters">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                          <label for="Name">HH</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Hours"
+                            formControlName="fromHours"
+                            style="width: 7vw"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                          <label for="Name">MM</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Minutes"
+                            formControlName="fromMinutes"
+                            style="width: 7vw"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                          <label for="Name">SS</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Seconds"
+                            formControlName="fromSeconds"
+                            style="width: 7vw"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <h5>To:</h5>
+                    <div class="row gutters">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                          <label for="Name">HH</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Hours"
+                            formControlName="toHours"
+                            style="width: 7vw"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                          <label for="Name">MM</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Minutes"
+                            formControlName="toMinutes"
+                            style="width: 7vw"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                          <label for="Name">SS</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Seconds"
+                            formControlName="toSeconds"
+                            style="width: 7vw"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row gutters mt-4">
+                  <div
+                    class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
+                  >
+                    <div class="text-right">
+                      <button
+                        pButton
+                        type="button"
+                        id="submit"
+                        name="submit"
+                        class="p-button-danger mr-4"
+                        (click)="display = false"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        pButton
+                        type="button"
+                        id="submit"
+                        name="submit"
+                        class="p-button-success"
+                        (click)="fetchScreenshotsbyTime()"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+
+  <ng-container *ngIf="AddScreenshot">
+    <form [formGroup]="AddScreenshotForm">
+      <div class="card col-sm-12" style="height: 55vh">
+        <div class="row gutters">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="h-100 mt-5">
+              <div class="card-body">
+                <div class="row gutters">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="row gutters">
+                      <div
+                        class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+                        style="margin-right: 540px"
+                      >
+                        <div class="form-group" style="margin-left: 10px">
+                          <h5>Screenshot:</h5>
+                          <input
+                            type="file"
+                            formControlName="posterContentThumb"
+                            class="form-control"
+                            (change)="OnchangeScreenShot($event)"
+                            style="width: 15vw"
+                          />
+                        </div>
+                      </div>
+
+                      <div
+                        class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+                        *ngIf="screenShotImage != undefined"
+                      >
+                        <div class="form-group">
+                          <img
+                            [src]="screenShotImage"
+                            class="form-control"
+                            style="width: 80%; height: 10vh; margin-left: 5px"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <h5>Time:</h5>
+                <div class="row gutters">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                      <label for="Name">HH</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Hours"
+                        formControlName="hours"
+                        style="width: 7vw"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                      <label for="Name">MM</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Minutes"
+                        formControlName="minutes"
+                        style="width: 7vw"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                      <label for="Name">SS</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Seconds"
+                        formControlName="seconds"
+                        style="width: 7vw"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row gutters mt-4">
+                  <div
+                    class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
+                  >
+                    <div class="text-right">
+                      <button
+                        pButton
+                        type="button"
+                        id="submit"
+                        name="submit"
+                        class="p-button-danger mr-4"
+                        (click)="display = false"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        pButton
+                        type="button"
+                        id="submit"
+                        name="submit"
+                        class="p-button-success"
+                        (click)="SubmitScreenshots()"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+</p-dialog>
