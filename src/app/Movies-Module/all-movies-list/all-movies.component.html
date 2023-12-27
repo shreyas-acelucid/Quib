@@ -207,7 +207,7 @@
             "
           >
             <a style="color: blue; cursor: pointer">Screen_Shot</a>
-          </td>
+          </td> -->
           <td
             *ngIf="shouldDisplayColumn('admin-ss')"
             (click)="redirectToAdminSS(moviesList.id, moviesList.title)"
@@ -254,366 +254,330 @@
   </div>
 
   <!--pop model edit movies  start from here ------>
-          <p-dialog
-            [(visible)]="display"
-            [modal]="true"
-            [header]="headerMessage"
-            [style]="{ width: '70vw', height: '100vh' }"
-            position="top"
-            [baseZIndex]="10000"
-          >
-            <ng-container *ngIf="addEditMovie">
-              <form [formGroup]="AllMoviesForm">
-                <div class="card col-sm-12" style="height: 100vh">
+  <p-dialog
+    [(visible)]="display"
+    [modal]="true"
+    [header]="headerMessage"
+    [style]="{ width: '70vw', height: '100vh' }"
+    position="top"
+    [baseZIndex]="10000"
+  >
+    <ng-container *ngIf="addEditMovie">
+      <form [formGroup]="AllMoviesForm">
+        <div class="card col-sm-12" style="height: 100vh">
+          <div class="row gutters">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="h-100 mt-5">
+                <div class="card-body">
                   <div class="row gutters">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                      <div class="h-100 mt-5">
-                        <div class="card-body">
-                          <div class="row gutters">
-                            <div
-                              class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                            >
-                              <div class="form-group">
-                                <label for="name">Title</label>
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  placeholder="Title"
-                                  formControlName="title"
-                                />
-                              </div>
-                            </div>
-                            <div
-                              class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                            >
-                              <div class="form-group">
-                                <label for="image">Director </label>
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  placeholder="Director"
-                                  formControlName="director"
-                                />
-                              </div>
-                            </div>
-                            <div
-                              class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                            >
-                              <div class="form-group">
-                                <label for="Name">Release Year</label>
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  placeholder="Release Year"
-                                  formControlName="releaseYear"
-                                />
-                              </div>
-                            </div>
-                            <div
-                              class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                            >
-                              <div class="row gutters">
-                                <div
-                                  class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                                >
-                                  <div class="form-group">
-                                    <label for="Name">Movie Poster</label>
-                                    <input
-                                      type="file"
-                                      formControlName="posterContentThumb"
-                                      class="form-control"
-                                      (change)="
-                                        OnChangePosterContentthumb($event)
-                                      "
-                                    />
-                                  </div>
-                                </div>
-
-                                <div
-                                  class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                                  *ngIf="posterContentThumb != undefined"
-                                >
-                                  <div class="form-group">
-                                    <img
-                                      [src]="posterContentThumb"
-                                      class="form-control"
-                                      style="width: 80%; height: 10vh"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div
-                              class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                            >
-                              <div class="row gutters">
-                                <div
-                                  class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12"
-                                >
-                                  <div class="form-group">
-                                    <label for="Name">HH</label>
-                                    <input
-                                      type="number"
-                                      class="form-control"
-                                      placeholder="Hours"
-                                      formControlName="hours"
-                                    />
-                                  </div>
-                                </div>
-                                <div
-                                  class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12"
-                                >
-                                  <div class="form-group">
-                                    <label for="Name">MM</label>
-                                    <input
-                                      type="number"
-                                      class="form-control"
-                                      placeholder="Minutes"
-                                      formControlName="minutes"
-                                    />
-                                  </div>
-                                </div>
-                                <div
-                                  class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12"
-                                >
-                                  <div class="form-group">
-                                    <label for="Name">SS</label>
-                                    <input
-                                      type="number"
-                                      class="form-control"
-                                      placeholder="Seconds"
-                                      formControlName="seconds"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="name">Title</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Title"
+                          formControlName="title"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="image">Director </label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Director"
+                          formControlName="director"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="Name">Release Year</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Release Year"
+                          formControlName="releaseYear"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="row gutters">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                          <div class="form-group">
+                            <label for="Name">Movie Poster</label>
+                            <input
+                              type="file"
+                              formControlName="posterContentThumb"
+                              class="form-control"
+                              (change)="OnChangePosterContentthumb($event)"
+                            />
                           </div>
+                        </div>
 
-                          <div class="row gutters mt-4">
-                            <div
-                              class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
-                            >
-                              <div class="text-right">
-                                <button
-                                  pButton
-                                  type="button"
-                                  id="submit"
-                                  name="submit"
-                                  class="p-button-danger mr-4"
-                                  (click)="display = false"
-                                >
-                                  Cancel
-                                </button>
-                                <button
-                                  pButton
-                                  type="button"
-                                  id="submit"
-                                  name="submit"
-                                  class="p-button-success"
-                                  (click)="Submit()"
-                                >
-                                  Submit
-                                </button>
-                              </div>
-                            </div>
+                        <div
+                          class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+                          *ngIf="posterContentThumb != undefined"
+                        >
+                          <div class="form-group">
+                            <img
+                              [src]="posterContentThumb"
+                              class="form-control"
+                              style="width: 80%; height: 10vh"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="row gutters">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                          <div class="form-group">
+                            <label for="Name">HH</label>
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Hours"
+                              formControlName="hours"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                          <div class="form-group">
+                            <label for="Name">MM</label>
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Minutes"
+                              formControlName="minutes"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                          <div class="form-group">
+                            <label for="Name">SS</label>
+                            <input
+                              type="number"
+                              class="form-control"
+                              placeholder="Seconds"
+                              formControlName="seconds"
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </form>
-            </ng-container>
-            <ng-container *ngIf="moviePoster">
-              <form [formGroup]="PosterForm">
-                <div class="card col-sm-12" style="height: 70vh">
-                  <div class="row gutters">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                      <div class="h-100 mt-5">
-                        <div class="card-body">
-                          <div class="row gutters">
-                            <div
-                              class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                            >
-                              <div class="form-group">
-                                <label for="name">Title</label>
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  placeholder="Title"
-                                  formControlName="title"
-                                />
-                              </div>
-                            </div>
-                            <div
-                              class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                            >
-                              <div class="row gutters">
-                                <div
-                                  class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                                >
-                                  <div class="form-group">
-                                    <label for="Name">Movie Poster</label>
-                                    <input
-                                      type="file"
-                                      formControlName="posterContentThumb"
-                                      class="form-control"
-                                      (change)="
-                                        OnChangePosterContentthumb($event)
-                                      "
-                                    />
-                                  </div>
-                                </div>
 
-                                <div
-                                  class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                                  *ngIf="posterContentThumb != undefined"
-                                >
-                                  <div class="form-group">
-                                    <img
-                                      [src]="posterContentThumb"
-                                      class="form-control"
-                                      style="width: 80%; height: 10vh"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                  <div class="row gutters mt-4">
+                    <div
+                      class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
+                    >
+                      <div class="text-right">
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-danger mr-4"
+                          (click)="display = false"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-success"
+                          (click)="Submit()"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+    <ng-container *ngIf="moviePoster">
+      <form [formGroup]="PosterForm">
+        <div class="card col-sm-12" style="height: 70vh">
+          <div class="row gutters">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="h-100 mt-5">
+                <div class="card-body">
+                  <div class="row gutters">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="name">Title</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Title"
+                          formControlName="title"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="row gutters">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                          <div class="form-group">
+                            <label for="Name">Movie Poster</label>
+                            <input
+                              type="file"
+                              formControlName="posterContentThumb"
+                              class="form-control"
+                              (change)="OnChangePosterContentthumb($event)"
+                            />
                           </div>
-                          <div class="row gutters mt-4">
-                            <div
-                              class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
-                            >
-                              <div class="text-right">
-                                <button
-                                  pButton
-                                  type="button"
-                                  id="submit"
-                                  name="submit"
-                                  class="p-button-danger mr-4"
-                                  (click)="display = false"
-                                >
-                                  Cancel
-                                </button>
-                                <button
-                                  pButton
-                                  type="button"
-                                  id="submit"
-                                  name="submit"
-                                  class="p-button-success"
-                                  (click)="submitMoviePosterData()"
-                                >
-                                  Submit
-                                </button>
-                              </div>
-                            </div>
+                        </div>
+
+                        <div
+                          class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+                          *ngIf="posterContentThumb != undefined"
+                        >
+                          <div class="form-group">
+                            <img
+                              [src]="posterContentThumb"
+                              class="form-control"
+                              style="width: 80%; height: 10vh"
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                  <div class="row gutters mt-4">
+                    <div
+                      class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
+                    >
+                      <div class="text-right">
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-danger mr-4"
+                          (click)="display = false"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-success"
+                          (click)="submitMoviePosterData()"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </form>
-            </ng-container>
-            <ng-container *ngIf="screenshot">
-              <form [formGroup]="PosterForm">
-                <div class="card col-sm-12" style="height: 70vh">
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+    <ng-container *ngIf="screenshot">
+      <form [formGroup]="PosterForm">
+        <div class="card col-sm-12" style="height: 70vh">
+          <div class="row gutters">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="h-100 mt-5">
+                <div class="card-body">
                   <div class="row gutters">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                      <div class="h-100 mt-5">
-                        <div class="card-body">
-                          <div class="row gutters">
-                            <div
-                              class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                            >
-                              <div class="form-group">
-                                <label for="name">Title</label>
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  placeholder="Title"
-                                  formControlName="title"
-                                />
-                              </div>
-                            </div>
-                            <div
-                              class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                            >
-                              <div class="row gutters">
-                                <div
-                                  class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                                >
-                                  <div class="form-group">
-                                    <label for="Name">Screenshot</label>
-                                    <input
-                                      type="file"
-                                      formControlName="posterContentThumb"
-                                      class="form-control"
-                                      (change)="OnchangeScreenShot($event)"
-                                    />
-                                  </div>
-                                </div>
-
-                                <div
-                                  class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                                  *ngIf="screenShotImage != undefined"
-                                >
-                                  <div class="form-group">
-                                    <img
-                                      [src]="screenShotImage"
-                                      class="form-control"
-                                      style="width: 80%; height: 10vh"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="form-group">
+                        <label for="name">Title</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Title"
+                          formControlName="title"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div class="row gutters">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                          <div class="form-group">
+                            <label for="Name">Screenshot</label>
+                            <input
+                              type="file"
+                              formControlName="posterContentThumb"
+                              class="form-control"
+                              (change)="OnchangeScreenShot($event)"
+                            />
                           </div>
-                          <div class="row gutters mt-4">
-                            <div
-                              class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
-                            >
-                              <div class="text-right">
-                                <button
-                                  pButton
-                                  type="button"
-                                  id="submit"
-                                  name="submit"
-                                  class="p-button-danger mr-4"
-                                  (click)="display = false"
-                                >
-                                  Cancel
-                                </button>
-                                <button
-                                  pButton
-                                  type="button"
-                                  id="submit"
-                                  name="submit"
-                                  class="p-button-success"
-                                  (click)="submitMoviePosterData()"
-                                >
-                                  Submit
-                                </button>
-                              </div>
-                            </div>
+                        </div>
+
+                        <div
+                          class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+                          *ngIf="screenShotImage != undefined"
+                        >
+                          <div class="form-group">
+                            <img
+                              [src]="screenShotImage"
+                              class="form-control"
+                              style="width: 80%; height: 10vh"
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                  <div class="row gutters mt-4">
+                    <div
+                      class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
+                    >
+                      <div class="text-right">
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-danger mr-4"
+                          (click)="display = false"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          pButton
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          class="p-button-success"
+                          (click)="submitMoviePosterData()"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </form>
-            </ng-container>
-          </p-dialog>
-          <!--pop model edit movies  end  from here ------>
-          <p-confirmDialog
-            header="Confirmation"
-            [style]="{ width: '40vw' }"
-            position="top"
-            [baseZIndex]="10000"
-            icon="pi pi-exclamation-triangle"
-          ></p-confirmDialog></tr></ng-template
-    ></p-table>
-  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </p-dialog>
+  <!--pop model edit movies  end  from here ------>
+  <p-confirmDialog
+    header="Confirmation"
+    [style]="{ width: '40vw' }"
+    position="top"
+    [baseZIndex]="10000"
+    icon="pi pi-exclamation-triangle"
+  ></p-confirmDialog>
 </div>
