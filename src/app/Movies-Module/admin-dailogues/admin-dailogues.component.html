@@ -1,0 +1,26 @@
+<body>
+  <div id="top-bar">
+    <h1>{{ movieTitle }} Dialogues</h1>
+  </div>
+
+  <div id="navbar">
+    <!-- <a style="cursor: pointer">Upload</a> -->
+  </div>
+
+  <div class="main-container">
+    <div class="main-container-inner">
+      <div class="main-div" *ngFor="let dialogue of allDialogues">
+        <div class="sub-div-1">
+          <div class="center-text">
+            <div class="timer-div">{{ getTime(dialogue.time) }}</div>
+          </div>
+          <!-- <div class="right-text">Toggle button</div> -->
+        </div>
+        <p style="margin-left: 8px; margin-top: 6px; margin-right: 8px">
+          {{ dialogue.body }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <footer></footer>
+</body>

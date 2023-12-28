@@ -88,6 +88,7 @@ export class AllMoviesComponent implements OnInit {
       { field: 'posterContentThumb', show: true, headers: 'Movie Poster' },
       //{ field: 'screenshot', show: true, headers: 'ScreenShot' },
       { field: 'admin-ss', show: true, headers: 'Screenshots' },
+      { field: 'dialogues', show: true, headers: 'Dialogues' },
     ];
     this.MoviesService.MovieSearchKeyWord.subscribe((res) => {
       this.MovieSearchKeyWord = res;
@@ -241,6 +242,11 @@ export class AllMoviesComponent implements OnInit {
 
   redirectToAdminSS(movieId: any, movieTitle: any) {
     const url = `/Movies/admin-screenshots/${movieId}/${movieTitle}`;
+    this.router.navigate([url]);
+  }
+
+  redirectToAdminDialogues(movieId: any, movieTitle: any) {
+    const url = `/Movies/admin-dailogues/${movieId}/${movieTitle}/`;
     this.router.navigate([url]);
   }
 

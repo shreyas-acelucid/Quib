@@ -216,6 +216,14 @@
               >ScreenShots</a
             >
           </td>
+          <td
+            *ngIf="shouldDisplayColumn('dialogues')"
+            (click)="redirectToAdminDialogues(moviesList.id, moviesList.title)"
+          >
+            <a style="color: blue; cursor: pointer" target="_blank"
+              >Dialogues</a
+            >
+          </td>
           <td>
             <div class="btn-grp">
               <button

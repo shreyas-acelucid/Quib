@@ -9,12 +9,14 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { AdminScreenshotsComponent } from './admin-screenshots/admin-screenshots.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AdminDailoguesComponent } from './admin-dailogues/admin-dailogues.component';
 
 @NgModule({
   declarations: [
     AllMoviesComponent,
     ActiveMoviesComponent,
     AdminScreenshotsComponent,
+    AdminDailoguesComponent,
   ],
   imports: [
     CommonModule,

@@ -266,13 +266,6 @@ export class AdminScreenshotsComponent implements OnInit {
     const time = hours * 3600 + minutes * 60 + seconds;
     const ScreenShotImage = this.image;
 
-    // const payload = {
-    //   MovieId: this.movieId,
-    //   Screenshot: ScreenShotImage,
-    //   UserId: 'a6ec419c-e8c4-48f9-874a-6f1eb9421464',
-    //   Time: time,
-    // };
-
     const formData = new FormData();
     formData.append('MovieId', this.movieId.toString());
     formData.append('Screenshot', ScreenShotImage);
@@ -283,6 +276,7 @@ export class AdminScreenshotsComponent implements OnInit {
     (await this.QuibService.addScreenShots(formData)).subscribe({
       next: (response: any) => {
         this.toastr.showSuccess(`${response.message}`, 'Screenshot');
+        this.getAdminScreenshots();
       },
       error: (error) => {
         console.log(error);

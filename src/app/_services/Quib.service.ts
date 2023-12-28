@@ -230,4 +230,9 @@ export class QuibService {
     const endpointUrl = `${environment.QUIB_ADMIN}/api/QuibStream/UpdateScreenshot`;
     return this.http.post(endpointUrl, payload);
   }
+
+  async fetchDialogues(movieId) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/api/QuibStream/GetMarkerQuibsByMovieId?MovieId=${movieId}`;
+    return this.http.get(endpointUrl);
+  }
 }
