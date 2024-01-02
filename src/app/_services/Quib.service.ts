@@ -232,7 +232,32 @@ export class QuibService {
   }
 
   async fetchDialogues(movieId) {
-    const endpointUrl = `${environment.QUIB_ADMIN}/api/QuibStream/GetMarkerQuibsByMovieId?MovieId=${movieId}`;
+    const endpointUrl = `${environment.QUIB_ADMIN}/fetchAllDialogues?movieId=${movieId}`;
     return this.http.get(endpointUrl);
+  }
+
+  async fetchDialoguesBySelectedStatus(movieId, isSelected) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/fetchDialogueQuibsBySelectedStatus?movieId=${movieId}&isSelected=${isSelected}`;
+    return this.http.get(endpointUrl);
+  }
+
+  async fetchDialoguesByTimeRange(movieId, fromTime, toTime) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/fetchDialoguesByTimeRange?movieId=${movieId}&startTime=${fromTime}&endTime=${toTime}`;
+    return this.http.get(endpointUrl);
+  }
+
+  async editDialogue(dialogueData) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/api/QuibStream/UpdateQuibById`;
+    return this.http.put(endpointUrl, dialogueData);
+  }
+
+  async submitMerged(parentQuibId, childQuibId) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/MergeDialogues?ParentQuibId=${parentQuibId}&ChildQuibId=${childQuibId}`;
+    return this.http.put(endpointUrl, null);
+  }
+
+  async unmergeDialogues(parentQuibId) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/UnmergeDialogues?ParentQuibId=${parentQuibId}`;
+    return this.http.put(endpointUrl, null);
   }
 }

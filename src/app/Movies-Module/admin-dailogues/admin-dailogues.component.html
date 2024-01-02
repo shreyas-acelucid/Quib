@@ -4,23 +4,296 @@
   </div>
 
   <div id="navbar">
-    <!-- <a style="cursor: pointer">Upload</a> -->
+    <a (click)="fetchMovieDialogues()" style="cursor: pointer">Show all</a>
+    <a (click)="getDialoguesByStatus(true)" style="cursor: pointer"
+      >Show Selected</a
+    >
+    <a (click)="getDialoguesByStatus(false)" style="cursor: pointer"
+      >Show Unselected</a
+    >
+    <a
+      style="cursor: pointer"
+      (click)="
+        [
+          (display = true),
+          (timeRangeSelector = true),
+          (message = 'Select Time Range')
+        ]
+      "
+      >Select Time Range</a
+    >
   </div>
 
   <div class="main-container">
     <div class="main-container-inner">
-      <div class="main-div" *ngFor="let dialogue of allDialogues">
+      <div
+        class="main-div"
+        *ngFor="let dialogue of allDialogues; let first = first"
+      >
+        <div class="merge-button-container" *ngIf="!first">
+          <button class="merge-button" (click)="mergeDialogues(dialogue)">
+            <i class="pi pi-arrow-circle-left arrow-icon"></i>Merge
+          </button>
+        </div>
+        <div class="unmerge-button-container" *ngIf="dialogue.isMerged">
+          <button
+            class="unmerge-button"
+            (click)="confirmUnmergeDialog(dialogue.id)"
+          >
+            <i class="pi pi-arrow-circle-right arrow-icon"></i>Unmerge({{
+              dialogue.mergeLevel
+            }})
+          </button>
+        </div>
         <div class="sub-div-1">
           <div class="center-text">
             <div class="timer-div">{{ getTime(dialogue.time) }}</div>
           </div>
-          <!-- <div class="right-text">Toggle button</div> -->
+          <div class="right-text">
+            <mat-slide-toggle
+              [color]="color"
+              [checked]="dialogue.isSelected"
+              [disabled]="disabled"
+              (change)="updateIsSelected(dialogue.id, $event)"
+            >
+            </mat-slide-toggle>
+          </div>
         </div>
         <p style="margin-left: 8px; margin-top: 6px; margin-right: 8px">
           {{ dialogue.body }}
         </p>
+        <div class="file-edit-icon-container">
+          <i
+            class="pi pi-pencil file-edit-icon"
+            pTooltip="Edit Dialogue"
+            (click)="EditDialog(dialogue)"
+          ></i>
+        </div>
       </div>
     </div>
   </div>
   <footer></footer>
 </body>
+<p-dialog
+  [(visible)]="display"
+  [modal]="true"
+  [header]="message"
+  [style]="{ width: '50vw', height: '77vh' }"
+  position="top"
+  [baseZIndex]="10000"
+>
+  <ng-container *ngIf="timeRangeSelector">
+    <form [formGroup]="timeRangeSelectionForm">
+      <div class="card col-sm-12" style="height: 58vh">
+        <div class="row gutters">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="h-100 mt-5">
+              <div class="card-body">
+                <div class="row gutters">
+                  <div
+                    class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
+                    style="margin-right: 350px"
+                  >
+                    <h5>From:</h5>
+                    <div class="row gutters">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                          <label for="Name">HH</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Hours"
+                            formControlName="fromHours"
+                            style="width: 7vw"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                          <label for="Name">MM</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Minutes"
+                            formControlName="fromMinutes"
+                            style="width: 7vw"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                          <label for="Name">SS</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Seconds"
+                            formControlName="fromSeconds"
+                            style="width: 7vw"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <h5>To:</h5>
+                    <div class="row gutters">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                          <label for="Name">HH</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Hours"
+                            formControlName="toHours"
+                            style="width: 7vw; margin-right: 15px"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                          <label for="Name">MM</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Minutes"
+                            formControlName="toMinutes"
+                            style="width: 7vw; margin-right: 15px"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                          <label for="Name">SS</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Seconds"
+                            formControlName="toSeconds"
+                            style="width: 7vw"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row gutters mt-4">
+                  <div
+                    class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4"
+                  >
+                    <div class="text-right">
+                      <button
+                        pButton
+                        type="button"
+                        class="p-button-danger mr-4"
+                        (click)="display = false"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        pButton
+                        type="button"
+                        class="p-button-success"
+                        (click)="fetchDialoguesbyTime()"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+</p-dialog>
+<p-dialog
+  [header]="editDialogueHeaderMessage"
+  [(visible)]="displayEditDialog"
+  [modal]="true"
+  [closable]="true"
+  [style]="{ width: '36vw', height: '55vh' }"
+  [responsive]="true"
+>
+  <ng-container *ngIf="editTextPopup">
+    <div>
+      <label for="editTextArea">Edit:</label>
+      <textarea id="editTextArea" [(ngModel)]="editedText"></textarea>
+    </div>
+    <div class="dialog-buttons">
+      <button
+        pButton
+        type="button"
+        label="Submit"
+        (click)="submitEdit(editedText)"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Cancel"
+        (click)="closeEditDialog()"
+        class="custom-cancel-button"
+      ></button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="mergeDialoguePopup">
+    <div>
+      <label for="editTextArea">Edit:</label>
+      <textarea id="editTextArea" [(ngModel)]="editedText"></textarea>
+    </div>
+    <div class="dialog-buttons">
+      <button
+        pButton
+        type="button"
+        label="Submit"
+        (click)="submitMerged(editedText)"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Cancel"
+        (click)="closeEditDialog()"
+        class="custom-cancel-button"
+      ></button>
+    </div>
+  </ng-container>
+</p-dialog>
+<p-confirmDialog
+  #cd
+  id="dialog"
+  [visible]="confirmPopup"
+  (onHide)="confirmPopup = false"
+  message="Are you sure you want to proceed?"
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+>
+  <ng-template pTemplate="headless" let-message>
+    <div
+      class="flex flex-column align-items-center p-5 surface-overlay border-round"
+    >
+      <div
+        class="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem -mt-8"
+      >
+        <i class="pi pi-question text-5xl"></i>
+      </div>
+      <span class="font-bold text-2xl block mb-2 mt-4">{{
+        message.header
+      }}</span>
+      <p class="mb-0">{{ message.message }}</p>
+      <div class="flex align-items-center gap-2 mt-4">
+        <button
+          pButton
+          label="Save"
+          (click)="cd.accept()"
+          class="w-8rem"
+        ></button>
+        <button
+          pButton
+          label="Cancel"
+          (click)="cd.reject()"
+          class="p-button-outlined w-8rem"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
+</p-confirmDialog>

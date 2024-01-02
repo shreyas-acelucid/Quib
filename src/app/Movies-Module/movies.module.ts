@@ -10,6 +10,7 @@ import { AdminScreenshotsComponent } from './admin-screenshots/admin-screenshots
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AdminDailoguesComponent } from './admin-dailogues/admin-dailogues.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AdminDailoguesComponent } from './admin-dailogues/admin-dailogues.compo
     MultiSelectModule,
     MatSlideToggleModule,
     MatCheckboxModule,
+    ConfirmDialogModule,
   ],
 })
 export class MoviesModule {}
