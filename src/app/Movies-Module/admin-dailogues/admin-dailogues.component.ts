@@ -180,10 +180,17 @@ export class AdminDailoguesComponent implements OnInit {
       ).subscribe({
         next: (response: any[]) => {
           this.allDialogues = response;
-          this.toastr.showSuccess(
-            'Dialogues fetched for a particular time range',
-            'Dialogues'
-          );
+          if (this.allDialogues.length == 0) {
+            this.toastr.showError(
+              'Oops! there are no dialogues in this particular time range',
+              'Dialogues'
+            );
+          } else {
+            this.toastr.showSuccess(
+              'Dialogues fetched for a particular time range',
+              'Dialogues'
+            );
+          }
         },
         error: (error) => {
           console.log(error);

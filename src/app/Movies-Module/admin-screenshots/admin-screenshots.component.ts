@@ -235,10 +235,17 @@ export class AdminScreenshotsComponent implements OnInit {
       ).subscribe({
         next: (response: any[]) => {
           this.allScreenshots = response;
-          this.toastr.showSuccess(
-            'Screenshots fetched for a particular time range',
-            'Screenshots'
-          );
+          if (this.allScreenshots.length == 0) {
+            this.toastr.showError(
+              'Oops! there are no screenshots in this particular time range',
+              'Screenshots'
+            );
+          } else {
+            this.toastr.showSuccess(
+              'Screenshots fetched for a particular time range',
+              'Screenshots'
+            );
+          }
         },
         error: (error) => {
           console.log(error);
