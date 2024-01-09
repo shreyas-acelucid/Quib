@@ -28,13 +28,19 @@ export class AdminDailoguesComponent implements OnInit {
   timeRangeSelector: boolean = false;
   displayEditDialog: boolean = false;
   editedText: string = '';
-
+  editedTimer: string = '';
+  editedTimerSeconds: number = 0;
   editDialogueHeaderMessage: string = '';
   currentDialogueIndex: number;
   previousDialogueIndex: number;
   editTextPopup: boolean = false;
   mergeDialoguePopup: boolean = false;
   confirmPopup: boolean = false;
+  allCount: number = 0;
+  selectedCount: number = 0;
+  unselectedCount: number = 0;
+  timeRangeSelectedcount: number = 0;
+  timeRangeSelected: boolean = false;
 
   constructor(
     private QuibService: QuibService,
@@ -79,15 +85,27 @@ export class AdminDailoguesComponent implements OnInit {
   }
 
   async fetchMovieDialogues() {
+    this.timeRangeSelected = false;
     (await this.QuibService.fetchDialogues(this.movieId)).subscribe({
       next: (response: any[]) => {
         this.allDialogues = response.filter(
           (dialogue) => !dialogue.isScreenshot
         );
+
+        this.allDialogues.forEach((dialogue) => {
+          dialogue.body = dialogue.body.replace(/\n/g, '<br>');
+        });
         this.toastr.showSuccess(
           'All dialogues fetched successfully!',
           'Dialogues'
         );
+        this.allCount = this.allDialogues.length;
+        this.selectedCount = this.allDialogues.filter(
+          (dialogue) => dialogue.isSelected
+        ).length;
+        this.unselectedCount = this.allDialogues.filter(
+          (dialogue) => !dialogue.isSelected
+        ).length;
       },
       error: (error) => {
         console.log(error);
@@ -98,6 +116,9 @@ export class AdminDailoguesComponent implements OnInit {
 
   async updateIsSelected(QuibId: number, event: MatSlideToggleChange) {
     const checked: boolean = event.checked;
+    checked
+      ? (this.selectedCount++, this.unselectedCount--)
+      : (this.unselectedCount++, this.selectedCount--);
     (await this.QuibService.updateIsSelected(QuibId, checked)).subscribe({
       next: (response) => {
         console.log(response);
@@ -114,7 +135,24 @@ export class AdminDailoguesComponent implements OnInit {
     });
   }
 
+  triggerUpdateIsSelected(QuibId: number, isSelected: boolean) {
+    const dialogue = this.allDialogues.find((d) => d.id === QuibId);
+    if (dialogue) {
+      const event: MatSlideToggleChange = {
+        checked: !isSelected,
+        source: null,
+      };
+      this.updateIsSelected(QuibId, event);
+      dialogue.isSelected = !isSelected;
+    }
+  }
+
+  stopPropagation(event: Event): void {
+    event.stopPropagation();
+  }
+
   async getDialoguesByStatus(status: boolean) {
+    this.timeRangeSelected = false;
     (
       await this.QuibService.fetchDialoguesBySelectedStatus(
         this.movieId,
@@ -191,6 +229,8 @@ export class AdminDailoguesComponent implements OnInit {
               'Dialogues'
             );
           }
+          this.timeRangeSelected = true;
+          this.timeRangeSelectedcount = this.allDialogues.length;
         },
         error: (error) => {
           console.log(error);
@@ -202,6 +242,8 @@ export class AdminDailoguesComponent implements OnInit {
 
   EditDialog(dialogue): void {
     this.editedText = dialogue.body;
+    this.editedTimerSeconds = dialogue.time;
+    this.editedTimer = this.getTime(dialogue.time);
     this.displayEditDialog = true;
     this.editTextPopup = true;
     this.mergeDialoguePopup = false;
@@ -213,12 +255,30 @@ export class AdminDailoguesComponent implements OnInit {
     this.displayEditDialog = false;
   }
 
+  editTimer(direction: boolean): void {
+    if (direction) {
+      this.editedTimerSeconds += 1;
+      this.editedTimer = this.getTime(this.editedTimerSeconds);
+    } else {
+      if (this.editedTimerSeconds > 0) {
+        this.editedTimerSeconds -= 1;
+        this.editedTimer = this.getTime(this.editedTimerSeconds);
+      }
+    }
+  }
+
+  private convertTimeToSeconds(time: string): number {
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+    return hours * 3600 + minutes * 60 + seconds;
+  }
+
   async submitEdit(dialogueText: string) {
     const dialogue = this.allDialogues[this.currentDialogueIndex];
+    const finalTime = this.convertTimeToSeconds(this.editedTimer);
     const payload = new FormData();
     payload.append('Id', dialogue.id);
     payload.append('Body', dialogueText);
-    payload.append('Time', dialogue.time);
+    payload.append('Time', `${finalTime}`);
     payload.append('IsEnabled', dialogue.isEnabled);
     payload.append('IsPosted', dialogue.isPosted);
 

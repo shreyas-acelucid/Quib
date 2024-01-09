@@ -157,7 +157,7 @@ color:black;
     width: 80px;
     height: 20px;
     border-radius: 10px;
-    background-color: #ff4ee1;
+    background-color: #fff530;
     text-align: center;
     margin: 0 auto; /* Center the timer-div horizontally */
     color: black;
@@ -180,10 +180,63 @@ color:black;
     transition: transform 0.3s ease; /* Smooth transition for the page movement */
   }
 
+  .image-div {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .image-div:hover {
+    background-color: #333; /* Dark gray background color */
+  }
+  
+  .image-div:hover img {
+    filter: brightness(50%); /* Adjust brightness to darken the image */
+  }
+  
+  .image-div:hover .overlay-text {
+    display: block; /* Show the overlay text */
+  }
+  
+  .overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff; /* Text color */
+    font-size: 16px; /* Adjust font size as needed */
+    font-family: 'Arial', sans-serif; /* Specify font family */
+    font-weight: bold; /* Specify font weight */
+    text-transform: uppercase; /* Convert text to uppercase */
+    letter-spacing: 1.5px; /* Adjust letter spacing */
+    display: none;
+  }
+
+  .select-unselect-icon{
+    font-size: 19px;
+  }
+  
+
 footer {
     background-color: #353d44;
     color: #fff;
     text-align: center;
     padding: 30px;
     margin-top: auto; 
+}
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: rgba(245, 255, 64, 0.54);
+}
+
+
+:host{
+  ::ng-deep{
+    .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+      background-color: #fff530;
+    }
+    .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+      background-color: rgba(245, 255, 64, 0.54);
+      
+    }
+  }
 }

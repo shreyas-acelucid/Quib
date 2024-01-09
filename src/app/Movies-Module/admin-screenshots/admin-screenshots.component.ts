@@ -8,6 +8,13 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-admin-screenshots',
@@ -32,6 +39,12 @@ export class AdminScreenshotsComponent implements OnInit {
   AddScreenshot: boolean = false;
   AddScreenshotForm = new FormGroup({});
   posterContentThumb: any = undefined;
+  slideState: 'left' | 'right' = 'left';
+  allCount: number = 0;
+  selectedCount: number = 0;
+  unselectedCount: number = 0;
+  timeRangeSelectedcount: number = 0;
+  timeRangeSelected: boolean = false;
 
   constructor(
     private ngxLoader: NgxUiLoaderService,
@@ -87,6 +100,7 @@ export class AdminScreenshotsComponent implements OnInit {
   }
 
   async getAdminScreenshots() {
+    this.timeRangeSelected = false;
     this.ngxLoader.start();
     (await this.QuibService.getAdminScreenshots(this.movieId)).subscribe({
       next: (response: any[]) => {
@@ -96,6 +110,13 @@ export class AdminScreenshotsComponent implements OnInit {
           'Screenshots'
         );
         this.ngxLoader.stop();
+        this.allCount = this.allScreenshots.length;
+        this.selectedCount = this.allScreenshots.filter(
+          (screenshot) => screenshot.isSelected
+        ).length;
+        this.unselectedCount = this.allScreenshots.filter(
+          (screenshot) => !screenshot.isSelected
+        ).length;
       },
       error: (error) => {
         console.log(error);
@@ -132,6 +153,9 @@ export class AdminScreenshotsComponent implements OnInit {
 
   async updateIsSelected(QuibId: number, event: MatSlideToggleChange) {
     const checked: boolean = event.checked;
+    checked
+      ? (this.selectedCount++, this.unselectedCount--)
+      : (this.unselectedCount++, this.selectedCount--);
     (await this.QuibService.updateIsSelected(QuibId, checked)).subscribe({
       next: (response) => {
         console.log(response);
@@ -148,7 +172,20 @@ export class AdminScreenshotsComponent implements OnInit {
     });
   }
 
+  triggerUpdateIsSelected(QuibId: number, isSelected: boolean) {
+    const screenshot = this.allScreenshots.find((s) => s.id === QuibId);
+    if (screenshot) {
+      const event: MatSlideToggleChange = {
+        checked: !isSelected,
+        source: null,
+      };
+      this.updateIsSelected(QuibId, event);
+      screenshot.isSelected = !isSelected;
+    }
+  }
+
   async getSelectedScreenshots() {
+    this.timeRangeSelected = false;
     (
       await this.QuibService.getSelectedScreenshots(this.movieId, true)
     ).subscribe({
@@ -167,6 +204,7 @@ export class AdminScreenshotsComponent implements OnInit {
   }
 
   async getUnSelectedScreenshots() {
+    this.timeRangeSelected = false;
     (
       await this.QuibService.getSelectedScreenshots(this.movieId, false)
     ).subscribe({

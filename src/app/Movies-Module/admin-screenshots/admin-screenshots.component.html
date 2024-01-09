@@ -16,15 +16,18 @@
       "
       >Upload</a
     >
-    <a (click)="getAdminScreenshots()" style="cursor: pointer">Show all</a>
+    <a (click)="getAdminScreenshots()" style="cursor: pointer"
+      >Show all({{ allCount }})</a
+    >
     <a (click)="getSelectedScreenshots()" style="cursor: pointer"
-      >Show Selected</a
+      >Show Selected({{ selectedCount }})</a
     >
     <a (click)="getUnSelectedScreenshots()" style="cursor: pointer"
-      >Show Unselected</a
+      >Show Unselected({{ unselectedCount }})</a
     >
     <a
       style="cursor: pointer"
+      *ngIf="!timeRangeSelected"
       (click)="
         [
           (display = true),
@@ -34,6 +37,19 @@
         ]
       "
       >Select Time Range</a
+    >
+    <a
+      style="cursor: pointer"
+      *ngIf="timeRangeSelected"
+      (click)="
+        [
+          (display = true),
+          (timeRangeSelector = true),
+          (AddScreenshot = false),
+          (message = 'Select Time Range')
+        ]
+      "
+      >Select Time Range({{ timeRangeSelectedcount }})</a
     >
   </div>
 
@@ -55,7 +71,23 @@
               </mat-slide-toggle>
             </div>
           </div>
-          <img [src]="getFullImageUrl(screenshot.body)" class="image-style" />
+
+          <div
+            class="image-div"
+            (click)="
+              triggerUpdateIsSelected(screenshot.id, screenshot.isSelected)
+            "
+          >
+            <img [src]="getFullImageUrl(screenshot.body)" class="image-style" />
+            <div class="overlay-text" *ngIf="screenshot.isSelected">
+              <i class="pi pi-times select-unselect-icon"></i>
+              Unselect
+            </div>
+            <div class="overlay-text" *ngIf="!screenshot.isSelected">
+              <i class="pi pi-check-circle select-unselect-icon"></i>
+              Select
+            </div>
+          </div>
         </div>
       </div>
     </div>

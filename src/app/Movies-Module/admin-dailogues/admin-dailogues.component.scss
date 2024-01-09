@@ -102,7 +102,7 @@ color:black;
   width: 80px;
   height: 20px;
   border-radius: 10px;
-  background-color: #ff4ee1;
+  background-color: #fff530;
   text-align: center;
   margin: 0 auto; 
   color: black;
@@ -176,6 +176,7 @@ footer {
   bottom: 0;
   right: 0;
   margin: 5px; 
+  z-index: 10;
 }
 
 .file-edit-icon {
@@ -186,7 +187,7 @@ footer {
 
 textarea {
   width: 100%;
-  height: 210px;
+  height: 28vh;
   border-radius: 5px;
   border-color: #babac0;
 }
@@ -215,3 +216,116 @@ button {
   background-color: rgb(154, 153, 153);
   color: black; 
 }
+
+.dialogue-content-container {
+  display: flex;
+  flex-direction: column-reverse;
+  height: 100%;
+  min-height: 200px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.dialogue-content-container:hover {
+  background-color: #abaaaa; 
+}
+
+
+
+.dialogue-body {
+  flex: 1; 
+}
+
+.custom-dialogue-body {
+  flex: 1;
+ 
+}
+
+
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff; 
+  font-size: 16px; 
+  font-family: 'Arial', sans-serif; 
+  font-weight: bold; 
+  text-transform: uppercase; 
+  letter-spacing: 1.5px; 
+  display: none;
+}
+
+.selected .overlay-text {
+  display: block;
+}
+
+.select-unselect-icon{
+  font-size: 19px;
+}
+
+.dialogue-content-container.selected:hover {
+  background-color: #abaaaa; 
+}
+
+.file-edit-icon-container:hover + .dialogue-content-container.selected {
+  background-color: transparent; 
+}
+
+.file-edit-icon-container:hover + .dialogue-content-container.selected .overlay-text {
+  display: block; 
+}
+
+.timer-adjuster {
+  display: inline-block;
+  position: relative;
+}
+
+.timer-input {
+  width: 100px; 
+  text-align: center;
+  height:34px;
+  font-size: 26px;
+  border:1px solid #ddd;
+  border-radius:4px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.minus,
+.plus {
+  width: 25px;
+  height: 25px;
+  background: #f2f2f2;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.minus {
+  margin-right: 5px;
+}
+
+.plus {
+  margin-left: 5px; 
+}
+
+:host{
+  ::ng-deep{
+    .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+      background-color: #fff530;
+    }
+    .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+      background-color: rgba(245, 255, 64, 0.54);
+      
+    }
+  }
+}
+
+

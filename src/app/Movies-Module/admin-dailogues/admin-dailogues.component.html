@@ -4,14 +4,17 @@
   </div>
 
   <div id="navbar">
-    <a (click)="fetchMovieDialogues()" style="cursor: pointer">Show all</a>
+    <a (click)="fetchMovieDialogues()" style="cursor: pointer"
+      >Show all({{ allCount }})</a
+    >
     <a (click)="getDialoguesByStatus(true)" style="cursor: pointer"
-      >Show Selected</a
+      >Show Selected({{ selectedCount }})</a
     >
     <a (click)="getDialoguesByStatus(false)" style="cursor: pointer"
-      >Show Unselected</a
+      >Show Unselected({{ unselectedCount }})</a
     >
     <a
+      *ngIf="!timeRangeSelected"
       style="cursor: pointer"
       (click)="
         [
@@ -21,6 +24,18 @@
         ]
       "
       >Select Time Range</a
+    >
+    <a
+      *ngIf="timeRangeSelected"
+      style="cursor: pointer"
+      (click)="
+        [
+          (display = true),
+          (timeRangeSelector = true),
+          (message = 'Select Time Range')
+        ]
+      "
+      >Select Time Range({{ timeRangeSelectedcount }})</a
     >
   </div>
 
@@ -59,15 +74,32 @@
             </mat-slide-toggle>
           </div>
         </div>
-        <p style="margin-left: 8px; margin-top: 6px; margin-right: 8px">
-          {{ dialogue.body }}
-        </p>
-        <div class="file-edit-icon-container">
-          <i
-            class="pi pi-pencil file-edit-icon"
-            pTooltip="Edit Dialogue"
-            (click)="EditDialog(dialogue)"
-          ></i>
+
+        <div
+          class="dialogue-content-container selected"
+          (click)="triggerUpdateIsSelected(dialogue.id, dialogue.isSelected)"
+        >
+          <div class="file-edit-icon-container">
+            <i
+              class="pi pi-pencil file-edit-icon"
+              pTooltip="Edit Dialogue"
+              (click)="stopPropagation($event); EditDialog(dialogue)"
+            ></i>
+          </div>
+          <div class="dialogue-body custom-dialogue-body">
+            <p
+              style="margin-left: 8px; margin-top: 6px; margin-right: 8px"
+              [innerHTML]="dialogue.body"
+            ></p>
+          </div>
+          <div class="overlay-text" *ngIf="!dialogue.isSelected">
+            <i class="pi pi-check-circle select-unselect-icon"></i>
+            Select
+          </div>
+          <div class="overlay-text" *ngIf="dialogue.isSelected">
+            <i class="pi pi-times select-unselect-icon"></i>
+            Unselect
+          </div>
         </div>
       </div>
     </div>
@@ -212,12 +244,19 @@
   [(visible)]="displayEditDialog"
   [modal]="true"
   [closable]="true"
-  [style]="{ width: '36vw', height: '55vh' }"
+  [style]="{ width: '36vw', height: '57vh' }"
   [responsive]="true"
 >
   <ng-container *ngIf="editTextPopup">
+    <div class="timer-adjuster">
+      <label for="editTimer" style="margin-right: 8px">Edit timer: </label>
+      <span class="minus" (click)="editTimer(false)">-</span>
+      <input type="text" [(ngModel)]="editedTimer" class="timer-input" />
+
+      <span class="plus" (click)="editTimer(true)">+</span>
+    </div>
     <div>
-      <label for="editTextArea">Edit:</label>
+      <label for="editTextArea">Edit text:</label>
       <textarea id="editTextArea" [(ngModel)]="editedText"></textarea>
     </div>
     <div class="dialog-buttons">
