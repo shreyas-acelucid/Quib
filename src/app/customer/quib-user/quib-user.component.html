@@ -98,83 +98,7 @@
             {{ col.headers }}
             <p-sortIcon [field]="col.field"></p-sortIcon>
           </th>
-          <!-- <th pResizableColumn [pSortableColumn]="isDeleted">Action</th> -->
         </tr>
-
-        <!-- <tr>
-					<ng-container *ngIf="filteredCols.length === 0; else colsTemplate">
-					  <th pResizableColumn></th>
-					  <th pResizableColumn *ngFor="let col of cols"></th>
-					  <th pResizableColumn></th>
-					</ng-container>
-				</tr>
-				  
-				  <ng-template #colsTemplate>
-					<th pResizableColumn></th>
-					<th pResizableColumn *ngFor="let col of filteredCols"></th>
-					<th pResizableColumn></th>
-				  </ng-template>
-				   -->
-
-        <!-- <tr>
-					<th pResizableColumn></th>
-					<th pResizableColumn>
-						<input pInputText type="text" id="displayName" [value]="SearchKeyWord.displayName"
-							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By displayName"
-							class="w-full intputSearch">
-					</th>
-					<th pResizableColumn>
-						<input pInputText type="text" id="firstName" [value]="SearchKeyWord.firstName"
-							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By firstName"
-							class="w-full intputSearch">
-					</th>
-					<th pResizableColumn>
-						<input pInputText type="text" id="lastName" [value]="SearchKeyWord.lastName"
-							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By lastName"
-							class="w-full intputSearch">
-					</th>
-					<th pResizableColumn>
-						<input pInputText type="text" id="email" [value]="SearchKeyWord.email"
-							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By email"
-							class="w-full intputSearch">
-					</th>
-					<th><input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-					<th> <input pInputText type="text" disabled placeholder="No Search"
-							class="w-full disableInputSearch"></th>
-				</tr> -->
       </ng-template>
       <ng-template pTemplate="body" let-i="rowIndex" let-user>
         <tr>
@@ -301,8 +225,8 @@
           </td>
           <td
             *ngIf="shouldDisplayColumn('PERS')"
-            (mouseenter)="showPopup = true"
-            (mouseleave)="showPopup = false"
+            (click)="showDialog(user.about, user.displayName)"
+            style="cursor: pointer"
           >
             {{ user.about }}
           </td>
@@ -529,3 +453,16 @@
     icon="pi pi-exclamation-triangle"
   ></p-confirmDialog>
 </div>
+<p-dialog
+  [header]="headerMessage"
+  [(visible)]="dialogVisible"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="dialogOnHide()"
+>
+  <p class="m-0">
+    {{ dialogContent }}
+  </p>
+</p-dialog>

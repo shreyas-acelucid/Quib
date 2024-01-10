@@ -32,7 +32,7 @@ th {
   :host {
     ::ng-deep {
       .p-dialog .p-dialog-header {
-        background-color: #c6c7cd94;
+        background-color: #c6c7cd;
       }
       .p-menuitem-link-active{
         background-color: #990000 !important;
@@ -60,9 +60,9 @@ th {
 :host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
   max-width: 500px !important; 
   overflow: hidden;
-  white-space: normal;
-  word-wrap: break-word;
   width: 100% !important; 
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 

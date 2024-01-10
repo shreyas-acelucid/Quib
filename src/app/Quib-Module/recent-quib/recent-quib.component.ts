@@ -16,6 +16,7 @@ import {
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { CommonService } from 'src/app/_services/common';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 //import { DropdownFilterOptions } from 'primeng/dropdown';
 
 @Component({
@@ -59,6 +60,13 @@ export class RecentQuibComponent implements OnInit {
     width: '12.5rem',
   };
   filterValue = '';
+  editDialogueHeaderMessage: string = '';
+  displayEditDialog: boolean = false;
+  editTextPopup: boolean = false;
+  editedText: string = '';
+  editedTimer: string = '';
+  editedTimerSeconds: number = 0;
+  currentQuibIndex: number = 0;
 
   constructor(
     private ngxLoader: NgxUiLoaderService,
@@ -289,25 +297,6 @@ export class RecentQuibComponent implements OnInit {
     this.ngxLoader.stop();
   }
 
-  // getUsersOnMovieSelection(){
-  //   this.selectedMovie = this.movieAndUserSelectionForm.get('selectedMovie');
-  //   const selectedMovieId = this.selectedMovie.value;
-  //   if(this.selectedUser == null){
-  //     if(selectedMovieId){
-  //       //this.ngxLoader.start();
-  //       this.QuibService.getAllFilteredUsers(selectedMovieId).subscribe((data : any[]) =>{
-  //         this.userNames = data;
-  //       });
-  //       this.getFilteredQuibList(null,selectedMovieId);
-  //     }
-  //   }
-  //   else{
-  //     const selectedUserId = this.selectedUser.value;
-  //     this.getFilteredQuibList(selectedUserId,selectedMovieId);
-  //   }
-
-  // }
-
   filterMovieTitles(event: any) {
     const searchText = event.target.value.toLowerCase();
     this.filteredMovieTitles = this.filteredMovieTitles.filter((movie) => {
@@ -319,7 +308,7 @@ export class RecentQuibComponent implements OnInit {
     this.movieAndUserSelectionForm.updateValueAndValidity();
     this.selectedMovie =
       this.movieAndUserSelectionForm.controls['selectedMovie'];
-    //console.log('Selected Movie Control:', this.selectedMovie);
+
     if (
       this.selectedMovie.value == null ||
       this.selectedMovie.value === 'null'
@@ -343,10 +332,8 @@ export class RecentQuibComponent implements OnInit {
             this.filteredUserNames = data;
           }
         );
-        //if (this.selectedUser !== null) {
+
         this.selectedUser.setValue('');
-        // this.selectedUser = null;
-        //}
       } else if (
         !this.filterDirectionTowardsMovie &&
         !this.filterDirectionTowardsUser
@@ -381,10 +368,8 @@ export class RecentQuibComponent implements OnInit {
             this.filteredMovieTitles = data;
           }
         );
-        //if (this.selectedMovie !== null) {
+
         this.selectedMovie.setValue('');
-        //this.selectedMovie = null;
-        //}
       } else if (
         !this.filterDirectionTowardsMovie &&
         !this.filterDirectionTowardsUser
@@ -397,23 +382,74 @@ export class RecentQuibComponent implements OnInit {
     }
   }
 
-  // getMoviesOnUserSelection(){
-  //   this.selectedUser = this.movieAndUserSelectionForm.get('selectedUser');
-  //   const selectedUserId = this.selectedUser.value;
-  //   if(this.selectedMovie == null){
-  //     if(selectedUserId){
-  //         //this.ngxLoader.start();
-  //         this.QuibService.getAllFilteredMovies(selectedUserId).subscribe((data : any[]) => {
-  //         this.movieTitles = data;
-  //       });
-  //       this.getFilteredQuibList(selectedUserId,null);
-  //     }
-  //   }
-  //   else{
-  //     const selectedMovieId = this.selectedMovie.value;
-  //     this.getFilteredQuibList(selectedUserId,selectedMovieId);
-  //   }
-  // }
+  getTime(seconds: number): string {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+
+    const formattedHours = this.padZero(hours);
+    const formattedMinutes = this.padZero(minutes);
+    const formattedSeconds = this.padZero(remainingSeconds);
+
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  }
+
+  padZero(value: number): string {
+    return value < 10 ? `0${value}` : `${value}`;
+  }
+
+  EditQuib(Quib): void {
+    this.editedText = Quib.body;
+    this.editedTimerSeconds = Quib.time;
+    this.editedTimer = this.getTime(this.editedTimerSeconds);
+    this.displayEditDialog = true;
+    this.editTextPopup = true;
+    this.currentQuibIndex = this.quibLIst.savedQuibs.indexOf(Quib);
+    this.editDialogueHeaderMessage = 'Edit Quib';
+  }
+
+  async submitEdit(editedQuib: string) {
+    const Quib = this.quibLIst.savedQuibs[this.currentQuibIndex];
+    const finalTime = this.convertTimeToSeconds(this.editedTimer);
+    const payload = new FormData();
+    payload.append('Id', Quib.id);
+    payload.append('Body', editedQuib);
+    payload.append('Time', `${finalTime}`);
+    payload.append('IsEnabled', Quib.isEnabled as any);
+    payload.append('IsPosted', Quib.isPosted as any);
+
+    (await this.QuibService.editDialogue(payload)).subscribe({
+      next: (response) => {
+        this.onSubmit();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {},
+    });
+    this.closeEditDialog();
+  }
+
+  closeEditDialog() {
+    this.displayEditDialog = false;
+  }
+
+  editTimer(direction: boolean) {
+    if (direction) {
+      this.editedTimerSeconds += 1;
+      this.editedTimer = this.getTime(this.editedTimerSeconds);
+    } else {
+      if (this.editedTimerSeconds > 0) {
+        this.editedTimerSeconds -= 1;
+        this.editedTimer = this.getTime(this.editedTimerSeconds);
+      }
+    }
+  }
+
+  private convertTimeToSeconds(time: string): number {
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+    return hours * 3600 + minutes * 60 + seconds;
+  }
 
   async getFilteredQuibList(userId, movieId) {
     this.ngxLoader.start();

@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { MatTableModule } from '@angular/material/table';
 import { PaginatorModule } from 'primeng/paginator';
+import { DialogModule } from 'primeng/dialog';
 @NgModule({
   declarations: [QuibUserComponent],
   imports: [
@@ -26,6 +27,7 @@ import { PaginatorModule } from 'primeng/paginator';
     TableModule,
     MatTableModule,
     PaginatorModule,
+    DialogModule,
   ],
 })
 export class CustomerModule {}

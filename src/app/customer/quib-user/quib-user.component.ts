@@ -54,6 +54,9 @@ export class QuibUserComponent implements OnInit {
   currentPage = 1;
   rowsPerPage = 10;
   userId: string;
+  dialogContent: string = '';
+  dialogVisible: boolean = false;
+  headerMessage: string = '';
 
   styleValue: STYLE_VALUE = {
     height: '55vw',
@@ -371,6 +374,17 @@ export class QuibUserComponent implements OnInit {
       }
     });
   }
+
+  showDialog(content: string, name: string): void {
+    this.dialogContent = content;
+    this.dialogVisible = true;
+    this.headerMessage = name;
+  }
+
+  dialogOnHide(): void {
+    this.dialogVisible = false;
+  }
+
   ngOnDestroy(): void {
     this.QuibService.SearchKeyWord.next(this.SearchKeyWord);
     this.CommonService.setUserSearchKeyWord(this.SearchKeyWord);

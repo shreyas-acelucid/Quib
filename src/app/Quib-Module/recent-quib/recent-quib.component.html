@@ -48,29 +48,6 @@
           </div>
           <div class="p-input-icon-right ml-5">
             <form [formGroup]="movieAndUserSelectionForm">
-              <!-- <select
-                formControlName="selectedMovie"
-                optionLabel="title"
-                display="chip"
-                defaultLabel="Select Movie"
-                (change)="getFilteredUsersOnMovieSelection()"
-                (input)="filterMovieTitles($event)"
-                style="
-                  width: 12rem;
-                  height: 2.4rem;
-                  border: 1px solid #a6a6a6;
-                  border-radius: 3px;
-                "
-              >
-                <option value="" disabled selected>Select Movie</option>
-                <option value="null">--unselect movie--</option>
-                <option
-                  *ngFor="let movie of filteredMovieTitles"
-                  [value]="movie.movieId"
-                >
-                  {{ movie.title }}
-                </option>
-              </select> -->
               <p-dropdown
                 [options]="filteredMovieTitles"
                 formControlName="selectedMovie"
@@ -129,29 +106,6 @@
                 />
               </a>
 
-              <!-- <select
-                formControlName="selectedUser"
-                optionLabel="displayName"
-                display="chip"
-                defaultLabel="Select User"
-                style="
-                  margin-left: 3px;
-                  width: 12rem;
-                  height: 2.4rem;
-                  border: 1px solid #a6a6a6;
-                  border-radius: 3px;
-                "
-                (change)="getFilteredMoviesOnUserSelection()"
-              >
-                <option value="" disabled selected>Select User</option>
-                <option value="null">--unselect user--</option>
-                <option
-                  *ngFor="let user of filteredUserNames"
-                  [value]="user.userId"
-                >
-                  {{ user.displayName }}
-                </option>
-              </select> -->
               <p-dropdown
                 [options]="filteredUserNames"
                 formControlName="selectedUser"
@@ -216,81 +170,26 @@
           </th>
           <th>Action</th>
         </tr>
-        <!-- <tr>
-					<th>
-						<input pInputText type="text" disabled placeholder="No search" class="w-full intputSearch">
-					</th>
-					<th>
-						<input pInputText type="text" id="displayName" [value]="QuibSearchWord.displayName"
-							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By displayName"
-							class="w-full intputSearch">
-					</th>
-					<th>
-						<input pInputText type="text" id="title" [value]="QuibSearchWord.title"
-							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By title"
-							class="w-full intputSearch">
-					</th>
-					<th>
-						<input pInputText type="text" id="body" [value]="QuibSearchWord.body"
-							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By Quib"
-							class="w-full intputSearch">
-					</th>
-					<th>
-						<input pInputText type="text" id="time" [value]="QuibSearchWord.time"
-							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By Time"
-							class="w-full intputSearch">
-					</th>
-					<th>
-						<input pInputText type="text" id="createdDate" [value]="QuibSearchWord.createdDate"
-							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By createdDate"
-							class="w-full intputSearch">
-					</th>
-					<th>
-						<input pInputText type="text" id="postedDate" [value]="QuibSearchWord.postedDate"
-							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By postedDate"
-							class="w-full intputSearch">
-					</th>
-					<th>
-						<input pInputText type="text" disabled id="displayName"
-							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By displayName"
-							class="w-full intputSearch">
-					</th>
-					<th>
-						<input pInputText type="text" disabled id="displayName"
-							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By displayName"
-							class="w-full intputSearch">
-					</th>
-					<th>
-						<input pInputText type="text" id="averageRating" [value]="QuibSearchWord.averageRating"
-							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By AVR"
-							class="w-full intputSearch">
-					</th>
-					<th>
-						<input pInputText type="text" id="numOfRatings" [value]="QuibSearchWord.numOfRatings"
-							(input)="applyFilterGlobal($event, 'contains')" placeholder="Search By rating"
-							class="w-full intputSearch">
-					</th>
-					<th>
-						<input pInputText type="text" disabled placeholder="No search" class="w-full intputSearch">
-					</th>
-					<th>
-						<input pInputText type="text" disabled placeholder="No search" class="w-full intputSearch">
-					</th>
-					<th>
-						<input pInputText type="text" disabled placeholder="No search" class="w-full intputSearch">
-					</th>
-				</tr> -->
       </ng-template>
       <ng-template pTemplate="body" let-i="rowIndex" let-Quib>
         <tr>
           <td>{{ i + 1 }}</td>
           <td *ngIf="shouldDisplayColumn('User')">{{ Quib.displayName }}</td>
           <td *ngIf="shouldDisplayColumn('Movies')">{{ Quib.title }}</td>
-          <td *ngIf="shouldDisplayColumn('Quib')" class="max-width-cell">
+          <td
+            *ngIf="shouldDisplayColumn('Quib')"
+            class="max-width-cell"
+            (click)="EditQuib(Quib)"
+            style="cursor: pointer"
+          >
             {{ Quib.body }}
           </td>
-          <td *ngIf="shouldDisplayColumn('Time')">
-            {{ Quib.HH }}:{{ Quib.MM }}:{{ Quib.SS }}
+          <td
+            *ngIf="shouldDisplayColumn('Time')"
+            (click)="EditQuib(Quib)"
+            style="cursor: pointer"
+          >
+            {{ getTime(Quib.time) }}
           </td>
           <td *ngIf="shouldDisplayColumn('Created Date')">
             {{ Quib.createdDate }}
@@ -671,3 +570,40 @@
     icon="pi pi-exclamation-triangle"
   ></p-confirmDialog>
 </div>
+<p-dialog
+  [header]="editDialogueHeaderMessage"
+  [(visible)]="displayEditDialog"
+  [modal]="true"
+  [closable]="true"
+  [style]="{ width: '36vw', height: '57vh' }"
+  [responsive]="true"
+>
+  <ng-container *ngIf="editTextPopup">
+    <div class="timer-adjuster">
+      <label for="editTimer" style="margin-right: 8px">Edit timer: </label>
+      <span class="minus" (click)="editTimer(false)">-</span>
+      <input type="text" [(ngModel)]="editedTimer" class="timer-input" />
+
+      <span class="plus" (click)="editTimer(true)">+</span>
+    </div>
+    <div>
+      <label for="editTextArea">Edit text:</label>
+      <textarea id="editTextArea" [(ngModel)]="editedText"></textarea>
+    </div>
+    <div class="dialog-buttons">
+      <button
+        pButton
+        type="button"
+        label="Submit"
+        (click)="submitEdit(editedText)"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Cancel"
+        (click)="closeEditDialog()"
+        class="custom-cancel-button"
+      ></button>
+    </div>
+  </ng-container>
+</p-dialog>
