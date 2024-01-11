@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 
 import { QuibService } from 'src/app/_services/Quib.service';
 import { ActivatedRoute } from '@angular/router';
@@ -67,6 +67,20 @@ export class AdminDailoguesComponent implements OnInit {
       this.fetchMovieDialogues();
     });
   }
+
+  // @HostListener('window:keydown', ['$event'])
+  // onArrowKey(event: KeyboardEvent): void {
+  //   if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+  //     event.preventDefault();
+  //     const scrollAmount = 200;
+  //     const currentScrollLeft = (event.target as HTMLElement).scrollLeft;
+  //     const newScrollLeft =
+  //       event.key === 'ArrowLeft'
+  //         ? currentScrollLeft - scrollAmount
+  //         : currentScrollLeft + scrollAmount;
+  //     (event.target as HTMLElement).scrollLeft = newScrollLeft;
+  //   }
+  // }
 
   getTime(seconds: number): string {
     const hours = Math.floor(seconds / 3600);
@@ -241,7 +255,7 @@ export class AdminDailoguesComponent implements OnInit {
   }
 
   EditDialog(dialogue): void {
-    this.editedText = dialogue.body;
+    this.editedText = dialogue.body.replaceAll('<br>', '');
     this.editedTimerSeconds = dialogue.time;
     this.editedTimer = this.getTime(dialogue.time);
     this.displayEditDialog = true;
@@ -297,13 +311,6 @@ export class AdminDailoguesComponent implements OnInit {
   mergeDialogues(currentDialogue): void {
     const previousDialogue =
       this.allDialogues[this.allDialogues.indexOf(currentDialogue) - 1];
-    // this.editedText = previousDialogue.body + ' ' + currentDialogue.body;
-    // this.displayEditDialog = true;
-    // this.mergeDialoguePopup = true;
-    // this.editTextPopup = false;
-    // this.currentDialogueIndex = this.allDialogues.indexOf(currentDialogue);
-    // this.previousDialogueIndex = this.allDialogues.indexOf(previousDialogue);
-    // this.editDialogueHeaderMessage = 'Merge Dialogues';
     const previousDialogueId = previousDialogue.id;
     const currentDialogueId = currentDialogue.id;
     this.confirmationService.confirm({

@@ -255,6 +255,14 @@ button {
   display: none;
 }
 
+.dialogue-content-container.selected .overlay-text {
+  display: none;
+}
+
+.dialogue-content-container.selected:hover .overlay-text {
+  display: block;
+}
+
 .selected .overlay-text {
   display: block;
 }
@@ -272,7 +280,7 @@ button {
 }
 
 .file-edit-icon-container:hover + .dialogue-content-container.selected .overlay-text {
-  display: block; 
+  display: block;  
 }
 
 .timer-adjuster {
