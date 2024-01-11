@@ -113,7 +113,8 @@ export class QuibService {
   deleteQuib(QuibId) {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token);
-    return of('');
+    const endpointUrl = `${environment.QUIB_ADMIN}/api/QuibStream/DeleteQuibById?Id=${QuibId}`;
+    return this.http.delete(endpointUrl);
   }
 
   AssignMovieToModeratorUser(payload) {

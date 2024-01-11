@@ -7,6 +7,7 @@
       [value]="quibLIst?.savedQuibs"
       [columns]="cols"
       responsiveLayout="scroll"
+      columnResizeMode="expand"
       scrollHeight="70vh"
       [paginator]="true"
       [rows]="100"
@@ -159,10 +160,11 @@
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th>S.no</th>
+          <th pResizableColumn>S.no</th>
           <th
             *ngFor="let col of filteredCols.length == 0 ? cols : filteredCols"
             [pSortableColumn]="col.field"
+            pResizableColumn
             class="max-width-cell"
           >
             {{ col.headers }}
@@ -269,7 +271,18 @@
           <td>
             <div class="btn-grp">
               <button
+                *ngIf="!Quib.IsDeleted"
                 class="p-button-danger"
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                (click)="deleteQuib(Quib?.id)"
+                pTooltip="Delete Quib"
+                tooltipPosition="bottom"
+              ></button>
+              <button
+                *ngIf="Quib.IsDeleted"
+                class="p-button-success"
                 pButton
                 type="button"
                 icon="pi pi-trash"

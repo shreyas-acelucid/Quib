@@ -297,13 +297,42 @@ export class AdminDailoguesComponent implements OnInit {
   mergeDialogues(currentDialogue): void {
     const previousDialogue =
       this.allDialogues[this.allDialogues.indexOf(currentDialogue) - 1];
-    this.editedText = previousDialogue.body + ' ' + currentDialogue.body;
-    this.displayEditDialog = true;
-    this.mergeDialoguePopup = true;
-    this.editTextPopup = false;
-    this.currentDialogueIndex = this.allDialogues.indexOf(currentDialogue);
-    this.previousDialogueIndex = this.allDialogues.indexOf(previousDialogue);
-    this.editDialogueHeaderMessage = 'Merge Dialogues';
+    // this.editedText = previousDialogue.body + ' ' + currentDialogue.body;
+    // this.displayEditDialog = true;
+    // this.mergeDialoguePopup = true;
+    // this.editTextPopup = false;
+    // this.currentDialogueIndex = this.allDialogues.indexOf(currentDialogue);
+    // this.previousDialogueIndex = this.allDialogues.indexOf(previousDialogue);
+    // this.editDialogueHeaderMessage = 'Merge Dialogues';
+    const previousDialogueId = previousDialogue.id;
+    const currentDialogueId = currentDialogue.id;
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to merge dialogues?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Yes',
+      rejectLabel: 'No',
+      accept: async () => {
+        (
+          await this.QuibService.submitMerged(
+            previousDialogueId,
+            currentDialogueId
+          )
+        ).subscribe({
+          next: (response) => {
+            this.fetchMovieDialogues();
+            this.toastr.showSuccess('Merge', 'Dialogues merged sussessfully');
+          },
+          error: (error) => {
+            console.log(error);
+          },
+          complete: () => {},
+        });
+      },
+      reject: () => {
+        // User clicked 'No' or closed the dialog
+      },
+    });
   }
 
   async submitMerged(dialogueText: string) {
@@ -314,7 +343,9 @@ export class AdminDailoguesComponent implements OnInit {
       await this.QuibService.submitMerged(previousDialogueId, currentDialogueId)
     ).subscribe({
       next: (response) => {
-        this.submitMergedEdit(dialogueText, previousDialogue);
+        //this.submitMergedEdit(dialogueText, previousDialogue);
+        this.fetchMovieDialogues();
+        this.toastr.showSuccess('Merge', 'Dialogues merged successfully');
       },
       error: (error) => {},
       complete: () => {},
@@ -344,7 +375,7 @@ export class AdminDailoguesComponent implements OnInit {
 
   confirmUnmergeDialog(parentDialogueId) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to unmerge?',
+      message: 'Are you sure you want to unmerge dialogues?',
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
       acceptLabel: 'Yes',

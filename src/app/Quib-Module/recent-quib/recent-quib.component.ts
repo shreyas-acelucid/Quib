@@ -497,7 +497,7 @@ export class RecentQuibComponent implements OnInit {
         this.ngxLoader.start();
         this.QuibService.deleteQuib(QuibId).subscribe((res) => {
           this.toastr.showSuccess(' Quib deleted successfully', 'Quib delete');
-          this.getQuibList();
+          this.onSubmit();
         });
       },
     });

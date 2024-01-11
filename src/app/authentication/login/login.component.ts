@@ -40,51 +40,47 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     const { email, password } = this.form.value;
-    this.authenticationService
-      .login({
-        email: email,
-        password: password,
-      })
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.errors) {
-            this.router.navigateByUrl('/login');
-            this.toastr.showError('Login failed', 'Login');
-          } else {
-            //localStorage.setItem('token', res.token);
-            if (this.CommonService.getMovieSearchWord() != null) {
-              this.MoviesService.MovieSearchKeyWord.next(
-                this.CommonService.getMovieSearchWord()
-              );
-            }
-            if (this.CommonService.getUserSearchkeyWord() != null) {
-              this.QuibService.SearchKeyWord.next(
-                this.CommonService.getUserSearchkeyWord()
-              );
-            }
-            if (this.CommonService.getQuibSearchWord() != null) {
-              this.QuibService.QuibSearchWord.next(
-                this.CommonService.getQuibSearchWord()
-              );
-            }
-            this.router.navigateByUrl('/customer/quib-user');
-            let email = localStorage.getItem('email');
-            this.toastr.showSuccess('Login Success', 'Login');
+    const payload = { email: email, password: password };
+    this.authenticationService.login(payload).subscribe(
+      (res: any) => {
+        console.log(res);
+        if (res.errors) {
+          this.router.navigateByUrl('/login');
+          this.toastr.showError('Login failed', 'Login');
+        } else {
+          //localStorage.setItem('token', res.token);
+          if (this.CommonService.getMovieSearchWord() != null) {
+            this.MoviesService.MovieSearchKeyWord.next(
+              this.CommonService.getMovieSearchWord()
+            );
           }
-        },
-        (error: any) => {
-          console.error(error);
-          let errorMessage = 'An error occurred';
-
-          // Check if the error is an HTTP error with a response body
-          if (error.status && error.error && error.error.errors) {
-            errorMessage = error.error.errors[0].password || errorMessage;
+          if (this.CommonService.getUserSearchkeyWord() != null) {
+            this.QuibService.SearchKeyWord.next(
+              this.CommonService.getUserSearchkeyWord()
+            );
           }
-
-          this.toastr.showError(errorMessage, 'Login Failed');
+          if (this.CommonService.getQuibSearchWord() != null) {
+            this.QuibService.QuibSearchWord.next(
+              this.CommonService.getQuibSearchWord()
+            );
+          }
+          this.router.navigateByUrl('/customer/quib-user');
+          let email = localStorage.getItem('email');
+          this.toastr.showSuccess('Login Success', 'Login');
         }
-      );
+      },
+      (error: any) => {
+        console.error(error);
+        let errorMessage = 'An error occurred';
+
+        // Check if the error is an HTTP error with a response body
+        if (error.status && error.error && error.error.errors) {
+          errorMessage = error.error.errors[0].password || errorMessage;
+        }
+
+        this.toastr.showError(errorMessage, 'Login Failed');
+      }
+    );
   }
 
   redirectToForgotPassword() {
