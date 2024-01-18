@@ -17,6 +17,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { CommonService } from 'src/app/_services/common';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { error } from 'console';
 //import { DropdownFilterOptions } from 'primeng/dropdown';
 
 @Component({
@@ -495,9 +496,42 @@ export class RecentQuibComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.ngxLoader.start();
-        this.QuibService.deleteQuib(QuibId).subscribe((res) => {
-          this.toastr.showSuccess(' Quib deleted successfully', 'Quib delete');
-          this.onSubmit();
+        this.QuibService.deleteQuib(QuibId).subscribe({
+          next: (res) => {
+            this.toastr.showSuccess(
+              ' Quib deleted successfully',
+              'Quib delete'
+            );
+            this.onSubmit();
+          },
+          error: (error) => {
+            this.toastr.showError('Error deleting the Quib', 'Quib delete');
+            this.onSubmit();
+          },
+        });
+      },
+    });
+  }
+
+  restoreQuib(QuibId) {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to restore Quib ?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.ngxLoader.start();
+        this.QuibService.restoreQuib(QuibId).subscribe({
+          next: (res) => {
+            this.toastr.showSuccess(
+              'Quib restored successfully',
+              'Quib restore'
+            );
+            this.onSubmit();
+          },
+          error: (error) => {
+            this.toastr.showError('Error restoring the Quib', 'Quib restore');
+            this.onSubmit();
+          },
         });
       },
     });

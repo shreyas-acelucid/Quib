@@ -42,7 +42,7 @@
               type="text"
               [value]="MovieSearchKeyWord.Gsearch"
               (input)="FilterGlobal($event, 'contains')"
-              placeholder="Search by columnName"
+              placeholder="Search..."
             />
           </span>
           <div class="p-input-icon-right ml-5">
@@ -94,56 +94,6 @@
           </th>
           <th pResizableColumn>Action</th>
         </tr>
-
-        <!-- <tr>
-          <ng-container *ngIf="filteredCols.length === 0; else colsTemplate">
-            <th pResizableColumn></th>
-            <th pResizableColumn *ngFor="let col of cols"></th>
-            <th pResizableColumn></th>
-          </ng-container>
-        </tr>
-
-        <ng-template #colsTemplate>
-          <th pResizableColumn></th>
-          <th pResizableColumn *ngFor="let col of filteredCols"></th>
-          <th pResizableColumn></th>
-        </ng-template> -->
-
-        <!-- <tr>
-					<th pResizableColumn>
-						<input pInputText type="text" disabled (input)="applyFilterGlobal($event, 'contains')"
-							placeholder=" No Search" class="w-full intputSearch">
-					</th>
-					<th pResizableColumn>
-						<input pInputText type="text" id="title"  [value]="MovieSearchKeyWord.title" (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search by Title" class="w-full intputSearch">
-					</th>
-					<th pResizableColumn>
-						<input pInputText type="text" id="director" [value]="MovieSearchKeyWord.director" (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search by Director" class="w-full intputSearch">
-					</th>
-					<th pResizableColumn>
-						<input pInputText type="text" id="releaseYear" [value]="MovieSearchKeyWord.releaseYear" (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search by Year" class="w-full intputSearch">
-					</th>
-					<th pResizableColumn>
-						<input pInputText type="text" id="length" [value]="MovieSearchKeyWord.length" disabled (input)="applyFilterGlobal($event, 'contains')"
-							placeholder="Search by Length" class="w-full intputSearch">
-					</th>
-					<th pResizableColumn>
-						<input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" disabled
-							placeholder="Search by Status" class="w-full intputSearch">
-					</th>
-					<th pResizableColumn>
-						<input pInputText type="text" disabled placeholder="Movie Poster" class="w-full intputSearch">
-					</th>
-					<th pResizableColumn>
-						<input pInputText type="text" disabled placeholder="Action" class="w-full intputSearch">
-					</th>
-					<th pResizableColumn>
-						<input pInputText type="text" disabled placeholder="Action" class="w-full intputSearch">
-					</th>
-				</tr> -->
       </ng-template>
       <ng-template pTemplate="body" let-i="rowIndex" let-moviesList>
         <tr>
@@ -188,26 +138,23 @@
           </td>
           <td *ngIf="shouldDisplayColumn('Movie Poster')">
             <img
-              [src]="moviesList?.posterContentThumb"
-              class="form-control"
-              style="width: 90%; height: auto; max-height: 8vh; cursor: pointer"
+              [src]="getFullImageUrl(moviesList.posterContent)"
+              style="
+                width: 60px;
+                height: 75px;
+                object-fit: cover;
+                max-width: 100%;
+                max-height: 100%;
+                cursor: pointer;
+                padding: 6px;
+                border: 1px solid rgba(0, 0, 0, 0.271);
+                border-radius: 5px;
+                margin-left: 35px;
+              "
               (click)="updateMoviePoster(moviesList?.id)"
             />
           </td>
-          <!-- <td
-            *ngIf="shouldDisplayColumn('ScreenShot')"
-            (click)="
-              [
-                (display = true),
-                (screenshot = true),
-                (moviePoster = false),
-                (addEditMovie = false),
-                (headerMessage = 'upLoad Screen_Shot')
-              ]
-            "
-          >
-            <a style="color: blue; cursor: pointer">Screen_Shot</a>
-          </td> -->
+
           <td
             *ngIf="shouldDisplayColumn('admin-ss')"
             (click)="redirectToAdminSS(moviesList.id, moviesList.title)"

@@ -40,6 +40,7 @@ export class QuibUserComponent implements OnInit {
   movieId: any[] = [];
   fgsType: any;
   SearchKeyWord: userSearchKeyWord;
+  baseUrl: string = 'http://44.211.90.48';
   display: boolean = false;
   MoVList: boolean = false;
   AssignToModerator: boolean = false;
@@ -95,7 +96,7 @@ export class QuibUserComponent implements OnInit {
       this.SearchKeyWord = res;
     });
     this.getUserList();
-    this.getMovieList();
+    //this.getMovieList();
     this.cols = [
       { field: 'displayName', show: true, headers: 'Display Name' },
       { field: 'firstName', show: true, headers: 'First Name' },
@@ -118,6 +119,7 @@ export class QuibUserComponent implements OnInit {
       { field: 'totalBumpReceived', show: true, headers: 'B-IN' },
       { field: 'bumpCount', show: true, headers: 'B-OUT' },
       { field: 'totalFlagReceived', show: true, headers: 'FLAGE' },
+      { field: 'avatar', show: true, headers: 'Avatar' },
       { field: 'about', show: true, headers: 'PERS' },
       { field: 'isDeleted', show: true, headers: 'Action' },
     ];
@@ -176,6 +178,13 @@ export class QuibUserComponent implements OnInit {
   getFormattedDate(dateTime: any) {
     var date = dateTime.split('T')[0];
     return date;
+  }
+
+  getFullImageUrl(relativeUrl: string): string {
+    if (relativeUrl == null) {
+      return this.baseUrl + '/Images/movie_posters/full_res/test 3 .png';
+    }
+    return this.baseUrl + relativeUrl;
   }
 
   async removeMovieFromModerator(id: number, userId: string) {

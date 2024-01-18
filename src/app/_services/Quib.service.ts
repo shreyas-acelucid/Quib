@@ -117,6 +117,13 @@ export class QuibService {
     return this.http.delete(endpointUrl);
   }
 
+  restoreQuib(QuibId) {
+    const token = localStorage.getItem('token') || '';
+    let httpOptions = new HttpHeaders().set('x-access-token', token);
+    const endpointUrl = `${environment.QUIB_ADMIN}/api/QuibStream/RestoreQuibById?Id=${QuibId}`;
+    return this.http.put(endpointUrl, null);
+  }
+
   AssignMovieToModeratorUser(payload) {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token);

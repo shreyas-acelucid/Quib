@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of,Observable,BehaviorSubject } from 'rxjs';
+import { of, Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
-import {Movies } from "../_models/movies"
+import { Movies } from '../_models/movies';
 @Injectable({
   providedIn: 'root',
 })
@@ -19,7 +19,7 @@ export class MoviesService {
   getMovieList(): Observable<Movies[]> {
     const token = localStorage.getItem('token') || '';
     let httpOptions = new HttpHeaders().set('x-access-token', token);
-    const endpointUrl = `${environment.QUIB_ADMIN}/Movies`;
+    const endpointUrl = `${environment.QUIB_ADMIN}/MoviesAdminPanel`;
     return this.http.get<Movies[]>(endpointUrl);
   }
   getActiveMoviesList(): Observable<Movies[]> {

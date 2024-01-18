@@ -250,10 +250,10 @@
   <ng-container *ngIf="editTextPopup">
     <div class="timer-adjuster">
       <label for="editTimer" style="margin-right: 8px">Edit timer: </label>
-      <span class="minus" (click)="editTimer(false)">-</span>
+      <button class="minus" (click)="editTimer(false)">-</button>
       <input type="text" [(ngModel)]="editedTimer" class="timer-input" />
 
-      <span class="plus" (click)="editTimer(true)">+</span>
+      <button class="plus" (click)="editTimer(true)">+</button>
     </div>
     <div>
       <label for="editTextArea">Edit text:</label>

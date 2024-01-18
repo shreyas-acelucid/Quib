@@ -271,25 +271,27 @@
           <td>
             <div class="btn-grp">
               <button
-                *ngIf="!Quib.IsDeleted"
-                class="p-button-danger"
-                pButton
-                type="button"
-                icon="pi pi-trash"
-                (click)="deleteQuib(Quib?.id)"
-                pTooltip="Delete Quib"
-                tooltipPosition="bottom"
-              ></button>
-              <button
-                *ngIf="Quib.IsDeleted"
+                *ngIf="!Quib.isDeleted"
                 class="p-button-success"
                 pButton
                 type="button"
-                icon="pi pi-trash"
                 (click)="deleteQuib(Quib?.id)"
                 pTooltip="Delete Quib"
                 tooltipPosition="bottom"
-              ></button>
+              >
+                Delete
+              </button>
+              <button
+                *ngIf="Quib.isDeleted"
+                class="p-button-danger"
+                pButton
+                type="button"
+                (click)="restoreQuib(Quib?.id)"
+                pTooltip="Restore Quib"
+                tooltipPosition="bottom"
+              >
+                Restore
+              </button>
             </div>
           </td>
         </tr>

@@ -100,6 +100,10 @@ export class AllMoviesComponent implements OnInit {
     this.getMovieList();
   }
 
+  getFullImageUrl(relativeUrl: string): string {
+    return this.baseUrl + relativeUrl;
+  }
+
   SelectRequestedColumns() {
     this.selectedColumns =
       this.columnSelectorForm.controls['selectedColumns'].value;
@@ -288,15 +292,7 @@ export class AllMoviesComponent implements OnInit {
     const Minute = this.AllMoviesForm.controls['minutes'].value;
     const Seconds = this.AllMoviesForm.controls['seconds'].value;
     const PosterImage = this.image;
-    if (
-      !Title ||
-      !Director ||
-      !ReleaseYear ||
-      !Hour ||
-      !Minute ||
-      !Seconds ||
-      !PosterImage
-    ) {
+    if (!Title || !Director || !ReleaseYear || !Hour || !Minute || !Seconds) {
       this.toastr.showWarning(
         'Please fill out all the fields before submitting the form',
         'Form incomplete'
