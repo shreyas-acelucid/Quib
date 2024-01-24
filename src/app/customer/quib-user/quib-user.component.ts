@@ -96,14 +96,15 @@ export class QuibUserComponent implements OnInit {
       this.SearchKeyWord = res;
     });
     this.getUserList();
-    //this.getMovieList();
+    this.getMovieList();
     this.cols = [
+      { field: 'avatar', show: true, headers: 'Avatar' },
       { field: 'displayName', show: true, headers: 'Display Name' },
       { field: 'firstName', show: true, headers: 'First Name' },
       { field: 'lastName', show: true, headers: 'Last Name' },
       { field: 'email', show: true, headers: 'Email' },
       { field: 'createdDate', show: true, headers: 'Join' },
-      { field: 'bumpCount', show: true, headers: 'BMP' },
+      //{ field: 'bumpCount', show: true, headers: 'BMP' },
       { field: 'followeeCount', show: true, headers: 'FNG' },
       { field: 'followerCount', show: true, headers: 'FRS' },
       { field: 'unPostedQuibsCount', show: true, headers: 'UNP' },
@@ -113,13 +114,12 @@ export class QuibUserComponent implements OnInit {
       { field: 'curatorScore', show: true, headers: 'CUR' },
       { field: 'ccp', show: true, headers: 'CCP' },
       { field: 'cfp', show: true, headers: 'CFP' },
-      { field: 'mov', show: true, headers: 'MOV' },
-      { field: 'totalQuibsWritten', show: true, headers: 'QUIBS' },
+      { field: 'mov', show: true, headers: 'T MOV' },
+      { field: 'totalQuibsWritten', show: true, headers: 'T Q' },
       { field: 'averageOverallRating', show: true, headers: 'AVR' },
       { field: 'totalBumpReceived', show: true, headers: 'B-IN' },
-      { field: 'bumpCount', show: true, headers: 'B-OUT' },
-      { field: 'totalFlagReceived', show: true, headers: 'FLAGE' },
-      { field: 'avatar', show: true, headers: 'Avatar' },
+      { field: 'bumpCount', show: true, headers: 'B-OU' },
+      { field: 'totalFlagReceived', show: true, headers: 'FLG' },
       { field: 'about', show: true, headers: 'PERS' },
       { field: 'isDeleted', show: true, headers: 'Action' },
     ];
@@ -182,7 +182,7 @@ export class QuibUserComponent implements OnInit {
 
   getFullImageUrl(relativeUrl: string): string {
     if (relativeUrl == null) {
-      return this.baseUrl + '/Images/movie_posters/full_res/test 3 .png';
+      return '../../assets/images/dummy_avatar.png';
     }
     return this.baseUrl + relativeUrl;
   }
@@ -358,7 +358,7 @@ export class QuibUserComponent implements OnInit {
   }
   getMovieList() {
     this.MoviesService.getMovieList().subscribe((res) => {
-      this.moviesList = res;
+      this.moviesList = res.filter((movie) => movie.isActive == true);
     });
   }
   markUserAsModerator(userId: string, status: boolean) {
@@ -382,6 +382,10 @@ export class QuibUserComponent implements OnInit {
         }
       }
     });
+  }
+
+  fixTo4Decimals(average: any) {
+    return Math.round(average * 100) / 100;
   }
 
   showDialog(content: string, name: string): void {

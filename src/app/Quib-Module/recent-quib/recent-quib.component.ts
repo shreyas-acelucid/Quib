@@ -68,6 +68,7 @@ export class RecentQuibComponent implements OnInit {
   editedTimer: string = '';
   editedTimerSeconds: number = 0;
   currentQuibIndex: number = 0;
+  isTextChanged: boolean = false;
 
   constructor(
     private ngxLoader: NgxUiLoaderService,
@@ -100,17 +101,17 @@ export class RecentQuibComponent implements OnInit {
     this.fetchOnLoad();
     this.cols = [
       { field: 'displayName', show: true, headers: 'User' },
-      { field: 'title', show: true, headers: 'Movies' },
+      { field: 'title', show: true, headers: 'Movie' },
       { field: 'body', show: true, headers: 'Quib' },
       { field: 'time', show: true, headers: 'Time' },
-      { field: 'createdDate', show: true, headers: 'Created Date' },
-      { field: 'postedDate', show: true, headers: 'Posted Date' },
+      { field: 'createdDate', show: true, headers: 'Created' },
+      { field: 'postedDate', show: true, headers: 'Posted' },
       { field: 'isEnabled', show: true, headers: 'IsEnabled' },
-      { field: 'isBumped', show: true, headers: 'IsBumped' },
+      //{ field: 'isBumped', show: true, headers: 'IsBumped' },
       { field: 'averageRating', show: true, headers: 'AVR' },
       { field: 'numOfRatings', show: true, headers: 'Rating' },
-      { field: 'BumpIn', show: true, headers: 'B-IN' },
-      { field: 'flage', show: true, headers: 'FLAG' },
+      { field: 'bIn', show: true, headers: 'B-IN' },
+      { field: 'bIn', show: true, headers: 'FLAG' },
     ];
     this.colsOptions = this.cols.map((col) => ({
       label: col.headers,
@@ -232,6 +233,10 @@ export class RecentQuibComponent implements OnInit {
   fetchOnLoad() {
     this.getMovieList();
     this.getUserList();
+  }
+
+  fixTo4Decimals(average: any) {
+    return Math.round(average * 100) / 100;
   }
 
   async onSubmit() {
@@ -432,10 +437,12 @@ export class RecentQuibComponent implements OnInit {
   }
 
   closeEditDialog() {
+    this.isTextChanged = false;
     this.displayEditDialog = false;
   }
 
   editTimer(direction: boolean) {
+    this.isTextChanged = true;
     if (direction) {
       this.editedTimerSeconds += 1;
       this.editedTimer = this.getTime(this.editedTimerSeconds);
@@ -445,6 +452,10 @@ export class RecentQuibComponent implements OnInit {
         this.editedTimer = this.getTime(this.editedTimerSeconds);
       }
     }
+  }
+
+  onTextChange(newValue: string) {
+    this.isTextChanged = newValue !== '';
   }
 
   private convertTimeToSeconds(time: string): number {
@@ -570,24 +581,25 @@ export class RecentQuibComponent implements OnInit {
       };
     });
     this.ngxLoader.start();
-    this.QuibService.submitBumpUserListdata(payload).subscribe((res) => {
-      if (res) {
+    this.QuibService.submitBumpUserListdata(payload).subscribe({
+      next: (res) => {
         this.display = false;
         this.BIN = false;
         this.toastr.showSuccess(
-          ' Current Curator Point is  changed successfully',
+          'Current Curator Point is  changed successfully',
           'Curator Point'
-        );
-        this.getQuibList();
-      } else {
+        ),
+          this.onSubmit();
+      },
+      error: (error) => {
         this.display = false;
         this.BIN = false;
-        this.toastr.showSuccess(
-          'Somthing is Wrong,Please check ',
+        this.toastr.showError(
+          'Something is Wrong,Please check ',
           'Curator  Score'
         );
         this.getQuibList();
-      }
+      },
     });
   }
   submitFlagUserListdata() {
@@ -598,53 +610,72 @@ export class RecentQuibComponent implements OnInit {
       };
     });
     this.ngxLoader.start();
-    this.QuibService.submitFlagUserListdata(payload).subscribe((res) => {
-      if (res) {
+    this.QuibService.submitFlagUserListdata(payload).subscribe({
+      next: (res) => {
         this.display = false;
         this.BIN = false;
         this.toastr.showSuccess(
-          ' Current Flagger Point is  changed successfully',
-          'Flagger Point'
+          'Current Flag Score is successfully changed',
+          'Flag Score'
         );
-        this.getQuibList();
-      } else {
+        this.onSubmit();
+      },
+      error: (error) => {
         this.display = false;
         this.BIN = false;
-        this.toastr.showSuccess(
-          'Somthing is Wrong,Please check ',
-          'Flagger Point'
+        this.toastr.showError(
+          'Something is Wrong,Please check ',
+          'Flag  Score'
         );
         this.getQuibList();
-      }
+      },
     });
   }
   getBumpUserListByQuibId(id: number) {
     this.headerMessage = 'Bumped User List';
-    this.ngxLoader.start();
-    this.QuibService.getBumpUserListByQuibId(id).subscribe((res) => {
-      this.BumpUserList = res;
-      this.display = true;
-      this.BIN = true;
-      this.ngxLoader.stop();
-      if (this.BumpUserList.length === 0) {
-        (this.styleValue.height = '20vh'), (this.styleValue.width = '55vw');
-      } else {
-        (this.styleValue.height = '90vh'), (this.styleValue.width = '55vw');
-      }
+
+    this.QuibService.getBumpUserListByQuibId(id).subscribe({
+      next: (res) => {
+        this.BumpUserList = res;
+        this.display = true;
+        this.BIN = true;
+
+        if (this.BumpUserList.length === 0) {
+          (this.styleValue.height = '20vh'), (this.styleValue.width = '55vw');
+        } else {
+          (this.styleValue.height = '90vh'), (this.styleValue.width = '55vw');
+        }
+      },
+      error: (error) => {
+        this.toastr.showError(
+          'Something is Wrong,Please check ',
+          'Bumped user list'
+        );
+      },
+      complete: () => {},
     });
   }
   getFlageUserListByQuibId(id: number) {
     this.headerMessage = 'Flagged User List';
-    this.QuibService.getFlageUserListByQuibId(id).subscribe((res) => {
-      this.FlagUserList = res;
-      this.display = true;
-      this.BIN = false;
-      if (this.FlagUserList.length === 0) {
-        (this.styleValue.height = '20vh'), (this.styleValue.width = '55vw');
-      } else {
-        (this.styleValue.height = '90vh'), (this.styleValue.width = '55vw');
-      }
-      this.ngxLoader.stop();
+    this.QuibService.getFlageUserListByQuibId(id).subscribe({
+      next: (res) => {
+        this.FlagUserList = res;
+        this.display = true;
+        this.BIN = false;
+        if (this.FlagUserList.length === 0) {
+          (this.styleValue.height = '20vh'), (this.styleValue.width = '55vw');
+        } else {
+          (this.styleValue.height = '90vh'), (this.styleValue.width = '55vw');
+        }
+        this.ngxLoader.stop();
+      },
+      error: (error) => {
+        this.ngxLoader.stop();
+        this.toastr.showError(
+          'Something is Wrong,Please check ',
+          'Flagged user list'
+        );
+      },
     });
   }
   FilterGlobal($event, stringVal) {

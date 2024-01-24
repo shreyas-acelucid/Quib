@@ -221,7 +221,7 @@
               </button>
             </div>
           </td>
-          <td *ngIf="shouldDisplayColumn('IsBumped')">
+          <!-- <td *ngIf="shouldDisplayColumn('IsBumped')">
             <div class="btn-grp">
               <button
                 pButton
@@ -251,22 +251,30 @@
                 UnBumped
               </button>
             </div>
+          </td> -->
+          <td *ngIf="shouldDisplayColumn('AVR')">
+            {{ fixTo4Decimals(Quib?.averageRating) }}
           </td>
-          <td *ngIf="shouldDisplayColumn('AVR')">{{ Quib?.averageRating }}</td>
           <td *ngIf="shouldDisplayColumn('Rating')">
             {{ Quib?.numOfRatings }}
           </td>
           <td
-            *ngIf="shouldDisplayColumn('B-IN')"
+            *ngIf="shouldDisplayColumn('B-IN') && Quib?.bIn > 0"
             (click)="getBumpUserListByQuibId(Quib?.id)"
           >
-            <a style="color: blue; cursor: pointer">B-IN</a>
+            <a style="color: blue; cursor: pointer">{{ Quib?.bIn }}</a>
+          </td>
+          <td *ngIf="shouldDisplayColumn('B-IN') && Quib?.bIn == 0">
+            {{ Quib?.bIn }}
           </td>
           <td
-            *ngIf="shouldDisplayColumn('FLAG')"
+            *ngIf="shouldDisplayColumn('FLAG') && Quib?.bIn > 0"
             (click)="getFlageUserListByQuibId(Quib?.id)"
           >
-            <a style="color: blue; cursor: pointer">Flag</a>
+            <a style="color: blue; cursor: pointer">{{ Quib?.bIn }}</a>
+          </td>
+          <td *ngIf="shouldDisplayColumn('FLAG') && Quib?.bIn == 0">
+            {{ Quib?.bIn }}
           </td>
           <td>
             <div class="btn-grp">
@@ -345,6 +353,7 @@
                             class="form-control"
                             value="{{ item.userName }}"
                             readonly
+                            style="height: calc(0.9em + 0.75rem + 2px)"
                           />
                         </div>
                       </div>
@@ -378,6 +387,10 @@
                                 type="text"
                                 class="form-control"
                                 value="{{ item.ccp }}"
+                                style="
+                                  margin-left: 15px;
+                                  height: calc(0.9em + 0.75rem + 2px);
+                                "
                                 readonly
                               />
                             </div>
@@ -459,7 +472,7 @@
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                       <div class="form-group">
-                        <label for="image">Current Flagget Point </label>
+                        <label for="image">Current Flagger Point </label>
                       </div>
                     </div>
                   </div>
@@ -474,6 +487,7 @@
                             class="form-control"
                             value="{{ item.userName }}"
                             readonly
+                            style="height: calc(0.9em + 0.75rem + 2px)"
                           />
                         </div>
                       </div>
@@ -509,6 +523,10 @@
                                 class="form-control"
                                 value="{{ item.cfp }}"
                                 readonly
+                                style="
+                                  margin-left: 15px;
+                                  height: calc(0.9em + 0.75rem + 2px);
+                                "
                               />
                             </div>
                             <div
@@ -597,19 +615,29 @@
     <div class="timer-adjuster">
       <label for="editTimer" style="margin-right: 8px">Edit timer: </label>
       <span class="minus" (click)="editTimer(false)">-</span>
-      <input type="text" [(ngModel)]="editedTimer" class="timer-input" />
+      <input
+        type="text"
+        [(ngModel)]="editedTimer"
+        class="timer-input"
+        (ngModelChange)="onTextChange($event)"
+      />
 
       <span class="plus" (click)="editTimer(true)">+</span>
     </div>
     <div>
       <label for="editTextArea">Edit text:</label>
-      <textarea id="editTextArea" [(ngModel)]="editedText"></textarea>
+      <textarea
+        id="editTextArea"
+        [(ngModel)]="editedText"
+        (ngModelChange)="onTextChange($event)"
+      ></textarea>
     </div>
     <div class="dialog-buttons">
       <button
         pButton
         type="button"
         label="Submit"
+        [disabled]="!isTextChanged"
         (click)="submitEdit(editedText)"
       ></button>
       <button

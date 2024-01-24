@@ -103,6 +103,22 @@
       <ng-template pTemplate="body" let-i="rowIndex" let-user>
         <tr>
           <td>{{ i + 1 }}</td>
+          <td *ngIf="shouldDisplayColumn('Avatar')">
+            <img
+              [src]="getFullImageUrl(user.avatarBase32ImagePath)"
+              style="
+                width: 60px;
+                height: 60px;
+                object-fit: contain;
+                max-width: 100%;
+                max-height: 100%;
+                cursor: pointer;
+                border-radius: 5px;
+                margin-left: 11px;
+                object-fit: fill;
+              "
+            />
+          </td>
           <td *ngIf="shouldDisplayColumn('Display Name')">
             {{ user.displayName }}
           </td>
@@ -114,7 +130,7 @@
           <td *ngIf="shouldDisplayColumn('Join')">
             {{ user.createdDate | date : "MM/dd/yyyy" }}
           </td>
-          <td *ngIf="shouldDisplayColumn('BMP')">{{ user.bumpCount }}</td>
+          <!-- <td *ngIf="shouldDisplayColumn('BMP')">{{ user.bumpCount }}</td> -->
           <td *ngIf="shouldDisplayColumn('FNG')">{{ user.followeeCount }}</td>
           <td *ngIf="shouldDisplayColumn('FRS')">{{ user.followerCount }}</td>
           <td *ngIf="shouldDisplayColumn('UNP')">
@@ -194,7 +210,7 @@
           <td *ngIf="shouldDisplayColumn('CUR')">{{ user.curatorScore }}</td>
           <td *ngIf="shouldDisplayColumn('CCP')">{{ user.ccp }}</td>
           <td *ngIf="shouldDisplayColumn('CFP')">{{ user.cfp }}</td>
-          <td *ngIf="shouldDisplayColumn('MOV')">
+          <td *ngIf="shouldDisplayColumn('MOV') && user.totalMovieQuibed > 0">
             <a
               style="color: blue; cursor: pointer"
               (click)="
@@ -207,14 +223,17 @@
                   (message = 'Movie List')
                 ]
               "
-              >MOV</a
+              >{{ user.totalMovieQuibed }}</a
             >
+          </td>
+          <td *ngIf="shouldDisplayColumn('MOV') && user.totalMovieQuibed == 0">
+            {{ user.totalMovieQuibed }}
           </td>
           <td *ngIf="shouldDisplayColumn('QUIBS')">
             {{ user.totalQuibsWritten }}
           </td>
           <td *ngIf="shouldDisplayColumn('AVR')">
-            {{ user.averageOverallRating }}
+            {{ fixTo4Decimals(user.averageOverallRating) }}
           </td>
           <td *ngIf="shouldDisplayColumn('B-IN')">
             {{ user.totalBumpReceived }}
@@ -222,22 +241,6 @@
           <td *ngIf="shouldDisplayColumn('B-OUT')">{{ user.bumpCount }}</td>
           <td *ngIf="shouldDisplayColumn('FLAGE')">
             {{ user.totalFlagReceived }}
-          </td>
-          <td *ngIf="shouldDisplayColumn('Avatar')">
-            <img
-              [src]="getFullImageUrl(user.avatarBase32ImagePath)"
-              style="
-                width: 60px;
-                height: 60px;
-                object-fit: contain;
-                max-width: 100%;
-                max-height: 100%;
-                cursor: pointer;
-                border-radius: 50px;
-                margin-left: 11px;
-                object-fit: fill;
-              "
-            />
           </td>
           <td
             *ngIf="shouldDisplayColumn('PERS')"
@@ -402,7 +405,7 @@
             </td>
             <td>{{ item?.totalQuibByMovieId }}</td>
             <td>{{ item?.ratedQuibByMovieId }}</td>
-            <td>{{ item?.averageRatingByMovieId }}</td>
+            <td>{{ fixTo4Decimals(item?.averageRatingByMovieId) }}</td>
           </tr>
         </tbody>
       </table>
