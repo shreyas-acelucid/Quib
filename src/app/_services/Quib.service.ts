@@ -268,4 +268,9 @@ export class QuibService {
     const endpointUrl = `${environment.QUIB_ADMIN}/UnmergeDialogues?ParentQuibId=${parentQuibId}`;
     return this.http.put(endpointUrl, null);
   }
+
+  getRatingsOfQuibById(QuibId) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/QuibRatingDetails?QuibId=${QuibId}`;
+    return this.http.get(endpointUrl);
+  }
 }

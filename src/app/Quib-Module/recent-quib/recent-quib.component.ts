@@ -69,6 +69,9 @@ export class RecentQuibComponent implements OnInit {
   editedTimerSeconds: number = 0;
   currentQuibIndex: number = 0;
   isTextChanged: boolean = false;
+  ratingPopup: boolean = false;
+  userRatingList: any[] = [];
+  displayRatingPopup: boolean = false;
 
   constructor(
     private ngxLoader: NgxUiLoaderService,
@@ -109,7 +112,7 @@ export class RecentQuibComponent implements OnInit {
       { field: 'isEnabled', show: true, headers: 'IsEnabled' },
       //{ field: 'isBumped', show: true, headers: 'IsBumped' },
       { field: 'averageRating', show: true, headers: 'AVR' },
-      { field: 'numOfRatings', show: true, headers: 'Rating' },
+      { field: 'numOfRatings', show: true, headers: '#RT' },
       { field: 'bIn', show: true, headers: 'B-IN' },
       { field: 'bIn', show: true, headers: 'FLAG' },
     ];
@@ -639,6 +642,7 @@ export class RecentQuibComponent implements OnInit {
         this.BumpUserList = res;
         this.display = true;
         this.BIN = true;
+        this.ratingPopup = false;
 
         if (this.BumpUserList.length === 0) {
           (this.styleValue.height = '20vh'), (this.styleValue.width = '55vw');
@@ -676,6 +680,25 @@ export class RecentQuibComponent implements OnInit {
           'Flagged user list'
         );
       },
+    });
+  }
+
+  getRatingsOfQuibById(id: number) {
+    this.headerMessage = 'Users who rated';
+    this.QuibService.getRatingsOfQuibById(id).subscribe({
+      next: (res: any[]) => {
+        this.userRatingList = res;
+        this.ratingPopup = true;
+        this.displayRatingPopup = true;
+        this.BIN = false;
+      },
+      error: (res) => {
+        this.toastr.showError(
+          'Something is Wrong, Please check',
+          'Users who rated'
+        );
+      },
+      complete: () => {},
     });
   }
   FilterGlobal($event, stringVal) {

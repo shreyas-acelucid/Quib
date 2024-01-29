@@ -130,12 +130,6 @@
           <td *ngIf="shouldDisplayColumn('Join')">
             {{ user.createdDate | date : "MM/dd/yyyy" }}
           </td>
-          <!-- <td *ngIf="shouldDisplayColumn('BMP')">{{ user.bumpCount }}</td> -->
-          <td *ngIf="shouldDisplayColumn('FNG')">{{ user.followeeCount }}</td>
-          <td *ngIf="shouldDisplayColumn('FRS')">{{ user.followerCount }}</td>
-          <td *ngIf="shouldDisplayColumn('UNP')">
-            {{ user.unPostedQuibsCount }}
-          </td>
           <td *ngIf="shouldDisplayColumn('Status')">
             <div class="btn-grp">
               <button
@@ -162,6 +156,37 @@
               </button>
             </div>
           </td>
+          <td *ngIf="shouldDisplayColumn('T MOV') && user.totalMovieQuibed > 0">
+            <a
+              style="color: blue; cursor: pointer"
+              (click)="
+                [
+                  (display = true),
+                  (MoVList = true),
+                  (AssignToModerator = false),
+                  (ModeratorMovies = false),
+                  getUserQuibedMoviesList(user?.id),
+                  (message = 'Movie List')
+                ]
+              "
+              >{{ user.totalMovieQuibed }}</a
+            >
+          </td>
+          <td
+            *ngIf="shouldDisplayColumn('T MOV') && user.totalMovieQuibed == 0"
+          >
+            {{ user.totalMovieQuibed }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('T Q')">
+            {{ user.totalQuibsWritten }}
+          </td>
+          <td *ngIf="shouldDisplayColumn('UNP')">
+            {{ user.unPostedQuibsCount }}
+          </td>
+          <!-- <td *ngIf="shouldDisplayColumn('BMP')">{{ user.bumpCount }}</td> -->
+          <td *ngIf="shouldDisplayColumn('FNG')">{{ user.followeeCount }}</td>
+          <td *ngIf="shouldDisplayColumn('FRS')">{{ user.followerCount }}</td>
+
           <td *ngIf="shouldDisplayColumn('IsModerator')">
             <div class="btn-grp">
               <button
@@ -210,36 +235,15 @@
           <td *ngIf="shouldDisplayColumn('CUR')">{{ user.curatorScore }}</td>
           <td *ngIf="shouldDisplayColumn('CCP')">{{ user.ccp }}</td>
           <td *ngIf="shouldDisplayColumn('CFP')">{{ user.cfp }}</td>
-          <td *ngIf="shouldDisplayColumn('MOV') && user.totalMovieQuibed > 0">
-            <a
-              style="color: blue; cursor: pointer"
-              (click)="
-                [
-                  (display = true),
-                  (MoVList = true),
-                  (AssignToModerator = false),
-                  (ModeratorMovies = false),
-                  getUserQuibedMoviesList(user?.id),
-                  (message = 'Movie List')
-                ]
-              "
-              >{{ user.totalMovieQuibed }}</a
-            >
-          </td>
-          <td *ngIf="shouldDisplayColumn('MOV') && user.totalMovieQuibed == 0">
-            {{ user.totalMovieQuibed }}
-          </td>
-          <td *ngIf="shouldDisplayColumn('QUIBS')">
-            {{ user.totalQuibsWritten }}
-          </td>
+
           <td *ngIf="shouldDisplayColumn('AVR')">
             {{ fixTo4Decimals(user.averageOverallRating) }}
           </td>
           <td *ngIf="shouldDisplayColumn('B-IN')">
             {{ user.totalBumpReceived }}
           </td>
-          <td *ngIf="shouldDisplayColumn('B-OUT')">{{ user.bumpCount }}</td>
-          <td *ngIf="shouldDisplayColumn('FLAGE')">
+          <td *ngIf="shouldDisplayColumn('B-OU')">{{ user.bumpCount }}</td>
+          <td *ngIf="shouldDisplayColumn('FLG')">
             {{ user.totalFlagReceived }}
           </td>
           <td
