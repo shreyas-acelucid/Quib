@@ -33,4 +33,22 @@ export const SideNaveMenueRoute = [
   //   icon: 'pi pi-fw pi-user',
   //   routerLink: ['/admin-screenshots'],
   // },
+  {
+    label: 'Settings',
+    icon: 'pi pi-cog',
+    items: [
+      {
+        label: 'Recommended Movies',
+      },
+      {
+        label: 'Avatar',
+      },
+      {
+        label: 'Tooltip',
+      },
+      {
+        label: 'TOS',
+      },
+    ],
+  },
 ];
