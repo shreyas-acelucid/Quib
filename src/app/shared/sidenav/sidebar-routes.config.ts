@@ -8,29 +8,33 @@ export const SideNaveMenueRoute = [
     label: 'Movies',
     icon: 'pi pi-inbox',
     routerLink: ['/Movies/all-movies'],
-    // items: [
-    //   {
-    //     label: 'All Movies',
-    //     routerLink: ['/Movies/all-movies'],
-    //   },
-    //   {
-    //     label: 'Active Movies',
-    //     routerLink: ['/Movies/active-movies'],
-    //   },
-    //   {
-    //     label: 'Admin Screenshots',
-    //     routerLink: ['/Movies/admin-screenshots'],
-    //   },
-    // ],
-  },
+   },
   {
     label: 'Quibs',
     icon: 'pi pi-database',
     routerLink: ['/Quib/recent-quib'],
   },
-  // {
-  //   label: 'Admin Screenshots',
-  //   icon: 'pi pi-fw pi-user',
-  //   routerLink: ['/admin-screenshots'],
-  // },
+  {
+    label: 'Setting',
+    icon: 'pi pi-cog',
+    //routerLink: ['/Movies/all-movies'],
+    items: [
+      {
+        label: 'Recommended Movie',
+        // routerLink: ['/Movies/all-movies'],
+      },
+      {
+        label: 'Avatar',
+        // routerLink: ['/Movies/active-movies'],
+      },
+      {
+        label: 'Tooltip',
+        // routerLink: ['/Movies/admin-screenshots'],
+      },
+      {
+        label: 'TOS',
+        // routerLink: [''],
+      },
+    ],
+  },
 ];
