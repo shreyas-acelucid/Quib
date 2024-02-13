@@ -26,7 +26,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./Movies-Module/movies.module').then((mod) => mod.MoviesModule),
   },
-
+  {
+    path: 'setting',
+    loadChildren: () =>
+      import('./setting/setting.module').then((mod) => mod.SettingModule),
+  },
   { path: '', component: AuthenticationComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '', pathMatch: 'full' },

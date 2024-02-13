@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { NgxUiLoaderService ,SPINNER} from 'ngx-ui-loader';
 
 @Component({
-  selector: 'app-avatar',
-  templateUrl: './avatar.component.html',
-  styleUrls: ['./avatar.component.scss']
+  selector: 'app-tos',
+  templateUrl: './tos.component.html',
+  styleUrls: ['./tos.component.scss']
 })
-export class AvatarComponent implements OnInit {
+export class TOSComponent implements OnInit {
   sidebarSpacing: any;
   fgsType: any;
-  checked2: boolean = true;
+  checked2: boolean =true;
   constructor(
     private ngxLoader: NgxUiLoaderService,
   ) { }
