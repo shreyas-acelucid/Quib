@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { NgxUiLoaderService ,SPINNER} from 'ngx-ui-loader';
 
 @Component({
-  selector: 'app-avatar',
-  templateUrl: './avatar.component.html',
-  styleUrls: ['./avatar.component.scss']
+  selector: 'app-recommended-movies',
+  templateUrl: './recommended-movies.component.html',
+  styleUrls: ['./recommended-movies.component.scss']
 })
-export class AvatarComponent implements OnInit {
+export class RecommendedMoviesComponent implements OnInit {
   sidebarSpacing: any;
   fgsType: any;
   checked2: boolean = true;

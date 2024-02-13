@@ -16,11 +16,7 @@ const routes: Routes = [
   {
     path: 'admin-quib', component: AdminQuibComponent
   },
-  
-  
- 
-  
-];
+  ];
 
 
 @NgModule({

@@ -17,15 +17,14 @@ export const SideNaveMenueRoute = [
   {
     label: 'Setting',
     icon: 'pi pi-cog',
-    //routerLink: ['/Movies/all-movies'],
     items: [
       {
         label: 'Recommended Movie',
-        // routerLink: ['/Movies/all-movies'],
+        routerLink: ['/setting/recommended-movie'],
       },
       {
         label: 'Avatar',
-        // routerLink: ['/Movies/active-movies'],
+        routerLink: ['/setting/avatar'],
       },
       {
         label: 'Tooltip',
@@ -33,7 +32,7 @@ export const SideNaveMenueRoute = [
       },
       {
         label: 'TOS',
-        // routerLink: [''],
+        routerLink: ['/setting/tos'],
       },
     ],
   },

@@ -25,6 +25,7 @@ import { CalendarModule } from 'primeng/calendar';
 import {CheckboxModule} from 'primeng/checkbox';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ToggleButtonModule} from 'primeng/togglebutton';
 @NgModule({
   declarations: [
     SidenavComponent,
@@ -51,6 +52,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
     CheckboxModule,
     MatCheckboxModule,
     ConfirmDialogModule,
+    ToggleButtonModule,
     ToastrModule.forRoot({
       timeOut: 300,
       positionClass: 'toast-bottom-right',
@@ -83,7 +85,8 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
     CalendarModule,
     CheckboxModule,
     MatCheckboxModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    ToggleButtonModule
    ]
 })
 export class SharedModule { 
