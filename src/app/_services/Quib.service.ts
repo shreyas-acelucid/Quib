@@ -288,4 +288,14 @@ export class QuibService {
     const endpointUrl = `${environment.QUIB_ADMIN}/AddAvatar`;
     return this.http.post(endpointUrl, payload);
   }
+
+  async EditTos(payload) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/EditTOS`;
+    return this.http.put(endpointUrl, payload);
+  }
+
+  async GetTos() {
+    const endpointUrl = `${environment.QUIB_ADMIN}/GetTOS`;
+    return this.http.get(endpointUrl);
+  }
 }

@@ -21,7 +21,6 @@ export class AvatarComponent implements OnInit {
   allAvatars: any[] = [];
   AvatarId: number;
   serverBaseUrl: string = 'http://44.211.90.48/';
-  // serverBaseUrl: string = 'https://localhost:7231/'; (for local testing)
   image: File;
   constructor(
     private ngxLoader: NgxUiLoaderService,
