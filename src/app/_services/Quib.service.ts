@@ -299,4 +299,14 @@ export class QuibService {
     const endpointUrl = `${environment.QUIB_ADMIN}/GetTOS`;
     return this.http.get(endpointUrl);
   }
+
+  async GetRecommendedMovies() {
+    const endpointUrl = `${environment.QUIB_ADMIN}/GetRecommendedMovies`;
+    return this.http.get(endpointUrl);
+  }
+
+   AddToRecommendedMovies(Id,recommend) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/RecommendMovie?Id=${Id}&recommend=${recommend}`;
+    return this.http.put(endpointUrl,recommend);
+  }
 }

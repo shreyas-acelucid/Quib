@@ -11,6 +11,7 @@ import { CommonService } from 'src/app/_services/common';
 import { FormControl } from '@angular/forms';
 import { Dir } from '@angular/cdk/bidi';
 import { Router } from '@angular/router';
+import { QuibService } from 'src/app/_services/Quib.service';
 @Component({
   selector: 'app-all-movies',
   templateUrl: './all-movies.component.html',
@@ -51,6 +52,7 @@ export class AllMoviesComponent implements OnInit {
     private CommonService: CommonService,
     private confirmationService: ConfirmationService,
     private toastr: ToastrMsgService,
+    private QuibService: QuibService,
     private router: Router
   ) {
     this.AllMoviesForm = this.fb.group({
@@ -85,6 +87,7 @@ export class AllMoviesComponent implements OnInit {
       { field: 'releaseYear', show: true, headers: 'Release Year' },
       { field: 'length', show: true, headers: 'Length' },
       { field: 'isActive', show: true, headers: 'Status' },
+      { field: 'isRecommended', show: true, headers: 'Recommended' },
       { field: 'posterContentThumb', show: true, headers: 'Movie Poster' },
       //{ field: 'screenshot', show: true, headers: 'ScreenShot' },
       { field: 'admin-ss', show: true, headers: 'Screenshots' },
@@ -282,7 +285,29 @@ export class AllMoviesComponent implements OnInit {
       },
     });
   }
-
+  Recommended(id: number, Status: boolean) {
+    if (Status) {
+      this.message = 'Are you sure that you want to add  as Recommended';
+    } else {
+      this.message = 'Are you sure that you want to remove  Recommended movie';
+    }
+    this.confirmationService.confirm({
+      message: this.message,
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.QuibService.AddToRecommendedMovies(id, Status).subscribe((res) => {
+          if (res) {
+            this.toastr.showSuccess(
+              ' Status change successfully',
+              'Status change'
+            );
+            this.getMovieList();
+          }
+        });
+      },
+    });
+  }
   Submit() {
     const id = this.AllMoviesForm.controls['id'].value;
     const Title = this.AllMoviesForm.controls['title'].value;
@@ -345,7 +370,7 @@ export class AllMoviesComponent implements OnInit {
             this.display = false;
             this.getMovieList();
           },
-          complete: () => {},
+          complete: () => { },
         });
       }
     }

@@ -136,6 +136,32 @@
               </button>
             </div>
           </td>
+          <td *ngIf="shouldDisplayColumn('Recommended')">
+            <div class="btn-grp">
+              <button
+                pTooltip="Remove from Recommended"
+                pButton
+                type="button"
+                class="p-button-success"
+                (click)="Recommended(moviesList?.id, false)"
+                *ngIf="moviesList.isRecommended == true"
+                style="height: 30px; width: 6rem; padding-left: 1.63rem"
+              >
+              ADDED
+              </button>
+              <button
+                pButton
+                type="button"
+                class="p-button-danger"
+                pTooltip="ADD to  Recommended"
+                (click)="Recommended(moviesList?.id, true)"
+                *ngIf="moviesList.isRecommended == false"
+                style="height: 30px"
+              >
+              Remove
+              </button>
+            </div>
+          </td>
           <td *ngIf="shouldDisplayColumn('Movie Poster')">
             <img
               [src]="getFullImageUrl(moviesList.posterContent)"
