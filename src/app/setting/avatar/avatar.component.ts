@@ -2,12 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { QuibService } from 'src/app/_services/Quib.service';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
 
 @Component({
   selector: 'app-avatar',
@@ -43,8 +37,6 @@ export class AvatarComponent implements OnInit {
         this.ngxLoader.stop();
       },
       error: (error) => {
-        console.log(error);
-        console.log(error.error.message);
         this.ngxLoader.stop();
       },
       complete: () => {},
@@ -85,8 +77,7 @@ export class AvatarComponent implements OnInit {
       formData.append('AvatarImage', AvatarImage);
       (await this.QuibService.addAvatar(formData)).subscribe({
         next: (response) => {
-          this.toastr.showSuccess(`Avatar Added`, 'Avatar');
-          this.getAvatar();
+         this.getAvatar();
         },
         error: (error) => {
           this.toastr.showError('Avatar Filename Already Exists', 'Avatar');

@@ -33,61 +33,16 @@
                         </form>
                         <!--*********All avatar image list ************-->
                         <p class="txt-style">List of All Avatar Images</p>
-
-
                         <div class="row gutters">
                             <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-12"
                                 *ngFor="let avatarImage of allAvatars">
                                 <div class="image-div" (click)="deleteAvatar(avatarImage.avatarId)">
                                     <img [src]="getFullImageUrl(avatarImage.avatarBase256ImagePath)" alt="">
                                     <div class="overlay-text">
-                                        <i class="pi pi-times"></i>
+                                        <i class="pi pi-times" style="color: red;"></i>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12" >
-                                <div class="avatar">
-                                    <img src="../../../assets/images/avt.png" alt="">
-                                    <div class="row gutters">
-                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                                            style="margin-top: 5px;">
-                                            <label class="switch">
-                                                <input type="checkbox" checked>
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12" >
-                                <div class="avatar">
-                                    <img src="../../../assets/images/avt.png" alt="">
-                                    <div class="row gutters">
-                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                                            style="margin-top: 5px;">
-                                            <label class="switch">
-                                                <input type="checkbox" checked>
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12" >
-                                <div class="avatar">
-                                    <img src="../../../assets/images/avt.png" alt="">
-                                    <div class="row gutters">
-                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                                            style="margin-top: 5px;">
-                                            <label class="switch">
-                                                <input type="checkbox" checked>
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>                           -->
                         </div>
                     </div>
                 </div>

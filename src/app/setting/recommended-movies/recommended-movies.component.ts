@@ -12,6 +12,7 @@ export class RecommendedMoviesComponent implements OnInit {
   sidebarSpacing: any;
   fgsType: any;
   checked2: boolean = true;
+  checked:boolean=true
   RecommendedMovies: [] = []
   constructor(
     private ngxLoader: NgxUiLoaderService,
@@ -36,11 +37,11 @@ export class RecommendedMoviesComponent implements OnInit {
     (await this.QuibService.GetRecommendedMovies()).subscribe({
       next: (response: any) => {
         this.RecommendedMovies = response
-        this.toastr.showSuccess('TOS fetched successfully', 'TOS');
+        this.toastr.showSuccess('Recommended Movies fetched successfully', 'Movie');
         this.ngxLoader.stop();
       },
       error: (error) => {
-        this.toastr.showError('Failed to fetch TOS', 'TOS');
+        this.toastr.showError('Failed to fetch Recommended Movies fetched', 'Movie');
         this.ngxLoader.stop();
       },
       complete: () => { },

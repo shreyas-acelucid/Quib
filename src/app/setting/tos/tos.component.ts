@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { QuibService } from 'src/app/_services/Quib.service';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tos',
@@ -56,7 +55,6 @@ export class TOSComponent implements OnInit {
 
   cancelForm() {
     this.checked2 = true;
-    this.ngOnInit();
   }
 
   async submitForm() {
