@@ -290,8 +290,9 @@ export class QuibService {
   }
 
   async EditTos(payload) {
+    var payloadValue = { TOSText: payload };
     const endpointUrl = `${environment.QUIB_ADMIN}/EditTOS`;
-    return this.http.put(endpointUrl, payload);
+    return this.http.put(endpointUrl, payloadValue);
   }
 
   async GetTos() {

@@ -40,7 +40,7 @@ export class TOSComponent implements OnInit {
     this.ngxLoader.start();
     (await this.QuibService.GetTos()).subscribe({
       next: (response: any) => {
-        this.tos = JSON.parse(response.tosText).text;
+        this.tos = JSON.parse(response.tosText).TOSText;
         this.toastr.showSuccess('TOS fetched successfully', 'TOS');
         this.ngxLoader.stop();
       },
