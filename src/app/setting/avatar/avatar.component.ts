@@ -80,9 +80,7 @@ export class AvatarComponent implements OnInit {
   async deleteAvatar(AvatarId: number) {
     (await this.QuibService.deleteAvatar(AvatarId)).subscribe({
       next: (response) => {
-        console.log(response);
-        this.toastr.showSuccess('Avatar deleted', 'Avatar');
-        this.ngOnInit();
+       this.getAvatar();
       },
       error: (error) => {
         console.log(error);

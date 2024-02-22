@@ -309,4 +309,13 @@ export class QuibService {
     const endpointUrl = `${environment.QUIB_ADMIN}/RecommendMovie?Id=${Id}&recommend=${recommend}`;
     return this.http.put(endpointUrl,recommend);
   }
+
+  Getdisplay() {
+    const endpointUrl = `${environment.QUIB_ADMIN}/getdisplay`;
+    return this.http.get(endpointUrl);
+  }
+  DisplayRecommendedMovies(status:boolean) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/DisplayRecommendedMovies?display=${status}`;
+    return this.http.put(endpointUrl,status);
+  }
 }

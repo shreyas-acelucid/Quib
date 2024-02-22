@@ -12,7 +12,7 @@ export class RecommendedMoviesComponent implements OnInit {
   sidebarSpacing: any;
   fgsType: any;
   checked2: boolean = true;
-  checked:boolean=true
+  checked:boolean
   RecommendedMovies: [] = []
   constructor(
     private ngxLoader: NgxUiLoaderService,
@@ -23,6 +23,7 @@ export class RecommendedMoviesComponent implements OnInit {
     this.sidebarSpacing = 'expanded';
     this.fgsType = SPINNER.squareLoader;
     this.ngxLoader.start();
+    this.Getdisplay()
     this.GetRecommendedMovies()
   }
   onToggleSidebar(sidebarState: any) {
@@ -46,5 +47,17 @@ export class RecommendedMoviesComponent implements OnInit {
       },
       complete: () => { },
     });
+  }
+  Getdisplay() {
+    this.QuibService.Getdisplay().subscribe((res: any) => {
+      this.checked = res.isVisible
+    })
+  }
+  DisplayRecommendedMovies() {
+    var status = this.checked
+    this.QuibService.DisplayRecommendedMovies(status).subscribe(res => {
+      this.Getdisplay()
+      this.toastr.showSuccess('Recommended Movies list status changes successfully', 'Recommended');
+    })
   }
 }
