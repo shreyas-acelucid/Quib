@@ -5,15 +5,20 @@
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <p class="txt-style">Terms And Service of Quib.... !</p>
             </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                <p-toggleButton *ngIf="checked2" [(ngModel)]="checked2" onLabel="Edit"
-                    [style]="{'width': '10em'}"></p-toggleButton>
-            </div>
         </div>
         <hr>
         <div *ngIf="checked2; else elseBlock">
             <p class="txt-style" id="txt-style" [innerHTML]="tos">
             </p>
+        </div>
+
+        <div class="row gutters  mt-2">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+                <div class="text-right">
+                    <p-toggleButton *ngIf="checked2" [(ngModel)]="checked2" onLabel="Edit"
+                        [style]="{'width': '10em'}"></p-toggleButton>
+                </div>
+            </div>
         </div>
         <ng-template #elseBlock>
             <textarea id="TOS" name="TOS" rows="20" cols="20" [(ngModel)]="tos">

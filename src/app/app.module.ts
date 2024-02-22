@@ -12,9 +12,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent,],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -25,6 +26,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     FontAwesomeModule,
     HttpClientModule,
     ToastrModule.forRoot(),
+    ReactiveFormsModule,
   ],
   providers: [ConfirmationService, MessageService],
   bootstrap: [AppComponent],

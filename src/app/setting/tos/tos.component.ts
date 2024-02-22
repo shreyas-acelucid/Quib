@@ -41,7 +41,7 @@ export class TOSComponent implements OnInit {
     (await this.QuibService.GetTos()).subscribe({
       next: (response: any) => {
         this.tos = JSON.parse(response.tosText).TOSText;
-        this.toastr.showSuccess('TOS fetched successfully', 'TOS');
+        console.log('Fetched Succesfully');
         this.ngxLoader.stop();
       },
       error: (error) => {

@@ -3,6 +3,7 @@ import { QuibService } from 'src/app/_services/Quib.service';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -22,11 +23,19 @@ export class AvatarComponent implements OnInit {
   AvatarId: number;
   serverBaseUrl: string = 'http://44.211.90.48/';
   image: File;
+  myForm: FormGroup;
   constructor(
     private ngxLoader: NgxUiLoaderService,
     private QuibService: QuibService,
     private toastr: ToastrMsgService
-  ) {}
+  ) {
+    this.myForm = new FormGroup({
+      image: new FormControl(null, [
+        Validators.required,
+        this.imageFormatValidator,
+      ]),
+    });
+  }
 
   ngOnInit(): void {
     this.sidebarSpacing = 'expanded';
@@ -34,6 +43,21 @@ export class AvatarComponent implements OnInit {
     this.ngxLoader.start();
     this.getAvatar();
   }
+
+  imageFormatValidator(
+    control: AbstractControl
+  ): { [key: string]: any } | null {
+    if (control.value) {
+      const file = control.value as File;
+      const allowedFormats = ['image/jpeg', 'image/png'];
+
+      if (allowedFormats.indexOf(file.type) === -1) {
+        return { invalidImageFormat: true };
+      }
+    }
+    return null;
+  }
+
   async getAvatar() {
     this.ngxLoader.start();
     (await this.QuibService.getAvatar()).subscribe({
@@ -82,17 +106,26 @@ export class AvatarComponent implements OnInit {
     const formData = new FormData();
     const AvatarImage = this.image;
     if (this.image != null) {
-      formData.append('AvatarImage', AvatarImage);
-      (await this.QuibService.addAvatar(formData)).subscribe({
-        next: (response) => {
-          this.toastr.showSuccess(`Avatar Added`, 'Avatar');
-          this.getAvatar();
-        },
-        error: (error) => {
-          this.toastr.showError('Avatar Filename Already Exists', 'Avatar');
-        },
-        complete: () => {},
-      });
+      if (this.myForm.get('image').hasError('invalidImageFormat')) {
+        if (this.allAvatars.length < 16) {
+          formData.append('AvatarImage', AvatarImage);
+          (await this.QuibService.addAvatar(formData)).subscribe({
+            next: (response) => {
+              this.toastr.showSuccess(`Avatar Added`, 'Avatar');
+              this.getAvatar();
+            },
+            error: (error) => {
+              this.toastr.showError('Avatar Filename Already Exists', 'Avatar');
+            },
+            complete: () => {},
+          });
+        } else
+          this.toastr.showError(
+            'Maximum number of default avatars is 16',
+            'Avatar'
+          );
+      } else
+        this.toastr.showError('File must be of type .jpeg or .png', 'Avatar');
     } else this.toastr.showError('File cannot be empty', 'Avatar');
   }
 
