@@ -1,7 +1,15 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
     <div class="card col-sm-12" style="height: 100vh">
-        <p class="txt-style">All Recommended movies list !</p>
+        <div class="row gutters  mt-2">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <p class="txt-style">All Recommended movies list !</p>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <p-toggleButton [(ngModel)]="checked" onLabel="Hide"
+                 offLabel="Show" style="float: inline-start;"></p-toggleButton>
+            </div>
+        </div>
         <p-table id="customerTable" [value]="RecommendedMovies" responsiveLayout="scroll" scrollHeight="70vh"
             [paginator]="true" [rows]="20" [showCurrentPageReport]="true" [resizableColumns]="true"
             columnResizeMode="expand" [responsive]="true" styleClass="p-datatable-striped">

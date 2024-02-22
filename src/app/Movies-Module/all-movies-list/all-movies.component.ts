@@ -9,7 +9,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { CommonService } from 'src/app/_services/common';
 import { FormControl } from '@angular/forms';
-import { Dir } from '@angular/cdk/bidi';
 import { Router } from '@angular/router';
 import { QuibService } from 'src/app/_services/Quib.service';
 @Component({

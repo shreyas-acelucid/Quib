@@ -67,8 +67,6 @@ export class AvatarComponent implements OnInit {
         this.ngxLoader.stop();
       },
       error: (error) => {
-        console.log(error);
-        console.log(error.error.message);
         this.ngxLoader.stop();
       },
       complete: () => {},
@@ -111,8 +109,7 @@ export class AvatarComponent implements OnInit {
           formData.append('AvatarImage', AvatarImage);
           (await this.QuibService.addAvatar(formData)).subscribe({
             next: (response) => {
-              this.toastr.showSuccess(`Avatar Added`, 'Avatar');
-              this.getAvatar();
+                 this.getAvatar();
             },
             error: (error) => {
               this.toastr.showError('Avatar Filename Already Exists', 'Avatar');
