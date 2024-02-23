@@ -43,6 +43,7 @@ export class AllMoviesComponent implements OnInit {
   colsOptions: any[] = [];
   selectedColumns: any[] = [];
   filteredCols: any[] = [];
+  selectedThreshold: any = undefined;
 
   constructor(
     private ngxLoader: NgxUiLoaderService,
@@ -86,7 +87,8 @@ export class AllMoviesComponent implements OnInit {
       { field: 'releaseYear', show: true, headers: 'Release Year' },
       { field: 'length', show: true, headers: 'Length' },
       { field: 'isActive', show: true, headers: 'Status' },
-      { field: 'isRecommended', show: true, headers: 'Recommended' },
+      { field: 'isRecommended', show: true, headers: 'R Movies' },
+      { field: 'threshold', show: true, headers: 'Threshold' },
       { field: 'posterContentThumb', show: true, headers: 'Movie Poster' },
       //{ field: 'screenshot', show: true, headers: 'ScreenShot' },
       { field: 'admin-ss', show: true, headers: 'Screenshots' },
@@ -307,6 +309,27 @@ export class AllMoviesComponent implements OnInit {
       },
     });
   }
+  editThreshold(id, selectedThreshold) {
+    this.message = 'Are you sure that you want to edit the Threshold';
+    this.confirmationService.confirm({
+      message: this.message,
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.QuibService.EditThreshold(id, selectedThreshold).subscribe(
+          (res) => {
+            if (res) {
+              this.toastr.showSuccess(
+                'Threshold changed successfully',
+                'Threshold change'
+              );
+              this.getMovieList();
+            }
+          }
+        );
+      },
+    });
+  }
   Submit() {
     const id = this.AllMoviesForm.controls['id'].value;
     const Title = this.AllMoviesForm.controls['title'].value;
@@ -369,7 +392,7 @@ export class AllMoviesComponent implements OnInit {
             this.display = false;
             this.getMovieList();
           },
-          complete: () => { },
+          complete: () => {},
         });
       }
     }

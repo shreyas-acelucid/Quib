@@ -6,8 +6,10 @@
                 <p class="txt-style">All Recommended movies list !</p>
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                <p-toggleButton [(ngModel)]="checked" onLabel="Hide"
-                 offLabel="Show" (click)="DisplayRecommendedMovies()"></p-toggleButton>
+                <div class="text-right">
+                    <p-toggleButton [(ngModel)]="checked" onLabel="Hide&nbsp;R&nbsp;Movies"
+                        offLabel="Show&nbsp;R&nbsp;Movies" (click)="DisplayRecommendedMovies()"></p-toggleButton>
+                </div>
             </div>
         </div>
         <p-table id="customerTable" [value]="RecommendedMovies" responsiveLayout="scroll" scrollHeight="70vh"
