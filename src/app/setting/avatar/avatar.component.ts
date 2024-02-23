@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { QuibService } from 'src/app/_services/Quib.service';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
+import { ConfirmationService } from 'primeng/api';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
 
 @Component({
   selector: 'app-avatar',
@@ -23,19 +17,12 @@ export class AvatarComponent implements OnInit {
   AvatarId: number;
   serverBaseUrl: string = 'http://44.211.90.48/';
   image: File;
-  myForm: FormGroup;
   constructor(
     private ngxLoader: NgxUiLoaderService,
     private QuibService: QuibService,
-    private toastr: ToastrMsgService
-  ) {
-    this.myForm = new FormGroup({
-      image: new FormControl(null, [
-        Validators.required,
-        this.imageFormatValidator,
-      ]),
-    });
-  }
+    private toastr: ToastrMsgService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit(): void {
     this.sidebarSpacing = 'expanded';
@@ -44,18 +31,16 @@ export class AvatarComponent implements OnInit {
     this.getAvatar();
   }
 
-  imageFormatValidator(
-    control: AbstractControl
-  ): { [key: string]: any } | null {
-    if (control.value) {
-      const file = control.value as File;
-      const allowedFormats = ['image/jpeg', 'image/png'];
-
-      if (allowedFormats.indexOf(file.type) === -1) {
-        return { invalidImageFormat: true };
-      }
-    }
-    return null;
+  confirmdelete(event: Event, AvatarId: number) {
+    this.confirmationService.confirm({
+      target: event.target,
+      message: 'Confirm Deletion of Avatar?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteAvatar(AvatarId);
+      },
+      reject: () => {},
+    });
   }
 
   async getAvatar() {
@@ -80,7 +65,7 @@ export class AvatarComponent implements OnInit {
   async deleteAvatar(AvatarId: number) {
     (await this.QuibService.deleteAvatar(AvatarId)).subscribe({
       next: (response) => {
-       this.getAvatar();
+        this.getAvatar();
       },
       error: (error) => {
         console.log(error);
@@ -89,8 +74,19 @@ export class AvatarComponent implements OnInit {
     });
   }
 
-  onChangeAvatar(event) {
+  onChangeAvatar(event, fileinput) {
     this.image = event.target.files[0];
+    if (
+      !['.png', '.jpeg', '.jpg', '.gif'].some((extension) =>
+        this.image.name.endsWith(extension)
+      )
+    ) {
+      this.resetForm(fileinput);
+      this.toastr.showWarning(
+        'Extension must be of type jpeg, jpg, png or gif ',
+        'Invalid File extension'
+      );
+    }
   }
 
   resetForm(fileinput) {
@@ -102,26 +98,26 @@ export class AvatarComponent implements OnInit {
     const formData = new FormData();
     const AvatarImage = this.image;
     if (this.image != null) {
-      if (this.myForm.get('image').hasError('invalidImageFormat')) {
-        if (this.allAvatars.length < 16) {
-          formData.append('AvatarImage', AvatarImage);
-          (await this.QuibService.addAvatar(formData)).subscribe({
-            next: (response) => {
-                 this.getAvatar();
-            },
-            error: (error) => {
-              this.toastr.showError('Avatar Filename Already Exists', 'Avatar');
-            },
-            complete: () => {},
-          });
-        } else
-          this.toastr.showError(
-            'Maximum number of default avatars is 16',
-            'Avatar'
-          );
+      if (this.allAvatars.length < 16) {
+        formData.append('AvatarImage', AvatarImage);
+        (await this.QuibService.addAvatar(formData)).subscribe({
+          next: (response) => {
+            this.getAvatar();
+          },
+          error: (error) => {
+            this.toastr.showError(
+              'Avatar Filename Already Exists',
+              'Duplicate Filename'
+            );
+          },
+          complete: () => {},
+        });
       } else
-        this.toastr.showError('File must be of type .jpeg or .png', 'Avatar');
-    } else this.toastr.showError('File cannot be empty', 'Avatar');
+        this.toastr.showWarning(
+          'Maximum number of default avatars is 16',
+          'Cannot Add Avatar'
+        );
+    } else this.toastr.showWarning('File cannot be empty', 'Cannot Add Avatar');
   }
 
   onToggleSidebar(sidebarState: any) {
