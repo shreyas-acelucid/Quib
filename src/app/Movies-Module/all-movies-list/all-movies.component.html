@@ -81,19 +81,30 @@
               </button>
             </div>
           </td>
-          <td *ngIf="shouldDisplayColumn('Recommended')">
+          <td *ngIf="shouldDisplayColumn('R Movies')">
             <div class="btn-grp">
-              <button [disabled]="moviesList.isActive == false" pTooltip="Remove from Recommended" pButton type="button"
-                class="p-button-success" (click)="Recommended(moviesList?.id, false)"
-                *ngIf="moviesList.isRecommended == true" style="height: 30px; width: 6rem; padding-left: 1.63rem">
+              <button [disabled]="moviesList.isActive == false" pTooltip="Remove from Recommended Movies" pButton
+                type="button" class="p-button-success" (click)="Recommended(moviesList?.id, false)"
+                *ngIf="moviesList.isRecommended == true"
+                style="height: 30px; width: 6rem; padding-left: 1.63rem; padding-right: 5.12rem">
                 Remove
               </button>
-              <button [disabled]="moviesList.isActive == false" pButton type="button" class="p-button-danger" pTooltip="ADD to  Recommended"
-                (click)="Recommended(moviesList?.id, true)" *ngIf="moviesList.isRecommended == false"
-                style="height: 30px">
+              <button [disabled]="moviesList.isActive == false" pButton type="button" class="p-button-danger"
+                pTooltip="ADD to  Recommended Movies" (click)="Recommended(moviesList?.id, true)"
+                *ngIf="moviesList.isRecommended == false" style="height: 30px;">
                 ADD
               </button>
             </div>
+          </td>
+          <td *ngIf="shouldDisplayColumn('Threshold')">
+            <select [disabled]="moviesList.isActive == false" class="form-select form-select-sm"
+             [value]="moviesList?.threshold" (change)="editThreshold(moviesList?.id,input.value)" #input>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
           </td>
           <td *ngIf="shouldDisplayColumn('Movie Poster')">
             <img [src]="getFullImageUrl(moviesList.posterContent)" style="

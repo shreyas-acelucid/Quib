@@ -305,11 +305,14 @@ export class QuibService {
     return this.http.get(endpointUrl);
   }
 
-   AddToRecommendedMovies(Id,recommend) {
+  AddToRecommendedMovies(Id,recommend) {
     const endpointUrl = `${environment.QUIB_ADMIN}/RecommendMovie?Id=${Id}&recommend=${recommend}`;
     return this.http.put(endpointUrl,recommend);
   }
-
+  EditThreshold(Id,threshold) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/EditThreshold?Id=${Id}&threshold=${threshold}`;
+    return this.http.put(endpointUrl, threshold);
+  }
   Getdisplay() {
     const endpointUrl = `${environment.QUIB_ADMIN}/getdisplay`;
     return this.http.get(endpointUrl);
