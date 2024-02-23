@@ -6,13 +6,13 @@
                 <div class="h-100 mt-0">
                     <div class="card-body">
                         <!--***********avatar upload section is here **********-->
-                        <form name="AvatarForm" [formGroup]="myForm">
+                        <form name="AvatarForm">
                             <div class="row gutters">
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="form-group">
                                         <label for="name" class="txt-style">upload image</label>
                                         <input type="file" class="form-control" placeholder="avatar"
-                                            (change)="onChangeAvatar($event)" #fileinput />
+                                            (change)="onChangeAvatar($event, fileinput)" #fileinput />
                                     </div>
                                 </div>
                                 <div class="row gutters mt-2">
@@ -39,7 +39,9 @@
                                 <div class="image-div">
                                     <img [src]="getFullImageUrl(avatarImage.avatarBase256ImagePath)" alt="">
                                     <div class="overlay-text">
-                                        <i class="pi pi-times" (click)="deleteAvatar(avatarImage.avatarId)" style="color: red;"></i>
+                                        <p-confirmDialog></p-confirmDialog>
+                                        <i class="pi pi-times" (click)="confirmdelete($event,avatarImage.avatarId)"
+                                            style="color: red;"></i>
                                     </div>
                                 </div>
                             </div>
