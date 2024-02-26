@@ -34,7 +34,7 @@ export class AvatarComponent implements OnInit {
   confirmdelete(event: Event, AvatarId: number) {
     this.confirmationService.confirm({
       target: event.target,
-      message: 'Confirm Deletion of Avatar?',
+      message: 'Are you sure that you want to delete this  Avatar?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.deleteAvatar(AvatarId);
@@ -98,25 +98,19 @@ export class AvatarComponent implements OnInit {
     const formData = new FormData();
     const AvatarImage = this.image;
     if (this.image != null) {
-      if (this.allAvatars.length < 16) {
-        formData.append('AvatarImage', AvatarImage);
-        (await this.QuibService.addAvatar(formData)).subscribe({
-          next: (response) => {
-            this.getAvatar();
-          },
-          error: (error) => {
-            this.toastr.showError(
-              'Avatar Filename Already Exists',
-              'Duplicate Filename'
-            );
-          },
-          complete: () => {},
-        });
-      } else
-        this.toastr.showWarning(
-          'Maximum number of default avatars is 16',
-          'Cannot Add Avatar'
-        );
+      formData.append('AvatarImage', AvatarImage);
+      (await this.QuibService.addAvatar(formData)).subscribe({
+        next: (response) => {
+          this.getAvatar();
+        },
+        error: (error) => {
+          this.toastr.showError(
+            'Avatar Filename Already Exists',
+            'Duplicate Filename'
+          );
+        },
+        complete: () => {},
+      });
     } else this.toastr.showWarning('File cannot be empty', 'Cannot Add Avatar');
   }
 

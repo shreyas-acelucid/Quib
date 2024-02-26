@@ -5,17 +5,19 @@ import { SharedModule } from '../shared/shared.module';
 import { AvatarComponent } from './avatar/avatar.component'
 import { RecommendedMoviesComponent } from './recommended-movies/recommended-movies.component';
 import { TOSComponent } from './tos/tos.component';
+import { TooltipsComponent } from './tooltips/tooltips.component';
 
 @NgModule({
   declarations: [
     AvatarComponent,
     RecommendedMoviesComponent,
-    TOSComponent
+    TOSComponent,
+    TooltipsComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
-    SettingRoutingModule
+    SettingRoutingModule,
   ]
 })
 export class SettingModule { }

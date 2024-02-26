@@ -34,12 +34,10 @@
                         <!--*********All avatar image list ************-->
                         <p class="txt-style">List of All Avatar Images</p>
                         <div class="row gutters">
-                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-12"
-                                *ngFor="let avatarImage of allAvatars">
+                            <div class="avatar" *ngFor="let avatarImage of allAvatars">
                                 <div class="image-div">
-                                    <img [src]="getFullImageUrl(avatarImage.avatarBase256ImagePath)" alt="">
+                                    <img [src]="getFullImageUrl(avatarImage.avatarBase256ImagePath)">
                                     <div class="overlay-text">
-                                        <p-confirmDialog></p-confirmDialog>
                                         <i class="pi pi-times" (click)="confirmdelete($event,avatarImage.avatarId)"
                                             style="color: red;"></i>
                                     </div>
@@ -51,4 +49,6 @@
             </div>
         </div>
     </div>
+    <p-confirmDialog header="Confirmation" [style]="{ width: '40vw' }" position="top" [baseZIndex]="10000"
+        icon="pi pi-exclamation-triangle"></p-confirmDialog>
 </div>
