@@ -26,12 +26,9 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ToggleButtonModule} from 'primeng/togglebutton';
+import { InplaceModule } from 'primeng/inplace';
 @NgModule({
-  declarations: [
-    SidenavComponent,
-    HeaderComponent,
-    DropdownMenuComponent
-  ],
+  declarations: [SidenavComponent, HeaderComponent, DropdownMenuComponent],
   imports: [
     CommonModule,
     AngularMaterialModule,
@@ -61,7 +58,8 @@ import {ToggleButtonModule} from 'primeng/togglebutton';
     AccordionModule,
     FormsModule,
     ReactiveFormsModule,
-    CalendarModule
+    CalendarModule,
+    InplaceModule,
   ],
   exports: [
     HeaderComponent,
@@ -86,39 +84,39 @@ import {ToggleButtonModule} from 'primeng/togglebutton';
     CheckboxModule,
     MatCheckboxModule,
     ConfirmDialogModule,
-    ToggleButtonModule
-   ]
+    ToggleButtonModule,
+    InplaceModule
+  ],
 })
-export class SharedModule { 
-  NgxUiLoaderConfig: NgxUiLoaderConfig =
-  {
-    "bgsColor": "rgba(15,1,1,0.99)",
-    "bgsOpacity": 0.5,
-    "bgsPosition": "bottom-right",
-    "bgsSize": 60,
-    "bgsType": "square-loader",
-    "blur": 5,
-    "delay": 0,
-    "fastFadeOut": true,
-    "fgsColor": "rgba(15,1,1,0.99)",
-    "fgsPosition": "center-center",
-    "fgsSize": 60,
-    "fgsType": "square-loader",
-    "gap": 24,
-    "logoPosition": "center-center",
-    "logoSize": 120,
-    "logoUrl": "",
-    "masterLoaderId": "master",
-    "overlayBorderRadius": "0",
-    "overlayColor": "rgba(40, 40, 40, 0.8)",
-    "pbColor": "rgba(15,1,1,0.99)",
-    "pbDirection": "ltr",
-    "pbThickness": 2,
-    "hasProgressBar": true,
-    "text": "",
-    "textColor": "#FFFFFF",
-    "textPosition": "center-center",
-    "maxTime": -1,
-    "minTime": 300
-  }
+export class SharedModule {
+  NgxUiLoaderConfig: NgxUiLoaderConfig = {
+    bgsColor: 'rgba(15,1,1,0.99)',
+    bgsOpacity: 0.5,
+    bgsPosition: 'bottom-right',
+    bgsSize: 60,
+    bgsType: 'square-loader',
+    blur: 5,
+    delay: 0,
+    fastFadeOut: true,
+    fgsColor: 'rgba(15,1,1,0.99)',
+    fgsPosition: 'center-center',
+    fgsSize: 60,
+    fgsType: 'square-loader',
+    gap: 24,
+    logoPosition: 'center-center',
+    logoSize: 120,
+    logoUrl: '',
+    masterLoaderId: 'master',
+    overlayBorderRadius: '0',
+    overlayColor: 'rgba(40, 40, 40, 0.8)',
+    pbColor: 'rgba(15,1,1,0.99)',
+    pbDirection: 'ltr',
+    pbThickness: 2,
+    hasProgressBar: true,
+    text: '',
+    textColor: '#FFFFFF',
+    textPosition: 'center-center',
+    maxTime: -1,
+    minTime: 300,
+  };
 }
