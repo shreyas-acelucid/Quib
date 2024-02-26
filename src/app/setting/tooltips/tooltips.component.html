@@ -6,8 +6,8 @@
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12 tooltipcontainer"
                     *ngFor="let tooltips of allTooltips">
                     <p-card header="{{tooltips.buttonName}}">
-                        <div class="card" style="height: 10vh">
-                            <p-inplace [closable]="closable">
+                        <div style="height: 20vh">
+                            <p-inplace>
                                 <ng-template pTemplate="display">
                                     <span>{{tooltips.tooltipText}}</span>
                                 </ng-template>

@@ -15,7 +15,6 @@ export class TooltipsComponent implements OnInit {
   allTooltips: any[] = [];
   disable: false;
   tooltip: any;
-  closable: any;
 
   constructor(
     private ngxLoader: NgxUiLoaderService,
