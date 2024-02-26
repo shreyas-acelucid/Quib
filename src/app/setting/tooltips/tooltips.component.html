@@ -1,8 +1,9 @@
 <app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
 <div class="body bcard" [ngClass]="sidebarSpacing">
-    <div class="tooltipcontainer">
-        <div class="row gutters">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6" *ngFor="let tooltips of allTooltips">
+    <div class="row gutters">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 tooltipcontainer"
+                *ngFor="let tooltips of allTooltips">
                 <p-card header="{{tooltips.buttonName}}">
                     <div class="card col-sm-3" style="height: 20vh">
                         <div *ngIf="checked2; else elseBlock">
@@ -19,13 +20,12 @@
                                 </div>
                             </div>
                         </div>
-
                         <ng-template #elseBlock>
                             <textarea id="tooltip" name="tooltip" rows="10" cols="10"
                                 [(ngModel)]="tooltips.tooltipText">
-                        </textarea>
+                            </textarea>
                             <div class="row gutters mt-2">
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 mt-4">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mt-4">
                                     <div class="text-right">
                                         <button pButton type="button" id="submit" name="submit" class="p-button-success"
                                             (click)="onSubmit(tooltips.buttonId,tooltips.tooltipText)">
@@ -40,4 +40,5 @@
             </div>
         </div>
     </div>
+
 </div>

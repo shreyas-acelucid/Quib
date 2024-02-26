@@ -3,5 +3,7 @@
   font-size: 18px;
 }
 .tooltipcontainer {
-  display: grid;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 5px;
 }
