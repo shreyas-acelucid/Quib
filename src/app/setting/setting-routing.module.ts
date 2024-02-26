@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AvatarComponent } from './avatar/avatar.component';
 import { RecommendedMoviesComponent } from './recommended-movies/recommended-movies.component';
 import { TOSComponent } from './tos/tos.component';
+import { TooltipsComponent } from './tooltips/tooltips.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,9 @@ const routes: Routes = [
   },
   {
     path: 'tos', component: TOSComponent
+  },
+  {
+    path: 'tooltips', component: TooltipsComponent
   },
 ];
 

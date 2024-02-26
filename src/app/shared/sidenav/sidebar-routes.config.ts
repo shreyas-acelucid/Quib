@@ -15,7 +15,7 @@ export const SideNaveMenueRoute = [
     routerLink: ['/Quib/recent-quib'],
   },
   {
-    label: 'Setting',
+    label: 'Settings',
     icon: 'pi pi-cog',
     items: [
       {
@@ -28,7 +28,7 @@ export const SideNaveMenueRoute = [
       },
       {
         label: 'Tooltip',
-        // routerLink: ['/Movies/admin-screenshots'],
+        routerLink: ['/setting/tooltips'],
       },
       {
         label: 'TOS',

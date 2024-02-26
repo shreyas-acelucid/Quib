@@ -297,20 +297,29 @@ export class AdminScreenshotsComponent implements OnInit {
   OnchangeScreenShot(event) {
     var reader = new FileReader();
     this.image = event.target.files[0];
-    reader.readAsDataURL(event.target.files[0]);
-    reader.onload = (data) => {
-      this.screenShotImage = data.target.result;
-    };
+    const regexPattern = /^[\w-]+_\d{2}_\d{2}_\d{2}\.(jpg|png)$/;
+    if (regexPattern.exec(event.target.files[0].name) && event.target.files[0].size <= 512000) {
+      console.log(event.target.files[0])
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (data) => {
+        this.screenShotImage = data.target.result;
+      };
+    } else {
+      this.toastr.showWarning(
+        'Extension must be of type jpg or png  and name should be movieName_hh_mm_ss and maximum size of the image should be 500kb',
+        'Invalid File extension'
+      );
+      this.AddScreenshotForm.controls['posterContentThumb'].reset()
+      this.screenShotImage = null
+    }
   }
 
   async SubmitScreenshots() {
     const hours = this.AddScreenshotForm.controls['hours'].value;
     const minutes = this.AddScreenshotForm.controls['minutes'].value;
     const seconds = this.AddScreenshotForm.controls['seconds'].value;
-
     const time = hours * 3600 + minutes * 60 + seconds;
     const ScreenShotImage = this.image;
-
     const formData = new FormData();
     formData.append('MovieId', this.movieId.toString());
     formData.append('Screenshot', ScreenShotImage);
