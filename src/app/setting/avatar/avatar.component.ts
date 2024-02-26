@@ -98,25 +98,19 @@ export class AvatarComponent implements OnInit {
     const formData = new FormData();
     const AvatarImage = this.image;
     if (this.image != null) {
-      if (this.allAvatars.length < 16) {
-        formData.append('AvatarImage', AvatarImage);
-        (await this.QuibService.addAvatar(formData)).subscribe({
-          next: (response) => {
-            this.getAvatar();
-          },
-          error: (error) => {
-            this.toastr.showError(
-              'Avatar Filename Already Exists',
-              'Duplicate Filename'
-            );
-          },
-          complete: () => {},
-        });
-      } else
-        this.toastr.showWarning(
-          'Maximum number of default avatars is 16',
-          'Cannot Add Avatar'
-        );
+      formData.append('AvatarImage', AvatarImage);
+      (await this.QuibService.addAvatar(formData)).subscribe({
+        next: (response) => {
+          this.getAvatar();
+        },
+        error: (error) => {
+          this.toastr.showError(
+            'Avatar Filename Already Exists',
+            'Duplicate Filename'
+          );
+        },
+        complete: () => {},
+      });
     } else this.toastr.showWarning('File cannot be empty', 'Cannot Add Avatar');
   }
 

@@ -305,11 +305,11 @@ export class QuibService {
     return this.http.get(endpointUrl);
   }
 
-  AddToRecommendedMovies(Id,recommend) {
+  AddToRecommendedMovies(Id, recommend) {
     const endpointUrl = `${environment.QUIB_ADMIN}/RecommendMovie?Id=${Id}&recommend=${recommend}`;
-    return this.http.put(endpointUrl,recommend);
+    return this.http.put(endpointUrl, recommend);
   }
-  EditThreshold(Id,threshold) {
+  EditThreshold(Id, threshold) {
     const endpointUrl = `${environment.QUIB_ADMIN}/EditThreshold?Id=${Id}&threshold=${threshold}`;
     return this.http.put(endpointUrl, threshold);
   }
@@ -317,8 +317,18 @@ export class QuibService {
     const endpointUrl = `${environment.QUIB_ADMIN}/getdisplay`;
     return this.http.get(endpointUrl);
   }
-  DisplayRecommendedMovies(status:boolean) {
+  DisplayRecommendedMovies(status: boolean) {
     const endpointUrl = `${environment.QUIB_ADMIN}/DisplayRecommendedMovies?display=${status}`;
-    return this.http.put(endpointUrl,status);
+    return this.http.put(endpointUrl, status);
+  }
+
+  async GetTooltips() {
+    const endpointUrl = `${environment.QUIB_ADMIN}/GetAllTooltips`;
+    return this.http.get(endpointUrl);
+  }
+
+  async EditTooltip(buttonid, tooltiptext) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/EditTooltip?buttonid=${buttonid}&tooltiptext=${tooltiptext}`;
+    return this.http.put(endpointUrl, null);
   }
 }
