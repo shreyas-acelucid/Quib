@@ -34,7 +34,7 @@ export class AvatarComponent implements OnInit {
   confirmdelete(event: Event, AvatarId: number) {
     this.confirmationService.confirm({
       target: event.target,
-      message: 'Confirm Deletion of Avatar?',
+      message: 'Are you sure that you want to delete this  Avatar?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.deleteAvatar(AvatarId);
