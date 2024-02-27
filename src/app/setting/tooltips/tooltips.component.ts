@@ -64,7 +64,7 @@ export class TooltipsComponent implements OnInit {
 
   async onSubmit() {
     (await this.QuibService.EditTooltip(this.TooltipsForm.controls['buttonId'].value,
-      this.TooltipsForm.controls['tooltipText'].value)).subscribe({
+      this.TooltipsForm.controls['tooltipText'].value, this.TooltipsForm.controls['buttonName'].value)).subscribe({
         next: (response) => {
           this.toastr.showSuccess(`Tooltip Updated`, 'TOS');
         },

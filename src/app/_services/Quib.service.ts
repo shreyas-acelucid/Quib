@@ -327,8 +327,8 @@ export class QuibService {
     return this.http.get(endpointUrl);
   }
 
-  async EditTooltip(buttonid, tooltiptext) {
-    const endpointUrl = `${environment.QUIB_ADMIN}/EditTooltip?buttonid=${buttonid}&tooltiptext=${tooltiptext}`;
+  async EditTooltip(buttonid, tooltiptext, buttonname) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/EditTooltip?buttonid=${buttonid}&tooltiptext=${tooltiptext}&buttonname=${buttonname}`;
     return this.http.put(endpointUrl, null);
   }
 }
