@@ -571,9 +571,11 @@ export class RecentQuibComponent implements OnInit {
     });
   }
   FlagIncreamentAndDecreament(index, value) {
+    if(1<=value && value<=5)
     this.FlagUserList[index].cfp = value;
   }
   BumpIncreamentAndDecreament(index, value) {
+    if(1<=value && value<=5)
     this.BumpUserList[index].ccp = value;
   }
   submitBumpUserListdata() {
