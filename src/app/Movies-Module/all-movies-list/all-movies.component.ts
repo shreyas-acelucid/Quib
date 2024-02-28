@@ -328,6 +328,9 @@ export class AllMoviesComponent implements OnInit {
           }
         );
       },
+      reject: () => {
+        this.getMovieList();
+      }
     });
   }
   Submit() {

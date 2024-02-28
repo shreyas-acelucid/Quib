@@ -97,7 +97,7 @@
             </div>
           </td>
           <td *ngIf="shouldDisplayColumn('Threshold')">
-            <select [disabled]="moviesList.isActive == false" class="form-select form-select-sm"
+            <select id="threshold" [disabled]="moviesList.isActive == false" class="form-select form-select-sm"
              [value]="moviesList?.threshold" (change)="editThreshold(moviesList?.id,input.value)" #input>
               <option value="1">1</option>
               <option value="2">2</option>
