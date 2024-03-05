@@ -2,8 +2,24 @@
 <div class="body bcard" [ngClass]="sidebarSpacing">
     <div class="row gutters">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="row gutters">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <p class="txt-style">A list of all the Tooltips!</p>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="text-right">
+                        <p-toggleButton [(ngModel)]="checked2" onLabel="Hide&nbsp;Tooltips" offLabel="Show&nbsp;Tooltips"
+                            (click)="DisplayAllTooltips()"></p-toggleButton>
+                    </div>
+                </div>
+            </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 tooltipcontainer"
                 *ngFor="let tooltips of allTooltips">
+                                    <div class="text-right" style="transform: translate(-1%,6vh);">
+                                        <mat-slide-toggle [color]="color" [checked]="!tooltips.isDisabled" [disabled]="disabled"
+                                            (change)="EditTooltipDisplay(tooltips.buttonId, $event)">
+                                        </mat-slide-toggle>
+                                    </div>
                 <p-card header="{{tooltips.buttonName}}">
                     <p class="txt-style" id="txt-style" [innerHTML]="tooltips.tooltipText">
                     </p>

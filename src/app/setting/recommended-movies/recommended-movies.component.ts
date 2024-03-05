@@ -57,7 +57,7 @@ export class RecommendedMoviesComponent implements OnInit {
     var status = this.checked
     this.QuibService.DisplayRecommendedMovies(status).subscribe(res => {
       this.Getdisplay()
-      this.toastr.showSuccess('Recommended Movies list status changes successfully', 'Recommended');
+      this.toastr.showSuccess('Recommended Movies list status changed successfully', 'Recommended');
     })
   }
 }
