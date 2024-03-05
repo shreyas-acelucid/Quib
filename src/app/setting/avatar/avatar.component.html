@@ -10,12 +10,27 @@
                             <div class="row gutters">
                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="form-group">
-                                        <label for="name" class="txt-style">upload image</label>
+                                        <label for="name" class="txt-style">Upload Image</label>
                                         <input type="file" class="form-control" placeholder="avatar"
                                             (change)="onChangeAvatar($event, fileinput)" #fileinput />
                                     </div>
                                 </div>
-                                <div class="row gutters mt-2">
+                                <p-dialog header="Edit Avatar" [closable]="false" [(visible)]="display" [modal]="true"
+                                    [style]="{ width: '50vw', height: '70vh' }">
+                                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                                        [aspectRatio]="1/1" (imageCropped)="imageCropped($event)"></image-cropper>
+                                    <div class="text-center">
+                                        <button pButton type="button" id="reset" name="reset"
+                                            class="p-button-danger mr-4" (click)="resetForm(fileinput)">
+                                            Cancel
+                                        </button>
+                                        <button pButton type="button" id="submit" name="submit" class="p-button-success"
+                                            (click)="addAvatar(fileinput)">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </p-dialog>
+                                <!-- <div class="row gutters mt-2">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
                                         <div class="text-right">
                                             <button pButton type="button" id="reset" name="reset"
@@ -28,7 +43,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </form>
                         <!--*********All avatar image list ************-->
@@ -39,7 +54,7 @@
                                     <img [src]="getFullImageUrl(avatarImage.avatarBase256ImagePath)">
                                     <div class="overlay-text">
                                         <i class="pi pi-times" (click)="confirmdelete($event,avatarImage.avatarId)"
-                                            style="color: red;"></i>
+                                            style="color: red; font-weight: bolder;"></i>
                                     </div>
                                 </div>
                             </div>

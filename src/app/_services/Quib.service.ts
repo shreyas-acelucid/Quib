@@ -331,4 +331,19 @@ export class QuibService {
     const endpointUrl = `${environment.QUIB_ADMIN}/EditTooltip?buttonid=${buttonid}&tooltiptext=${tooltiptext}&buttonname=${buttonname}`;
     return this.http.put(endpointUrl, null);
   }
+
+  GetTooltipDisplay() {
+    const endpointUrl = `${environment.QUIB_ADMIN}/GetTooltipDisplay`;
+    return this.http.get(endpointUrl);
+  }
+
+  DisplayTooltips(status: boolean) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/DisplayTooltips?display=${status}`;
+    return this.http.put(endpointUrl, status);
+  }
+
+  EditTooltipDisplay(buttonid, isdisabled){
+    const endpointUrl = `${environment.QUIB_ADMIN}/EditTooltipDisplay?buttonid=${buttonid}&isdisabled=${isdisabled}`;
+    return this.http.put(endpointUrl,null);
+  }
 }

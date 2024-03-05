@@ -3,6 +3,7 @@ import { QuibService } from 'src/app/_services/Quib.service';
 import { ToastrMsgService } from 'src/app/_services/toastr-msg.service';
 import { ConfirmationService } from 'primeng/api';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-avatar',
@@ -17,6 +18,9 @@ export class AvatarComponent implements OnInit {
   AvatarId: number;
   serverBaseUrl: string = 'http://44.211.90.48/';
   image: File;
+  display: boolean = false;
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
   constructor(
     private ngxLoader: NgxUiLoaderService,
     private QuibService: QuibService,
@@ -74,8 +78,19 @@ export class AvatarComponent implements OnInit {
     });
   }
 
+  imageCropped(event: ImageCroppedEvent) {
+    //preview
+    this.croppedImage = event.blob;
+    //converting to upload
+    const fileBeforeCrop = this.imageChangedEvent.target.files[0];
+    this.image = new File([this.croppedImage], fileBeforeCrop.name, {
+      type: fileBeforeCrop.type,
+    });
+  }
+
   onChangeAvatar(event, fileinput) {
     this.image = event.target.files[0];
+    this.imageChangedEvent = event;
     if (
       !['.png', '.jpeg', '.jpg', '.gif'].some((extension) =>
         this.image.name.endsWith(extension)
@@ -86,15 +101,10 @@ export class AvatarComponent implements OnInit {
         'Extension must be of type jpeg, jpg, png or gif ',
         'Invalid File extension'
       );
-    }
+    } else this.display = true;
   }
 
-  resetForm(fileinput) {
-    fileinput.value = null;
-    this.image = null;
-  }
-
-  async addAvatar() {
+  async addAvatar(fileinput) {
     const formData = new FormData();
     const AvatarImage = this.image;
     if (this.image != null) {
@@ -109,9 +119,17 @@ export class AvatarComponent implements OnInit {
             'Duplicate Filename'
           );
         },
-        complete: () => {},
+        complete: () => {
+          this.resetForm(fileinput);
+        },
       });
     } else this.toastr.showWarning('File cannot be empty', 'Cannot Add Avatar');
+  }
+
+  resetForm(fileinput) {
+    fileinput.value = null;
+    this.image = null;
+    this.display = false;
   }
 
   onToggleSidebar(sidebarState: any) {
