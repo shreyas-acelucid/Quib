@@ -90,15 +90,16 @@
                 Remove
               </button>
               <button [disabled]="moviesList.isActive == false" pButton type="button" class="p-button-danger"
-                pTooltip="ADD to  Recommended Movies" (click)="Recommended(moviesList?.id, true)"
-                *ngIf="moviesList.isRecommended == false" style="height: 30px;">
-                ADD
+                pTooltip="Add to Recommended Movies" (click)="Recommended(moviesList?.id, true)"
+                *ngIf="moviesList.isRecommended == false"
+                style="height: 30px; width: 6rem; padding-left: 2.43rem; padding-right: 4.32rem">
+                Add
               </button>
             </div>
           </td>
           <td *ngIf="shouldDisplayColumn('Threshold')">
             <select id="threshold" [disabled]="moviesList.isActive == false" class="form-select form-select-sm"
-             [value]="moviesList?.threshold" (change)="editThreshold(moviesList?.id,input.value)" #input>
+              [value]="moviesList?.threshold" (change)="editThreshold(moviesList?.id,input.value)" #input>
               <option value="0">0</option>
               <option value="0.5">0.5</option>
               <option value="1">1</option>

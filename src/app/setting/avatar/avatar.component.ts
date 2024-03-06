@@ -52,10 +52,10 @@ export class AvatarComponent implements OnInit {
     (await this.QuibService.getAvatar()).subscribe({
       next: (response: any[]) => {
         this.allAvatars = response;
-        this.toastr.showSuccess('All Avatars fetched successfully', 'Avatars');
         this.ngxLoader.stop();
       },
       error: (error) => {
+        this.toastr.showError('Avatars could not be fetched', 'Error');
         this.ngxLoader.stop();
       },
       complete: () => {},
@@ -70,8 +70,10 @@ export class AvatarComponent implements OnInit {
     (await this.QuibService.deleteAvatar(AvatarId)).subscribe({
       next: (response) => {
         this.getAvatar();
+        this.toastr.showSuccess('Avatar deleted successfully', 'Success');
       },
       error: (error) => {
+        this.toastr.showError('Failed to delete Avatar', '');
         console.log(error);
       },
       complete: () => {},
