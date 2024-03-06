@@ -239,6 +239,16 @@
             <div class="h-100 mt-5">
               <div class="card-body">
                 <div class="row gutters">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h5>Rules:</h5>
+                    <p style="color: red;">
+                      Max file size allowed is 500 KB<br />
+                      A filename must be in a format of MovieName_hh_mm_ss.ext<br />
+                      Timestamp (hh_mm_ss) must be lesser than or equal to the total movie length
+                    </p>
+                  </div>
+                </div>
+                <div class="row gutters">
                     <div
                         class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
                         >
@@ -255,10 +265,10 @@
                       </div>
                       <div
                         class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-                        *ngIf="screenShotImage != undefined"
                       >
                         <div class="form-group">
                           <img
+                            *ngIf="screenShotImage != undefined"
                             [src]="screenShotImage"
                             class="form-control"
                             style="width: 80%; height: 10vh; margin-left: 5px"

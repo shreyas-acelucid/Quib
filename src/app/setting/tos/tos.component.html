@@ -8,8 +8,8 @@
         </div>
         <hr>
         <div *ngIf="checked2; else elseBlock">
-            <p class="txt-style" id="txt-style" [innerHTML]="tos">
-            </p>
+            <textarea class="txt-style" id="txt-style" [(ngModel)]="tos" readonly rows="12" cols="158">
+            </textarea>
         </div>
 
         <div class="row gutters  mt-2">
