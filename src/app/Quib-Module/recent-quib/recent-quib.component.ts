@@ -109,7 +109,7 @@ export class RecentQuibComponent implements OnInit {
       { field: 'time', show: true, headers: 'Time' },
       { field: 'createdDate', show: true, headers: 'Created' },
       { field: 'postedDate', show: true, headers: 'Posted' },
-      { field: 'isEnabled', show: true, headers: 'IsEnabled' },
+      // { field: 'isEnabled', show: true, headers: 'IsEnabled' },
       //{ field: 'isBumped', show: true, headers: 'IsBumped' },
       { field: 'averageRating', show: true, headers: 'AVR' },
       { field: 'numOfRatings', show: true, headers: '#RT' },

@@ -52,7 +52,7 @@ export class AdminQuibComponent implements OnInit {
       { field: 'time', show: true, headers: 'Time' },
       { field: 'createdDate', show: true, headers: 'Created Date' },
       { field: 'postedDate', show: true, headers: 'Posted Date' },
-      { field: 'isEnabled', show: true, headers: 'Is Enabled' },
+      // { field: 'isEnabled', show: true, headers: 'Is Enabled' },
       { field: 'isBumped', show: true, headers: 'Is Bumped' },
       //{ field: 'quibType', show: true, headers: 'Quib Type' },
     ];
