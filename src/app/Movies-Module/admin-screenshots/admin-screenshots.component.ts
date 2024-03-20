@@ -298,8 +298,11 @@ export class AdminScreenshotsComponent implements OnInit {
     var reader = new FileReader();
     this.image = event.target.files[0];
     const regexPattern = /^[\w-]+_\d{2}_\d{2}_\d{2}\.(jpg|png)$/;
-    if (regexPattern.exec(event.target.files[0].name) && event.target.files[0].size <= 512000) {
-      console.log(event.target.files[0])
+    if (
+      regexPattern.exec(event.target.files[0].name) &&
+      event.target.files[0].size <= 512000
+    ) {
+      console.log(event.target.files[0]);
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (data) => {
         this.screenShotImage = data.target.result;
@@ -309,8 +312,8 @@ export class AdminScreenshotsComponent implements OnInit {
         'Extension must be of type jpg or png  and name should be movieName_hh_mm_ss and maximum size of the image should be 500kb',
         'Invalid File extension'
       );
-      this.AddScreenshotForm.controls['posterContentThumb'].reset()
-      this.screenShotImage = null
+      this.AddScreenshotForm.controls['posterContentThumb'].reset();
+      this.screenShotImage = null;
     }
   }
 
@@ -338,4 +341,7 @@ export class AdminScreenshotsComponent implements OnInit {
       complete: () => {},
     });
   }
+  shouldApplyClass(condition: boolean): string {
+    return condition ? 'selected' : 'unselected';
+  };
 }

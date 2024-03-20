@@ -59,14 +59,14 @@
         <div class="main-div" *ngFor="let screenshot of allScreenshots">
           <div class="sub-div-1">
             <div class="center-text">
-              <div class="timer-div">{{ getTime(screenshot.time) }}</div>
+              <div class="timer-div" [ngClass]="shouldApplyClass(screenshot.isSelected)">{{ getTime(screenshot.time) }}</div>
             </div>
             <div class="right-text">
               <mat-slide-toggle
                 [color]="color"
                 [checked]="screenshot.isSelected"
                 [disabled]="disabled"
-                (change)="updateIsSelected(screenshot.id, $event)"
+                (change)="triggerUpdateIsSelected(screenshot.id, screenshot.isSelected)"
               >
               </mat-slide-toggle>
             </div>

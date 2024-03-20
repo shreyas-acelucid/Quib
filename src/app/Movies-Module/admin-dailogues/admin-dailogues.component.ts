@@ -16,6 +16,7 @@ import { ConfirmationService } from 'primeng/api';
   styleUrls: ['./admin-dailogues.component.scss'],
 })
 export class AdminDailoguesComponent implements OnInit {
+  AddDialogue: boolean = false;
   allDialogues: any[] = [];
   movieTitle: string = '';
   movieId: number = 0;
@@ -406,5 +407,45 @@ export class AdminDailoguesComponent implements OnInit {
         // User clicked 'No' or closed the dialog
       },
     });
+  }
+
+  shouldApplyClass(condition: boolean): string {
+    return condition ? 'selected' : 'unselected';
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = () => {
+        const fileContent: string = reader.result as string;
+        const parsedData = this.parseTextFile(fileContent);
+        console.log(parsedData);
+      };
+    }
+  }
+
+  parseTextFile(content: string) {
+    const lines = content.split('\n');
+    const parsedData = [];
+
+    let i = 0;
+    while (i < lines.length) {
+      const timeLine = lines[i + 1].trim().slice(0, 8); // Extract first 8 characters as time
+      const dialogueLines = [];
+
+      i += 2; // Move to the next line after timestamp
+      while (i < lines.length && lines[i].trim() !== '') {
+        dialogueLines.push(lines[i].trim());
+        i++;
+      }
+      const dialogue = dialogueLines.join(' ');
+
+      parsedData.push({ time: timeLine, dialogue });
+      i++; // Move to the next block
+    }
+
+    return parsedData;
   }
 }
