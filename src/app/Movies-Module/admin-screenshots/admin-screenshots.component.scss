@@ -151,11 +151,21 @@ body {
   flex-grow: 1;
 }
 
-.timer-div {
+.timer-div.selected {
   width: 80px;
   height: 20px;
   border-radius: 10px;
   background-color: #fff530;
+  text-align: center;
+  margin: 0 auto; /* Center the timer-div horizontally */
+  color: black;
+}
+
+.timer-div.unselected {
+  width: 80px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: #ffffff;
   text-align: center;
   margin: 0 auto; /* Center the timer-div horizontally */
   color: black;

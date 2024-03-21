@@ -239,6 +239,11 @@ export class QuibService {
     return this.http.post(endpointUrl, payload);
   }
 
+  async addDialogues(payload) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/api/QuibStream/UpdateDialogue`;
+    return this.http.post(endpointUrl, payload);
+  }
+
   async fetchDialogues(movieId) {
     const endpointUrl = `${environment.QUIB_ADMIN}/fetchAllDialogues?movieId=${movieId}`;
     return this.http.get(endpointUrl);
@@ -342,8 +347,8 @@ export class QuibService {
     return this.http.put(endpointUrl, status);
   }
 
-  EditTooltipDisplay(buttonid, isdisabled){
+  EditTooltipDisplay(buttonid, isdisabled) {
     const endpointUrl = `${environment.QUIB_ADMIN}/EditTooltipDisplay?buttonid=${buttonid}&isdisabled=${isdisabled}`;
-    return this.http.put(endpointUrl,null);
+    return this.http.put(endpointUrl, null);
   }
 }
