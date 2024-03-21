@@ -27,6 +27,7 @@
       (click)="
         [
           (display = true),
+          (AddDialogue = false),
           (timeRangeSelector = true),
           (message = 'Select Time Range')
         ]
@@ -39,6 +40,7 @@
       (click)="
         [
           (display = true),
+          (AddDialogue = false),
           (timeRangeSelector = true),
           (message = 'Select Time Range')
         ]
@@ -129,19 +131,38 @@
           <div class="h-100 mt-5">
             <div class="card-body">
               <div class="row gutters">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <div class="form-group">
                     <h5>Dialogues Text File:</h5>
-                    <input type="file" style="width: 15vw" (change)="onFileSelected($event)" />                      
+                    <input type="file" style="width: 15vw" (change)="onFileSelected($event)" #fileinput />                      
                   </div>
+                </div>
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                  <h5>Rules:</h5>
+                  <p style="color: red;">
+                    When the txt file is uploaded, the system will retain the start time of each individual unit, ignoring the
+                    comma and the following characters in that line. The characters in
+                    the second and subsequent lines of the unit will be added as the dialogue with line spaces converted to a space
+                    , and it will consider any blank lines as the
+                    start of a new unit. The system will ignore the numbers that identify the individual units.<br />
+                    For example, only the characters shown in bold below will be considered:<br /><br />
+                    1<br />
+                   <strong>00:00:31</strong>,240 --> 00:00:37,203<br />
+                   <strong>Example text 1</strong><br />
+                    <br />
+                    2<br />
+                    <strong>00:00:37</strong>,287 --> 00:00:41,416<br />
+                    <strong>Example text 2</strong>
+                  </p>
                 </div>
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
                   <div class="text-center">
                         <button pButton type="button" id="submit" name="submit" class="p-button-danger mr-4"
-                          (click)="display = false">
+                          (click)="cancelForm(fileinput)">
                           Cancel
                         </button>
-                        <button pButton type="button" id="submit" name="submit" class="p-button-success">
+                        <button pButton type="button" id="submit" name="submit" class="p-button-success" 
+                          (click)="submitDialogues(fileinput)">
                           Submit
                         </button>
                   </div>

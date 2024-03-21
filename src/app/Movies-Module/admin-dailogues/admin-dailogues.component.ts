@@ -7,7 +7,7 @@ import { ThemePalette } from '@angular/material/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 import { ConfirmationService } from 'primeng/api';
 
 @Component({
@@ -17,6 +17,7 @@ import { ConfirmationService } from 'primeng/api';
 })
 export class AdminDailoguesComponent implements OnInit {
   AddDialogue: boolean = false;
+  dialogueList: any[] = [];
   allDialogues: any[] = [];
   movieTitle: string = '';
   movieId: number = 0;
@@ -44,6 +45,7 @@ export class AdminDailoguesComponent implements OnInit {
   timeRangeSelected: boolean = false;
 
   constructor(
+    private ngxLoader: NgxUiLoaderService,
     private QuibService: QuibService,
     private route: ActivatedRoute,
     private toastr: ToastrMsgService,
@@ -422,6 +424,7 @@ export class AdminDailoguesComponent implements OnInit {
         const fileContent: string = reader.result as string;
         const parsedData = this.parseTextFile(fileContent);
         console.log(parsedData);
+        this.dialogueList = parsedData;
       };
     }
   }
@@ -433,6 +436,7 @@ export class AdminDailoguesComponent implements OnInit {
     let i = 0;
     while (i < lines.length) {
       const timeLine = lines[i + 1].trim().slice(0, 8); // Extract first 8 characters as time
+      const timeInSeconds = this.getTimeInSeconds(timeLine);
       const dialogueLines = [];
 
       i += 2; // Move to the next line after timestamp
@@ -442,10 +446,45 @@ export class AdminDailoguesComponent implements OnInit {
       }
       const dialogue = dialogueLines.join(' ');
 
-      parsedData.push({ time: timeLine, dialogue });
+      parsedData.push({
+        MovieId: this.movieId.toString(),
+        Dialogue: dialogue,
+        UserId: 'a6ec419c-e8c4-48f9-874a-6f1eb9421464',
+        Time: timeInSeconds,
+      });
       i++; // Move to the next block
     }
 
     return parsedData;
+  }
+
+  getTimeInSeconds(timeString: string) {
+    const [hours, minutes, seconds] = timeString.split(/[:,]/).map(Number);
+    return hours * 3600 + minutes * 60 + seconds;
+  }
+
+  async submitDialogues(fileinput) {
+    if (fileinput.value != '') {
+      this.display = false;
+      if (this) this.ngxLoader.start();
+      (await this.QuibService.addDialogues(this.dialogueList)).subscribe({
+        next: (response: any) => {
+          this.toastr.showSuccess(`${response.message}`, 'Dialogues');
+          this.ngxLoader.stop();
+          this.fetchMovieDialogues();
+          this.cancelForm(fileinput);
+        },
+        error: (error) => {
+          console.log(error);
+          this.toastr.showError(`Failed to add Dialogues`, 'Dialogues');
+        },
+        complete: () => {},
+      });
+    } else this.toastr.showWarning('File cannot be empty', 'Dialogues');
+  }
+  cancelForm(fileinput) {
+    this.display = false;
+    this.dialogueList = null;
+    fileinput.value = null;
   }
 }
