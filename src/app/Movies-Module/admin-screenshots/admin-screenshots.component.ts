@@ -34,8 +34,8 @@ export class AdminScreenshotsComponent implements OnInit {
   timeRangeSelector: boolean = false;
   display: boolean = false;
   message: string = '';
-  image: File;
-  screenShotImage: any = undefined;
+  imagelist: File[];
+  // screenShotImage: any = undefined;
   AddScreenshot: boolean = false;
   AddScreenshotForm = new FormGroup({});
   posterContentThumb: any = undefined;
@@ -45,6 +45,7 @@ export class AdminScreenshotsComponent implements OnInit {
   unselectedCount: number = 0;
   timeRangeSelectedcount: number = 0;
   timeRangeSelected: boolean = false;
+  isUploaded: boolean = true;
 
   constructor(
     private ngxLoader: NgxUiLoaderService,
@@ -295,53 +296,78 @@ export class AdminScreenshotsComponent implements OnInit {
   }
 
   OnchangeScreenShot(event) {
-    var reader = new FileReader();
-    this.image = event.target.files[0];
+    // var reader = new FileReader();
+    this.imagelist = event.target.files;
     const regexPattern = /^[\w-]+_\d{2}_\d{2}_\d{2}\.(jpg|png)$/;
-    if (
-      regexPattern.exec(event.target.files[0].name) &&
-      event.target.files[0].size <= 512000
-    ) {
-      console.log(event.target.files[0]);
-      reader.readAsDataURL(event.target.files[0]);
-      reader.onload = (data) => {
-        this.screenShotImage = data.target.result;
-      };
-    } else {
-      this.toastr.showWarning(
-        'Extension must be of type jpg or png  and name should be movieName_hh_mm_ss and maximum size of the image should be 500kb',
-        'Invalid File extension'
-      );
-      this.AddScreenshotForm.controls['posterContentThumb'].reset();
-      this.screenShotImage = null;
+    for (let i = 0; i < this.imagelist.length; i++) {
+      if (
+        regexPattern.exec(event.target.files[i].name) &&
+        event.target.files[i].size <= 512000
+      ) {
+        console.log(event.target.files[i]);
+        // reader.readAsDataURL(event.target.files[i]);
+        // reader.onload = (data) => {
+        //   this.screenShotImage = data.target.result;
+        // };
+      } else {
+        this.toastr.showWarning(
+          'Extension must be of type jpg or png  and name should be movieName_hh_mm_ss and maximum size of the image should be 500kb',
+          'Invalid File extension'
+        );
+        this.AddScreenshotForm.controls['posterContentThumb'].reset();
+        // this.screenShotImage = null;
+      }
     }
   }
 
   async SubmitScreenshots() {
-    const hours = this.AddScreenshotForm.controls['hours'].value;
-    const minutes = this.AddScreenshotForm.controls['minutes'].value;
-    const seconds = this.AddScreenshotForm.controls['seconds'].value;
-    const time = hours * 3600 + minutes * 60 + seconds;
-    const ScreenShotImage = this.image;
-    const formData = new FormData();
-    formData.append('MovieId', this.movieId.toString());
-    formData.append('Screenshot', ScreenShotImage);
-    formData.append('UserId', 'a6ec419c-e8c4-48f9-874a-6f1eb9421464');
-    formData.append('Time', time.toString());
-    this.display = false;
-    this.AddScreenshot = false;
-    (await this.QuibService.addScreenShots(formData)).subscribe({
-      next: (response: any) => {
-        this.toastr.showSuccess(`${response.message}`, 'Screenshot');
-        this.getAdminScreenshots();
-      },
-      error: (error) => {
-        console.log(error);
-      },
-      complete: () => {},
-    });
+    // const hours = this.AddScreenshotForm.controls['hours'].value;
+    // const minutes = this.AddScreenshotForm.controls['minutes'].value;
+    // const seconds = this.AddScreenshotForm.controls['seconds'].value;
+    // const time = hours * 3600 + minutes * 60 + seconds;
+    const pattern = /([^_]+)/g;
+    const ScreenShotImagelist = this.imagelist;
+        if (ScreenShotImagelist.length > 0) {
+          for (let i = 0; i < ScreenShotImagelist.length; i++) {
+            const filename: string = ScreenShotImagelist[i].name;
+            const match = filename.match(pattern);
+            if (match) {
+              const hours = parseInt(match[1], 10);
+              const minutes = parseInt(match[2], 10);
+              const seconds = parseInt(match[3], 10);
+
+              const time = hours * 3600 + minutes * 60 + seconds;
+
+              const formData = new FormData();
+              formData.append('MovieId', this.movieId.toString());
+              formData.append('Screenshot', ScreenShotImagelist[i]);
+              formData.append('UserId', 'a6ec419c-e8c4-48f9-874a-6f1eb9421464');
+              formData.append('Time', time.toString());
+              (await this.QuibService.addScreenShots(formData)).subscribe({
+                next: (response: any) => {
+                  // this.toastr.showSuccess(`${response.message}`, 'Screenshot');
+                },
+                error: (error) => {
+                  console.log(error);
+                  this.isUploaded = false;
+                },
+                complete: () => {},
+              });
+            }
+          }
+          if (this.isUploaded) {
+            this.display = false;
+            this.AddScreenshot = false;
+            this.toastr.showSuccess('All Screenshots Uploaded Succesfully', 'Screenshots')
+          }
+          else {
+            this.toastr.showError('Could not Upload all Screenshots', 'Screenshots');
+            this.isUploaded = true;
+          }
+    }
+    this.getAdminScreenshots();
   }
   shouldApplyClass(condition: boolean): string {
     return condition ? 'selected' : 'unselected';
-  };
+  }
 }
