@@ -361,6 +361,13 @@ export class AdminScreenshotsComponent implements OnInit {
               uploadCount++;
               if (uploadCount == ScreenShotImagelist.length)
                 this.getAdminScreenshots();
+                this.display = false;
+                this.AddScreenshot = false;
+                this.toastr.showSuccess(
+                'All Screenshots Uploaded Succesfully',
+                'Screenshots'
+                );
+                this.imagelist = null;
             },
             error: (error) => {
               console.log(error);
@@ -370,15 +377,6 @@ export class AdminScreenshotsComponent implements OnInit {
             complete: () => {},
           });
         }
-      }
-      if (uploadCount == ScreenShotImagelist.length) {
-        this.display = false;
-        this.AddScreenshot = false;
-        this.toastr.showSuccess(
-          'All Screenshots Uploaded Succesfully',
-          'Screenshots'
-        );
-        this.imagelist = null;
       }
     }
   }
