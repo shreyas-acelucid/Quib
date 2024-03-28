@@ -96,6 +96,7 @@ export class AllMoviesComponent implements OnInit {
     ];
     this.MoviesService.MovieSearchKeyWord.subscribe((res) => {
       this.MovieSearchKeyWord = res;
+      this.MovieSearchKeyWord.Gsearch = "";
     });
     this.colsOptions = this.cols.map((col) => ({
       label: col.headers,
