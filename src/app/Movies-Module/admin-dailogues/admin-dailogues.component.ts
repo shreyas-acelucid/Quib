@@ -43,6 +43,7 @@ export class AdminDailoguesComponent implements OnInit {
   unselectedCount: number = 0;
   timeRangeSelectedcount: number = 0;
   timeRangeSelected: boolean = false;
+  fgsType: any;
 
   constructor(
     private ngxLoader: NgxUiLoaderService,
@@ -64,6 +65,8 @@ export class AdminDailoguesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fgsType = SPINNER.squareLoader;
+    this.ngxLoader.start();
     this.route.paramMap.subscribe((params) => {
       this.movieId = Number(params.get('movieId')) || 0;
       this.movieTitle = params.get('movieTitle') || '';
@@ -123,9 +126,11 @@ export class AdminDailoguesComponent implements OnInit {
         this.unselectedCount = this.allDialogues.filter(
           (dialogue) => !dialogue.isSelected
         ).length;
+        this.ngxLoader.stop();
       },
       error: (error) => {
         console.log(error);
+        this.ngxLoader.stop();
       },
       complete: () => {},
     });
@@ -466,7 +471,10 @@ export class AdminDailoguesComponent implements OnInit {
   async submitDialogues(fileinput) {
     if (fileinput.value != '') {
       this.display = false;
-      if (this) this.ngxLoader.start();
+      if (this) {
+        this.fgsType = SPINNER.squareLoader;
+        this.ngxLoader.start();
+      }
       (await this.QuibService.addDialogues(this.dialogueList)).subscribe({
         next: (response: any) => {
           this.toastr.showSuccess(`${response.message}`, 'Dialogues');
@@ -477,6 +485,7 @@ export class AdminDailoguesComponent implements OnInit {
         error: (error) => {
           console.log(error);
           this.toastr.showError(`Failed to add Dialogues`, 'Dialogues');
+          this.ngxLoader.stop();
         },
         complete: () => {},
       });

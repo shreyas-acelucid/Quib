@@ -45,7 +45,7 @@ export class AdminScreenshotsComponent implements OnInit {
   unselectedCount: number = 0;
   timeRangeSelectedcount: number = 0;
   timeRangeSelected: boolean = false;
-  isUploaded: boolean = true;
+  fgsType: any;
 
   constructor(
     private ngxLoader: NgxUiLoaderService,
@@ -73,6 +73,8 @@ export class AdminScreenshotsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fgsType = SPINNER.squareLoader;
+    this.ngxLoader.start();
     this.route.paramMap.subscribe((params) => {
       this.movieId = Number(params.get('movieId')) || 0;
       this.movieTitle = params.get('movieTitle') || '';
@@ -102,7 +104,6 @@ export class AdminScreenshotsComponent implements OnInit {
 
   async getAdminScreenshots() {
     this.timeRangeSelected = false;
-    this.ngxLoader.start();
     (await this.QuibService.getAdminScreenshots(this.movieId)).subscribe({
       next: (response: any[]) => {
         this.allScreenshots = response;
@@ -327,45 +328,64 @@ export class AdminScreenshotsComponent implements OnInit {
     // const time = hours * 3600 + minutes * 60 + seconds;
     const pattern = /([^_]+)/g;
     const ScreenShotImagelist = this.imagelist;
-        if (ScreenShotImagelist.length > 0) {
-          for (let i = 0; i < ScreenShotImagelist.length; i++) {
-            const filename: string = ScreenShotImagelist[i].name;
-            const match = filename.match(pattern);
-            if (match) {
-              const hours = parseInt(match[1], 10);
-              const minutes = parseInt(match[2], 10);
-              const seconds = parseInt(match[3], 10);
+    let uploadCount = 0;
+    let isError: boolean = false;
+    if (ScreenShotImagelist.length > 0) {
+      this.fgsType = SPINNER.squareLoader;
+      this.ngxLoader.start();
+      for (let i = 0; i < ScreenShotImagelist.length; i++) {
+        if (isError) {
+          this.toastr.showError(
+            'Could not Upload all Screenshots',
+            'Screenshots'
+          );
+          break;
+        }
+        const filename: string = ScreenShotImagelist[i].name;
+        const match = filename.match(pattern);
+        if (match) {
+          const hours = parseInt(match[1], 10);
+          const minutes = parseInt(match[2], 10);
+          const seconds = parseInt(match[3], 10);
 
-              const time = hours * 3600 + minutes * 60 + seconds;
+          const time = hours * 3600 + minutes * 60 + seconds;
 
-              const formData = new FormData();
-              formData.append('MovieId', this.movieId.toString());
-              formData.append('Screenshot', ScreenShotImagelist[i]);
-              formData.append('UserId', 'a6ec419c-e8c4-48f9-874a-6f1eb9421464');
-              formData.append('Time', time.toString());
-              (await this.QuibService.addScreenShots(formData)).subscribe({
-                next: (response: any) => {
-                  // this.toastr.showSuccess(`${response.message}`, 'Screenshot');
-                },
-                error: (error) => {
-                  console.log(error);
-                  this.isUploaded = false;
-                },
-                complete: () => {},
-              });
-            }
-          }
-          if (this.isUploaded) {
-            this.display = false;
-            this.AddScreenshot = false;
-            this.toastr.showSuccess('All Screenshots Uploaded Succesfully', 'Screenshots')
-          }
-          else {
-            this.toastr.showError('Could not Upload all Screenshots', 'Screenshots');
-            this.isUploaded = true;
-          }
+          const formData = new FormData();
+          formData.append('MovieId', this.movieId.toString());
+          formData.append('Screenshot', ScreenShotImagelist[i]);
+          formData.append('UserId', 'a6ec419c-e8c4-48f9-874a-6f1eb9421464');
+          formData.append('Time', time.toString());
+          (await this.QuibService.addScreenShots(formData)).subscribe({
+            next: (response: any) => {
+              // this.toastr.showSuccess(`${response.message}`, 'Screenshot');
+              uploadCount++;
+              if (uploadCount == ScreenShotImagelist.length)
+                this.getAdminScreenshots();
+            },
+            error: (error) => {
+              console.log(error);
+              this.ngxLoader.stop();
+              isError = true;
+            },
+            complete: () => {},
+          });
+        }
+      }
+      if (uploadCount == ScreenShotImagelist.length) {
+        this.display = false;
+        this.AddScreenshot = false;
+        this.toastr.showSuccess(
+          'All Screenshots Uploaded Succesfully',
+          'Screenshots'
+        );
+        this.imagelist = null;
+      } else {
+        this.toastr.showError(
+          'Could not Upload all Screenshots',
+          'Screenshots'
+        );
+      }
     }
-    this.getAdminScreenshots();
   }
   shouldApplyClass(condition: boolean): string {
     return condition ? 'selected' : 'unselected';
