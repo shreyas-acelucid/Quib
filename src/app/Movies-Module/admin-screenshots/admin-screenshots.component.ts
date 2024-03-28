@@ -379,11 +379,6 @@ export class AdminScreenshotsComponent implements OnInit {
           'Screenshots'
         );
         this.imagelist = null;
-      } else {
-        this.toastr.showError(
-          'Could not Upload all Screenshots',
-          'Screenshots'
-        );
       }
     }
   }
