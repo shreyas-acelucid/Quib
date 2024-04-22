@@ -437,7 +437,7 @@ export class AdminDailoguesComponent implements OnInit {
   parseTextFile(content: string) {
     const lines = content.split('\n');
     const parsedData = [];
-
+    const Id = localStorage.getItem('adminId');
     let i = 0;
     while (i < lines.length) {
       const timeLine = lines[i + 1].trim().slice(0, 8); // Extract first 8 characters as time
@@ -454,7 +454,7 @@ export class AdminDailoguesComponent implements OnInit {
       parsedData.push({
         MovieId: this.movieId.toString(),
         Dialogue: dialogue,
-        UserId: 'a6ec419c-e8c4-48f9-874a-6f1eb9421464',
+        UserId: Id,
         Time: timeInSeconds,
       });
       i++; // Move to the next block

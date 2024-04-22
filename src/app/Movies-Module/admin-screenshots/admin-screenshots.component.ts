@@ -353,7 +353,7 @@ export class AdminScreenshotsComponent implements OnInit {
           const formData = new FormData();
           formData.append('MovieId', this.movieId.toString());
           formData.append('Screenshot', ScreenShotImagelist[i]);
-          formData.append('UserId', 'a6ec419c-e8c4-48f9-874a-6f1eb9421464');
+          formData.append('UserId', localStorage.getItem('adminId'));
           formData.append('Time', time.toString());
           (await this.QuibService.addScreenShots(formData)).subscribe({
             next: (response: any) => {

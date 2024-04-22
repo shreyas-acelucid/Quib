@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
           this.toastr.showError('Login failed', 'Login');
         } else {
           //localStorage.setItem('token', res.token);
+          localStorage.setItem('adminId', res.id);
           if (this.CommonService.getMovieSearchWord() != null) {
             this.MoviesService.MovieSearchKeyWord.next(
               this.CommonService.getMovieSearchWord()
