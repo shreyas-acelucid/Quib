@@ -121,6 +121,7 @@ export class QuibUserComponent implements OnInit {
       { field: 'bumpCount', show: true, headers: 'B-OU' },
       { field: 'totalFlagReceived', show: true, headers: 'FLG' },
       { field: 'about', show: true, headers: 'PERS' },
+      { field: 'resetPassword', show: true, headers: 'Reset Pswd'},
       { field: 'isDeleted', show: true, headers: 'Action' },
     ];
     this.colsOptions = this.cols.map((col) => ({
@@ -503,5 +504,20 @@ export class QuibUserComponent implements OnInit {
   onPageChange(event: any): void {
     this.currentPage = event.page + 1;
     this.updatePagedModeratorMovieList();
+  }
+
+  resetPassword(email: string) {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to send a reset password mail to the user?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.QuibService.resetPassword(email).subscribe((res) => {
+          if (res) {
+            this.toastr.showSuccess('user deleted successfully', 'user delete');
+          }
+        });
+      },
+    });
   }
 }

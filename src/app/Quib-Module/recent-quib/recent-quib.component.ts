@@ -483,6 +483,7 @@ export class RecentQuibComponent implements OnInit {
         });
         this.ngxLoader.stop();
         this.loading = false;
+        this.QuibTable.first = 0;
       }
     );
   }

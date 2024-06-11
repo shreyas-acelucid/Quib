@@ -253,6 +253,20 @@
           >
             {{ user.about }}
           </td>
+          <td *ngIf="shouldDisplayColumn('resetPassword')">
+            <div class="btn-grp">
+              <button
+                (click)="resetPassword(user?.email)"
+                class="p-button-success mx-auto"
+                pButton
+                type="button"
+                pTooltip="Reset Password"
+                tooltipPosition="bottom"
+              >
+                Reset
+              </button>
+            </div>
+          </td>
           <td *ngIf="shouldDisplayColumn('Action')">
             <div class="btn-grp">
               <button

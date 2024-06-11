@@ -351,4 +351,9 @@ export class QuibService {
     const endpointUrl = `${environment.QUIB_ADMIN}/EditTooltipDisplay?buttonid=${buttonid}&isdisabled=${isdisabled}`;
     return this.http.put(endpointUrl, null);
   }
+  
+  resetPassword(Email: string) {
+    const endpointUrl = `${environment.QUIB_ADMIN}/api/Admin/adminForgotPassword?Email=${Email}`;
+    return this.http.post(endpointUrl, null);
+  }
 }
