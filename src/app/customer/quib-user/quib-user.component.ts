@@ -514,7 +514,7 @@ export class QuibUserComponent implements OnInit {
       accept: () => {
         this.QuibService.resetPassword(email).subscribe((res) => {
           if (res) {
-            this.toastr.showSuccess('user deleted successfully', 'user delete');
+            this.toastr.showSuccess('Password reset mail sent successfully', 'password reset');
           }
         });
       },
