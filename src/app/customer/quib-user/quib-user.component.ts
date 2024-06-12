@@ -508,13 +508,13 @@ export class QuibUserComponent implements OnInit {
 
   resetPassword(email: string) {
     this.confirmationService.confirm({
-      message: 'Are you sure that you want to send a reset password mail to the user?',
+      message: 'Are you sure you want to send a password reset link to the user?',
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.QuibService.resetPassword(email).subscribe((res) => {
           if (res) {
-            this.toastr.showSuccess('Password reset mail sent successfully', 'password reset');
+            this.toastr.showSuccess('Password reset link sent successfully', 'password reset');
           }
         });
       },
