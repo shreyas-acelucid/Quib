@@ -28,7 +28,7 @@ export class AdminScreenshotsComponent implements OnInit {
   checked: boolean = true;
   disabled: boolean = false;
   color: ThemePalette = 'accent';
-  serverBaseUrl: string = 'http://44.211.90.48/';
+  serverBaseUrl: string = 'https://quibs.com/';
   private pageX: number;
   timeRangeSelectionForm = new FormGroup({});
   timeRangeSelector: boolean = false;
@@ -125,7 +125,7 @@ export class AdminScreenshotsComponent implements OnInit {
         console.log(error.error.message);
         this.ngxLoader.stop();
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
 
@@ -170,7 +170,7 @@ export class AdminScreenshotsComponent implements OnInit {
       error: (error) => {
         console.log(error);
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
 
@@ -201,7 +201,7 @@ export class AdminScreenshotsComponent implements OnInit {
       error: (error) => {
         console.log(error);
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
 
@@ -227,7 +227,7 @@ export class AdminScreenshotsComponent implements OnInit {
       error: (error) => {
         console.log(error);
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
 
@@ -290,7 +290,7 @@ export class AdminScreenshotsComponent implements OnInit {
         error: (error) => {
           console.log(error);
         },
-        complete: () => {},
+        complete: () => { },
       });
       //}
     }
@@ -361,20 +361,20 @@ export class AdminScreenshotsComponent implements OnInit {
               uploadCount++;
               if (uploadCount == ScreenShotImagelist.length)
                 this.getAdminScreenshots();
-                this.display = false;
-                this.AddScreenshot = false;
-                this.toastr.showSuccess(
+              this.display = false;
+              this.AddScreenshot = false;
+              this.toastr.showSuccess(
                 'All Screenshots Uploaded Succesfully',
                 'Screenshots'
-                );
-                this.imagelist = null;
+              );
+              this.imagelist = null;
             },
             error: (error) => {
               console.log(error);
               this.ngxLoader.stop();
               isError = true;
             },
-            complete: () => {},
+            complete: () => { },
           });
         }
       }

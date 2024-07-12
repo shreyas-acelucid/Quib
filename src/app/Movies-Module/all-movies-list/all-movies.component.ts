@@ -30,7 +30,7 @@ export class AllMoviesComponent implements OnInit {
   display: boolean = false;
   image: File;
   imageUrl;
-  baseUrl: string = 'http://44.211.90.48';
+  baseUrl: string = 'https://quibs.com';
   posterContent: any = undefined;
   posterContentThumb: any = undefined;
   screenShotImage: any = undefined;
@@ -273,7 +273,7 @@ export class AllMoviesComponent implements OnInit {
         this.ngxLoader.start();
         let filterData = this.moviesList.filter((item) => item.id === id);
         filterData[0].posterContentThumb =
-          filterData[0].posterContentThumb.split('http://44.211.90.48/')[1];
+          filterData[0].posterContentThumb.split('https://quibs.com/')[1];
         filterData[0].isActive = Status;
         this.MoviesService.markAsActive(filterData[0]).subscribe((res) => {
           if (res) {
@@ -396,7 +396,7 @@ export class AllMoviesComponent implements OnInit {
             this.display = false;
             this.getMovieList();
           },
-          complete: () => {},
+          complete: () => { },
         });
       }
     }

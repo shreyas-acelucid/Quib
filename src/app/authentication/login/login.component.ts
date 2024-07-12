@@ -86,10 +86,10 @@ export class LoginComponent implements OnInit {
 
   redirectToForgotPassword() {
     window.location.href =
-      'http://44.211.90.48/Identity/Account/ForgotPassword';
+      'https://quibs.com/Identity/Account/ForgotPassword';
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   toggleShow() {
     this.showPassword = !this.showPassword;

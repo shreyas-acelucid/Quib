@@ -40,7 +40,7 @@ export class QuibUserComponent implements OnInit {
   movieId: any[] = [];
   fgsType: any;
   SearchKeyWord: userSearchKeyWord;
-  baseUrl: string = 'http://44.211.90.48';
+  baseUrl: string = 'https://quibs.com';
   display: boolean = false;
   MoVList: boolean = false;
   AssignToModerator: boolean = false;
@@ -121,7 +121,7 @@ export class QuibUserComponent implements OnInit {
       { field: 'bumpCount', show: true, headers: 'B-OU' },
       { field: 'totalFlagReceived', show: true, headers: 'FLG' },
       { field: 'about', show: true, headers: 'PERS' },
-      { field: 'resetPassword', show: true, headers: 'Reset Pswd'},
+      { field: 'resetPassword', show: true, headers: 'Reset Pswd' },
       { field: 'isDeleted', show: true, headers: 'Action' },
     ];
     this.colsOptions = this.cols.map((col) => ({

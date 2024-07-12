@@ -16,7 +16,7 @@ export class AvatarComponent implements OnInit {
   checked2: boolean = true;
   allAvatars: any[] = [];
   AvatarId: number;
-  serverBaseUrl: string = 'http://44.211.90.48/';
+  serverBaseUrl: string = 'https://quibs.com/';
   image: File;
   display: boolean = false;
   imageChangedEvent: any = '';
@@ -26,7 +26,7 @@ export class AvatarComponent implements OnInit {
     private QuibService: QuibService,
     private toastr: ToastrMsgService,
     private confirmationService: ConfirmationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.sidebarSpacing = 'expanded';
@@ -43,7 +43,7 @@ export class AvatarComponent implements OnInit {
       accept: () => {
         this.deleteAvatar(AvatarId);
       },
-      reject: () => {},
+      reject: () => { },
     });
   }
 
@@ -58,7 +58,7 @@ export class AvatarComponent implements OnInit {
         this.toastr.showError('Avatars could not be fetched', 'Error');
         this.ngxLoader.stop();
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
 
@@ -76,7 +76,7 @@ export class AvatarComponent implements OnInit {
         this.toastr.showError('Failed to delete Avatar', '');
         console.log(error);
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
 

@@ -8,7 +8,7 @@ export class AuthenticationService {
   constructor(private http: HttpClient) {}
 
   login(payload: Login): Observable<any> {
-    const endpointUrl = `http://44.211.90.48/api/Admin/adminLogin`;
+    const endpointUrl = `https://quibs.com/api/Admin/adminLogin`;
     return this.http.post(endpointUrl, payload);
   }
 
