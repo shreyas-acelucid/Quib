@@ -356,4 +356,14 @@ export class QuibService {
     const endpointUrl = `${environment.QUIB_ADMIN}/api/Admin/adminForgotPassword?Email=${Email}`;
     return this.http.post(endpointUrl, null);
   }
+
+  getAllEmailTemplates() {
+    const endpointUrl = `http://3.238.4.97/api/Admin/GetAllEmailTemplate`;
+    return this.http.get(endpointUrl);
+  }
+
+  setEmailTemplate(payload) {
+    const endpointUrl = `http://3.238.4.97/api/Admin/SetEmailTemplate`;
+    return this.http.post(endpointUrl, payload);
+  }
 }

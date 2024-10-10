@@ -4,6 +4,7 @@ import { AvatarComponent } from './avatar/avatar.component';
 import { RecommendedMoviesComponent } from './recommended-movies/recommended-movies.component';
 import { TOSComponent } from './tos/tos.component';
 import { TooltipsComponent } from './tooltips/tooltips.component';
+import { EmailComponent } from './email/email.component';
 
 const routes: Routes = [
   {
@@ -11,22 +12,29 @@ const routes: Routes = [
     component: AvatarComponent,
   },
   {
-    path: 'avatar', component: AvatarComponent
+    path: 'avatar',
+    component: AvatarComponent,
   },
   {
-    path: 'recommended-movie', component: RecommendedMoviesComponent
+    path: 'recommended-movie',
+    component: RecommendedMoviesComponent,
   },
   {
-    path: 'tos', component: TOSComponent
+    path: 'tos',
+    component: TOSComponent,
   },
   {
-    path: 'tooltips', component: TooltipsComponent
+    path: 'tooltips',
+    component: TooltipsComponent,
+  },
+  {
+    path: 'email',
+    component: EmailComponent,
   },
 ];
 
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SettingRoutingModule { }
+export class SettingRoutingModule {}

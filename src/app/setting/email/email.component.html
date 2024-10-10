@@ -1,0 +1,84 @@
+<app-header (toggleSidebar)="onToggleSidebar($event)"></app-header>
+<div class="body bcard" [ngClass]="sidebarSpacing">
+  <div
+    class="card col-12 px-5"
+    *ngFor="let emailTemplate of allEmails; index as i"
+  >
+    <div class="row mt-2 justify-content-center" style="height: 20px;">
+      <p class="txt-style">{{ emailTemplate.emailType }}</p>
+    </div>
+    <hr />
+    <div class="row gutters mt-2">
+      <label for="formControlInput1" class="form-label">Heading</label>
+      <input
+        type="text"
+        class="form-control"
+        id="formControlInput1"
+        placeholder="Heading"
+        [(ngModel)]="emailTemplate.heading"
+      />
+    </div>
+    <div class="row gutters mt-2">
+      <label for="formControlInput2" class="form-label">Subject</label>
+      <input
+        type="text"
+        class="form-control"
+        id="formControlInput2"
+        placeholder="Subject"
+        [(ngModel)]="emailTemplate.subject"
+      />
+    </div>
+    <div class="row gutters mt-2">
+      <label for="formControlInput3" class="form-label">Greeting Line</label>
+      <input
+        type="text"
+        class="form-control"
+        id="formControlInput3"
+        placeholder="Greeting Line"
+        [(ngModel)]="emailTemplate.greetLine"
+      />
+    </div>
+    <div class="row gutters mt-2">
+      <label for="formControlTextarea1" class="form-label">Content</label>
+      <textarea
+        class="form-control"
+        id="formControlTextarea1"
+        rows="3"
+        placeholder="Content"
+        [(ngModel)]="emailTemplate.content"
+      ></textarea>
+    </div>
+    <div class="row gutters mt-2">
+      <label for="formControlInput4" class="form-label">Button Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="formControlInput4"
+        placeholder="Button Name"
+        [(ngModel)]="emailTemplate.linkName"
+      />
+    </div>
+    <div class="row gutters mt-2">
+      <label for="formControlInput5" class="form-label">Footer</label>
+      <input
+        type="text"
+        class="form-control"
+        id="formControlInput5"
+        placeholder="Footer"
+        [(ngModel)]="emailTemplate.footer"
+      />
+    </div>
+    <div class="row gutters my-4 justify-content-end">
+      <button
+        pButton
+        type="button"
+        id="submit"
+        name="submit"
+        class="p-button-success"
+        (click)="submitForm(i)"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+</div>

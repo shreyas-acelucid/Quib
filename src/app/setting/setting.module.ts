@@ -8,6 +8,7 @@ import { TOSComponent } from './tos/tos.component';
 import { TooltipsComponent } from './tooltips/tooltips.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { EmailComponent } from './email/email.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     RecommendedMoviesComponent,
     TOSComponent,
     TooltipsComponent,
+    EmailComponent,
   ],
   imports: [
     CommonModule,

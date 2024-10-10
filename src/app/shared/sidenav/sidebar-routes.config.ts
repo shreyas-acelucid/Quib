@@ -34,6 +34,10 @@ export const SideNaveMenueRoute = [
         label: 'TOS',
         routerLink: ['/setting/tos'],
       },
+      {
+        label: 'Email',
+        routerLink: ['/setting/email'],
+      },
     ],
   },
 ];
