@@ -16,6 +16,7 @@
         id="formControlInput1"
         placeholder="Heading"
         [(ngModel)]="emailTemplate.heading"
+        (change)="enableSubmit()"
       />
     </div>
     <div class="row gutters mt-2">
@@ -26,6 +27,7 @@
         id="formControlInput2"
         placeholder="Subject"
         [(ngModel)]="emailTemplate.subject"
+        (change)="enableSubmit()"
       />
     </div>
     <div class="row gutters mt-2">
@@ -36,6 +38,7 @@
         id="formControlInput3"
         placeholder="Greeting Line"
         [(ngModel)]="emailTemplate.greetLine"
+        (change)="enableSubmit()"
       />
     </div>
     <div class="row gutters mt-2">
@@ -46,6 +49,7 @@
         rows="3"
         placeholder="Content"
         [(ngModel)]="emailTemplate.content"
+        (change)="enableSubmit()"
       ></textarea>
     </div>
     <div class="row gutters mt-2">
@@ -56,6 +60,7 @@
         id="formControlInput4"
         placeholder="Button Name"
         [(ngModel)]="emailTemplate.linkName"
+        (change)="enableSubmit()"
       />
     </div>
     <div class="row gutters mt-2">
@@ -66,6 +71,7 @@
         id="formControlInput5"
         placeholder="Footer"
         [(ngModel)]="emailTemplate.footer"
+        (change)="enableSubmit()"
       />
     </div>
     <div class="row gutters my-4 justify-content-end">
@@ -76,6 +82,7 @@
         name="submit"
         class="p-button-success"
         (click)="submitForm(i)"
+        [disabled]="isDisabled"
       >
         Submit
       </button>

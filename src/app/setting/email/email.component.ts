@@ -11,9 +11,8 @@ import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 export class EmailComponent implements OnInit {
   sidebarSpacing: any;
   fgsType: any;
-  checked2: boolean = true;
+  isDisabled: boolean = true;
   allEmails: any[];
-  disable: false;
 
   constructor(
     private ngxLoader: NgxUiLoaderService,
@@ -42,10 +41,9 @@ export class EmailComponent implements OnInit {
       next: (response: any) => {
         this.allEmails = response;
         this.ngxLoader.stop();
+        this.isDisabled = true;
       },
       error: (error) => {
-        console.log(error);
-        console.log(error.error.message);
         this.toastr.showError('Failed to fetch Emails', 'Email');
         this.ngxLoader.stop();
       },
@@ -53,14 +51,16 @@ export class EmailComponent implements OnInit {
     });
   }
 
-  cancelForm() {
-    this.checked2 = true;
+  enableSubmit() {
+    this.isDisabled = false;
   }
 
   async submitForm(i: number) {
     (await this.QuibService.setEmailTemplate(this.allEmails[i])).subscribe({
       next: (response) => {
-        this.toastr.showSuccess(`Email Updated`, 'Email');
+        if (response) {
+          this.toastr.showSuccess(`Email Updated`, 'Email');
+        }
         this.getForm();
       },
       error: (error) => {
