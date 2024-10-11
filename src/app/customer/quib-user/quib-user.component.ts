@@ -188,6 +188,10 @@ export class QuibUserComponent implements OnInit {
     return this.baseUrl + relativeUrl;
   }
 
+  onDialogShow() {
+    this.quibUserForm.controls['user'].setValue(''); // Reset the user select value
+  }
+
   async removeMovieFromModerator(id: number, userId: string) {
     this.confirmationService.confirm({
       message: 'Are you sure you want to remove movie from moderator user?',
@@ -255,6 +259,7 @@ export class QuibUserComponent implements OnInit {
       default:
     }
   }
+
   deleteUser(userId: string) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to delete user?',
@@ -262,11 +267,27 @@ export class QuibUserComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.ngxLoader.start();
-        this.QuibService.deleteUser(userId).subscribe((res) => {
-          if (res) {
-            this.toastr.showSuccess('user deleted successfully', 'user delete');
-            this.getUserList();
-          }
+        this.QuibService.deleteUser(userId).subscribe({
+          next: (res) => {
+            if (res) {
+              this.toastr.showSuccess(
+                'User deleted successfully',
+                'User Delete'
+              );
+              const userIndex = this.Quib_User.findIndex(
+                (user) => user.id === userId
+              );
+              if (userIndex !== -1) {
+                this.Quib_User[userIndex].isDeleted = true;
+              }
+            }
+          },
+          error: (err) => {
+            this.toastr.showError('Failed to delete user', 'Error');
+          },
+          complete: () => {
+            this.ngxLoader.stop();
+          },
         });
       },
     });
@@ -279,14 +300,27 @@ export class QuibUserComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.ngxLoader.start();
-        this.QuibService.restoreUser(userId).subscribe((res) => {
-          if (res) {
-            this.toastr.showSuccess(
-              'user restored successfully',
-              'user restore'
-            );
-            this.getUserList();
-          }
+        this.QuibService.restoreUser(userId).subscribe({
+          next: (res) => {
+            if (res) {
+              this.toastr.showSuccess(
+                'User restored successfully',
+                'User Restore'
+              );
+              const userIndex = this.Quib_User.findIndex(
+                (user) => user.id === userId
+              );
+              if (userIndex !== -1) {
+                this.Quib_User[userIndex].isDeleted = false;
+              }
+            }
+          },
+          error: (err) => {
+            this.toastr.showError('Failed to restore user', 'Error');
+          },
+          complete: () => {
+            this.ngxLoader.stop();
+          },
         });
       },
     });
@@ -300,60 +334,116 @@ export class QuibUserComponent implements OnInit {
       this.ngxLoader.stop();
     });
   }
+
   changeUserStatus(Id: string, Status: boolean) {
-    if (Status) {
-      this.message = 'Are you sure that you want to Approved user?';
-    } else {
-      this.message = 'Are you sure that you want to mark as Pending?';
-    }
+    this.message = Status
+      ? 'Are you sure that you want to approve the user?'
+      : 'Are you sure that you want to mark as pending?';
+
     this.confirmationService.confirm({
       message: this.message,
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.ngxLoader.start();
-        this.QuibService.changeUserStatus(Id, Status).subscribe((res) => {
-          if (res) {
-            this.toastr.showSuccess(
-              ' Status change successfully',
-              'Status change'
-            );
-            this.getUserList();
-          }
+        this.QuibService.changeUserStatus(Id, Status).subscribe({
+          next: (res) => {
+            if (res) {
+              const userIndex = this.Quib_User.findIndex(
+                (user) => user.id === Id
+              );
+              if (userIndex !== -1) {
+                this.Quib_User[userIndex].isPending = !Status;
+              }
+
+              this.toastr.showSuccess(
+                'Status changed successfully',
+                'Status Change'
+              );
+            }
+          },
+          error: (err) => {
+            this.toastr.showError('Failed to change status', 'Error');
+          },
+          complete: () => {
+            this.ngxLoader.stop();
+          },
         });
       },
     });
   }
 
+  // AssignMovieToModeratorUser() {
+  //   this.quibUserForm.controls['selectedMovies'].value.map((item) => {
+  //     return this.movieId.push(item.id);
+  //   });
+  //   if (this.movieId.length == 0 || !this.quibUserForm.controls['user'].value) {
+  //     this.toastr.showWarning(
+  //       'Please fill out all the fields before submitting the form',
+  //       'Form incomplete'
+  //     );
+  //   } else {
+  //     const payload = {
+  //       UserId: this.quibUserForm.controls['user'].value,
+  //       movieIds: this.movieId,
+  //     };
+  //     this.QuibService.AssignMovieToModeratorUser(payload).subscribe((res) => {
+  //       this.ngxLoader.start();
+  //       this.display = false;
+  //       if (res) {
+  //         this.toastr.showSuccess(
+  //           'Movies Assigned to Moderator user successfully',
+  //           'Moderator user'
+  //         );
+  //         this.display = false;
+  //         this.movieId = [];
+  //         this.quibUserForm.controls['user'].setValue(
+  //           this.quibUserForm.controls['user'].value
+  //         );
+  //         // this.getUserList();
+  //         this.getModeratorMovieList(payload.UserId);
+  //       }
+  //     });
+  //   }
+  // }
+
   AssignMovieToModeratorUser() {
-    this.quibUserForm.controls['selectedMovies'].value.map((item) => {
-      return this.movieId.push(item.id);
+    this.quibUserForm.controls['selectedMovies'].value.forEach((item) => {
+      this.movieId.push(item.id);
     });
-    if (this.movieId.length == 0 || !this.quibUserForm.controls['user'].value) {
+    if (
+      this.movieId.length === 0 ||
+      !this.quibUserForm.controls['user'].value
+    ) {
       this.toastr.showWarning(
         'Please fill out all the fields before submitting the form',
-        'Form incomplete'
+        'Form Incomplete'
       );
     } else {
       const payload = {
         UserId: this.quibUserForm.controls['user'].value,
         movieIds: this.movieId,
       };
-      this.QuibService.AssignMovieToModeratorUser(payload).subscribe((res) => {
-        this.ngxLoader.start();
-        this.display = false;
-        if (res) {
-          this.toastr.showSuccess(
-            'Movies Assigned to Moderator user successfully',
-            'Moderator user'
-          );
-          this.display = false;
-          this.movieId = [];
-          this.quibUserForm.controls['user'].setValue(
-            this.quibUserForm.controls['user'].value
-          );
-          this.getUserList();
-        }
+
+      this.ngxLoader.start();
+      this.QuibService.AssignMovieToModeratorUser(payload).subscribe({
+        next: (res) => {
+          if (res) {
+            this.toastr.showSuccess(
+              'Movies assigned to moderator user successfully',
+              'Moderator User'
+            );
+            this.movieId = [];
+            this.display = false;
+            this.getModeratorMovieList(payload.UserId);
+          }
+        },
+        error: (err) => {
+          this.toastr.showError('Failed to assign movies', 'Error');
+        },
+        complete: () => {
+          this.ngxLoader.stop();
+        },
       });
     }
   }
@@ -364,24 +454,38 @@ export class QuibUserComponent implements OnInit {
   }
   markUserAsModerator(userId: string, status: boolean) {
     this.ngxLoader.start();
-    this.QuibService.markUserAsModerator(userId, status).subscribe((res) => {
-      if (res) {
-        if (status) {
-          this.toastr.showSuccess(
-            'User is marked a moderator',
-            'Moderator user'
+    this.QuibService.markUserAsModerator(userId, status).subscribe({
+      next: (res) => {
+        if (res) {
+          const userIndex = this.Quib_User.findIndex(
+            (user) => user.id === userId
           );
-          this.display = false;
-          this.getUserList();
-        } else {
-          this.toastr.showWarning(
-            'User is unmarked as moderator',
-            'Moderator user'
+          if (userIndex !== -1) {
+            this.Quib_User[userIndex].isModerator = status;
+          }
+          this.Approved_UserList = this.Quib_User.filter(
+            (item) => item.isModerator === true
           );
+          if (status) {
+            this.toastr.showSuccess(
+              'User is marked as a moderator',
+              'Moderator User'
+            );
+          } else {
+            this.toastr.showWarning(
+              'User is unmarked as a moderator',
+              'Moderator User'
+            );
+          }
           this.display = false;
-          this.getUserList();
         }
-      }
+      },
+      error: (err) => {
+        this.toastr.showError('Failed to update moderator status', 'Error');
+      },
+      complete: () => {
+        this.ngxLoader.stop();
+      },
     });
   }
 
@@ -508,13 +612,17 @@ export class QuibUserComponent implements OnInit {
 
   resetPassword(email: string) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to send a password reset link to the user?',
+      message:
+        'Are you sure you want to send a password reset link to the user?',
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.QuibService.resetPassword(email).subscribe((res) => {
           if (res) {
-            this.toastr.showSuccess('Password reset link sent successfully', 'password reset');
+            this.toastr.showSuccess(
+              'Password reset link sent successfully',
+              'password reset'
+            );
           }
         });
       },
