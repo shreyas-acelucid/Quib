@@ -353,7 +353,7 @@ export class QuibUserComponent implements OnInit {
                 (user) => user.id === Id
               );
               if (userIndex !== -1) {
-                this.Quib_User[userIndex].isPending = !Status;
+                this.Quib_User[userIndex].isPending = Status;
               }
 
               this.toastr.showSuccess(
